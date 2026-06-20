@@ -9,6 +9,8 @@ export interface ProductCardProps {
   image: string;
   /** Optional lifestyle image that cross-fades in on hover. */
   secondaryImage?: string;
+  /** Optional minimal status tag, e.g. "BEST SELLER", "LIMITED EDITION". */
+  tag?: string;
   title: string;
   /** Numeric price; formatted as currency unless `priceLabel` is given. */
   price: number;
@@ -30,6 +32,7 @@ export interface ProductCardProps {
 export default function ProductCard({
   image,
   secondaryImage,
+  tag,
   title,
   price,
   priceLabel,
@@ -75,8 +78,15 @@ export default function ProductCard({
             alt={`${title} בסגנון לייפסטייל`}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover opacity-0 transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:opacity-100"
+            className="object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
           />
+        )}
+
+        {/* Minimal status tag — top-right (inline-start in RTL) */}
+        {tag && (
+          <span className="pointer-events-none absolute start-3 top-3 z-10 border border-charcoal/25 bg-canvas/60 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-charcoal backdrop-blur-sm">
+            {tag}
+          </span>
         )}
 
         {/* Quick Add — hover-reveal over the bottom of the image (desktop only) */}

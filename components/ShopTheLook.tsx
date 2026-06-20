@@ -34,7 +34,7 @@ export default function ShopTheLook() {
   return (
     <section className="w-full px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
       <div className="mb-10 text-center">
-        <p className="mb-3 text-xs uppercase tracking-brand text-ash">Shop the Look</p>
+        <p className="mb-3 font-serif text-sm italic tracking-wide text-ash">Shop the Look</p>
         <h2 className="text-3xl font-light leading-relaxed tracking-wide text-charcoal">קני את המראה</h2>
       </div>
 

@@ -90,7 +90,14 @@ export default function ShopCatalog({ products }: { products: Product[] }) {
       {/* Product grid */}
       <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
         {visible.map((p) => (
-          <ProductCard key={p.id} image={p.image} title={p.title} price={p.price} />
+          <ProductCard
+            key={p.id}
+            image={p.image}
+            secondaryImage={p.secondaryImage}
+            tag={p.tag}
+            title={p.title}
+            price={p.price}
+          />
         ))}
       </div>
 

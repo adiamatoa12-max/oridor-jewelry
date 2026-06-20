@@ -10,6 +10,7 @@ import Marquee from "@/components/Marquee";
 import EditorialFeature from "@/components/EditorialFeature";
 import ShopTheLook from "@/components/ShopTheLook";
 import BestSellers from "@/components/BestSellers";
+import Unboxing from "@/components/Unboxing";
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
       <EditorialFeature />
       <ShopTheLook />
       <CustomerReviews />
+      <Unboxing />
       <BestSellers />
       <InstagramFeed />
       <PremiumFooter />
