@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Oridor Jewelry — global theme.
+  Light, airy palette. Deep charcoal typography (never pure black, never gold).
+*/
+
+:root {
+  --canvas: #ffffff;
+  --pearl: #f4f3f1;
+  --mist: #ecedef;
+  --platinum: #c9ccd1;
+  --charcoal: #2b2c2f;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-canvas text-charcoal font-sans antialiased;
+    font-feature-settings: "kern";
+  }
+
+  /* Elegant, restrained headings */
+  h1, h2, h3, h4 {
+    @apply text-charcoal font-light tracking-wide;
+  }
+
+  ::selection {
+    background: var(--platinum);
+    color: var(--charcoal);
+  }
+}
+
+@layer components {
+  /* Subtle, high-end secondary call-to-action */
+  .btn-ghost {
+    @apply inline-flex min-h-[44px] items-center justify-center border border-charcoal/70 px-8 py-3
+           text-xs uppercase tracking-wide text-charcoal
+           transition-all duration-500 ease-cinematic
+           hover:bg-charcoal hover:text-canvas;
+  }
+
+  /* Primary, unmistakable call-to-action — solid graphite, white text */
+  .btn-primary {
+    @apply inline-flex min-h-[44px] items-center justify-center bg-[#2B2C2F] px-8 py-3
+           text-xs tracking-wide text-canvas
+           transition-colors duration-300 ease-cinematic
+           hover:bg-[#1a1b1c] focus-visible:outline-none
+           focus-visible:ring-2 focus-visible:ring-charcoal focus-visible:ring-offset-2;
+  }
+
+  /* Thin platinum hairline divider */
+  .hairline {
+    @apply h-px w-full bg-platinum/60;
+  }
+}
+
+@layer utilities {
+  /* Completely hide the scrollbar (carousels) while keeping scroll behavior */
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
