@@ -37,12 +37,12 @@
 }
 
 @layer components {
-  /* Subtle, high-end secondary call-to-action */
+  /* Subtle, high-end secondary call-to-action — gold accent on hover */
   .btn-ghost {
     @apply inline-flex min-h-[44px] items-center justify-center border border-charcoal/70 px-8 py-3
            text-xs uppercase tracking-wide text-charcoal
            transition-all duration-500 ease-cinematic
-           hover:bg-charcoal hover:text-canvas;
+           hover:border-gold hover:text-gold;
   }
 
   /* Primary, unmistakable call-to-action — solid graphite, white text */

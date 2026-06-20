@@ -47,7 +47,7 @@ function Stars({ className = "" }: { className?: string }) {
   return (
     <div className={`flex gap-0.5 ${className}`} aria-label="5 מתוך 5 כוכבים">
       {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} size={15} className="fill-current text-slate-400" strokeWidth={0} />
+        <Star key={i} size={15} className="fill-current text-gold" strokeWidth={0} />
       ))}
     </div>
   );

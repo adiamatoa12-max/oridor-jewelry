@@ -99,7 +99,7 @@ export default function BestSellers() {
             className="w-64 shrink-0 snap-start md:w-80"
           >
             <Link href={p.href} className="group block">
-              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-gray-50 ring-1 ring-platinum/40">
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-[#F8F8F8] ring-1 ring-platinum/40">
                 <Image
                   src={p.image}
                   alt={`${p.title} — תכשיט כסף מבית Oridor`}

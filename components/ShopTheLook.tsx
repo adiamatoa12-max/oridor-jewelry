@@ -14,9 +14,9 @@ interface Hotspot {
   href: string;
 }
 
-// Editorial lifestyle portrait of a model wearing minimalist jewelry.
+// Editorial, high-end fashion portrait with moody lighting and minimal jewelry.
 const LOOK_IMAGE =
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=900";
+  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=900";
 
 const HOTSPOTS: Hotspot[] = [
   { id: "necklace", top: "34%", start: "52%", name: "שרשרת תליון Lumen", price: "₪220", href: "/necklaces" },

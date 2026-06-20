@@ -2,9 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Instagram } from "lucide-react";
 
-// Verified-loading image pool, cycled to 24 tiles so the grid fills perfectly
-// at 4, 6, and 8 columns.
-const IMAGE_POOL = [
+// One delicate ribbon of tiles. Up to 8 show on desktop (one per column);
+// narrower screens show fewer, with the rest clipped by overflow-hidden.
+const POSTS = [
   "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=500&q=80",
   "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=500&q=80",
   "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=500&q=80",
@@ -14,8 +14,6 @@ const IMAGE_POOL = [
   "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=500&q=80",
   "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=80",
 ];
-
-const POSTS = Array.from({ length: 24 }, (_, i) => IMAGE_POOL[i % IMAGE_POOL.length]);
 
 /**
  * Instagram lifestyle feed.
@@ -35,8 +33,8 @@ export default function InstagramFeed() {
         </p>
       </div>
 
-      {/* Gapless grid */}
-      <div className="grid grid-cols-4 gap-0 md:grid-cols-6 lg:grid-cols-8">
+      {/* Single-row gapless ribbon — no wrap, extra tiles clipped */}
+      <div className="flex w-full overflow-hidden">
         {POSTS.map((src, i) => (
           <Link
             key={i}
@@ -44,7 +42,7 @@ export default function InstagramFeed() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="צפייה באינסטגרם של Oridor"
-            className="group relative aspect-square overflow-hidden bg-pearl"
+            className="group relative aspect-square shrink-0 basis-1/3 overflow-hidden bg-pearl sm:basis-1/4 md:basis-1/6 lg:basis-[12.5%]"
           >
             <Image
               src={src}

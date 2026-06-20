@@ -21,6 +21,7 @@ const config: Config = {
         // Accents
         platinum: "#C9CCD1",      // light platinum/silver
         silver: "#AFB4BB",        // silver accent for hairlines/hover
+        gold: "#C5A059",          // luxury gold — strictly an accent
         // Typography (deliberately NOT black)
         charcoal: "#2B2C2F",      // primary text — deep graphite
         graphite: "#54565B",      // secondary text (≈7:1 on white — WCAG AA)

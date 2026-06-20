@@ -57,7 +57,7 @@ export default function ProductCard({
 
   return (
     <Link href={href} className="group block">
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-gray-50 shadow-card ring-1 ring-platinum/40 transition-all duration-700 ease-in-out group-hover:-translate-y-1 group-hover:shadow-cardHover">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F8F8F8] shadow-card ring-1 ring-platinum/40 transition-all duration-700 ease-in-out group-hover:-translate-y-1 group-hover:shadow-cardHover">
         <Image
           src={image}
           alt={`${title} — תכשיט כסף מבית Oridor`}

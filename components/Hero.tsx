@@ -27,9 +27,9 @@ export default function Hero() {
         <source src="/video/clara_post_6.mp4" type="video/mp4" />
       </video>
 
-      {/* Bottom-to-top gradient: dark at the base for legibility, clear at the
-          top so the jewelry in the video stays fully visible */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a1a]/90 via-[#1a1a1a]/40 to-transparent" />
+      {/* Bottom-up dark gradient so the white text pops sharply, while the top
+          stays clear to show the jewelry in the video */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
       {/* Content — anchored to the bottom, staggered cinematic fade-up */}
       <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-24 text-center md:pb-32">
@@ -44,7 +44,7 @@ export default function Hero() {
         </p>
         <Link
           href="/necklaces"
-          className="mx-auto mt-10 inline-flex min-h-[44px] animate-fade-up items-center justify-center border border-white bg-transparent px-10 py-3 text-sm font-light tracking-wide text-white transition-all duration-300 [animation-delay:650ms] hover:bg-white hover:text-[#2B2C2F]"
+          className="mx-auto mt-10 inline-flex min-h-[44px] animate-fade-up items-center justify-center border border-white bg-transparent px-10 py-3 text-sm font-light tracking-wide text-white transition-all duration-300 [animation-delay:650ms] hover:border-gold hover:text-gold"
         >
           לרכישת הקולקציה
         </Link>

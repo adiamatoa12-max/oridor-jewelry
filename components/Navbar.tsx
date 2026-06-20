@@ -105,10 +105,10 @@ function NavLink({ label, href }: { label: string; href: string }) {
     <li>
       <Link
         href={href}
-        className="group relative text-xs uppercase tracking-wide text-charcoal transition-colors hover:text-graphite"
+        className="group relative text-xs uppercase tracking-wide text-charcoal transition-colors hover:text-gold"
       >
         {label}
-        <span className="absolute -bottom-1.5 start-0 h-px w-0 bg-silver transition-all duration-500 ease-cinematic group-hover:w-full" />
+        <span className="absolute -bottom-1.5 start-0 h-px w-0 bg-gold transition-all duration-500 ease-cinematic group-hover:w-full" />
       </Link>
     </li>
   );
