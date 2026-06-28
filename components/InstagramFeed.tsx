@@ -49,7 +49,7 @@ export default function InstagramFeed() {
               alt="תכשיט מ-Oridor בסגנון לייפסטייל"
               fill
               sizes="(min-width: 1024px) 12.5vw, (min-width: 768px) 16vw, 25vw"
-              className="object-cover transition-transform duration-700 ease-cinematic group-hover:scale-105"
+              className="object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-105"
             />
             {/* Hover overlay + Instagram glyph */}
             <div className="absolute inset-0 flex items-center justify-center bg-charcoal/40 opacity-0 transition-opacity duration-500 ease-cinematic group-hover:opacity-100">

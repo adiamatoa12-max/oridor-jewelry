@@ -105,7 +105,7 @@ export default function BestSellers() {
                   alt={`${p.title} — תכשיט כסף מבית Oridor`}
                   fill
                   sizes="(min-width: 768px) 20rem, 16rem"
-                  className="object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                  className="object-cover object-center transition-transform duration-700 ease-in-out group-hover:scale-105"
                 />
               </div>
 

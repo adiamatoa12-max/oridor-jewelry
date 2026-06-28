@@ -11,6 +11,8 @@ import EditorialFeature from "@/components/EditorialFeature";
 import ShopTheLook from "@/components/ShopTheLook";
 import BestSellers from "@/components/BestSellers";
 import Unboxing from "@/components/Unboxing";
+import MoissanitePreview from "@/components/MoissanitePreview";
+import Reveal from "@/components/Reveal";
 
 export default function Home() {
   return (
@@ -19,14 +21,17 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Marquee />
-      <CategoryShowcase />
-      <SplitPromoBanners />
-      <EditorialFeature />
-      <ShopTheLook />
-      <CustomerReviews />
-      <Unboxing />
-      <BestSellers />
-      <InstagramFeed />
+
+      <Reveal><CategoryShowcase /></Reveal>
+      <Reveal><SplitPromoBanners /></Reveal>
+      <Reveal><EditorialFeature /></Reveal>
+      <Reveal><ShopTheLook /></Reveal>
+      <Reveal><MoissanitePreview /></Reveal>
+      <Reveal><CustomerReviews /></Reveal>
+      <Reveal><Unboxing /></Reveal>
+      <Reveal><BestSellers /></Reveal>
+      <Reveal><InstagramFeed /></Reveal>
+
       <PremiumFooter />
     </main>
   );

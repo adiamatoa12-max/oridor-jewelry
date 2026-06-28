@@ -1,0 +1,22 @@
+[
+  { "id": "mois-01", "name": "Solitaire Round Moissanite Ring", "price": 690, "carat": 1.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/ring-1.jpeg", "slug": "solitaire-round-moissanite-ring" },
+  { "id": "mois-02", "name": "Oval Halo Moissanite Ring", "price": 820, "carat": 1.5, "material": "Silver 925 + Rhodium", "image_url": "/photo/ring-2.jpeg", "slug": "oval-halo-moissanite-ring" },
+  { "id": "mois-03", "name": "Pear Drop Moissanite Pendant", "price": 540, "carat": 0.75, "material": "Silver 925 + Rhodium", "image_url": "/photo/necklace-1.jpeg", "slug": "pear-drop-moissanite-pendant" },
+  { "id": "mois-04", "name": "Emerald Cut Moissanite Ring", "price": 950, "carat": 2.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/ring-3.jpeg", "slug": "emerald-cut-moissanite-ring" },
+  { "id": "mois-05", "name": "Cushion Halo Moissanite Studs", "price": 610, "carat": 1.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/earrings-1.jpeg", "slug": "cushion-halo-moissanite-studs" },
+  { "id": "mois-06", "name": "Tennis Moissanite Bracelet", "price": 1290, "carat": 3.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/necklace-2.jpeg", "slug": "tennis-moissanite-bracelet" },
+  { "id": "mois-07", "name": "Marquise Moissanite Ring", "price": 760, "carat": 1.25, "material": "Silver 925 + Rhodium", "image_url": "/photo/ring-4.jpeg", "slug": "marquise-moissanite-ring" },
+  { "id": "mois-08", "name": "Princess Cut Moissanite Ring", "price": 880, "carat": 1.75, "material": "Silver 925 + Rhodium", "image_url": "/photo/ring-5.jpeg", "slug": "princess-cut-moissanite-ring" },
+  { "id": "mois-09", "name": "Round Moissanite Drop Earrings", "price": 720, "carat": 1.5, "material": "Silver 925 + Rhodium", "image_url": "/photo/earrings-2.jpeg", "slug": "round-moissanite-drop-earrings" },
+  { "id": "mois-10", "name": "Three-Stone Moissanite Ring", "price": 1080, "carat": 2.25, "material": "Silver 925 + Rhodium", "image_url": "/photo/ring-1.jpeg", "slug": "three-stone-moissanite-ring" },
+  { "id": "mois-11", "name": "Solitaire Moissanite Necklace", "price": 580, "carat": 0.9, "material": "Silver 925 + Rhodium", "image_url": "/photo/necklace-3.jpeg", "slug": "solitaire-moissanite-necklace" },
+  { "id": "mois-12", "name": "Radiant Cut Moissanite Ring", "price": 990, "carat": 2.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/ring-2.jpeg", "slug": "radiant-cut-moissanite-ring" },
+  { "id": "mois-13", "name": "Halo Moissanite Hoop Earrings", "price": 670, "carat": 1.2, "material": "Silver 925 + Rhodium", "image_url": "/photo/earrings-1.jpeg", "slug": "halo-moissanite-hoop-earrings" },
+  { "id": "mois-14", "name": "Heart Moissanite Pendant", "price": 520, "carat": 0.7, "material": "Silver 925 + Rhodium", "image_url": "/photo/necklace-1.jpeg", "slug": "heart-moissanite-pendant" },
+  { "id": "mois-15", "name": "Asscher Cut Moissanite Ring", "price": 910, "carat": 1.8, "material": "Silver 925 + Rhodium", "image_url": "/photo/ring-3.jpeg", "slug": "asscher-cut-moissanite-ring" },
+  { "id": "mois-16", "name": "Pavé Band Moissanite Ring", "price": 640, "carat": 0.5, "material": "Silver 925 + Rhodium", "image_url": "/photo/ring-4.jpeg", "slug": "pave-band-moissanite-ring" },
+  { "id": "mois-17", "name": "Moissanite Tennis Necklace", "price": 1450, "carat": 3.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/necklace-2.jpeg", "slug": "moissanite-tennis-necklace" },
+  { "id": "mois-18", "name": "Round Halo Moissanite Studs", "price": 600, "carat": 1.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/earrings-2.jpeg", "slug": "round-halo-moissanite-studs" },
+  { "id": "mois-19", "name": "Toi et Moi Moissanite Ring", "price": 1020, "carat": 2.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/ring-5.jpeg", "slug": "toi-et-moi-moissanite-ring" },
+  { "id": "mois-20", "name": "Bezel Solitaire Moissanite Pendant", "price": 560, "carat": 0.8, "material": "Silver 925 + Rhodium", "image_url": "/photo/necklace-3.jpeg", "slug": "bezel-solitaire-moissanite-pendant" }
+]

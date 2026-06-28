@@ -60,6 +60,13 @@
   }
 }
 
+/* Custom-cursor mode: hide the native cursor when our gold cursor is active
+   (toggled on fine-pointer devices only). */
+body.cursor-none,
+body.cursor-none * {
+  cursor: none;
+}
+
 @layer utilities {
   /* Completely hide the scrollbar (carousels) while keeping scroll behavior */
   .hide-scrollbar {

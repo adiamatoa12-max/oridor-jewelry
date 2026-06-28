@@ -3,6 +3,7 @@ import { Assistant, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
+import Cursor from "@/components/Cursor";
 
 const assistant = Assistant({
   subsets: ["hebrew", "latin"],
@@ -37,6 +38,7 @@ export default function RootLayout({
         <CartProvider>
           {children}
           <CartDrawer />
+          <Cursor />
         </CartProvider>
       </body>
     </html>

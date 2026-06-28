@@ -66,7 +66,7 @@ export default function ProductCard({
           alt={`${title} — תכשיט כסף מבית Oridor`}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className={`object-cover transition-all duration-700 ease-in-out group-hover:scale-105 ${
+          className={`object-cover object-center transition-all duration-700 ease-in-out group-hover:scale-105 ${
             secondaryImage ? "group-hover:opacity-0" : ""
           }`}
         />
@@ -78,7 +78,7 @@ export default function ProductCard({
             alt={`${title} בסגנון לייפסטייל`}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+            className="object-cover object-center opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
           />
         )}
 

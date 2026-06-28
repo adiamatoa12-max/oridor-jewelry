@@ -11,6 +11,7 @@ const LINKS = [
   { label: "צמידים", href: "/bracelets" },
   { label: "עגילים", href: "/earrings" },
   { label: "טבעות", href: "/rings" },
+  { label: "מואסניט", href: "/collection/moissanite" },
 ];
 
 /**

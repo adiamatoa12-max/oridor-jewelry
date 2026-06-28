@@ -44,7 +44,7 @@ export default function ShopTheLook() {
           alt="דוגמנית עונדת שרשרת, עגילים וטבעת מקולקציית Oridor"
           fill
           sizes="(min-width: 640px) 24rem, 100vw"
-          className="object-cover"
+          className="object-cover object-center"
         />
 
         {HOTSPOTS.map((spot) => {

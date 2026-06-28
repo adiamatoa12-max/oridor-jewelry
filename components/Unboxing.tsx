@@ -16,7 +16,7 @@ export default function Unboxing() {
             alt="קופסת התכשיטים היוקרתית של Oridor"
             fill
             sizes="(min-width: 768px) 50vw, 100vw"
-            className="object-cover"
+            className="object-cover object-center"
           />
         </div>
 

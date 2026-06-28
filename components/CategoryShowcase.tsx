@@ -67,7 +67,7 @@ export default function CategoryShowcase() {
               alt={`קטגוריית ${cat.name} — תכשיטי כסף Oridor`}
               fill
               sizes="(min-width: 768px) 17vw, 58vw"
-              className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-cinematic group-hover:scale-105"
+              className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-105"
             />
 
             {/* Bottom-to-top dark gradient (brand charcoal, not pure black) */}
