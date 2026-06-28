@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import CategoryShowcase from "@/components/CategoryShowcase";
 import SplitPromoBanners from "@/components/SplitPromoBanners";
 import CustomerReviews from "@/components/CustomerReviews";
+import OridorQuality from "@/components/OridorQuality";
 import InstagramFeed from "@/components/InstagramFeed";
 import PremiumFooter from "@/components/PremiumFooter";
 import Hero from "@/components/Hero";
@@ -31,8 +32,9 @@ export default function Home() {
       <Reveal><CustomerReviews /></Reveal>
       <Reveal><Unboxing /></Reveal>
       <Reveal><PerfectSets /></Reveal>
-      {/* Category showcase moved to the bottom */}
       <Reveal><CategoryShowcase /></Reveal>
+      {/* Quality values — trust-building section just above the footer */}
+      <Reveal><OridorQuality /></Reveal>
 
       <PremiumFooter />
     </main>
