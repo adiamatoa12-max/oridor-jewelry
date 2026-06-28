@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { ShieldCheck } from "lucide-react";
 import { notFound } from "next/navigation";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
@@ -75,6 +76,15 @@ export default function MoissaniteProductPage({
             <p className="mt-4 text-xl font-light text-graphite">
               {formatPrice(product.price)}
             </p>
+
+            {/* Quality assurance badge */}
+            <Link
+              href="/quality"
+              className="mt-3 inline-flex items-center gap-1.5 text-xs font-light tracking-wide text-graphite underline-offset-4 transition-colors hover:text-gold"
+            >
+              <ShieldCheck size={14} strokeWidth={1.5} className="text-gold" />
+              איכות ואותנטיות — כסף 925 ומואסניט D / VVS1
+            </Link>
 
             <span className="my-8 block h-px w-16 bg-gold" />
 

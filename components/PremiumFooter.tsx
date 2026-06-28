@@ -4,6 +4,7 @@ import Link from "next/link";
 
 const SERVICE_LINKS = [
   { label: "צור קשר", href: "/contact" },
+  { label: "איכות ואותנטיות", href: "/quality" },
   { label: "משלוחים והחזרות", href: "/shipping" },
   { label: "שאלות נפוצות", href: "/faq" },
   { label: "תקנון האתר", href: "/terms" },
