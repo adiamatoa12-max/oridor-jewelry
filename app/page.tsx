@@ -9,7 +9,7 @@ import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import EditorialFeature from "@/components/EditorialFeature";
 import ShopTheLook from "@/components/ShopTheLook";
-import BestSellers from "@/components/BestSellers";
+import PerfectSets from "@/components/PerfectSets";
 import Unboxing from "@/components/Unboxing";
 import MoissanitePreview from "@/components/MoissanitePreview";
 import Reveal from "@/components/Reveal";
@@ -30,7 +30,7 @@ export default function Home() {
       <Reveal><MoissanitePreview /></Reveal>
       <Reveal><CustomerReviews /></Reveal>
       <Reveal><Unboxing /></Reveal>
-      <Reveal><BestSellers /></Reveal>
+      <Reveal><PerfectSets /></Reveal>
       {/* Category showcase moved to the bottom */}
       <Reveal><CategoryShowcase /></Reveal>
 
