@@ -12,6 +12,21 @@ import data from "@/data/moissanite_collection.json";
 const products = data as MoissaniteProduct[];
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
+const FAQS = [
+  {
+    q: "האם התכשיט מתכהה או מחליד?",
+    a: "לא. כל פריט עשוי מכסף סטרלינג 925 מלא ומצופה רודיום, כך שהוא שומר על הברק לאורך זמן ואינו מחליד בשימוש יומיומי. מומלץ לאחסן במקום יבש ולהסיר במגע עם בישום, קרמים או כלור.",
+  },
+  {
+    q: "אחריות",
+    a: "כל תכשיט מגיע עם אחריות מלאה ותעודת אותנטיות. ניתן להחזיר או להחליף תוך 30 יום ממועד הקבלה — ללא שאלות.",
+  },
+  {
+    q: "מדידת טבעת",
+    a: "לא בטוחות במידה? מדדו היקף של טבעת קיימת שמתאימה לכן, או צרו איתנו קשר בוואטסאפ ונשמח לעזור לכן למצוא את המידה המדויקת לפני ההזמנה.",
+  },
+];
+
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
@@ -115,6 +130,28 @@ export default function MoissaniteProductPage({
             >
               הוספה לסל
             </button>
+          </div>
+        </div>
+
+        {/* FAQ */}
+        <div className="mx-auto mt-20 max-w-2xl border-t border-platinum/50 pt-14">
+          <h2 className="mb-8 text-center text-2xl font-light tracking-wide text-charcoal">
+            שאלות נפוצות
+          </h2>
+          <div className="divide-y divide-gray-200 border-y border-gray-200">
+            {FAQS.map((faq) => (
+              <details key={faq.q} className="group px-1 py-5">
+                <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-normal text-charcoal transition-colors hover:text-gold">
+                  {faq.q}
+                  <span className="text-ash transition-transform duration-300 group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-3 text-sm font-light leading-relaxed text-graphite">
+                  {faq.a}
+                </p>
+              </details>
+            ))}
           </div>
         </div>
       </section>

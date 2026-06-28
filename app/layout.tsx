@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 import Cursor from "@/components/Cursor";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const assistant = Assistant({
   subsets: ["hebrew", "latin"],
@@ -38,6 +39,7 @@ export default function RootLayout({
         <CartProvider>
           {children}
           <CartDrawer />
+          <WhatsAppButton />
           <Cursor />
         </CartProvider>
       </body>
