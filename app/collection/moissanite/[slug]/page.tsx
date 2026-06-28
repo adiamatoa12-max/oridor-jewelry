@@ -130,6 +130,16 @@ export default function MoissaniteProductPage({
             >
               הוספה לסל
             </button>
+
+            {/* Ring size guide — only for rings */}
+            {/ring/i.test(product.name) && (
+              <Link
+                href="/ring-size-guide"
+                className="mt-4 inline-block text-xs font-light tracking-wide text-graphite underline underline-offset-4 transition-colors hover:text-gold"
+              >
+                מדריך מידות טבעת — איך למדוד בבית
+              </Link>
+            )}
           </div>
         </div>
 

@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
-import MoissaniteGrid, { type MoissaniteProduct } from "@/components/MoissaniteGrid";
+import MoissaniteCollection from "@/components/MoissaniteCollection";
+import { type MoissaniteProduct } from "@/components/MoissaniteGrid";
 import products from "@/data/moissanite_collection.json";
 
 export const metadata: Metadata = {
@@ -31,7 +32,7 @@ export default function MoissaniteCollectionPage() {
           </p>
         </header>
 
-        <MoissaniteGrid products={products as MoissaniteProduct[]} />
+        <MoissaniteCollection products={products as MoissaniteProduct[]} />
       </section>
 
       <PremiumFooter />
