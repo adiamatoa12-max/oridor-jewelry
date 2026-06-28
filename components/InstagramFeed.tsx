@@ -1,24 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Instagram } from "lucide-react";
 
-// One delicate ribbon of tiles. Up to 8 show on desktop (one per column);
-// narrower screens show fewer, with the rest clipped by overflow-hidden.
-const POSTS = [
-  "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=500&q=80",
-  "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=500&q=80",
-  "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=500&q=80",
-  "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=500&q=80",
-  "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=500&q=80",
-  "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?auto=format&fit=crop&w=500&q=80",
-  "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=500&q=80",
-  "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=500&q=80",
-];
+// Category gallery — each tile shows a collection photo, a category label, and
+// links to that category. Hebrew filenames are percent-encoded (encodeURI) so
+// the paths resolve without 404s.
+const CATEGORIES = [
+  { image: "/photo/קולקצית.jpeg", label: "שרשראות", href: "/necklaces" },
+  { image: "/photo/קוליקצת 2.jpeg", label: "טבעות", href: "/rings" },
+  { image: "/photo/קולקצית 5.jpeg", label: "צמידים", href: "/bracelets" },
+  { image: "/photo/קולקצית 6.jpeg", label: "עגילים", href: "/earrings" },
+  {
+    image: "/photo/קולקצית מונסניט.jpeg",
+    label: "מואסניט",
+    href: "/collection/moissanite",
+  },
+].map((c) => ({ ...c, image: encodeURI(c.image) }));
 
 /**
- * Instagram lifestyle feed.
- * Centered header, then a full-width gapless grid of square shots. Hovering a
- * tile reveals a soft dark wash with a white Instagram glyph.
+ * Inspiration gallery (ההשראה שלכן).
+ * Gapless grid of category tiles — five collection photos, each labelled and
+ * linked to its category. Five fit one row on desktop without distortion.
  */
 export default function InstagramFeed() {
   return (
@@ -26,35 +27,36 @@ export default function InstagramFeed() {
       {/* Header */}
       <div className="mb-14 text-center">
         <h2 className="text-3xl font-light leading-relaxed tracking-wide text-charcoal">
-          ההשראה שלכן
+          הקולקציות שלנו
         </h2>
         <p className="mt-3 text-sm font-light tracking-wide text-ash">
-          @Oridor_Jewelry
+          קנו לפי קטגוריה
         </p>
       </div>
 
-      {/* Single-row gapless ribbon — no wrap, extra tiles clipped */}
-      <div className="flex w-full overflow-hidden">
-        {POSTS.map((src, i) => (
+      {/* Gapless category grid — 5 across on desktop */}
+      <div className="grid grid-cols-2 gap-0 sm:grid-cols-3 md:grid-cols-5">
+        {CATEGORIES.map((cat, i) => (
           <Link
-            key={i}
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="צפייה באינסטגרם של Oridor"
-            className="group relative aspect-square shrink-0 basis-1/3 overflow-hidden bg-pearl sm:basis-1/4 md:basis-1/6 lg:basis-[12.5%]"
+            key={cat.href}
+            href={cat.href}
+            aria-label={`קטגוריית ${cat.label}`}
+            className={`group relative aspect-square overflow-hidden bg-pearl ${
+              i === CATEGORIES.length - 1 ? "max-sm:col-span-2" : ""
+            }`}
           >
             <Image
-              src={src}
-              alt="תכשיט מ-Oridor בסגנון לייפסטייל"
+              src={cat.image}
+              alt={`קטגוריית ${cat.label} — Oridor`}
               fill
-              sizes="(min-width: 1024px) 12.5vw, (min-width: 768px) 16vw, 25vw"
+              sizes="(min-width: 768px) 20vw, (min-width: 640px) 33vw, 50vw"
               className="object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-105"
             />
-            {/* Hover overlay + Instagram glyph */}
-            <div className="absolute inset-0 flex items-center justify-center bg-charcoal/40 opacity-0 transition-opacity duration-500 ease-cinematic group-hover:opacity-100">
-              <Instagram size={26} strokeWidth={1.5} className="text-canvas" />
-            </div>
+            {/* Gradient + category label */}
+            <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/10 to-transparent" />
+            <span className="absolute inset-x-0 bottom-5 text-center text-base font-light tracking-wide text-white transition-colors duration-300 group-hover:text-gold">
+              {cat.label}
+            </span>
           </Link>
         ))}
       </div>

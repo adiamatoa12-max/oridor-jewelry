@@ -22,7 +22,8 @@ export default function Home() {
       <Hero />
       <Marquee />
 
-      <Reveal><CategoryShowcase /></Reveal>
+      {/* Collections grid — prominent, immediately below the hero */}
+      <Reveal><InstagramFeed /></Reveal>
       <Reveal><SplitPromoBanners /></Reveal>
       <Reveal><EditorialFeature /></Reveal>
       <Reveal><ShopTheLook /></Reveal>
@@ -30,7 +31,8 @@ export default function Home() {
       <Reveal><CustomerReviews /></Reveal>
       <Reveal><Unboxing /></Reveal>
       <Reveal><BestSellers /></Reveal>
-      <Reveal><InstagramFeed /></Reveal>
+      {/* Category showcase moved to the bottom */}
+      <Reveal><CategoryShowcase /></Reveal>
 
       <PremiumFooter />
     </main>
