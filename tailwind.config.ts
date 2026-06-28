@@ -55,12 +55,17 @@ const config: Config = {
           "0%": { transform: "scale(1)", opacity: "0.7" },
           "75%, 100%": { transform: "scale(2.2)", opacity: "0" },
         },
+        "soft-float": {
+          "0%, 100%": { transform: "translateY(0)", opacity: "1" },
+          "50%": { transform: "translateY(-6px)", opacity: "0.85" },
+        },
       },
       animation: {
         // Cinematic ease, starts hidden (fill: both) for clean staggering
         "fade-up": "fade-up 1.1s cubic-bezier(0.22, 1, 0.36, 1) both",
         marquee: "marquee 28s linear infinite",
         "soft-ping": "soft-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite",
+        "soft-float": "soft-float 5s ease-in-out infinite",
       },
     },
   },

@@ -16,7 +16,7 @@ export default function AnnouncementBar() {
   return (
     <div className="relative border-b border-gray-100 bg-canvas text-gray-500">
       <p className="mx-auto max-w-7xl px-10 py-2.5 text-center text-xs font-light tracking-wide">
-        משלוח חינם בהזמנות מעל ₪299
+        משלוח חינם בהזמנות מעל ₪300
       </p>
       <button
         type="button"

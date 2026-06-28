@@ -37,7 +37,9 @@ export default function Hero() {
           קולקציה חדשה
         </p>
         <h1 className="mx-auto max-w-3xl animate-fade-up text-4xl font-light leading-relaxed tracking-wide text-white [animation-delay:250ms] md:text-5xl">
-          אלגנטיות, מוגדרת מחדש.
+          <span className="inline-block animate-soft-float motion-reduce:animate-none">
+            אלגנטיות, מוגדרת מחדש.
+          </span>
         </h1>
         <p className="mx-auto mt-6 max-w-md animate-fade-up text-sm font-light leading-relaxed text-white/85 [animation-delay:450ms]">
           גלי את קולקציית ההשקה של Oridor. פריטים על-זמניים לאסתטיקה המודרנית.
