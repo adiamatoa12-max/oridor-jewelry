@@ -23,9 +23,18 @@ export default function MoissaniteGrid({
 }: {
   products: MoissaniteProduct[];
 }) {
+  // Safety: render each product exactly once, even if the source list contains
+  // accidental duplicates (deduped by unique slug).
+  const seen = new Set<string>();
+  const uniqueProducts = products.filter((p) => {
+    if (seen.has(p.slug)) return false;
+    seen.add(p.slug);
+    return true;
+  });
+
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
-      {products.map((p) => (
+      {uniqueProducts.map((p) => (
         <Link
           key={p.id}
           href={`/collection/moissanite/${p.slug}`}
