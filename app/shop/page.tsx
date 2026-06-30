@@ -10,8 +10,8 @@ export const metadata: Metadata = {
     "גלי את הבחירות המוקפדות שלנו של תכשיטי כסף וזירקון — שרשראות, צמידים, עגילים וטבעות.",
 };
 
-// 40 mock items (10 base pieces × 4) to test a large grid.
-const PRODUCTS = buildCatalog(4);
+// Full catalog — 28 real products mapped to local photos.
+const PRODUCTS = buildCatalog();
 
 export default function ShopPage() {
   return (

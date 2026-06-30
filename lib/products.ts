@@ -6,9 +6,9 @@ export interface Product {
   price: number;
   category: Category;
   image: string;
-  /** Lifestyle shot that cross-fades in on hover. */
+  /** Optional lifestyle shot that cross-fades in on hover. */
   secondaryImage?: string;
-  /** Minimal status tag, e.g. "BEST SELLER". */
+  /** Optional minimal status tag, e.g. "BEST SELLER". */
   tag?: string;
 }
 
@@ -27,46 +27,53 @@ export const CATEGORY_LABELS: Record<Category, string> = {
   Rings: "טבעות",
 };
 
-// Clean white-background product shots reused across the catalog.
-const IMG = {
-  necklace:
-    "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=80",
-  earring:
-    "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=900&q=80",
-  bracelet:
-    "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=900&q=80",
-  ring:
-    "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=900&q=80",
-};
-
-// Lifestyle shots that cross-fade in on hover.
-const LIFESTYLE =
-  "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=900&q=80";
-
-/** Ten base pieces spanning all four categories. */
-export const BASE_PRODUCTS: Omit<Product, "id">[] = [
-  { title: "שרשרת תליון Lumen", price: 220, category: "Necklaces", image: IMG.necklace, secondaryImage: LIFESTYLE, tag: "BEST SELLER" },
-  { title: "שרשרת Aria", price: 245, category: "Necklaces", image: IMG.necklace, secondaryImage: LIFESTYLE },
-  { title: "שרשרת Celeste", price: 280, category: "Necklaces", image: IMG.necklace, secondaryImage: LIFESTYLE },
-  { title: "צמיד שרשרת Filament", price: 190, category: "Bracelets", image: IMG.bracelet, secondaryImage: LIFESTYLE },
-  { title: "צמיד טניס Étoile", price: 320, category: "Bracelets", image: IMG.bracelet, secondaryImage: LIFESTYLE, tag: "LIMITED EDITION" },
-  { title: "עגילי חישוק Étoile", price: 165, category: "Earrings", image: IMG.earring, secondaryImage: LIFESTYLE },
-  { title: "עגילי צמוד Mira", price: 140, category: "Earrings", image: IMG.earring, secondaryImage: LIFESTYLE },
-  { title: "טבעת סוליטר Aria", price: 280, category: "Rings", image: IMG.ring, secondaryImage: LIFESTYLE, tag: "BEST SELLER" },
-  { title: "טבעת Pavé", price: 240, category: "Rings", image: IMG.ring, secondaryImage: LIFESTYLE },
-  { title: "טבעת Eclipse", price: 200, category: "Rings", image: IMG.ring, secondaryImage: LIFESTYLE },
-];
+// Local studio product photos. Hebrew filenames are percent-encoded so the
+// paths resolve without 404s.
+const img = (n: number) => encodeURI(`/photo/מתן ${n}.jpeg`);
 
 /**
- * Build a catalog of `copies × BASE_PRODUCTS.length` items with unique IDs.
- * Default 4 copies → 40 products, for testing how a large grid scrolls.
+ * Full product catalog — 28 real product photos, each categorised by type.
+ * (Image מתן N → category, verified by review of the source photos.)
  */
-export function buildCatalog(copies = 4): Product[] {
-  const catalog: Product[] = [];
-  for (let c = 0; c < copies; c += 1) {
-    BASE_PRODUCTS.forEach((p, i) => {
-      catalog.push({ ...p, id: `${i}-${c}` });
-    });
-  }
-  return catalog;
+export const PRODUCTS: Product[] = [
+  // ── Bracelets (1–5, 14, 15) ────────────────────────────────────────────
+  { id: "matan-1", title: "צמיד טניס סוליטר", price: 350, category: "Bracelets", image: img(1) },
+  { id: "matan-2", title: "צמיד שרשרת סוליטר", price: 290, category: "Bracelets", image: img(2) },
+  { id: "matan-3", title: "צמיד עדין סוליטר", price: 300, category: "Bracelets", image: img(3) },
+  { id: "matan-4", title: "צמיד טיפה", price: 320, category: "Bracelets", image: img(4) },
+  { id: "matan-5", title: "צמיד טניס קלאסי", price: 360, category: "Bracelets", image: img(5) },
+  { id: "matan-14", title: "צמיד טניס יהלומים", price: 450, category: "Bracelets", image: img(14) },
+  { id: "matan-15", title: "צמיד טניס שחור", price: 470, category: "Bracelets", image: img(15) },
+
+  // ── Rings (6–13) ───────────────────────────────────────────────────────
+  { id: "matan-6", title: "טבעת סוליטר פאווה", price: 420, category: "Rings", image: img(6) },
+  { id: "matan-7", title: "טבעת טיפה פאווה", price: 440, category: "Rings", image: img(7) },
+  { id: "matan-8", title: "טבעת מרקיזה סוליטר", price: 460, category: "Rings", image: img(8) },
+  { id: "matan-9", title: "טבעת אובל פאווה", price: 450, category: "Rings", image: img(9) },
+  { id: "matan-10", title: "טבעת סוליטר עגולה", price: 410, category: "Rings", image: img(10) },
+  { id: "matan-11", title: "טבעת הילה עגולה", price: 490, category: "Rings", image: img(11) },
+  { id: "matan-12", title: "טבעת חצי נצח", price: 540, category: "Rings", image: img(12) },
+  { id: "matan-13", title: "טבעת טיפה סוליטר", price: 470, category: "Rings", image: img(13) },
+
+  // ── Necklaces (16–21) ──────────────────────────────────────────────────
+  { id: "matan-16", title: "שרשרת טניס יהלומים", price: 690, category: "Necklaces", image: img(16) },
+  { id: "matan-17", title: "שרשרת טניס שחורה", price: 690, category: "Necklaces", image: img(17) },
+  { id: "matan-18", title: "שרשרת תליון סוליטר", price: 350, category: "Necklaces", image: img(18) },
+  { id: "matan-19", title: "שרשרת תליון", price: 360, category: "Necklaces", image: img(19) },
+  { id: "matan-20", title: "שרשרת סוליטר אובל", price: 340, category: "Necklaces", image: img(20) },
+  { id: "matan-21", title: "שרשרת מרקיזה", price: 350, category: "Necklaces", image: img(21) },
+
+  // ── Earrings (22–28) ───────────────────────────────────────────────────
+  { id: "matan-22", title: "עגילי טיפה הילה", price: 380, category: "Earrings", image: img(22) },
+  { id: "matan-23", title: "עגילי לב סוליטר", price: 360, category: "Earrings", image: img(23) },
+  { id: "matan-24", title: "עגילי הילה כפולה", price: 420, category: "Earrings", image: img(24) },
+  { id: "matan-25", title: "עגילי סוליטר", price: 350, category: "Earrings", image: img(25) },
+  { id: "matan-26", title: "עגילי הילה", price: 390, category: "Earrings", image: img(26) },
+  { id: "matan-27", title: "עגילי טיפה", price: 370, category: "Earrings", image: img(27) },
+  { id: "matan-28", title: "עגילי סוליטר עגול", price: 400, category: "Earrings", image: img(28) },
+];
+
+/** Returns the full catalog (kept as a function for call-site compatibility). */
+export function buildCatalog(): Product[] {
+  return PRODUCTS;
 }
