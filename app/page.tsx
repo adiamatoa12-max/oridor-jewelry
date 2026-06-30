@@ -1,6 +1,5 @@
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
-import CategoryShowcase from "@/components/CategoryShowcase";
 import SplitPromoBanners from "@/components/SplitPromoBanners";
 import CustomerReviews from "@/components/CustomerReviews";
 import OridorQuality from "@/components/OridorQuality";
@@ -32,7 +31,6 @@ export default function Home() {
       <Reveal><CustomerReviews /></Reveal>
       <Reveal><Unboxing /></Reveal>
       <Reveal><PerfectSets /></Reveal>
-      <Reveal><CategoryShowcase /></Reveal>
       {/* Quality values — trust-building section just above the footer */}
       <Reveal><OridorQuality /></Reveal>
 
