@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Lock } from "lucide-react";
 import { notFound } from "next/navigation";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
@@ -130,6 +130,15 @@ export default function MoissaniteProductPage({
             >
               הוספה לסל
             </button>
+
+            {/* VIP Vault upsell callout */}
+            <div className="mt-4 flex max-w-md items-center gap-2 rounded-sm border border-gold/30 bg-cream/70 px-4 py-3">
+              <Lock size={14} strokeWidth={1.5} className="flex-none text-gold" />
+              <p className="text-xs font-light leading-relaxed tracking-wide text-graphite">
+                הוסיפי עוד פריטים ל-₪500 ופתחי את{" "}
+                <span className="font-medium text-charcoal">כספת המתנות</span>
+              </p>
+            </div>
 
             {/* Ring size guide — only for rings */}
             {/ring/i.test(product.name) && (

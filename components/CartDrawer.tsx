@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X, Plus, Minus, Package, Gem, Sparkles, Check, Lock } from "lucide-react";
+import { X, Plus, Minus, Package, Gem, Sparkles, Check } from "lucide-react";
 import { useCart } from "./CartContext";
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
 // VIP Vault gift promotion.
-const VAULT_THRESHOLD = 499;
+const VAULT_THRESHOLD = 500;
 const GIFTS = [
   { id: "travel-box", label: "קופסת תכשיטים לנסיעות", Icon: Package },
   { id: "studs", label: "עגילי צמוד קלאסיים", Icon: Gem },
@@ -69,34 +69,31 @@ export default function CartDrawer() {
         {/* VIP Vault — progress + gift selector */}
         {items.length > 0 && (
           <div className="border-b border-gray-200 bg-cream/60 px-6 py-4">
-            <div className="flex items-center gap-2">
+            <p className="text-xs font-light leading-relaxed tracking-wide text-charcoal">
               {unlocked ? (
-                <Sparkles size={14} strokeWidth={1.5} className="text-gold" />
+                <>
+                  <span className="font-medium text-gold">כספת ה-VIP נפתחה!</span>{" "}
+                  מתנת הפרימיום שלך מחכה בקופה ✨
+                </>
               ) : (
-                <Lock size={13} strokeWidth={1.5} className="text-graphite" />
+                <>
+                  חסרים לך עוד{" "}
+                  <span className="font-medium text-charcoal">
+                    {formatPrice(remaining)}
+                  </span>{" "}
+                  לפתיחת כספת ה-VIP! 🔒
+                </>
               )}
-              <p className="text-xs font-light tracking-wide text-charcoal">
-                {unlocked ? (
-                  <>
-                    <span className="font-medium text-gold">כספת ה-VIP נפתחה!</span>{" "}
-                    בחרי את המתנה שלך:
-                  </>
-                ) : (
-                  <>
-                    נותרו{" "}
-                    <span className="font-medium text-charcoal">
-                      {formatPrice(remaining)}
-                    </span>{" "}
-                    לפתיחת כספת המתנות
-                  </>
-                )}
-              </p>
-            </div>
+            </p>
 
-            {/* Progress track */}
-            <div className="mt-2.5 h-1 w-full overflow-hidden rounded-full bg-platinum/40">
+            {/* Progress track — neutral while filling, gold→champagne when unlocked */}
+            <div className="mt-2.5 h-1.5 w-full overflow-hidden rounded-full bg-platinum/40">
               <div
-                className="h-full rounded-full bg-gold transition-all duration-700 ease-cinematic"
+                className={`h-full rounded-full transition-all duration-700 ease-cinematic ${
+                  unlocked
+                    ? "bg-gradient-to-r from-gold to-[#E6D2A6]"
+                    : "bg-graphite/70"
+                }`}
                 style={{ width: `${progress}%` }}
               />
             </div>
