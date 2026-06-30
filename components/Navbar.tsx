@@ -59,6 +59,7 @@ export default function Navbar() {
             {LINKS.slice(2).map((l) => (
               <NavLink key={l.href} {...l} />
             ))}
+            <SaleLink />
           </ul>
 
           <div className="-me-2 flex items-center gap-1 text-charcoal">
@@ -98,6 +99,24 @@ export default function Navbar() {
           fixed positioning is relative to the viewport, not the header box. */}
       <MobileMenu open={open} onClose={() => setOpen(false)} />
     </>
+  );
+}
+
+/** Eye-catching "Last Chance" sale link — gold, with a soft pulsing dot. */
+function SaleLink() {
+  return (
+    <li>
+      <Link
+        href="/shop"
+        className="group relative inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-gold transition-opacity hover:opacity-80"
+      >
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="absolute inline-flex h-full w-full animate-soft-ping rounded-full bg-gold/70" />
+          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-gold" />
+        </span>
+        מבצעים
+      </Link>
+    </li>
   );
 }
 

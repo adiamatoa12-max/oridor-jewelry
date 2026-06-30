@@ -66,6 +66,19 @@ export default function MobileMenu({
 
         {/* Main navigation — large, airy, right-aligned */}
         <nav className="flex flex-1 flex-col overflow-y-auto px-8 pt-4 text-right">
+          {/* Eye-catching sale link */}
+          <Link
+            href="/shop"
+            onClick={onClose}
+            className="mb-6 flex min-h-[44px] items-center justify-end gap-2 text-2xl font-normal tracking-wide text-gold transition-opacity duration-300 hover:opacity-80"
+          >
+            מבצעים
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-soft-ping rounded-full bg-gold/70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-gold" />
+            </span>
+          </Link>
+
           {MAIN_LINKS.map((link) => (
             <Link
               key={link.href}
