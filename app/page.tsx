@@ -10,7 +10,6 @@ import Marquee from "@/components/Marquee";
 import EditorialFeature from "@/components/EditorialFeature";
 import Bestsellers from "@/components/Bestsellers";
 import SignatureSets from "@/components/SignatureSets";
-import Unboxing from "@/components/Unboxing";
 import MoissanitePreview from "@/components/MoissanitePreview";
 import Reveal from "@/components/Reveal";
 
@@ -35,7 +34,6 @@ export default function Home() {
       {/* Bestsellers — clean product-only row */}
       <Reveal><Bestsellers /></Reveal>
       <Reveal><CustomerReviews /></Reveal>
-      <Reveal><Unboxing /></Reveal>
       {/* Quality values — trust-building section just above the footer */}
       <Reveal><OridorQuality /></Reveal>
 
