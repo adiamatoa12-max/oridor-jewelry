@@ -86,32 +86,28 @@ export default function SignatureSets() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-8 lg:gap-10">
-        {SETS.map((set, i) => (
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8 lg:gap-10">
+        {SETS.map((set) => (
           <button
             key={set.id}
             type="button"
             onClick={() => setActive(set)}
-            className={`group block text-start ${
-              i === 2 ? "col-span-2 sm:col-span-1" : ""
-            }`}
+            className="group block text-start"
             aria-label={`צפייה בפריטי ${set.title}`}
           >
-            <div
-              className={`relative w-full overflow-hidden rounded-sm bg-beige shadow-card sm:aspect-[4/5] ${
-                i === 2 ? "aspect-[16/10]" : "aspect-[4/5]"
-              }`}
-            >
+            {/* Equal square cards. The set photos are collages with side detail,
+                so object-contain on a matching ground shows them in full — no
+                aggressive side-cropping — while keeping the row symmetrical. */}
+            <div className="relative aspect-square w-full overflow-hidden rounded-sm bg-[#F5F5F0] shadow-card">
               <Image
                 src={encodeURI(set.image)}
                 alt={set.title}
                 fill
                 sizes="(min-width: 640px) 33vw, 100vw"
-                className="object-cover object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-105"
+                className="h-full w-full object-contain object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
               />
-              {/* Gradient + overlay caption */}
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/70 via-charcoal/10 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-6 text-center">
+              {/* Caption — sits in a soft gradient anchored to the bottom edge */}
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-charcoal/80 via-charcoal/30 to-transparent p-5 pt-12 text-center">
                 <h3 className="text-lg font-light tracking-wide text-canvas">{set.title}</h3>
                 <p className="mt-1 text-xs font-light tracking-wide text-platinum">
                   {set.caption}
