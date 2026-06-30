@@ -10,20 +10,18 @@ export default function Unboxing() {
   return (
     <section className="w-full bg-beige text-charcoal">
       <div className="grid grid-cols-1 md:grid-cols-2">
-        {/* Box image — Oridor's signature LED jewelry box. The photo is on a
-            white ground, so it sits in a clean white card (object-contain at its
-            native size) that blends seamlessly and never looks blown out. */}
-        <div className="flex min-h-[300px] items-center justify-center p-8 sm:p-12 md:min-h-[420px]">
-          <div className="flex w-full max-w-sm items-center justify-center rounded-md bg-canvas p-8 shadow-card sm:p-10">
-            <Image
-              src={encodeURI("/photo/קופסא תכשיטים.jpg")}
-              alt="קופסת התכשיטים המוארת של Oridor — אחת פתוחה ואחת סגורה"
-              width={300}
-              height={225}
-              sizes="280px"
-              className="h-auto w-full max-w-[260px] object-contain"
-            />
-          </div>
+        {/* Box image — Oridor's signature LED jewelry box. mix-blend-multiply
+            drops the photo's white ground straight into the beige background for
+            a seamless, organic finish — no wrapper, no border. */}
+        <div className="flex min-h-[300px] items-center justify-center md:min-h-[420px]">
+          <Image
+            src={encodeURI("/photo/קופסא תכשיטים.jpg")}
+            alt="קופסת התכשיטים המוארת של Oridor — אחת פתוחה ואחת סגורה"
+            width={300}
+            height={225}
+            sizes="420px"
+            className="h-auto w-full max-w-[420px] object-contain mix-blend-multiply"
+          />
         </div>
 
         {/* Copy */}
