@@ -62,10 +62,10 @@ const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
  */
 export default function PerfectSets() {
   return (
-    <section className="py-24 lg:py-32">
+    <section className="py-28 lg:py-40">
       {/* Header */}
       <div className="mb-12 px-6 text-center sm:px-10 lg:px-16">
-        <h2 className="text-3xl font-light leading-relaxed tracking-wide text-charcoal">
+        <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
           סטים מושלמים
         </h2>
         <p className="mt-3 text-sm font-light text-graphite">
@@ -102,7 +102,7 @@ export default function PerfectSets() {
               <p className="mt-2 text-sm font-light text-graphite">
                 {formatPrice(set.price)}
               </p>
-              <span className="mt-4 inline-block border border-charcoal/70 px-6 py-2.5 text-xs tracking-wide text-charcoal transition-all duration-300 ease-cinematic group-hover:border-gold group-hover:text-gold">
+              <span className="mt-4 inline-block border border-charcoal/40 px-8 py-2.5 text-[11px] uppercase tracking-[0.25em] text-charcoal transition-all duration-500 ease-cinematic group-hover:border-gold group-hover:text-gold">
                 לרכישת הסט
               </span>
             </div>

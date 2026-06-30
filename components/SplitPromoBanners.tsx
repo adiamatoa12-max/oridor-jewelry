@@ -33,7 +33,7 @@ const BANNERS: PromoBanner[] = [
  */
 export default function SplitPromoBanners() {
   return (
-    <section className="my-16 grid w-full grid-cols-1 gap-px md:grid-cols-2 lg:my-24">
+    <section className="my-20 grid w-full grid-cols-1 gap-px md:grid-cols-2 lg:my-28">
       {BANNERS.map((banner) => (
         <Link
           key={banner.title}
@@ -60,7 +60,7 @@ export default function SplitPromoBanners() {
             <p className="mt-4 text-sm font-light tracking-wide text-canvas/90">
               {banner.subtitle}
             </p>
-            <span className="mt-8 inline-block border border-white/70 px-8 py-2.5 text-xs font-light tracking-wide text-white transition-all duration-300 ease-cinematic group-hover:bg-white group-hover:text-[#2B2C2F]">
+            <span className="mt-8 inline-block border border-white/60 px-8 py-2.5 text-[11px] uppercase tracking-[0.25em] text-white transition-all duration-500 ease-cinematic group-hover:border-gold group-hover:text-gold">
               גלי עוד
             </span>
           </div>

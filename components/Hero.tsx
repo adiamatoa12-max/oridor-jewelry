@@ -46,7 +46,7 @@ export default function Hero() {
         </p>
         <Link
           href="/necklaces"
-          className="mx-auto mt-10 inline-flex min-h-[44px] animate-fade-up items-center justify-center border border-white bg-transparent px-10 py-3 text-sm font-light tracking-wide text-white transition-all duration-300 [animation-delay:650ms] hover:border-gold hover:text-gold"
+          className="mx-auto mt-10 inline-flex min-h-[44px] animate-fade-up items-center justify-center border border-white/80 bg-transparent px-10 py-2.5 text-[11px] uppercase tracking-[0.25em] text-white transition-all duration-500 ease-cinematic [animation-delay:650ms] hover:border-gold hover:text-gold"
         >
           לרכישת הקולקציה
         </Link>

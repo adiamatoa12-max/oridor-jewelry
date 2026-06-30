@@ -25,7 +25,7 @@ export default function EditorialFeature() {
       {/* Text half */}
       <div className="flex flex-col justify-center bg-canvas p-12 sm:p-16 lg:p-20">
         <p className="mb-4 text-xs uppercase tracking-brand text-ash">הסיפור שלנו</p>
-        <h2 className="max-w-md text-3xl font-light leading-relaxed tracking-wide text-charcoal lg:text-4xl">
+        <h2 className="max-w-md text-3xl font-light leading-relaxed tracking-widest text-charcoal lg:text-4xl">
           נוצר באהבה, נועד להישאר
         </h2>
         <p className="mt-6 max-w-md text-sm font-light leading-relaxed text-graphite">

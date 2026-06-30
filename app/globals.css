@@ -37,19 +37,19 @@
 }
 
 @layer components {
-  /* Subtle, high-end secondary call-to-action — gold accent on hover */
+  /* Refined, thin outline call-to-action — elegant border, smooth gold fade */
   .btn-ghost {
-    @apply inline-flex min-h-[44px] items-center justify-center border border-charcoal/70 px-8 py-3
-           text-xs uppercase tracking-wide text-charcoal
+    @apply inline-flex min-h-[44px] items-center justify-center border border-charcoal/40 px-10 py-2.5
+           text-[11px] uppercase tracking-[0.25em] text-charcoal
            transition-all duration-500 ease-cinematic
            hover:border-gold hover:text-gold;
   }
 
-  /* Primary, unmistakable call-to-action — solid graphite, white text */
+  /* Primary call-to-action — refined solid graphite, smooth fade */
   .btn-primary {
-    @apply inline-flex min-h-[44px] items-center justify-center bg-[#2B2C2F] px-8 py-3
-           text-xs tracking-wide text-canvas
-           transition-colors duration-300 ease-cinematic
+    @apply inline-flex min-h-[44px] items-center justify-center bg-[#2B2C2F] px-10 py-2.5
+           text-[11px] uppercase tracking-[0.2em] text-canvas
+           transition-all duration-500 ease-cinematic
            hover:bg-[#1a1b1c] focus-visible:outline-none
            focus-visible:ring-2 focus-visible:ring-charcoal focus-visible:ring-offset-2;
   }

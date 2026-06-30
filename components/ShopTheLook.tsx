@@ -32,10 +32,10 @@ export default function ShopTheLook() {
   const [active, setActive] = useState<string | null>(null);
 
   return (
-    <section className="w-full px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+    <section className="w-full px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
       <div className="mb-10 text-center">
         <p className="mb-3 font-serif text-sm italic tracking-wide text-ash">Shop the Look</p>
-        <h2 className="text-3xl font-light leading-relaxed tracking-wide text-charcoal">קני את המראה</h2>
+        <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">קני את המראה</h2>
       </div>
 
       <div className="relative mx-auto aspect-[2/3] w-full max-w-sm overflow-hidden rounded-sm shadow-md">

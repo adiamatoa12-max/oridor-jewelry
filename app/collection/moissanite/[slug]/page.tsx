@@ -57,7 +57,7 @@ export default function MoissaniteProductPage({
       <AnnouncementBar />
       <Navbar />
 
-      <section className="mx-auto max-w-6xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+      <section className="mx-auto max-w-6xl px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
         {/* Breadcrumb */}
         <nav className="mb-10 text-xs font-light tracking-wide text-ash">
           <Link href="/collection/moissanite" className="transition-colors hover:text-charcoal">
@@ -85,7 +85,7 @@ export default function MoissaniteProductPage({
             <p className="mb-3 font-serif text-sm italic tracking-wide text-gold">
               Moissanite
             </p>
-            <h1 className="text-3xl font-light leading-relaxed tracking-wide text-charcoal lg:text-4xl">
+            <h1 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal lg:text-4xl">
               {product.name}
             </h1>
             <p className="mt-4 text-xl font-light text-graphite">

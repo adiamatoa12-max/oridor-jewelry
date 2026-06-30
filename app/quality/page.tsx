@@ -35,7 +35,7 @@ export default function QualityPage() {
       <AnnouncementBar />
       <Navbar />
 
-      <section className="mx-auto max-w-4xl px-6 py-20 text-center sm:px-10 lg:px-16 lg:py-28">
+      <section className="mx-auto max-w-4xl px-6 py-24 text-center sm:px-10 lg:px-16 lg:py-32">
         {/* Intro */}
         <p className="mb-4 font-serif text-sm italic tracking-wide text-gold">
           Quality &amp; Authenticity
@@ -88,7 +88,7 @@ export default function QualityPage() {
       <section className="bg-[#F8F8F8]">
         <div className="mx-auto max-w-3xl px-6 py-20 text-center sm:px-10 lg:py-24">
           <BadgeCheck size={30} strokeWidth={1.25} className="mx-auto text-gold" />
-          <h2 className="mt-6 text-3xl font-light leading-relaxed tracking-wide text-charcoal">
+          <h2 className="mt-6 text-3xl font-light leading-relaxed tracking-widest text-charcoal">
             הבטחת שביעות רצון
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-sm font-light leading-relaxed text-graphite">

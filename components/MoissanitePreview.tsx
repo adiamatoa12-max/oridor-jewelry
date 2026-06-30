@@ -10,12 +10,12 @@ export default function MoissanitePreview() {
   const highlights = (products as MoissaniteProduct[]).slice(0, 4);
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24 sm:px-10 lg:px-16 lg:py-32">
+    <section className="mx-auto max-w-7xl px-6 py-28 sm:px-10 lg:px-16 lg:py-40">
       <div className="mb-12 text-center">
         <p className="mb-3 font-serif text-sm italic tracking-wide text-gold">
           New Collection
         </p>
-        <h2 className="text-3xl font-light leading-relaxed tracking-wide text-charcoal">
+        <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
           קולקציית מואסניט
         </h2>
         <p className="mx-auto mt-4 max-w-md text-sm font-light text-graphite">
