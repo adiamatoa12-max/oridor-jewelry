@@ -10,6 +10,7 @@ import Marquee from "@/components/Marquee";
 import EditorialFeature from "@/components/EditorialFeature";
 import ShopTheLook from "@/components/ShopTheLook";
 import CraftStory from "@/components/CraftStory";
+import SignatureSets from "@/components/SignatureSets";
 import SetQuiz from "@/components/SetQuiz";
 import Unboxing from "@/components/Unboxing";
 import MoissanitePreview from "@/components/MoissanitePreview";
@@ -25,7 +26,9 @@ export default function Home() {
 
       {/* 1. Collections grid — prominent, immediately below the hero */}
       <Reveal><InstagramFeed /></Reveal>
-      {/* 2. Featured jewelry showcase — individual pieces */}
+      {/* 2. Signature sets — high-value narrative right after collections */}
+      <Reveal><SignatureSets /></Reveal>
+      {/* 3. Featured jewelry showcase — individual pieces */}
       <Reveal><MoissanitePreview /></Reveal>
       {/* 3. Feature banners — 'אלגנטיות לערב' + 'קולקציית הטניס', 50/50 */}
       <Reveal><SplitPromoBanners /></Reveal>
