@@ -23,14 +23,17 @@ export default function Home() {
       <Hero />
       <Marquee />
 
-      {/* Collections grid — prominent, immediately below the hero */}
+      {/* 1. Collections grid — prominent, immediately below the hero */}
       <Reveal><InstagramFeed /></Reveal>
+      {/* 2. Featured jewelry showcase — individual pieces */}
+      <Reveal><MoissanitePreview /></Reveal>
+      {/* 3. Feature banners — 'אלגנטיות לערב' + 'קולקציית הטניס', 50/50 */}
       <Reveal><SplitPromoBanners /></Reveal>
+
       <Reveal><EditorialFeature /></Reveal>
       <Reveal><ShopTheLook /></Reveal>
       {/* Interactive quiz — fun, engaging discovery */}
       <Reveal><SetQuiz /></Reveal>
-      <Reveal><MoissanitePreview /></Reveal>
       <Reveal><CustomerReviews /></Reveal>
       {/* Craftsmanship story — captivating lifestyle imagery */}
       <Reveal><CraftStory /></Reveal>
