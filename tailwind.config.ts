@@ -13,19 +13,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Backgrounds & surfaces
-        canvas: "#FFFFFF",        // crisp white
+        // Backgrounds & surfaces — warm boutique palette
+        canvas: "#FFFFFF",        // crisp white (cards)
+        cream: "#FAF7F0",         // warm cream base
+        beige: "#F5F1E8",         // soft beige (warm surface)
         pearl: "#F4F3F1",         // soft pearl gray (warm-neutral)
         mist: "#ECEDEF",          // light grey hero/section wash
         cloud: "#E3E5E8",         // slightly deeper pearl
         // Accents
         platinum: "#C9CCD1",      // light platinum/silver
         silver: "#AFB4BB",        // silver accent for hairlines/hover
-        gold: "#C5A059",          // luxury gold — strictly an accent
-        // Typography (deliberately NOT black)
-        charcoal: "#2B2C2F",      // primary text — deep graphite
-        graphite: "#54565B",      // secondary text (≈7:1 on white — WCAG AA)
-        ash: "#5C5F66",           // muted / captions (≈6:1 on white — WCAG AA)
+        gold: "#C5A059",          // warm luxury gold — accent
+        // Typography (deep warm charcoal, not pure black)
+        charcoal: "#333333",      // primary text — deep charcoal
+        graphite: "#54565B",      // secondary text (WCAG AA)
+        ash: "#5C5F66",           // muted / captions (WCAG AA)
       },
       fontFamily: {
         sans: ["var(--font-assistant)", "ui-sans-serif", "system-ui", "sans-serif"],

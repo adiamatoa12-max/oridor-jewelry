@@ -21,7 +21,12 @@
   }
 
   body {
-    @apply bg-canvas text-charcoal font-sans antialiased;
+    @apply text-charcoal font-sans antialiased;
+    /* Warm boutique base — subtle beige → cream gradient, fixed so it spans
+       the full scroll without banding. */
+    background-color: #faf7f0;
+    background-image: linear-gradient(to bottom, #f5f1e8, #faf7f0 40%, #ffffff);
+    background-attachment: fixed;
     font-feature-settings: "kern";
   }
 
