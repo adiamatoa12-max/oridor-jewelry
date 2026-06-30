@@ -40,7 +40,7 @@ export function generateMetadata({
   if (!product) return { title: "מוצר לא נמצא — Oridor" };
   return {
     title: `${product.name} — Oridor`,
-    description: `${product.name} · ${product.carat} ct · ${product.material}.`,
+    description: `${product.name} · ${product.carat} קראט · ${product.material}.`,
   };
 }
 
@@ -82,8 +82,8 @@ export default function MoissaniteProductPage({
 
           {/* Details */}
           <div className="flex flex-col justify-center">
-            <p className="mb-3 font-serif text-sm italic tracking-wide text-gold">
-              Moissanite
+            <p className="mb-3 text-xs tracking-[0.25em] text-gold">
+              מואסניט
             </p>
             <h1 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal lg:text-4xl">
               {product.name}

@@ -19,13 +19,13 @@ const LOOK_IMAGE =
   "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=900";
 
 const HOTSPOTS: Hotspot[] = [
-  { id: "necklace", top: "34%", start: "52%", name: "שרשרת תליון Lumen", price: "₪220", href: "/necklaces" },
-  { id: "earring", top: "20%", start: "38%", name: "עגילי חישוק Étoile", price: "₪165", href: "/earrings" },
-  { id: "ring", top: "68%", start: "60%", name: "טבעת סוליטר Aria", price: "₪280", href: "/rings" },
+  { id: "necklace", top: "34%", start: "52%", name: "שרשרת תליון", price: "₪220", href: "/necklaces" },
+  { id: "earring", top: "20%", start: "38%", name: "עגילי חישוק", price: "₪165", href: "/earrings" },
+  { id: "ring", top: "68%", start: "60%", name: "טבעת סוליטר", price: "₪280", href: "/rings" },
 ];
 
 /**
- * "Shop the Look" — a cinematic editorial image with interactive hotspots.
+ * "סטייל מושלם" — a cinematic editorial image with interactive hotspots.
  * Hover (desktop) or tap (mobile) a pulsing dot to reveal a product tooltip.
  */
 export default function ShopTheLook() {
@@ -34,7 +34,7 @@ export default function ShopTheLook() {
   return (
     <section className="w-full px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
       <div className="mb-10 text-center">
-        <p className="mb-3 font-serif text-sm italic tracking-wide text-ash">Shop the Look</p>
+        <p className="mb-3 text-xs tracking-[0.25em] text-ash">סטייל מושלם</p>
         <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">קני את המראה</h2>
       </div>
 

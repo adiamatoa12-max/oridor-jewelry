@@ -9,7 +9,7 @@ const VALUES = [
   {
     icon: Gem,
     title: "יהלומי מואסניט",
-    body: "ברק יוצא דופן בדרגת D / VVS1 / Excellent, שמתחרה ביהלומים.",
+    body: "ברק יוצא דופן בדרגת D / VVS1 / מושלם, שמתחרה ביהלומים.",
   },
   {
     icon: Award,
@@ -32,8 +32,8 @@ export default function OridorQuality() {
     <section className="mx-auto max-w-7xl px-6 py-28 sm:px-10 lg:px-16 lg:py-40">
       {/* Header */}
       <div className="mb-14 text-center">
-        <p className="mb-3 font-serif text-sm italic tracking-wide text-gold">
-          The Oridor Standard
+        <p className="mb-3 text-xs tracking-[0.25em] text-gold">
+          הסטנדרט של אורידור
         </p>
         <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
           האיכות של Oridor

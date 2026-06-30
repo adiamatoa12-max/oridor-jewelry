@@ -8,7 +8,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 export const metadata: Metadata = {
   title: "איכות ואותנטיות — Oridor",
   description:
-    "מחויבות Oridor לאיכות: כסף סטרלינג 925 מלא, מואסניט בדרגת D / VVS1 / Excellent, ועבודת יד עמידה לכל החיים.",
+    "מחויבות Oridor לאיכות: כסף סטרלינג 925 מלא, מואסניט בדרגת D / VVS1 / מושלם, ועבודת יד עמידה לכל החיים.",
 };
 
 const PILLARS = [
@@ -20,7 +20,7 @@ const PILLARS = [
   {
     icon: Gem,
     title: "מואסניט ברמה הגבוהה ביותר",
-    body: "אנו בוחרים אך ורק אבני מואסניט מובחרות — צבע D (לבן צח לחלוטין), ניקיון VVS1 וליטוש Excellent. התוצאה: ברק יוצא דופן ואש שמתחרה ביהלומים, בכל תאורה.",
+    body: "אנו בוחרים אך ורק אבני מואסניט מובחרות — צבע D (לבן צח לחלוטין), ניקיון VVS1 וליטוש מושלם. התוצאה: ברק יוצא דופן ואש שמתחרה ביהלומים, בכל תאורה.",
   },
   {
     icon: Sparkles,
@@ -37,8 +37,8 @@ export default function QualityPage() {
 
       <section className="mx-auto max-w-4xl px-6 py-24 text-center sm:px-10 lg:px-16 lg:py-32">
         {/* Intro */}
-        <p className="mb-4 font-serif text-sm italic tracking-wide text-gold">
-          Quality &amp; Authenticity
+        <p className="mb-4 text-xs tracking-[0.25em] text-gold">
+          מחויבות לאיכות
         </p>
         <h1 className="text-4xl font-light leading-relaxed tracking-wide text-charcoal">
           איכות ואותנטיות
@@ -72,9 +72,9 @@ export default function QualityPage() {
       <section className="mx-auto max-w-6xl px-6 py-16 sm:px-10 lg:px-16">
         <div className="grid grid-cols-3 divide-x divide-platinum/50 border-y border-platinum/50 [direction:ltr]">
           {[
-            { label: "Color", value: "D" },
-            { label: "Clarity", value: "VVS1" },
-            { label: "Cut", value: "Excellent" },
+            { label: "צבע", value: "D" },
+            { label: "ניקיון", value: "VVS1" },
+            { label: "ליטוש", value: "מושלם" },
           ].map((s) => (
             <div key={s.label} className="px-4 py-8 text-center">
               <p className="font-serif text-2xl text-charcoal">{s.value}</p>

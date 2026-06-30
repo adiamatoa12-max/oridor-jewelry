@@ -22,8 +22,8 @@ export default function Unboxing() {
 
         {/* Copy */}
         <div className="flex flex-col justify-center p-12 sm:p-16 lg:p-20">
-          <p className="mb-4 font-serif text-sm italic tracking-wide text-gold">
-            The Oridor Box
+          <p className="mb-4 text-xs tracking-[0.25em] text-gold">
+            קופסת אורידור
           </p>
           <h2 className="max-w-md text-3xl font-light leading-relaxed tracking-wide text-white lg:text-4xl">
             חוויית האריזה שלנו

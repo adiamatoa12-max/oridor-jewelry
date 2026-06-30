@@ -74,7 +74,7 @@ export default function PremiumFooter() {
       <div className="border-t border-platinum/60">
         <div className="mx-auto max-w-7xl px-6 py-6 text-center sm:px-10 lg:px-16">
           <p className="text-xs font-light text-ash">
-            © 2026 Oridor Jewelry. כל הזכויות שמורות.
+            © 2026 Oridor. כל הזכויות שמורות.
           </p>
         </div>
       </div>

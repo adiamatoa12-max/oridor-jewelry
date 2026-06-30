@@ -20,8 +20,8 @@ export default function MoissaniteCollectionPage() {
 
       <section className="mx-auto max-w-7xl px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
         <header className="mb-12 text-center">
-          <p className="mb-3 font-serif text-sm italic tracking-wide text-gold">
-            The Moissanite Collection
+          <p className="mb-3 text-xs tracking-[0.25em] text-gold">
+            ברק נצחי
           </p>
           <h1 className="text-4xl font-light leading-relaxed tracking-wide text-charcoal">
             קולקציית מואסניט

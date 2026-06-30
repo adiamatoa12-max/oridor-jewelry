@@ -89,8 +89,8 @@ export default function PerfectSets() {
                 sizes="(min-width: 768px) 20rem, 16rem"
                 className="object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-105"
               />
-              <span className="pointer-events-none absolute start-3 top-3 border border-gold/60 bg-canvas/60 px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-gold backdrop-blur-sm">
-                Set
+              <span className="pointer-events-none absolute start-3 top-3 border border-gold/60 bg-canvas/60 px-2.5 py-1 text-[10px] tracking-[0.2em] text-gold backdrop-blur-sm">
+                סט
               </span>
             </div>
 

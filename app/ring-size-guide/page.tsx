@@ -51,8 +51,8 @@ export default function RingSizeGuidePage() {
       <section className="mx-auto max-w-4xl px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
         {/* Intro */}
         <header className="text-center">
-          <p className="mb-4 font-serif text-sm italic tracking-wide text-gold">
-            Ring Size Guide
+          <p className="mb-4 text-xs tracking-[0.25em] text-gold">
+            מדריך מידות
           </p>
           <h1 className="text-4xl font-light leading-relaxed tracking-wide text-charcoal">
             מדריך מידות טבעת

@@ -12,8 +12,8 @@ export default function MoissanitePreview() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-28 sm:px-10 lg:px-16 lg:py-40">
       <div className="mb-12 text-center">
-        <p className="mb-3 font-serif text-sm italic tracking-wide text-gold">
-          New Collection
+        <p className="mb-3 text-xs tracking-[0.25em] text-gold">
+          קולקציה חדשה
         </p>
         <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
           קולקציית מואסניט

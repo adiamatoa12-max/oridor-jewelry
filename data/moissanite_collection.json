@@ -1,14 +1,14 @@
 [
-  { "id": "mois-01", "name": "Solitaire Round Moissanite Ring", "price": 690, "carat": 1.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/מתן 10.jpeg", "slug": "solitaire-round-moissanite-ring" },
-  { "id": "mois-02", "name": "Oval Halo Moissanite Ring", "price": 820, "carat": 1.5, "material": "Silver 925 + Rhodium", "image_url": "/photo/מתן 9.jpeg", "slug": "oval-halo-moissanite-ring" },
-  { "id": "mois-03", "name": "Emerald Cut Moissanite Ring", "price": 950, "carat": 2.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/מתן 6.jpeg", "slug": "emerald-cut-moissanite-ring" },
-  { "id": "mois-04", "name": "Marquise Moissanite Ring", "price": 760, "carat": 1.25, "material": "Silver 925 + Rhodium", "image_url": "/photo/מתן 8.jpeg", "slug": "marquise-moissanite-ring" },
-  { "id": "mois-05", "name": "Princess Cut Moissanite Ring", "price": 880, "carat": 1.75, "material": "Silver 925 + Rhodium", "image_url": "/photo/מתן 7.jpeg", "slug": "princess-cut-moissanite-ring" },
-  { "id": "mois-06", "name": "Cushion Halo Moissanite Studs", "price": 610, "carat": 1.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/מתן 24.jpeg", "slug": "cushion-halo-moissanite-studs" },
-  { "id": "mois-07", "name": "Round Moissanite Drop Earrings", "price": 720, "carat": 1.5, "material": "Silver 925 + Rhodium", "image_url": "/photo/מתן 28.jpeg", "slug": "round-moissanite-drop-earrings" },
-  { "id": "mois-08", "name": "Pear Drop Moissanite Pendant", "price": 540, "carat": 0.75, "material": "Silver 925 + Rhodium", "image_url": "/photo/מתן 20.jpeg", "slug": "pear-drop-moissanite-pendant" },
-  { "id": "mois-09", "name": "Heart Moissanite Pendant", "price": 520, "carat": 0.7, "material": "Silver 925 + Rhodium", "image_url": "/photo/מתן 21.jpeg", "slug": "heart-moissanite-pendant" },
-  { "id": "mois-10", "name": "Solitaire Moissanite Necklace", "price": 580, "carat": 0.9, "material": "Silver 925 + Rhodium", "image_url": "/photo/מתן 18.jpeg", "slug": "solitaire-moissanite-necklace" },
-  { "id": "mois-11", "name": "Tennis Moissanite Bracelet", "price": 1290, "carat": 3.0, "material": "Silver 925 + Rhodium", "image_url": "/photo/bracelet-1.jpeg", "slug": "tennis-moissanite-bracelet" },
-  { "id": "mois-12", "name": "Pavé Moissanite Bracelet", "price": 1180, "carat": 2.5, "material": "Silver 925 + Rhodium", "image_url": "/photo/bracelet-2.jpeg", "slug": "pave-moissanite-bracelet" }
+  { "id": "mois-01", "name": "טבעת סוליטר עגולה", "price": 690, "carat": 1.0, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 10.jpeg", "slug": "solitaire-round-moissanite-ring" },
+  { "id": "mois-02", "name": "טבעת הילה אובלית", "price": 820, "carat": 1.5, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 9.jpeg", "slug": "oval-halo-moissanite-ring" },
+  { "id": "mois-03", "name": "טבעת חיתוך אמרלד", "price": 950, "carat": 2.0, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 6.jpeg", "slug": "emerald-cut-moissanite-ring" },
+  { "id": "mois-04", "name": "טבעת מרקיזה", "price": 760, "carat": 1.25, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 8.jpeg", "slug": "marquise-moissanite-ring" },
+  { "id": "mois-05", "name": "טבעת חיתוך נסיכה", "price": 880, "carat": 1.75, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 7.jpeg", "slug": "princess-cut-moissanite-ring" },
+  { "id": "mois-06", "name": "עגילי הילה כרית", "price": 610, "carat": 1.0, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 24.jpeg", "slug": "cushion-halo-moissanite-studs" },
+  { "id": "mois-07", "name": "עגילי טיפה עגולים", "price": 720, "carat": 1.5, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 28.jpeg", "slug": "round-moissanite-drop-earrings" },
+  { "id": "mois-08", "name": "שרשרת תליון טיפה", "price": 540, "carat": 0.75, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 20.jpeg", "slug": "pear-drop-moissanite-pendant" },
+  { "id": "mois-09", "name": "שרשרת תליון לב", "price": 520, "carat": 0.7, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 21.jpeg", "slug": "heart-moissanite-pendant" },
+  { "id": "mois-10", "name": "שרשרת סוליטר", "price": 580, "carat": 0.9, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 18.jpeg", "slug": "solitaire-moissanite-necklace" },
+  { "id": "mois-11", "name": "צמיד טניס", "price": 1290, "carat": 3.0, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/bracelet-1.jpeg", "slug": "tennis-moissanite-bracelet" },
+  { "id": "mois-12", "name": "צמיד פאווה", "price": 1180, "carat": 2.5, "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/bracelet-2.jpeg", "slug": "pave-moissanite-bracelet" }
 ]

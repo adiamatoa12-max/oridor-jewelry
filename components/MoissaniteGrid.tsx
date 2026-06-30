@@ -48,15 +48,15 @@ export default function MoissaniteGrid({
               sizes="(min-width: 1024px) 25vw, 50vw"
               className="object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-105"
             />
-            <span className="pointer-events-none absolute start-3 top-3 border border-gold/60 bg-canvas/60 px-2.5 py-1 text-[10px] uppercase tracking-[0.2em] text-gold backdrop-blur-sm">
-              Moissanite
+            <span className="pointer-events-none absolute start-3 top-3 border border-gold/60 bg-canvas/60 px-2.5 py-1 text-[10px] tracking-[0.2em] text-gold backdrop-blur-sm">
+              מואסניט
             </span>
           </div>
 
           <div className="px-4 py-5 text-center">
             <h3 className="text-sm font-normal tracking-wide text-charcoal">{p.name}</h3>
-            <p dir="ltr" className="mt-1 text-xs font-light text-ash">
-              {p.carat} ct · {p.material}
+            <p className="mt-1 text-xs font-light text-ash">
+              {p.carat} קראט · {p.material}
             </p>
             <p className="mt-2 text-sm font-light text-graphite">{formatPrice(p.price)}</p>
           </div>
