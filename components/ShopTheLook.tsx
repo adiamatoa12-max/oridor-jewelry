@@ -1,96 +1,115 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useCart } from "./CartContext";
 
-interface Hotspot {
-  id: string;
-  /** Position as % from top and from the inline-start (right, in RTL). */
-  top: string;
-  start: string;
-  name: string;
-  price: string;
-  href: string;
-}
+// Editorial lifestyle portrait — the model wearing the full set.
+const MODEL_IMAGE = encodeURI("/photo/קולקצית.jpeg");
 
-// Editorial, high-end fashion portrait with moody lighting and minimal jewelry.
-const LOOK_IMAGE =
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&q=80&w=900";
+// The individual pieces she is wearing — close-ups linking to each product.
+const PIECES = [
+  {
+    id: "matan-18",
+    name: "שרשרת תליון סוליטר",
+    price: 350,
+    image: "/photo/מתן 18.jpeg",
+    slug: "matan-18",
+  },
+  {
+    id: "matan-24",
+    name: "עגילי הילה כפולה",
+    price: 420,
+    image: "/photo/מתן 24.jpeg",
+    slug: "matan-24",
+  },
+  {
+    id: "matan-10",
+    name: "טבעת סוליטר עגולה",
+    price: 410,
+    image: "/photo/מתן 10.jpeg",
+    slug: "matan-10",
+  },
+].map((p) => ({ ...p, image: encodeURI(p.image) }));
 
-const HOTSPOTS: Hotspot[] = [
-  { id: "necklace", top: "34%", start: "52%", name: "שרשרת תליון", price: "₪220", href: "/necklaces" },
-  { id: "earring", top: "20%", start: "38%", name: "עגילי חישוק", price: "₪165", href: "/earrings" },
-  { id: "ring", top: "68%", start: "60%", name: "טבעת סוליטר", price: "₪280", href: "/rings" },
-];
+const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
+const setTotal = PIECES.reduce((sum, p) => sum + p.price, 0);
 
 /**
- * "סטייל מושלם" — a cinematic editorial image with interactive hotspots.
- * Hover (desktop) or tap (mobile) a pulsing dot to reveal a product tooltip.
+ * "Shop the Full Look" — a two-column editorial section: the model image on one
+ * side, a 3-up grid of the exact pieces she's wearing on the other, with CTAs to
+ * add the whole set to the cart or browse the items.
  */
 export default function ShopTheLook() {
-  const [active, setActive] = useState<string | null>(null);
+  const { addItem, openCart } = useCart();
+
+  const addFullSet = () => {
+    PIECES.forEach((p) =>
+      addItem({ id: p.id, title: p.name, price: p.price, image: p.image }),
+    );
+    openCart();
+  };
 
   return (
-    <section className="w-full px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
-      <div className="mb-10 text-center">
-        <p className="mb-3 text-xs tracking-[0.25em] text-ash">סטייל מושלם</p>
-        <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">קני את המראה</h2>
+    <section className="mx-auto max-w-7xl px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
+      <div className="mb-12 text-center">
+        <p className="mb-3 text-xs tracking-[0.25em] text-gold">סטייל מושלם</p>
+        <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
+          קני את המראה המלא
+        </h2>
       </div>
 
-      <div className="relative mx-auto aspect-[2/3] w-full max-w-sm overflow-hidden rounded-sm shadow-md">
-        <Image
-          src={LOOK_IMAGE}
-          alt="דוגמנית עונדת שרשרת, עגילים וטבעת מקולקציית Oridor"
-          fill
-          sizes="(min-width: 640px) 24rem, 100vw"
-          className="object-cover object-center"
-        />
+      <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-12">
+        {/* Left (visually): model image — kept first in DOM so it leads on mobile */}
+        <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-beige shadow-card lg:order-2">
+          <Image
+            src={MODEL_IMAGE}
+            alt="דוגמנית עונדת את הסט המלא מקולקציית Oridor"
+            fill
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            className="object-cover object-center"
+            priority={false}
+          />
+        </div>
 
-        {HOTSPOTS.map((spot) => {
-          const isOpen = active === spot.id;
-          return (
-            <div
-              key={spot.id}
-              className="absolute"
-              style={{ top: spot.top, insetInlineStart: spot.start }}
-              onMouseEnter={() => setActive(spot.id)}
-              onMouseLeave={() => setActive((cur) => (cur === spot.id ? null : cur))}
-            >
-              {/* Pulsing dot */}
-              <button
-                type="button"
-                aria-label={`הצגת פרטי ${spot.name}`}
-                aria-expanded={isOpen}
-                onClick={() => setActive((cur) => (cur === spot.id ? null : spot.id))}
-                className="relative flex h-11 w-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center"
+        {/* Right (visually): 3-up grid of the pieces she's wearing */}
+        <div className="flex flex-col lg:order-1">
+          <div className="grid flex-1 grid-cols-3 gap-3 lg:gap-4">
+            {PIECES.map((p) => (
+              <Link
+                key={p.id}
+                href={`/collection/moissanite/${p.slug}`}
+                className="group flex flex-col"
               >
-                <span className="absolute h-3.5 w-3.5 rounded-full bg-canvas/90 animate-soft-ping" />
-                <span className="relative h-3.5 w-3.5 rounded-full bg-canvas shadow-card ring-1 ring-charcoal/20" />
-              </button>
+                <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-[#F8F8F8] shadow-card">
+                  <Image
+                    src={p.image}
+                    alt={p.name}
+                    fill
+                    sizes="(min-width: 1024px) 200px, 33vw"
+                    className="object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-105"
+                  />
+                </div>
+                <p className="mt-3 text-center text-xs font-normal leading-snug tracking-wide text-charcoal">
+                  {p.name}
+                </p>
+                <p className="mt-1 text-center text-xs font-light text-graphite">
+                  {formatPrice(p.price)}
+                </p>
+              </Link>
+            ))}
+          </div>
 
-              {/* Tooltip */}
-              <div
-                role="dialog"
-                aria-label={spot.name}
-                className={`absolute bottom-full left-0 mb-3 w-48 -translate-x-1/2 rounded-sm bg-canvas/95 p-4 text-center shadow-cardHover backdrop-blur-sm transition-all duration-300 ease-cinematic ${
-                  isOpen
-                    ? "pointer-events-auto translate-y-0 opacity-100"
-                    : "pointer-events-none translate-y-1 opacity-0"
-                }`}
-              >
-                <p className="text-sm font-normal text-charcoal">{spot.name}</p>
-                <p className="mt-1 text-sm font-light text-graphite">{spot.price}</p>
-                <Link
-                  href={spot.href}
-                  className="mt-2 inline-block text-xs tracking-wide text-charcoal underline underline-offset-4 transition-colors hover:text-graphite"
-                >
-                  צפייה
-                </Link>
-              </div>
-            </div>
-          );
-        })}
+          {/* CTAs */}
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <button type="button" onClick={addFullSet} className="btn-primary flex-1">
+              הוסף את כל הסט לסל · {formatPrice(setTotal)}
+            </button>
+            <Link href="/collection/moissanite" className="btn-ghost flex-1 text-center">
+              צפה בפריטים
+            </Link>
+          </div>
+        </div>
       </div>
     </section>
   );

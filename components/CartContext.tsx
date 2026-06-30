@@ -18,6 +18,7 @@ interface CartContextValue {
   items: CartItem[];
   subtotal: number;
   count: number;
+  addItem: (item: Omit<CartItem, "quantity"> & { quantity?: number }) => void;
   updateQuantity: (id: string, delta: number) => void;
   removeItem: (id: string) => void;
 }
@@ -60,6 +61,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       items,
       subtotal,
       count,
+      addItem: (item) =>
+        setItems((prev) => {
+          const existing = prev.find((i) => i.id === item.id);
+          const qty = item.quantity ?? 1;
+          if (existing) {
+            return prev.map((i) =>
+              i.id === item.id ? { ...i, quantity: i.quantity + qty } : i,
+            );
+          }
+          return [...prev, { ...item, quantity: qty }];
+        }),
       updateQuantity: (id, delta) =>
         setItems((prev) =>
           prev.map((i) =>
