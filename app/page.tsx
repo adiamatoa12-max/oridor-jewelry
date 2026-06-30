@@ -9,9 +9,7 @@ import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import EditorialFeature from "@/components/EditorialFeature";
 import ShopTheLook from "@/components/ShopTheLook";
-import CraftStory from "@/components/CraftStory";
 import SignatureSets from "@/components/SignatureSets";
-import SetQuiz from "@/components/SetQuiz";
 import Unboxing from "@/components/Unboxing";
 import MoissanitePreview from "@/components/MoissanitePreview";
 import Reveal from "@/components/Reveal";
@@ -35,11 +33,7 @@ export default function Home() {
 
       <Reveal><EditorialFeature /></Reveal>
       <Reveal><ShopTheLook /></Reveal>
-      {/* Interactive quiz — fun, engaging discovery */}
-      <Reveal><SetQuiz /></Reveal>
       <Reveal><CustomerReviews /></Reveal>
-      {/* Craftsmanship story — captivating lifestyle imagery */}
-      <Reveal><CraftStory /></Reveal>
       <Reveal><Unboxing /></Reveal>
       {/* Quality values — trust-building section just above the footer */}
       <Reveal><OridorQuality /></Reveal>
