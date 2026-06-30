@@ -81,11 +81,14 @@ export default function MoissaniteCollection({
   const [type, setType] = useState<TypeKey>("All");
   const [price, setPrice] = useState<PriceKey>("all");
 
+  // ⚠️ DO NOT add slice(0, N) / .take() / any limit here. The grid must render
+  // the FULL catalog (all products passed in). Filtering by type/price only.
   const visible = useMemo(
     () =>
       products.filter(
         (p) =>
-          (type === "All" || typeOf(p.name) === type) && inPrice(p.price, price),
+          (type === "All" || (p.category ?? typeOf(p.name)) === type) &&
+          inPrice(p.price, price),
       ),
     [products, type, price],
   );

@@ -9,6 +9,8 @@ export interface MoissaniteProduct {
   material: string;
   image_url: string;
   slug: string;
+  /** Category key for filtering (Rings/Bracelets/Necklaces/Earrings). */
+  category?: string;
 }
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
