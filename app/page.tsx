@@ -8,7 +8,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import EditorialFeature from "@/components/EditorialFeature";
-import ShopTheLook from "@/components/ShopTheLook";
+import Bestsellers from "@/components/Bestsellers";
 import SignatureSets from "@/components/SignatureSets";
 import Unboxing from "@/components/Unboxing";
 import MoissanitePreview from "@/components/MoissanitePreview";
@@ -32,7 +32,8 @@ export default function Home() {
       <Reveal><SplitPromoBanners /></Reveal>
 
       <Reveal><EditorialFeature /></Reveal>
-      <Reveal><ShopTheLook /></Reveal>
+      {/* Bestsellers — clean product-only row */}
+      <Reveal><Bestsellers /></Reveal>
       <Reveal><CustomerReviews /></Reveal>
       <Reveal><Unboxing /></Reveal>
       {/* Quality values — trust-building section just above the footer */}
