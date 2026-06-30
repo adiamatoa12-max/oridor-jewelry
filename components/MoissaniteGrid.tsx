@@ -42,7 +42,7 @@ export default function MoissaniteGrid({
         >
           <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F8F8F8]">
             <Image
-              src={p.image_url}
+              src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 50vw"

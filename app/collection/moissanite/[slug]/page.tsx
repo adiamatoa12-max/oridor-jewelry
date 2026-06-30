@@ -71,7 +71,7 @@ export default function MoissaniteProductPage({
           {/* Image */}
           <div className="relative aspect-[4/5] w-full overflow-hidden rounded-md bg-[#F8F8F8] ring-1 ring-platinum/40">
             <Image
-              src={product.image_url}
+              src={encodeURI(product.image_url)}
               alt={`${product.name} — ${product.material}`}
               fill
               priority
