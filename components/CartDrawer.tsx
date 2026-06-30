@@ -1,10 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { X, Plus, Minus } from "lucide-react";
+import { X, Plus, Minus, Package, Gem, Sparkles, Check, Lock } from "lucide-react";
 import { useCart } from "./CartContext";
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
+
+// VIP Vault gift promotion.
+const VAULT_THRESHOLD = 499;
+const GIFTS = [
+  { id: "travel-box", label: "קופסת תכשיטים לנסיעות", Icon: Package },
+  { id: "studs", label: "עגילי צמוד קלאסיים", Icon: Gem },
+  { id: "care-kit", label: "ערכת טיפוח לתכשיטים", Icon: Sparkles },
+] as const;
 
 /**
  * Slide-out mini cart (RTL).
@@ -14,6 +23,11 @@ const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 export default function CartDrawer() {
   const { isOpen, closeCart, items, subtotal, count, updateQuantity, removeItem } =
     useCart();
+  const [selectedGift, setSelectedGift] = useState<string | null>(null);
+
+  const unlocked = subtotal >= VAULT_THRESHOLD;
+  const remaining = Math.max(0, VAULT_THRESHOLD - subtotal);
+  const progress = Math.min(100, (subtotal / VAULT_THRESHOLD) * 100);
 
   return (
     <div
@@ -51,6 +65,90 @@ export default function CartDrawer() {
             <X size={20} strokeWidth={1.5} />
           </button>
         </div>
+
+        {/* VIP Vault — progress + gift selector */}
+        {items.length > 0 && (
+          <div className="border-b border-gray-200 bg-cream/60 px-6 py-4">
+            <div className="flex items-center gap-2">
+              {unlocked ? (
+                <Sparkles size={14} strokeWidth={1.5} className="text-gold" />
+              ) : (
+                <Lock size={13} strokeWidth={1.5} className="text-graphite" />
+              )}
+              <p className="text-xs font-light tracking-wide text-charcoal">
+                {unlocked ? (
+                  <>
+                    <span className="font-medium text-gold">כספת ה-VIP נפתחה!</span>{" "}
+                    בחרי את המתנה שלך:
+                  </>
+                ) : (
+                  <>
+                    נותרו{" "}
+                    <span className="font-medium text-charcoal">
+                      {formatPrice(remaining)}
+                    </span>{" "}
+                    לפתיחת כספת המתנות
+                  </>
+                )}
+              </p>
+            </div>
+
+            {/* Progress track */}
+            <div className="mt-2.5 h-1 w-full overflow-hidden rounded-full bg-platinum/40">
+              <div
+                className="h-full rounded-full bg-gold transition-all duration-700 ease-cinematic"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+
+            {/* Gift options — smooth height + fade reveal once unlocked */}
+            <div
+              className={`grid transition-all duration-700 ease-cinematic ${
+                unlocked ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="grid grid-cols-3 gap-2">
+                  {GIFTS.map(({ id, label, Icon }) => {
+                    const active = selectedGift === id;
+                    return (
+                      <button
+                        key={id}
+                        type="button"
+                        onClick={() => setSelectedGift(active ? null : id)}
+                        aria-pressed={active}
+                        className={`group relative flex flex-col items-center gap-2 rounded-sm border px-2 py-3 text-center transition-all duration-300 ease-cinematic ${
+                          active
+                            ? "border-gold bg-gold/10"
+                            : "border-platinum/60 bg-canvas hover:border-gold/60"
+                        }`}
+                      >
+                        {active && (
+                          <span className="absolute end-1 top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-gold text-canvas">
+                            <Check size={10} strokeWidth={2.5} />
+                          </span>
+                        )}
+                        <Icon
+                          size={22}
+                          strokeWidth={1.25}
+                          className={active ? "text-gold" : "text-charcoal"}
+                        />
+                        <span className="text-[10px] font-light leading-tight text-graphite">
+                          {label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+                {selectedGift && (
+                  <p className="mt-2 text-center text-[10px] font-light tracking-wide text-gold">
+                    המתנה שלך תתווסף להזמנה ✓
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Items */}
         <div className="flex-1 overflow-y-auto px-6">
