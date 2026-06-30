@@ -86,16 +86,22 @@ export default function SignatureSets() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:gap-10">
-        {SETS.map((set) => (
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-8 lg:gap-10">
+        {SETS.map((set, i) => (
           <button
             key={set.id}
             type="button"
             onClick={() => setActive(set)}
-            className="group block text-start"
+            className={`group block text-start ${
+              i === 2 ? "col-span-2 sm:col-span-1" : ""
+            }`}
             aria-label={`צפייה בפריטי ${set.title}`}
           >
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-beige shadow-card">
+            <div
+              className={`relative w-full overflow-hidden rounded-sm bg-beige shadow-card sm:aspect-[4/5] ${
+                i === 2 ? "aspect-[16/10]" : "aspect-[4/5]"
+              }`}
+            >
               <Image
                 src={encodeURI(set.image)}
                 alt={set.title}

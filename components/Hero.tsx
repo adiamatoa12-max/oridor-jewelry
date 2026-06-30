@@ -36,7 +36,7 @@ export default function Hero() {
         <p className="mb-3 animate-fade-up text-xs tracking-brand text-white/80 [animation-delay:100ms]">
           קולקציה חדשה
         </p>
-        <h1 className="mx-auto max-w-3xl animate-fade-up text-3xl font-light leading-relaxed tracking-wide text-white [animation-delay:250ms] md:text-4xl">
+        <h1 className="mx-auto max-w-3xl animate-fade-up text-2xl font-light leading-relaxed tracking-wide text-white [animation-delay:250ms] sm:text-3xl md:text-4xl">
           <span className="inline-block animate-soft-float motion-reduce:animate-none">
             אלגנטיות, מוגדרת מחדש.
           </span>

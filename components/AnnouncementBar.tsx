@@ -48,10 +48,10 @@ export default function AnnouncementBar() {
 
   return (
     <div className="relative border-b border-platinum/50 bg-cream text-charcoal">
-      <div className="mx-auto flex h-9 max-w-7xl items-center justify-center px-12">
+      <div className="mx-auto flex min-h-9 max-w-7xl items-center justify-center px-10 py-1.5 sm:px-12">
         <p
           aria-live="polite"
-          className={`text-center text-[11px] font-light tracking-wide transition-opacity duration-500 ease-in-out ${
+          className={`text-center text-[10px] font-light leading-snug tracking-wide transition-opacity duration-500 ease-in-out sm:text-[11px] ${
             shown ? "opacity-100" : "opacity-0"
           }`}
         >

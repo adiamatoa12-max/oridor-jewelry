@@ -25,7 +25,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-platinum/50 bg-canvas/80 backdrop-blur-md">
+      <header className="sticky top-0 z-50 border-b border-platinum/50 bg-canvas/95 backdrop-blur-md supports-[backdrop-filter]:bg-canvas/90">
       <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
         {/* Left: mobile menu toggle + first half of desktop links */}
         <div className="flex flex-1 items-center">
