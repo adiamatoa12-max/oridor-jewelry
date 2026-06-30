@@ -33,12 +33,12 @@ const BANNERS: PromoBanner[] = [
  */
 export default function SplitPromoBanners() {
   return (
-    <section className="my-20 grid w-full grid-cols-1 gap-px md:grid-cols-2 lg:my-28">
+    <section className="my-14 grid w-full grid-cols-1 gap-px md:grid-cols-2 lg:my-20">
       {BANNERS.map((banner) => (
         <Link
           key={banner.title}
           href={banner.href}
-          className="group relative flex min-h-[500px] items-center justify-center overflow-hidden"
+          className="group relative flex h-[45vh] max-h-[420px] min-h-[300px] items-center justify-center overflow-hidden"
         >
           {/* Background image */}
           <Image

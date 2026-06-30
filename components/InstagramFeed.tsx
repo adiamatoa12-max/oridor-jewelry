@@ -23,7 +23,7 @@ const CATEGORIES = [
  */
 export default function InstagramFeed() {
   return (
-    <section className="w-full py-28 lg:py-40">
+    <section className="w-full py-16 lg:py-24">
       {/* Header */}
       <div className="mb-14 text-center">
         <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">

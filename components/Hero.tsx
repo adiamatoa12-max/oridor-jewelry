@@ -13,7 +13,7 @@ const HERO_POSTER =
  */
 export default function Hero() {
   return (
-    <section className="relative h-screen min-h-[640px] w-full overflow-hidden bg-mist">
+    <section className="relative h-[60vh] max-h-[500px] min-h-[380px] w-full overflow-hidden bg-mist">
       {/* Full-bleed background video — autoplay, muted & inline for iOS */}
       <video
         className="absolute inset-0 z-0 h-full w-full object-cover"
@@ -32,21 +32,21 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
       {/* Content — anchored to the bottom, staggered cinematic fade-up */}
-      <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-24 text-center md:pb-32">
-        <p className="mb-5 animate-fade-up text-xs tracking-brand text-white/80 [animation-delay:100ms]">
+      <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-12 text-center md:pb-16">
+        <p className="mb-3 animate-fade-up text-xs tracking-brand text-white/80 [animation-delay:100ms]">
           קולקציה חדשה
         </p>
-        <h1 className="mx-auto max-w-3xl animate-fade-up text-4xl font-light leading-relaxed tracking-wide text-white [animation-delay:250ms] md:text-5xl">
+        <h1 className="mx-auto max-w-3xl animate-fade-up text-3xl font-light leading-relaxed tracking-wide text-white [animation-delay:250ms] md:text-4xl">
           <span className="inline-block animate-soft-float motion-reduce:animate-none">
             אלגנטיות, מוגדרת מחדש.
           </span>
         </h1>
-        <p className="mx-auto mt-6 max-w-md animate-fade-up text-sm font-light leading-relaxed text-white/85 [animation-delay:450ms]">
+        <p className="mx-auto mt-4 max-w-md animate-fade-up text-sm font-light leading-relaxed text-white/85 [animation-delay:450ms]">
           גלי את קולקציית ההשקה של Oridor. פריטים על-זמניים לאסתטיקה המודרנית.
         </p>
         <Link
           href="/necklaces"
-          className="mx-auto mt-10 inline-flex min-h-[44px] animate-fade-up items-center justify-center border border-white/80 bg-transparent px-10 py-2.5 text-[11px] uppercase tracking-[0.25em] text-white transition-all duration-500 ease-cinematic [animation-delay:650ms] hover:border-gold hover:text-gold"
+          className="mx-auto mt-6 inline-flex min-h-[44px] animate-fade-up items-center justify-center border border-white/80 bg-transparent px-10 py-2.5 text-[11px] uppercase tracking-[0.25em] text-white transition-all duration-500 ease-cinematic [animation-delay:650ms] hover:border-gold hover:text-gold"
         >
           לרכישת הקולקציה
         </Link>

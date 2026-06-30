@@ -24,7 +24,7 @@ const COLLECTION_LINKS = [
 export default function PremiumFooter() {
   return (
     <footer className="bg-[#F8F8F8] text-charcoal">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-20 sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-16">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-14 sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-16">
         {/* Brand */}
         <div>
           <span className="text-2xl font-light uppercase tracking-brand text-charcoal">

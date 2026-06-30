@@ -60,7 +60,7 @@ function Stars({ className = "" }: { className?: string }) {
  */
 export default function CustomerReviews() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-28 sm:px-10 lg:px-16 lg:py-40">
+    <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
       {/* Header */}
       <div className="mb-16 flex flex-col items-center text-center">
         <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">

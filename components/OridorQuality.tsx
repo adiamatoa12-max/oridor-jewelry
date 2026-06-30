@@ -29,7 +29,7 @@ const VALUES = [
  */
 export default function OridorQuality() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-28 sm:px-10 lg:px-16 lg:py-40">
+    <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
       {/* Header */}
       <div className="mb-14 text-center">
         <p className="mb-3 text-xs tracking-[0.25em] text-gold">

@@ -78,7 +78,7 @@ export default function SignatureSets() {
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24 sm:px-10 lg:px-16 lg:py-32">
+    <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
       <div className="mb-14 text-center">
         <p className="mb-3 text-xs tracking-[0.25em] text-gold">מוכנים לעטות</p>
         <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">

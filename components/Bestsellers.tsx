@@ -1,32 +1,106 @@
-import Link from "next/link";
-import MoissaniteGrid, { type MoissaniteProduct } from "./MoissaniteGrid";
-import products from "@/data/moissanite_collection.json";
+"use client";
 
-// Four top sellers — chosen across categories so the jewelry leads.
-const TOP_IDS = ["matan-16", "matan-11", "matan-24", "matan-1"];
+import { useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import products from "@/data/moissanite_collection.json";
+import { type MoissaniteProduct } from "./MoissaniteGrid";
+
+// Top sellers — chosen across categories so the jewelry leads.
+const TOP_IDS = [
+  "matan-16",
+  "matan-11",
+  "matan-24",
+  "matan-1",
+  "matan-8",
+  "matan-22",
+];
+
+const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
 /**
- * "הנמכרים ביותר" — a clean, minimalist row of four top products on a light
- * background. Just the jewelry, no lifestyle imagery.
+ * "הנמכרים ביותר" — a compact, horizontally swipeable carousel of top products
+ * on a clean light background. Snap scrolling on touch; arrow controls on desktop.
  */
 export default function Bestsellers() {
+  const scroller = useRef<HTMLDivElement>(null);
   const all = products as MoissaniteProduct[];
   const top = TOP_IDS.map((id) => all.find((p) => p.id === id)).filter(
     Boolean,
   ) as MoissaniteProduct[];
 
+  // dir: +1 = next (later items), -1 = previous. In RTL the content extends to
+  // the left, so advancing means a negative scrollLeft delta.
+  const scrollBy = (dir: 1 | -1) => {
+    const el = scroller.current;
+    if (!el) return;
+    el.scrollBy({ left: -dir * el.clientWidth * 0.8, behavior: "smooth" });
+  };
+
   return (
-    <section className="mx-auto max-w-7xl px-6 py-24 sm:px-10 lg:px-16 lg:py-36">
-      <div className="mb-14 text-center">
-        <p className="mb-3 text-xs tracking-[0.25em] text-gold">המבוקשים שלנו</p>
-        <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
-          הנמכרים ביותר
-        </h2>
+    <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+      <div className="mb-10 flex items-end justify-between">
+        <div className="text-center sm:text-start">
+          <p className="mb-3 text-xs tracking-[0.25em] text-gold">המבוקשים שלנו</p>
+          <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
+            הנמכרים ביותר
+          </h2>
+        </div>
+
+        {/* Desktop arrow controls */}
+        <div className="hidden items-center gap-2 sm:flex">
+          <button
+            type="button"
+            aria-label="הקודם"
+            onClick={() => scrollBy(-1)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-platinum/70 text-charcoal transition-colors hover:border-gold hover:text-gold"
+          >
+            <ChevronRight size={18} strokeWidth={1.5} />
+          </button>
+          <button
+            type="button"
+            aria-label="הבא"
+            onClick={() => scrollBy(1)}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-platinum/70 text-charcoal transition-colors hover:border-gold hover:text-gold"
+          >
+            <ChevronLeft size={18} strokeWidth={1.5} />
+          </button>
+        </div>
       </div>
 
-      <MoissaniteGrid products={top} />
+      <div
+        ref={scroller}
+        className="hide-scrollbar -mx-2 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-px-2 px-2 lg:gap-6"
+      >
+        {top.map((p) => (
+          <Link
+            key={p.id}
+            href={`/collection/moissanite/${p.slug}`}
+            className="group w-[42vw] max-w-[230px] flex-none snap-start sm:w-[30vw] lg:w-[22%]"
+          >
+            <div className="relative aspect-square w-full overflow-hidden rounded-sm bg-[#F8F8F8]">
+              <Image
+                src={encodeURI(p.image_url)}
+                alt={p.name}
+                fill
+                sizes="(min-width: 1024px) 22vw, 42vw"
+                className="object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-105"
+              />
+            </div>
+            <div className="mt-3 text-center">
+              <h3 className="text-sm font-normal tracking-wide text-charcoal">
+                {p.name}
+              </h3>
+              <p className="mt-1 text-sm font-light text-graphite">
+                {formatPrice(p.price)}
+              </p>
+            </div>
+          </Link>
+        ))}
+      </div>
 
-      <div className="mt-16 text-center">
+      <div className="mt-12 text-center">
         <Link href="/collection/moissanite" className="btn-ghost">
           לכל הקולקציה
         </Link>
