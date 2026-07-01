@@ -1,5 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { ShoppingBag } from "lucide-react";
+import { useCart } from "./CartContext";
 
 export interface MoissaniteProduct {
   id: string;
@@ -25,6 +29,16 @@ export default function MoissaniteGrid({
 }: {
   products: MoissaniteProduct[];
 }) {
+  const { addItem, openCart } = useCart();
+
+  const quickAdd = (e: React.MouseEvent, p: MoissaniteProduct) => {
+    // Inside a <Link>; don't navigate — just add to the cart and open it.
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({ id: p.id, title: p.name, price: p.price, image: encodeURI(p.image_url) });
+    openCart();
+  };
+
   // Safety: render each product exactly once, even if the source list contains
   // accidental duplicates (deduped by unique slug).
   const seen = new Set<string>();
@@ -53,6 +67,17 @@ export default function MoissaniteGrid({
             <span className="pointer-events-none absolute start-3 top-3 border border-gold/60 bg-canvas/60 px-2.5 py-1 text-[10px] tracking-[0.2em] text-gold backdrop-blur-sm">
               מואסניט
             </span>
+
+            {/* Quick add-to-cart — slides up on hover */}
+            <button
+              type="button"
+              onClick={(e) => quickAdd(e, p)}
+              aria-label={`הוספת ${p.name} לסל`}
+              className="absolute inset-x-3 bottom-3 flex translate-y-3 items-center justify-center gap-2 rounded-sm bg-canvas/90 py-2.5 text-[11px] tracking-[0.15em] text-charcoal opacity-0 backdrop-blur-sm transition-all duration-300 ease-cinematic group-hover:translate-y-0 group-hover:opacity-100 hover:bg-charcoal hover:text-canvas"
+            >
+              <ShoppingBag size={14} strokeWidth={1.5} />
+              הוספה לסל
+            </button>
           </div>
 
           <div className="px-4 py-5 text-center">

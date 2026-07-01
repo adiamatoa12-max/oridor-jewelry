@@ -3,9 +3,10 @@
 import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ShoppingBag } from "lucide-react";
 import products from "@/data/moissanite_collection.json";
 import { type MoissaniteProduct } from "./MoissaniteGrid";
+import { useCart } from "./CartContext";
 
 // Top sellers — chosen across categories so the jewelry leads.
 const TOP_IDS = [
@@ -25,7 +26,15 @@ const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
  */
 export default function Bestsellers() {
   const scroller = useRef<HTMLDivElement>(null);
+  const { addItem, openCart } = useCart();
   const all = products as MoissaniteProduct[];
+
+  const quickAdd = (e: React.MouseEvent, p: MoissaniteProduct) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({ id: p.id, title: p.name, price: p.price, image: encodeURI(p.image_url) });
+    openCart();
+  };
   const top = TOP_IDS.map((id) => all.find((p) => p.id === id)).filter(
     Boolean,
   ) as MoissaniteProduct[];
@@ -87,6 +96,16 @@ export default function Bestsellers() {
                 sizes="(min-width: 1024px) 22vw, 42vw"
                 className="object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-105"
               />
+              {/* Quick add-to-cart — slides up on hover */}
+              <button
+                type="button"
+                onClick={(e) => quickAdd(e, p)}
+                aria-label={`הוספת ${p.name} לסל`}
+                className="absolute inset-x-3 bottom-3 flex translate-y-3 items-center justify-center gap-2 rounded-sm bg-canvas/90 py-2.5 text-[11px] tracking-[0.15em] text-charcoal opacity-0 backdrop-blur-sm transition-all duration-300 ease-cinematic group-hover:translate-y-0 group-hover:opacity-100 hover:bg-charcoal hover:text-canvas"
+              >
+                <ShoppingBag size={14} strokeWidth={1.5} />
+                הוספה לסל
+              </button>
             </div>
             <div className="mt-3 text-center">
               <h3 className="text-sm font-normal tracking-wide text-charcoal">

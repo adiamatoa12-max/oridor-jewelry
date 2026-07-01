@@ -7,11 +7,11 @@ import { useCart } from "./CartContext";
 import MobileMenu from "./MobileMenu";
 
 const LINKS = [
+  { label: "מואסניט", href: "/collection/moissanite" },
   { label: "שרשראות", href: "/necklaces" },
   { label: "צמידים", href: "/bracelets" },
   { label: "עגילים", href: "/earrings" },
   { label: "טבעות", href: "/rings" },
-  { label: "מואסניט", href: "/collection/moissanite" },
 ];
 
 /**

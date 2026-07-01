@@ -5,11 +5,11 @@ import { X } from "lucide-react";
 
 const MAIN_LINKS = [
   { label: "קולקציה חדשה", href: "/new-arrivals" },
+  { label: "מואסניט", href: "/collection/moissanite" },
   { label: "שרשראות", href: "/necklaces" },
   { label: "צמידים", href: "/bracelets" },
   { label: "עגילים", href: "/earrings" },
   { label: "טבעות", href: "/rings" },
-  { label: "מואסניט", href: "/collection/moissanite" },
   { label: "כלות", href: "/bridal" },
 ];
 

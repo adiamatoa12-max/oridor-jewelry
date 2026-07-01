@@ -60,7 +60,7 @@ export default function SplitPromoBanners() {
             <p className="mt-4 text-sm font-light tracking-wide text-canvas/90">
               {banner.subtitle}
             </p>
-            <span className="mt-8 inline-block border border-white/60 px-8 py-2.5 text-[11px] uppercase tracking-[0.25em] text-white transition-all duration-500 ease-cinematic group-hover:border-gold group-hover:text-gold">
+            <span className="mt-8 inline-block border-2 border-white/80 bg-charcoal/25 px-8 py-2.5 text-[11px] uppercase tracking-[0.25em] text-white backdrop-blur-sm transition-all duration-500 ease-cinematic group-hover:border-gold group-hover:bg-gold/25 group-hover:text-white">
               גלי עוד
             </span>
           </div>
