@@ -92,13 +92,13 @@ export default function SignatureSets() {
             key={set.id}
             type="button"
             onClick={() => setActive(set)}
-            className="group block text-start"
+            className="group block overflow-hidden rounded-sm bg-white text-start shadow-card transition-shadow duration-300 group-hover:shadow-cardHover"
             aria-label={`צפייה בפריטי ${set.title}`}
           >
-            {/* Equal square cards. The set photos are collages with side detail,
+            {/* Clean image on top. The set photos are collages with side detail,
                 so object-contain on a matching ground shows them in full — no
                 aggressive side-cropping — while keeping the row symmetrical. */}
-            <div className="relative aspect-square w-full overflow-hidden rounded-sm bg-[#F5F5F0] shadow-card">
+            <div className="relative aspect-square w-full overflow-hidden bg-[#F5F5F0]">
               <Image
                 src={encodeURI(set.image)}
                 alt={set.title}
@@ -106,16 +106,20 @@ export default function SignatureSets() {
                 sizes="(min-width: 640px) 33vw, 100vw"
                 className="h-full w-full object-contain object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
               />
-              {/* Caption — sits in a soft gradient anchored to the bottom edge */}
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-charcoal/80 via-charcoal/30 to-transparent p-5 pt-12 text-center">
-                <h3 className="text-lg font-light tracking-wide text-canvas">{set.title}</h3>
-                <p className="mt-1 text-xs font-light tracking-wide text-platinum">
-                  {set.caption}
-                </p>
-                <span className="mt-3 inline-block border-b border-gold/70 pb-0.5 text-[11px] tracking-[0.2em] text-gold opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  גלי את הסט
-                </span>
-              </div>
+            </div>
+
+            {/* Readable text block — solid white, deep dark type, sits neatly
+                below the image for a clean, modern e-commerce card. */}
+            <div className="bg-white p-5 text-center sm:p-6">
+              <h3 className="text-lg font-normal tracking-wide text-neutral-900">
+                {set.title}
+              </h3>
+              <p className="mt-1.5 text-sm font-light tracking-wide text-neutral-500">
+                {set.caption}
+              </p>
+              <span className="mt-3 inline-block border-b border-gold/70 pb-0.5 text-[11px] tracking-[0.2em] text-gold opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                גלי את הסט
+              </span>
             </div>
           </button>
         ))}
