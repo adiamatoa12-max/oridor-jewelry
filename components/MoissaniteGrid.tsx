@@ -62,7 +62,7 @@ export default function MoissaniteGrid({
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 50vw"
-              className="object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-105"
+              className="object-cover object-center"
             />
             <span className="pointer-events-none absolute start-3 top-3 border border-gold/60 bg-canvas/60 px-2.5 py-1 text-[10px] tracking-[0.2em] text-gold backdrop-blur-sm">
               מואסניט

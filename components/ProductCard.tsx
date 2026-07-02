@@ -7,8 +7,6 @@ import { useCart } from "./CartContext";
 export interface ProductCardProps {
   /** Product image — expects a clean white-background product shot. */
   image: string;
-  /** Optional lifestyle image that cross-fades in on hover. */
-  secondaryImage?: string;
   /** Optional minimal status tag, e.g. "BEST SELLER", "LIMITED EDITION". */
   tag?: string;
   title: string;
@@ -33,7 +31,6 @@ export interface ProductCardProps {
  */
 export default function ProductCard({
   image,
-  secondaryImage,
   tag,
   title,
   price,
@@ -64,27 +61,15 @@ export default function ProductCard({
 
   return (
     <Link href={href} className="group block">
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F8F8F8] shadow-card ring-1 ring-platinum/40 transition-all duration-700 ease-in-out group-hover:-translate-y-1 group-hover:shadow-cardHover">
+      {/* Stable card: subtle shadow lift on hover — the image never swaps. */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F8F8F8] shadow-card ring-1 ring-platinum/40 transition-shadow duration-300 ease-in-out group-hover:shadow-cardHover">
         <Image
           src={image}
           alt={`${title} — תכשיט כסף מבית Oridor`}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className={`${fitClass} object-center transition-all duration-700 ease-in-out group-hover:scale-105 ${
-            secondaryImage ? "group-hover:opacity-0" : ""
-          }`}
+          className={`${fitClass} object-center`}
         />
-
-        {/* Second image — cross-fades in on hover */}
-        {secondaryImage && (
-          <Image
-            src={secondaryImage}
-            alt={`${title} — גוון נוסף`}
-            fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className={`${fitClass} object-center opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100`}
-          />
-        )}
 
         {/* Minimal status tag — top-right (inline-start in RTL) */}
         {tag && (
