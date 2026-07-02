@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 import products from "@/data/moissanite_collection.json";
+import silver from "@/data/silver_collection.json";
 import type { MoissaniteProduct } from "@/components/MoissaniteGrid";
+import type { SilverProduct } from "@/components/SilverGrid";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
 
@@ -9,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/shop",
     "/collection/moissanite",
+    "/collection/silver",
     "/quality",
     "/ring-size-guide",
     "/faq",
@@ -27,5 +30,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...productRoutes];
+  const silverRoutes = (silver as SilverProduct[]).map((p) => ({
+    url: `${SITE_URL}/collection/silver/${p.slug}`,
+    changeFrequency: "weekly" as const,
+    priority: 0.6,
+  }));
+
+  return [...staticRoutes, ...productRoutes, ...silverRoutes];
 }

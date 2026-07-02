@@ -11,6 +11,7 @@ import EditorialFeature from "@/components/EditorialFeature";
 import Bestsellers from "@/components/Bestsellers";
 import SignatureSets from "@/components/SignatureSets";
 import MoissanitePreview from "@/components/MoissanitePreview";
+import SilverPreview from "@/components/SilverPreview";
 import Reveal from "@/components/Reveal";
 
 export default function Home() {
@@ -27,7 +28,9 @@ export default function Home() {
       <Reveal><SignatureSets /></Reveal>
       {/* 3. Featured jewelry showcase — individual pieces */}
       <Reveal><MoissanitePreview /></Reveal>
-      {/* 3. Feature banners — 'אלגנטיות לערב' + 'קולקציית הטניס', 50/50 */}
+      {/* 4. New Silver collection — distinct, separate from Moissanite */}
+      <Reveal><SilverPreview /></Reveal>
+      {/* 5. Feature banners — 'אלגנטיות לערב' + 'קולקציית הטניס', 50/50 */}
       <Reveal><SplitPromoBanners /></Reveal>
 
       <Reveal><EditorialFeature /></Reveal>
