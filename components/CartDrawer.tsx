@@ -106,8 +106,8 @@ export default function CartDrawer() {
               />
             </div>
 
-            {/* 3D vault reward — dramatic entrance only when unlocked & open */}
-            <VaultReward3D show={unlocked && isOpen} />
+            {/* 3D vault reward — the robot presents the chosen gift */}
+            <VaultReward3D show={unlocked && isOpen} selectedGift={selectedGift} />
 
             {/* Gift options — smooth height + fade reveal once unlocked */}
             <div
@@ -131,6 +131,13 @@ export default function CartDrawer() {
                             : "border-platinum/60 bg-canvas hover:-translate-y-0.5 hover:border-gold/60"
                         }`}
                       >
+                        {/* Very subtle breathing illumination on the chosen card */}
+                        {active && (
+                          <span
+                            aria-hidden="true"
+                            className="pointer-events-none absolute inset-0 animate-pulse rounded-sm bg-white/35 [animation-duration:2.6s]"
+                          />
+                        )}
                         {active && (
                           <span className="absolute end-1 top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-gold text-canvas shadow-sm">
                             <Check size={10} strokeWidth={2.5} />
