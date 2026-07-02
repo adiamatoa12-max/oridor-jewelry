@@ -12,7 +12,9 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://images.unsplash.com",
   "font-src 'self' data:",
-  `connect-src 'self'${isDev ? " ws:" : ""}`,
+  // prod.spline.design serves the 3D vault-reward scene (.splinecode).
+  `connect-src 'self' https://prod.spline.design https://unpkg.com${isDev ? " ws:" : ""}`,
+  "worker-src 'self' blob:",
   "media-src 'self'",
   "frame-ancestors 'none'",
   "base-uri 'self'",

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { X, Plus, Minus, Package, Gem, Sparkles, Check, Lock, ArrowLeft } from "lucide-react";
 import { useCart } from "./CartContext";
+import VaultReward3D from "./VaultReward3D";
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
@@ -104,6 +105,9 @@ export default function CartDrawer() {
                 style={{ width: `${progress}%` }}
               />
             </div>
+
+            {/* 3D vault reward — dramatic entrance only when unlocked & open */}
+            <VaultReward3D show={unlocked && isOpen} />
 
             {/* Gift options — smooth height + fade reveal once unlocked */}
             <div
