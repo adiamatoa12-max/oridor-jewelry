@@ -24,10 +24,10 @@ const config: Config = {
         platinum: "#C9CCD1",      // light platinum/silver
         silver: "#AFB4BB",        // silver accent for hairlines/hover
         gold: "#C5A059",          // warm luxury gold — accent
-        // Typography (deep warm charcoal, not pure black)
-        charcoal: "#333333",      // primary text — deep charcoal
-        graphite: "#54565B",      // secondary text (WCAG AA)
-        ash: "#5C5F66",           // muted / captions (WCAG AA)
+        // Typography (deep warm charcoal, high contrast — not pure black)
+        charcoal: "#2B2C2F",      // primary text — deep charcoal
+        graphite: "#3F4145",      // secondary body text (high contrast)
+        ash: "#45474D",           // muted / captions (still strong contrast)
       },
       fontFamily: {
         sans: ["var(--font-assistant)", "ui-sans-serif", "system-ui", "sans-serif"],

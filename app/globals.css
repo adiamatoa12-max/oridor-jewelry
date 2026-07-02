@@ -18,21 +18,33 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Lift the base up slightly for clearer, more readable body copy. */
+    font-size: 106.25%; /* 17px base */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
     @apply text-charcoal font-sans antialiased;
+    /* Generous line-height for readability. */
+    line-height: 1.65;
     /* Warm boutique base — subtle beige → cream gradient, fixed so it spans
        the full scroll without banding. */
     background-color: #faf7f0;
     background-image: linear-gradient(to bottom, #f5f1e8, #faf7f0 40%, #ffffff);
     background-attachment: fixed;
     font-feature-settings: "kern";
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Elegant, restrained headings */
+  /* Body copy — comfortable, readable line-height. */
+  p {
+    line-height: 1.65;
+  }
+
+  /* Headings — clear and present against the light background. */
   h1, h2, h3, h4 {
-    @apply text-charcoal font-light tracking-wide;
+    @apply text-charcoal font-normal tracking-wide;
   }
 
   ::selection {
