@@ -100,11 +100,11 @@ export default function Bestsellers() {
               <button
                 type="button"
                 onClick={(e) => quickAdd(e, p)}
-                aria-label={`הוספת ${p.name} לסל`}
+                aria-label={`הוספת ${p.name} לאוסף`}
                 className="absolute inset-x-3 bottom-3 flex translate-y-3 items-center justify-center gap-2 rounded-sm bg-canvas/90 py-2.5 text-[11px] tracking-[0.15em] text-charcoal opacity-0 backdrop-blur-sm transition-all duration-300 ease-cinematic group-hover:translate-y-0 group-hover:opacity-100 hover:bg-charcoal hover:text-canvas"
               >
                 <ShoppingBag size={14} strokeWidth={1.5} />
-                הוספה לסל
+                הוספה לאוסף
               </button>
             </div>
             <div className="mt-3 text-center">

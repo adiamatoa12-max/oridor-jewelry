@@ -151,7 +151,7 @@ export default function MoissaniteProductPage({
               type="button"
               className="btn-primary mt-10 w-full sm:w-auto sm:px-16"
             >
-              הוספה לסל
+              הוספה לאוסף
             </button>
 
             {/* VIP Vault upsell callout */}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { X, Plus, Minus, Package, Gem, Sparkles, Check } from "lucide-react";
+import { X, Plus, Minus, Package, Gem, Sparkles, Check, Lock, ArrowLeft } from "lucide-react";
 import { useCart } from "./CartContext";
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
@@ -51,11 +51,18 @@ export default function CartDrawer() {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        {/* Header */}
+        {/* Header — exclusive "VIP Vault" identity */}
         <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
-          <h2 className="text-base font-normal tracking-wide text-charcoal">
-            הסל שלך <span className="text-ash">({count})</span>
-          </h2>
+          <div className="flex items-center gap-2.5">
+            <Lock size={15} strokeWidth={1.5} className="text-gold" />
+            <h2 className="text-base font-medium tracking-wide text-charcoal">
+              הכספת שלך
+            </h2>
+            <span className="rounded-full border border-gold/50 bg-gold/10 px-2 py-0.5 text-[9px] font-semibold tracking-[0.15em] text-gold">
+              VIP
+            </span>
+            <span className="text-sm font-light text-ash">({count})</span>
+          </div>
           <button
             type="button"
             aria-label="סגירת עגלת הקניות"
@@ -73,15 +80,15 @@ export default function CartDrawer() {
               {unlocked ? (
                 <>
                   <span className="font-medium text-gold">כספת ה-VIP נפתחה!</span>{" "}
-                  מתנת הפרימיום שלך מחכה בקופה ✨
+                  בחרי את מתנת הפרימיום שלך — עלינו ✨
                 </>
               ) : (
                 <>
-                  חסרים לך עוד{" "}
+                  עוד{" "}
                   <span className="font-medium text-charcoal">
                     {formatPrice(remaining)}
                   </span>{" "}
-                  לפתיחת כספת ה-VIP! 🔒
+                  ותקבלי מתנת פרימיום חינם 🎁
                 </>
               )}
             </p>
@@ -104,7 +111,7 @@ export default function CartDrawer() {
                 unlocked ? "mt-4 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
               }`}
             >
-              <div className="overflow-hidden">
+              <div className="overflow-hidden px-1 pt-1">
                 <div className="grid grid-cols-3 gap-2">
                   {GIFTS.map(({ id, label, Icon }) => {
                     const active = selectedGift === id;
@@ -116,12 +123,12 @@ export default function CartDrawer() {
                         aria-pressed={active}
                         className={`group relative flex flex-col items-center gap-2 rounded-sm border px-2 py-3 text-center transition-all duration-300 ease-cinematic ${
                           active
-                            ? "border-gold bg-gold/10"
-                            : "border-platinum/60 bg-canvas hover:border-gold/60"
+                            ? "scale-[1.04] border-gold bg-gold/10 shadow-[0_6px_20px_rgba(197,160,89,0.28)] ring-1 ring-gold/40"
+                            : "border-platinum/60 bg-canvas hover:-translate-y-0.5 hover:border-gold/60"
                         }`}
                       >
                         {active && (
-                          <span className="absolute end-1 top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-gold text-canvas">
+                          <span className="absolute end-1 top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-gold text-canvas shadow-sm">
                             <Check size={10} strokeWidth={2.5} />
                           </span>
                         )}
@@ -139,7 +146,7 @@ export default function CartDrawer() {
                 </div>
                 {selectedGift && (
                   <p className="mt-2 text-center text-[10px] font-light tracking-wide text-gold">
-                    המתנה שלך תתווסף להזמנה ✓
+                    מתנת הפרימיום שלך שמורה ✓
                   </p>
                 )}
               </div>
@@ -150,15 +157,15 @@ export default function CartDrawer() {
         {/* Items */}
         <div className="flex-1 overflow-y-auto px-6">
           {items.length === 0 ? (
-            <p className="py-16 text-center text-sm font-light text-ash">
-              הסל שלך ריק.
+            <p className="py-16 text-center text-sm font-light leading-relaxed text-ash">
+              הכספת שלך ריקה כרגע —<br />הוסיפי פריטים לאוסף שלך.
             </p>
           ) : (
-            <ul className="divide-y divide-gray-200">
+            <ul className="divide-y divide-gray-100">
               {items.map((item) => (
-                <li key={item.id} className="flex gap-4 py-6">
+                <li key={item.id} className="flex gap-5 py-7">
                   {/* Square image */}
-                  <div className="relative aspect-square w-24 flex-none overflow-hidden bg-gray-50">
+                  <div className="relative aspect-square w-24 flex-none overflow-hidden rounded-sm bg-gray-50">
                     <Image
                       src={item.image}
                       alt={`${item.title} — תכשיט כסף מבית Oridor`}
@@ -170,15 +177,15 @@ export default function CartDrawer() {
 
                   {/* Details + controls */}
                   <div className="flex flex-1 flex-col">
-                    <h3 className="text-sm font-normal text-charcoal">{item.title}</h3>
+                    <h3 className="text-sm font-normal leading-snug text-charcoal">{item.title}</h3>
                     {item.variant && (
-                      <p className="mt-0.5 text-xs font-light text-ash">{item.variant}</p>
+                      <p className="mt-1 text-xs font-light text-ash">{item.variant}</p>
                     )}
-                    <p className="mt-1 text-sm font-light text-graphite">
+                    <p className="mt-1.5 text-sm font-light text-graphite">
                       {formatPrice(item.price)}
                     </p>
 
-                    <div className="mt-auto flex items-center justify-between pt-3">
+                    <div className="mt-auto flex items-center justify-between pt-4">
                       {/* Quantity selector */}
                       <div className="flex items-center border border-gray-200">
                         <button
@@ -232,10 +239,15 @@ export default function CartDrawer() {
           </p>
           <button
             type="button"
-            className="mt-5 w-full bg-[#2B2C2F] py-4 text-sm tracking-wide text-white transition-colors duration-300 hover:bg-[#1a1b1c] disabled:cursor-not-allowed disabled:opacity-40"
+            className="group mt-5 flex w-full items-center justify-center gap-2 bg-[#2B2C2F] py-4 text-xs font-medium uppercase tracking-[0.2em] text-white transition-all duration-300 ease-cinematic hover:bg-[#1a1b1c] hover:shadow-[0_10px_28px_rgba(43,44,47,0.35)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none"
             disabled={items.length === 0}
           >
             מעבר לקופה
+            <ArrowLeft
+              size={15}
+              strokeWidth={1.5}
+              className="transition-transform duration-300 group-hover:-translate-x-1"
+            />
           </button>
         </div>
       </aside>
