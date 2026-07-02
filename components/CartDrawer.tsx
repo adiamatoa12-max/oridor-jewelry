@@ -2,9 +2,19 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { X, Plus, Minus, Package, Gem, Sparkles, Check, Lock, ArrowLeft } from "lucide-react";
 import { useCart } from "./CartContext";
-import VaultReward3D from "./VaultReward3D";
+
+// The 3D vault reward is heavy (WebGL) — client-only, code-split, never SSR'd.
+const VaultReward3D = dynamic(() => import("./VaultReward3D"), {
+  ssr: false,
+  loading: () => (
+    <div className="mt-4 flex h-10 items-center justify-center">
+      <span className="h-4 w-4 animate-spin rounded-full border-2 border-gold/20 border-t-gold" />
+    </div>
+  ),
+});
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
