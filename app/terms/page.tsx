@@ -26,12 +26,12 @@ const SECTIONS = [
     body: "חשוב לנו שתהיי שלמה לחלוטין עם הבחירה שלך. ניתן לבטל עסקה ולהחזיר פריט תוך 14 ימים מיום קבלתו, בתנאי שהתכשיט הוחזר באריזתו המקורית, לא נעשה בו כל שימוש, ולא נגרם לו נזק או פגם. החזר כספי יבוצע לאמצעי התשלום ממנו בוצעה העסקה, בניכוי דמי ביטול כחוק.",
   },
   {
-    title: "5. קניין רוחני",
-    body: "Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.",
+    title: "5. פרטיות ואבטחת מידע",
+    body: "אנו מכבדים את פרטיותך ומתחייבים לשמור עליה. המידע האישי שנמסר בעת ביצוע ההזמנה משמש אך ורק לצורך עיבוד ושילוח החבילה, ולא יועבר לצד שלישי ללא אישורך המפורש. האתר מאובטח ברמה הגבוהה ביותר לשמירה על פרטי התשלום שלך.",
   },
   {
-    title: "6. אחריות והגבלתה",
-    body: "Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur.",
+    title: "6. קניין רוחני",
+    body: "כל התוכן המופיע באתר, לרבות העיצובים, התמונות, הטקסטים והלוגו של ORIDOR, הינם רכושו הבלעדי של המותג. אין להעתיק, לשכפל, להפיץ או לעשות כל שימוש מסחרי בתוכן זה ללא אישור מראש ובכתב.",
   },
 ];
 
