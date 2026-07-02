@@ -64,7 +64,7 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     image: encodeURI(p.image_url),
     href: `/collection/silver/${p.slug}`,
     collection: COLLECTION_SILVER,
-    category: inferCategory(p.name),
+    category: asType(p.category) ?? inferCategory(p.name),
     fit: "contain",
   }));
 
@@ -75,7 +75,7 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     image: encodeURI(p.image_url),
     href: `/collection/new/${p.slug}`,
     collection: COLLECTION_SILVER,
-    category: inferCategory(p.name),
+    category: asType(p.category) ?? inferCategory(p.name),
     fit: "cover",
   }));
 
