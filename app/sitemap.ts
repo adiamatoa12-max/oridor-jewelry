@@ -2,9 +2,11 @@ import type { MetadataRoute } from "next";
 import products from "@/data/moissanite_collection.json";
 import silver from "@/data/silver_collection.json";
 import signature from "@/data/signature_collection.json";
+import newArrivals from "@/data/new_arrivals.json";
 import type { MoissaniteProduct } from "@/components/MoissaniteGrid";
 import type { SilverProduct } from "@/components/SilverGrid";
 import type { VariantProduct } from "@/components/VariantCard";
+import type { NewArrival } from "@/components/NewArrivalsGrid";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
 
@@ -15,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/collection/moissanite",
     "/collection/silver",
     "/collection/signature",
+    "/collection/new",
     "/quality",
     "/ring-size-guide",
     "/faq",
@@ -45,5 +48,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticRoutes, ...productRoutes, ...silverRoutes, ...signatureRoutes];
+  const newArrivalRoutes = (newArrivals as NewArrival[]).map((p) => ({
+    url: `${SITE_URL}/collection/new/${p.slug}`,
+    changeFrequency: "weekly" as const,
+    priority: 0.6,
+  }));
+
+  return [
+    ...staticRoutes,
+    ...productRoutes,
+    ...silverRoutes,
+    ...signatureRoutes,
+    ...newArrivalRoutes,
+  ];
 }

@@ -7,10 +7,10 @@ import { useCart } from "./CartContext";
 import MobileMenu from "./MobileMenu";
 
 const LINKS = [
+  { label: "קולקציה חדשה", href: "/collection/new" },
   { label: "מואסניט", href: "/collection/moissanite" },
   { label: "קולקציית כסף", href: "/collection/silver" },
   { label: "קולקציית החתימה", href: "/collection/signature" },
-  { label: "צמידים", href: "/bracelets" },
   { label: "טבעות", href: "/rings" },
 ];
 

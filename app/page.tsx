@@ -12,6 +12,7 @@ import Bestsellers from "@/components/Bestsellers";
 import SignatureSets from "@/components/SignatureSets";
 import MoissanitePreview from "@/components/MoissanitePreview";
 import SilverPreview from "@/components/SilverPreview";
+import NewArrivals from "@/components/NewArrivals";
 import Reveal from "@/components/Reveal";
 
 export default function Home() {
@@ -22,6 +23,8 @@ export default function Home() {
       <Hero />
       <Marquee />
 
+      {/* New arrivals — the latest uploads, featured high up */}
+      <Reveal><NewArrivals /></Reveal>
       {/* 1. Collections grid — prominent, immediately below the hero */}
       <Reveal><InstagramFeed /></Reveal>
       {/* 2. Signature sets — high-value narrative right after collections */}
