@@ -11,19 +11,19 @@ export const metadata: Metadata = {
 const SECTIONS = [
   {
     title: "1. כללי",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    body: "ברוכים הבאים לאתר ORIDOR. האתר משמש כחנות וירטואלית למכירת תכשיטי פרימיום. השימוש באתר, לרבות גלישה וביצוע רכישות, כפוף לתנאים המפורטים בתקנון זה. עצם הרכישה באתר מהווה את הסכמתך לתנאים אלו. אנו מקפידים על הסטנדרטים הגבוהים ביותר כדי להעניק לך חוויית קנייה בטוחה ונעימה.",
   },
   {
     title: "2. הזמנות ותשלומים",
-    body: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    body: "כל הזמנה באתר כפופה לאישור המלאי ואישור חברת האשראי. התשלום באתר מתבצע בצורה מאובטחת בתקנים המחמירים ביותר, ופרטי האשראי אינם נשמרים במערכות שלנו. בסיום הרכישה, תישלח קבלה ואישור הזמנה לכתובת הדוא״ל שהוזנה בקופה.",
   },
   {
     title: "3. משלוחים",
-    body: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.",
+    body: "אנו עושים את מירב המאמצים לארוז ולשלוח את התכשיטים במהירות האפשרית. זמני האספקה ומחירי המשלוח משתנים בהתאם לסוג המשלוח שנבחר בעת ביצוע ההזמנה (משלוח עד הבית או נקודת איסוף). עם יציאת המשלוח, יישלח אליך מספר מעקב.",
   },
   {
     title: "4. ביטולים והחזרות",
-    body: "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
+    body: "חשוב לנו שתהיי שלמה לחלוטין עם הבחירה שלך. ניתן לבטל עסקה ולהחזיר פריט תוך 14 ימים מיום קבלתו, בתנאי שהתכשיט הוחזר באריזתו המקורית, לא נעשה בו כל שימוש, ולא נגרם לו נזק או פגם. החזר כספי יבוצע לאמצעי התשלום ממנו בוצעה העסקה, בניכוי דמי ביטול כחוק.",
   },
   {
     title: "5. קניין רוחני",
