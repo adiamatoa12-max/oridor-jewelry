@@ -53,7 +53,10 @@ export default function VaultReward3D({
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    if (!show || !canvasRef.current) return;
+    if (!show) return;
+    // Fresh attempt on every unlock/open — a past transient failure
+    // (network blip, stale dev chunk) shouldn't hide the reward forever.
+    setFailed(false);
     let app: { dispose: () => void } | null = null;
     let cancelled = false;
 
