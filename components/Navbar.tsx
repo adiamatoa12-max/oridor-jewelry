@@ -8,9 +8,8 @@ import MobileMenu from "./MobileMenu";
 
 const LINKS = [
   { label: "הכל", href: "/shop" },
-  { label: "קולקציה חדשה", href: "/collection/new" },
   { label: "מואסניט", href: "/collection/moissanite" },
-  { label: "קולקציית כסף", href: "/collection/silver" },
+  { label: "כסף 925", href: "/collection/new" },
   { label: "טבעות", href: "/rings" },
 ];
 

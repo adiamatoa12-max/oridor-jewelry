@@ -8,9 +8,9 @@ import data from "@/data/new_arrivals.json";
 const products = data as NewArrival[];
 
 export const metadata: Metadata = {
-  title: "קולקציה חדשה",
+  title: "קולקציית כסף 925",
   description:
-    "הפריטים החדשים של Oridor — תכשיטי כסף 925 טהור, נצנוץ על-זמני. עגילים, שרשראות ועוד.",
+    "קולקציית הכסף 925 של Oridor — כסף סטרלינג טהור ומוצק (לא ציפוי). עגילים, שרשראות ועוד.",
 };
 
 export default function NewArrivalsPage() {
@@ -20,13 +20,13 @@ export default function NewArrivalsPage() {
       <Navbar />
 
       <section className="mx-auto max-w-3xl px-6 pt-20 text-center sm:px-10 lg:pt-28">
-        <p className="mb-4 text-xs tracking-[0.25em] text-gold">הגיעו עכשיו</p>
+        <p className="mb-4 text-xs tracking-[0.25em] text-gold">כסף 925 טהור</p>
         <h1 className="text-4xl font-light leading-relaxed tracking-wide text-charcoal">
-          קולקציה חדשה
+          קולקציית כסף 925
         </h1>
         <span className="mx-auto mt-8 block h-px w-16 bg-gold" />
         <p className="mx-auto mt-8 max-w-xl text-base font-light leading-relaxed text-graphite">
-          הפריטים החדשים ביותר שלנו — כסף 925 טהור בציפוי רודיום, בעיצוב נקי ועל-זמני.
+          כסף סטרלינג 925 טהור ומוצק (לא ציפוי), בעיצוב נקי ועל-זמני.
         </p>
       </section>
 

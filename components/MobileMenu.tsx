@@ -4,13 +4,10 @@ import Link from "next/link";
 import { X } from "lucide-react";
 
 const MAIN_LINKS = [
-  { label: "קולקציה חדשה", href: "/new-arrivals" },
+  { label: "הכל", href: "/shop" },
   { label: "מואסניט", href: "/collection/moissanite" },
-  { label: "שרשראות", href: "/necklaces" },
-  { label: "צמידים", href: "/bracelets" },
-  { label: "עגילים", href: "/earrings" },
+  { label: "כסף 925", href: "/collection/new" },
   { label: "טבעות", href: "/rings" },
-  { label: "כלות", href: "/bridal" },
 ];
 
 const UTILITY_LINKS = [
