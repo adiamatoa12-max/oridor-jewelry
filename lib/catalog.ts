@@ -1,6 +1,11 @@
 import moissanite from "@/data/moissanite_collection.json";
 import silver from "@/data/silver_collection.json";
 import signature from "@/data/signature_collection.json";
+import newArrivals from "@/data/new_arrivals.json";
+
+/** The two — and only two — main categories. */
+export const COLLECTION_MOISSANITE = "מואסניט";
+export const COLLECTION_SILVER = "כסף 925";
 
 export type CatalogCategory = "Necklaces" | "Bracelets" | "Earrings" | "Rings";
 
@@ -46,20 +51,32 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     price: p.price,
     image: encodeURI(p.image_url),
     href: `/collection/moissanite/${p.slug}`,
-    collection: "מואסניט",
+    collection: COLLECTION_MOISSANITE,
     category: asType(p.category),
     fit: "cover",
   }));
 
+  // All solid-silver sources collapse into the single "כסף 925" category.
   const silverItems: CatalogProduct[] = (silver as any[]).map((p) => ({
     id: `silv-${p.id}`,
     title: p.name,
     price: p.price,
     image: encodeURI(p.image_url),
     href: `/collection/silver/${p.slug}`,
-    collection: "קולקציית כסף",
+    collection: COLLECTION_SILVER,
     category: inferCategory(p.name),
     fit: "contain",
+  }));
+
+  const newArrivalItems: CatalogProduct[] = (newArrivals as any[]).map((p) => ({
+    id: `na-${p.id}`,
+    title: p.name,
+    price: p.price,
+    image: encodeURI(p.image_url),
+    href: `/collection/new/${p.slug}`,
+    collection: COLLECTION_SILVER,
+    category: inferCategory(p.name),
+    fit: "cover",
   }));
 
   const signatureItems: CatalogProduct[] = (signature as any[]).map((p) => ({
@@ -71,12 +88,17 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
       ? encodeURI(p.variants[1].image_url)
       : undefined,
     href: `/collection/signature/${p.slug}`,
-    collection: "קולקציית החתימה",
+    collection: COLLECTION_SILVER,
     category: asType(p.category) ?? inferCategory(p.name),
     fit: "contain",
   }));
 
-  return [...moissaniteItems, ...silverItems, ...signatureItems];
+  return [
+    ...moissaniteItems,
+    ...silverItems,
+    ...newArrivalItems,
+    ...signatureItems,
+  ];
 }
 
 /** Sticky filter chips — mixes collection and type axes; each chip filters one. */
@@ -87,9 +109,8 @@ export type Chip =
 
 export const SHOP_CHIPS: Chip[] = [
   { label: "הכל", kind: "all" },
-  { label: "מואסניט", kind: "collection", value: "מואסניט" },
-  { label: "קולקציית כסף", kind: "collection", value: "קולקציית כסף" },
-  { label: "קולקציית החתימה", kind: "collection", value: "קולקציית החתימה" },
+  { label: "מואסניט", kind: "collection", value: COLLECTION_MOISSANITE },
+  { label: "כסף 925", kind: "collection", value: COLLECTION_SILVER },
   { label: "שרשראות", kind: "category", value: "Necklaces" },
   { label: "טבעות", kind: "category", value: "Rings" },
   { label: "צמידים", kind: "category", value: "Bracelets" },
