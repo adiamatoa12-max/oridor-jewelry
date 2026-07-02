@@ -82,3 +82,17 @@ body.cursor-none * {
     display: none;
   }
 }
+
+/* Accessibility widget — global overrides toggled on <html>. */
+html.a11y-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+  outline: 1px dashed currentColor;
+  outline-offset: 2px;
+}
+html.a11y-readable,
+html.a11y-readable body {
+  font-family: Arial, "Assistant", system-ui, sans-serif !important;
+  letter-spacing: 0.01em !important;
+  line-height: 1.9 !important;
+}
