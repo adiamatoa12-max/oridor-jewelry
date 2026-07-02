@@ -41,35 +41,41 @@ export default function TermsPage() {
       <AnnouncementBar />
       <Navbar />
 
-      <section className="mx-auto max-w-3xl px-6 py-20 text-center sm:px-10 lg:py-28">
+      {/* Title — centered */}
+      <section className="mx-auto max-w-3xl px-6 pt-20 text-center sm:px-10 lg:pt-28">
         <p className="mb-4 text-xs tracking-[0.25em] text-gold">מדיניות ותנאים</p>
         <h1 className="text-4xl font-light leading-relaxed tracking-wide text-charcoal">
           תקנון האתר
         </h1>
-        <span className="mx-auto my-8 block h-px w-16 bg-gold" />
-        <p className="mx-auto max-w-xl text-sm font-light leading-relaxed text-graphite">
+        <span className="mx-auto mt-8 block h-px w-16 bg-gold" />
+      </section>
+
+      {/* Body — right-aligned, contained, dark and readable */}
+      <div
+        dir="rtl"
+        className="mx-auto max-w-3xl px-6 py-16 text-right sm:px-10 lg:py-20"
+      >
+        <p className="text-lg font-light leading-relaxed text-graphite">
           אנא קראי בעיון את תנאי השימוש באתר Oridor. השימוש באתר ובשירותיו מהווה
           הסכמה לתנאים המפורטים להלן.
         </p>
-      </section>
 
-      <section className="mx-auto max-w-3xl px-6 pb-24 sm:px-10">
-        <div className="space-y-10">
+        <div className="mt-12 space-y-10">
           {SECTIONS.map((s) => (
-            <div key={s.title}>
-              <h2 className="text-lg font-normal tracking-wide text-charcoal">
+            <section key={s.title}>
+              <h2 className="text-xl font-semibold tracking-wide text-charcoal">
                 {s.title}
               </h2>
-              <p className="mt-3 text-sm font-light leading-relaxed text-graphite">
+              <p className="mt-4 text-base leading-relaxed text-graphite">
                 {s.body}
               </p>
-            </div>
+            </section>
           ))}
-          <p className="border-t border-platinum/40 pt-8 text-xs font-light text-ash">
+          <p className="border-t border-platinum/40 pt-8 text-sm font-light text-ash">
             עודכן לאחרונה: יולי 2026
           </p>
         </div>
-      </section>
+      </div>
 
       <PremiumFooter />
     </main>
