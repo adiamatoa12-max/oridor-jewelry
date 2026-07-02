@@ -84,6 +84,10 @@ export default function CartDrawer() {
           </button>
         </div>
 
+        {/* Scrollable body — VIP reward on top, cart items right below.
+            Both live in one scroll region so the items are never squeezed
+            out of view by the tall reward block. */}
+        <div className="flex-1 overflow-y-auto">
         {/* VIP Vault — progress + gift selector */}
         {items.length > 0 && (
           <div className="border-b border-gray-200 bg-cream/60 px-6 py-4">
@@ -175,8 +179,8 @@ export default function CartDrawer() {
           </div>
         )}
 
-        {/* Items */}
-        <div className="flex-1 overflow-y-auto px-6">
+        {/* Items — always visible and editable below the reward */}
+        <div className="px-6">
           {items.length === 0 ? (
             <p className="py-16 text-center text-sm font-light leading-relaxed text-ash">
               הכספת שלך ריקה כרגע —<br />הוסיפי פריטים לאוסף שלך.
@@ -247,7 +251,9 @@ export default function CartDrawer() {
           )}
         </div>
 
-        {/* Footer: subtotal + checkout */}
+        </div>
+
+        {/* Footer: subtotal + checkout — pinned at the bottom */}
         <div className="border-t border-gray-200 px-6 py-6">
           <div className="flex items-center justify-between">
             <span className="text-sm tracking-wide text-graphite">סך הכל הביניים</span>
