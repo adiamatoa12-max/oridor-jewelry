@@ -98,16 +98,19 @@ export default function SignatureSets() {
             className="group block w-[85vw] flex-shrink-0 snap-center overflow-hidden rounded-sm bg-white text-start shadow-card transition-shadow duration-300 hover:shadow-cardHover sm:w-[45vw] md:w-[350px]"
             aria-label={`צפייה בפריטי ${set.title}`}
           >
-            {/* Clean image on top — a strict, uniform aspect ratio with
-                object-cover forces every set photo to identical dimensions, so
-                no card is smaller or cropped inconsistently. */}
+            {/* Clean image on top. Each set photo is a single pre-composed
+                collage (model + a column of detail shots) with its own aspect
+                ratio, so we `object-contain` it inside a strict, uniform
+                aspect-[4/5] frame: every card stays identical in size while the
+                whole collage — including the right-hand detail column — is fully
+                visible, never cropped off or bleeding past the card bounds. */}
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F5F5F0]">
               <Image
                 src={encodeURI(set.image)}
                 alt={set.title}
                 fill
                 sizes="(min-width: 768px) 350px, 85vw"
-                className="h-full w-full object-cover object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
+                className="h-full w-full object-contain object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
               />
             </div>
 
