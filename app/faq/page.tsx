@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 
 export const metadata: Metadata = {
-  title: "שאלות נפוצות — Oridor",
+  title: "שאלות נפוצות",
   description: "תשובות לשאלות הנפוצות ביותר על תכשיטי Oridor, המשלוחים, ההחזרות והטיפול בתכשיטים.",
 };
 

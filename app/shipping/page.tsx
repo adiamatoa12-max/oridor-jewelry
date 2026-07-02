@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 
 export const metadata: Metadata = {
-  title: "משלוחים והחזרות — Oridor",
+  title: "משלוחים והחזרות",
   description: "מדיניות המשלוחים של Oridor — משלוח מהיר עד הבית ואיסוף מנקודות, עם מעקב מלא.",
 };
 

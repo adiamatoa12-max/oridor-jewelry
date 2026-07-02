@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 
 export const metadata: Metadata = {
-  title: "תקנון האתר — Oridor",
+  title: "תקנון האתר",
   description: "תקנון האתר ותנאי השימוש של Oridor.",
 };
 

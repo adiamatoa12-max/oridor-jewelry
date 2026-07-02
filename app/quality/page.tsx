@@ -6,7 +6,7 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 
 export const metadata: Metadata = {
-  title: "איכות ואותנטיות — Oridor",
+  title: "איכות ואותנטיות",
   description:
     "מחויבות Oridor לאיכות: כסף סטרלינג 925 מלא, מואסניט בדרגת D / VVS1 / מושלם, ועבודת יד עמידה לכל החיים.",
 };

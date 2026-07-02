@@ -7,7 +7,7 @@ import { type MoissaniteProduct } from "@/components/MoissaniteGrid";
 import products from "@/data/moissanite_collection.json";
 
 export const metadata: Metadata = {
-  title: "קולקציית מואסניט — Oridor",
+  title: "קולקציית מואסניט",
   description:
     "קולקציית המואסניט של Oridor — אבני מואסניט נוצצות בכסף 925 מצופה רודיום. ברק נצחי, יוקרה יומיומית.",
 };

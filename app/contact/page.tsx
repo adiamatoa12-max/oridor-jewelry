@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 
 export const metadata: Metadata = {
-  title: "צור קשר — Oridor",
+  title: "צור קשר",
   description: "נשמח לעמוד לרשותך — צרי קשר עם צוות Oridor בכל שאלה או בקשה.",
 };
 

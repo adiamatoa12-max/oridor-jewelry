@@ -5,7 +5,7 @@ import ShopCatalog from "@/components/ShopCatalog";
 import { buildCatalog } from "@/lib/products";
 
 export const metadata: Metadata = {
-  title: "הקולקציה המלאה — Oridor",
+  title: "הקולקציה המלאה",
   description:
     "גלי את הבחירות המוקפדות שלנו של תכשיטי כסף וזירקון — שרשראות, צמידים, עגילים וטבעות.",
 };

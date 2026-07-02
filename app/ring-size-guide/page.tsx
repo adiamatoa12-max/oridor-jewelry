@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 
 export const metadata: Metadata = {
-  title: "מדריך מידות טבעת — Oridor",
+  title: "מדריך מידות טבעת",
   description:
     "מדריך פשוט למדידת היקף האצבע בבית ומציאת מידת הטבעת המדויקת שלך.",
 };

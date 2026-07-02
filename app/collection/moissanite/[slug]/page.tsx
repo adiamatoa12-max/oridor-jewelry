@@ -11,6 +11,7 @@ import data from "@/data/moissanite_collection.json";
 
 const products = data as MoissaniteProduct[];
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
 
 const FAQS = [
   {
@@ -37,9 +38,9 @@ export function generateMetadata({
   params: { slug: string };
 }): Metadata {
   const product = products.find((p) => p.slug === params.slug);
-  if (!product) return { title: "מוצר לא נמצא — Oridor" };
+  if (!product) return { title: "מוצר לא נמצא" };
   return {
-    title: `${product.name} — Oridor`,
+    title: product.name,
     description: `${product.name} · ${product.carat} קראט · ${product.material}.`,
   };
 }
@@ -52,8 +53,30 @@ export default function MoissaniteProductPage({
   const product = products.find((p) => p.slug === params.slug);
   if (!product) notFound();
 
+  // Product structured data (Schema.org) for rich search results.
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    image: `${SITE_URL}${encodeURI(product.image_url)}`,
+    description: `${product.name} · ${product.carat} קראט · ${product.material}`,
+    material: product.material,
+    brand: { "@type": "Brand", name: "Oridor" },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "ILS",
+      price: product.price,
+      availability: "https://schema.org/InStock",
+      url: `${SITE_URL}/collection/moissanite/${product.slug}`,
+    },
+  };
+
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
       <AnnouncementBar />
       <Navbar />
 
