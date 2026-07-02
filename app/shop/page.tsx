@@ -2,16 +2,12 @@ import type { Metadata } from "next";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import ShopCatalog from "@/components/ShopCatalog";
-import { buildCatalog } from "@/lib/products";
 
 export const metadata: Metadata = {
   title: "הקולקציה המלאה",
   description:
-    "גלי את הבחירות המוקפדות שלנו של תכשיטי כסף וזירקון — שרשראות, צמידים, עגילים וטבעות.",
+    "כל הקולקציות שלנו במקום אחד — מואסניט, קולקציית כסף וקולקציית החתימה. סינון מהיר לפי קטגוריה.",
 };
-
-// Full catalog — 28 real products mapped to local photos.
-const PRODUCTS = buildCatalog();
 
 export default function ShopPage() {
   return (
@@ -19,17 +15,17 @@ export default function ShopPage() {
       <AnnouncementBar />
       <Navbar />
 
-      <section className="mx-auto max-w-7xl px-6 py-20 sm:px-10 lg:px-16 lg:py-28">
-        <header className="mb-12 text-center">
+      <section className="mx-auto max-w-7xl px-6 pb-24 pt-16 sm:px-10 lg:px-16">
+        <header className="mb-8 text-center">
           <h1 className="text-4xl font-light tracking-wide text-charcoal">
             הקולקציה המלאה
           </h1>
           <p className="mt-4 text-sm font-light text-graphite">
-            גלי את הבחירות המוקפדות שלנו של תכשיטי כסף וזירקון.
+            כל הקולקציות שלנו במקום אחד — בחרי קטגוריה וגלי.
           </p>
         </header>
 
-        <ShopCatalog products={PRODUCTS} />
+        <ShopCatalog />
       </section>
     </main>
   );

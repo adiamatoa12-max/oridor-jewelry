@@ -1,100 +1,64 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { ChevronDown } from "lucide-react";
 import ProductCard from "./ProductCard";
-import { CATEGORIES, CATEGORY_LABELS, type Category, type Product } from "@/lib/products";
+import {
+  buildUnifiedCatalog,
+  SHOP_CHIPS,
+  type Chip,
+  type CatalogProduct,
+} from "@/lib/catalog";
 
-type CategoryFilter = "All" | Category;
-type Sort = "featured" | "price-asc" | "price-desc";
-
-const SORTS: { value: Sort; label: string }[] = [
-  { value: "featured", label: "מומלצים" },
-  { value: "price-asc", label: "מחיר: נמוך לגבוה" },
-  { value: "price-desc", label: "מחיר: גבוה לנמוך" },
-];
-
-/** Minimal, elegant select with a charcoal label and chevron. */
-function Select<T extends string>({
-  label,
-  value,
-  options,
-  onChange,
-}: {
-  label: string;
-  value: T;
-  options: { value: T; label: string }[];
-  onChange: (value: T) => void;
-}) {
-  return (
-    <label className="flex items-center gap-3">
-      <span className="text-xs uppercase tracking-wide text-ash">{label}</span>
-      <div className="relative">
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value as T)}
-          className="appearance-none border-b border-platinum bg-transparent py-1.5 pe-6 text-xs tracking-wide text-charcoal focus:border-silver focus:outline-none"
-        >
-          {options.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
-        <ChevronDown
-          size={14}
-          strokeWidth={1.5}
-          className="pointer-events-none absolute end-0 top-1/2 -translate-y-1/2 text-graphite"
-        />
-      </div>
-    </label>
-  );
+function matches(p: CatalogProduct, chip: Chip): boolean {
+  if (chip.kind === "all") return true;
+  if (chip.kind === "collection") return p.collection === chip.value;
+  return p.category === chip.value;
 }
 
-export default function ShopCatalog({ products }: { products: Product[] }) {
-  const [category, setCategory] = useState<CategoryFilter>("All");
-  const [sort, setSort] = useState<Sort>("featured");
+export default function ShopCatalog() {
+  const products = useMemo(() => buildUnifiedCatalog(), []);
+  const [activeChip, setActiveChip] = useState(0);
 
-  const categoryOptions = useMemo(
-    () => [
-      { value: "All" as CategoryFilter, label: "הכל" },
-      ...CATEGORIES.map((c) => ({ value: c as CategoryFilter, label: CATEGORY_LABELS[c] })),
-    ],
-    [],
+  const visible = useMemo(
+    () => products.filter((p) => matches(p, SHOP_CHIPS[activeChip])),
+    [products, activeChip],
   );
-
-  const visible = useMemo(() => {
-    const filtered =
-      category === "All"
-        ? products
-        : products.filter((p) => p.category === category);
-
-    if (sort === "price-asc") return [...filtered].sort((a, b) => a.price - b.price);
-    if (sort === "price-desc") return [...filtered].sort((a, b) => b.price - a.price);
-    return filtered; // featured = original order
-  }, [products, category, sort]);
 
   return (
     <div>
-      {/* Filter & sort bar */}
-      <div className="mb-14 flex flex-col items-center justify-between gap-6 border-y border-platinum/50 py-5 sm:flex-row">
-        <Select
-          label="סנן לפי"
-          value={category}
-          options={categoryOptions}
-          onChange={setCategory}
-        />
-        <Select label="מיין לפי" value={sort} options={SORTS} onChange={setSort} />
+      {/* Sticky horizontal category filter — sits just below the navbar */}
+      <div className="sticky top-20 z-30 -mx-6 mb-12 border-b border-platinum/40 bg-canvas/85 px-6 py-3 backdrop-blur-md sm:-mx-10 sm:px-10 lg:-mx-16 lg:px-16">
+        <div className="hide-scrollbar -mb-1 flex gap-2.5 overflow-x-auto pb-1">
+          {SHOP_CHIPS.map((chip, i) => {
+            const on = i === activeChip;
+            return (
+              <button
+                key={chip.label}
+                type="button"
+                onClick={() => setActiveChip(i)}
+                aria-pressed={on}
+                className={`flex-none whitespace-nowrap rounded-full border px-5 py-2 text-xs tracking-wide transition-all duration-300 ease-cinematic ${
+                  on
+                    ? "border-charcoal bg-charcoal text-canvas"
+                    : "border-platinum/70 bg-canvas text-graphite hover:border-charcoal/50 hover:text-charcoal"
+                }`}
+              >
+                {chip.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Product grid */}
-      <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-16">
+      {/* Product grid — 2 on mobile, 4 on desktop, generous breathing room */}
+      <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-8">
         {visible.map((p) => (
           <ProductCard
             key={p.id}
             image={p.image}
             secondaryImage={p.secondaryImage}
-            tag={p.tag}
+            href={p.href}
+            fit={p.fit}
             title={p.title}
             price={p.price}
             priceLabel={`₪${p.price.toLocaleString("he-IL")}`}

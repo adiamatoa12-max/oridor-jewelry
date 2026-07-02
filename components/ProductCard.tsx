@@ -18,6 +18,8 @@ export interface ProductCardProps {
   priceLabel?: string;
   href?: string;
   currency?: string;
+  /** Product-on-white shots look best "contain"; lifestyle crops use "cover". */
+  fit?: "cover" | "contain";
 }
 
 /**
@@ -38,8 +40,10 @@ export default function ProductCard({
   priceLabel,
   href = "#",
   currency = "USD",
+  fit = "cover",
 }: ProductCardProps) {
   const { openCart } = useCart();
+  const fitClass = fit === "contain" ? "object-contain p-4" : "object-cover";
 
   const formattedPrice =
     priceLabel ??
@@ -66,19 +70,19 @@ export default function ProductCard({
           alt={`${title} — תכשיט כסף מבית Oridor`}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className={`object-cover object-center transition-all duration-700 ease-in-out group-hover:scale-105 ${
+          className={`${fitClass} object-center transition-all duration-700 ease-in-out group-hover:scale-105 ${
             secondaryImage ? "group-hover:opacity-0" : ""
           }`}
         />
 
-        {/* Lifestyle image — cross-fades in on hover */}
+        {/* Second image — cross-fades in on hover */}
         {secondaryImage && (
           <Image
             src={secondaryImage}
-            alt={`${title} בסגנון לייפסטייל`}
+            alt={`${title} — גוון נוסף`}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover object-center opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+            className={`${fitClass} object-center opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100`}
           />
         )}
 
