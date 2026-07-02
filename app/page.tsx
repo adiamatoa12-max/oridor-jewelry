@@ -6,7 +6,6 @@ import OridorQuality from "@/components/OridorQuality";
 import InstagramFeed from "@/components/InstagramFeed";
 import PremiumFooter from "@/components/PremiumFooter";
 import Hero from "@/components/Hero";
-import TrustStrip from "@/components/TrustStrip";
 import EditorialFeature from "@/components/EditorialFeature";
 import SignatureSets from "@/components/SignatureSets";
 import MoissanitePreview from "@/components/MoissanitePreview";
@@ -21,8 +20,6 @@ export default function Home() {
 
       {/* Single dynamic video hero */}
       <Hero />
-      {/* Trust signals strip */}
-      <TrustStrip />
 
       {/* Collections gallery — category navigation */}
       <Reveal><InstagramFeed /></Reveal>
