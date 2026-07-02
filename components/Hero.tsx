@@ -33,20 +33,20 @@ export default function Hero() {
 
       {/* Content — anchored to the bottom, staggered cinematic fade-up */}
       <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-12 text-center md:pb-16">
-        <p className="mb-3 animate-fade-up text-xs tracking-brand text-white/80 [animation-delay:100ms]">
+        <p className="mb-3 animate-fade-up text-xs tracking-brand text-white/90 [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.55))] [animation-delay:100ms]">
           קולקציה חדשה
         </p>
-        <h1 className="mx-auto max-w-3xl animate-fade-up text-2xl font-light leading-relaxed tracking-wide text-white [animation-delay:250ms] sm:text-3xl md:text-4xl">
+        <h1 className="mx-auto max-w-3xl animate-fade-up text-2xl font-semibold leading-relaxed tracking-wide text-white [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.55))] [animation-delay:250ms] sm:text-3xl md:text-4xl">
           <span className="inline-block animate-soft-float motion-reduce:animate-none">
             אלגנטיות, מוגדרת מחדש.
           </span>
         </h1>
-        <p className="mx-auto mt-4 max-w-md animate-fade-up text-sm font-light leading-relaxed text-white/85 [animation-delay:450ms]">
+        <p className="mx-auto mt-4 max-w-md animate-fade-up text-base font-light leading-relaxed text-white [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.55))] [animation-delay:450ms] sm:text-lg">
           גלי את קולקציית ההשקה של Oridor. פריטים על-זמניים לאסתטיקה המודרנית.
         </p>
         <Link
           href="/necklaces"
-          className="mx-auto mt-6 inline-flex min-h-[44px] animate-fade-up items-center justify-center border border-white/80 bg-transparent px-10 py-2.5 text-[11px] uppercase tracking-[0.25em] text-white transition-all duration-500 ease-cinematic [animation-delay:650ms] hover:border-gold hover:text-gold"
+          className="mx-auto mt-7 inline-flex min-h-[48px] animate-fade-up items-center justify-center bg-black px-14 py-3 text-xs font-bold uppercase tracking-[0.25em] text-white shadow-lg transition-all duration-500 ease-cinematic [animation-delay:650ms] hover:bg-neutral-800"
         >
           לרכישת הקולקציה
         </Link>
