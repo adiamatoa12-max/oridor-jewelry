@@ -86,25 +86,28 @@ export default function SignatureSets() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-8 lg:gap-10">
+      {/* Swipeable horizontal carousel — scroll-snaps each card into view.
+          Scrollbar hidden for a clean look; negative margins let cards bleed to
+          the section edge on mobile so a peek of the next card invites swiping. */}
+      <div className="hide-scrollbar -mx-6 flex snap-x snap-mandatory flex-nowrap gap-6 overflow-x-auto px-6 pb-2 sm:-mx-10 sm:px-10 sm:gap-8 lg:-mx-16 lg:px-16 lg:gap-10">
         {SETS.map((set) => (
           <button
             key={set.id}
             type="button"
             onClick={() => setActive(set)}
-            className="group block overflow-hidden rounded-sm bg-white text-start shadow-card transition-shadow duration-300 group-hover:shadow-cardHover"
+            className="group block w-[85vw] flex-shrink-0 snap-center overflow-hidden rounded-sm bg-white text-start shadow-card transition-shadow duration-300 hover:shadow-cardHover sm:w-[45vw] md:w-[350px]"
             aria-label={`צפייה בפריטי ${set.title}`}
           >
-            {/* Clean image on top. The set photos are collages with side detail,
-                so object-contain on a matching ground shows them in full — no
-                aggressive side-cropping — while keeping the row symmetrical. */}
-            <div className="relative aspect-square w-full overflow-hidden bg-[#F5F5F0]">
+            {/* Clean image on top — a strict, uniform aspect ratio with
+                object-cover forces every set photo to identical dimensions, so
+                no card is smaller or cropped inconsistently. */}
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F5F5F0]">
               <Image
                 src={encodeURI(set.image)}
                 alt={set.title}
                 fill
-                sizes="(min-width: 640px) 33vw, 100vw"
-                className="h-full w-full object-contain object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
+                sizes="(min-width: 768px) 350px, 85vw"
+                className="h-full w-full object-cover object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
               />
             </div>
 
