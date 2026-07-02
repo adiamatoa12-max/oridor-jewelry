@@ -5,7 +5,6 @@ import CustomerReviews from "@/components/CustomerReviews";
 import OridorQuality from "@/components/OridorQuality";
 import InstagramFeed from "@/components/InstagramFeed";
 import PremiumFooter from "@/components/PremiumFooter";
-import Hero from "@/components/Hero";
 import NewCollectionBanner from "@/components/NewCollectionBanner";
 import TrustStrip from "@/components/TrustStrip";
 import EditorialFeature from "@/components/EditorialFeature";
@@ -19,10 +18,9 @@ export default function Home() {
     <main>
       <AnnouncementBar />
       <Navbar />
-      <Hero />
 
-      {/* Editorial banner for the new 925-silver collection */}
-      <Reveal><NewCollectionBanner /></Reveal>
+      {/* Single editorial hero for the new 925-silver collection */}
+      <NewCollectionBanner />
       {/* Trust signals strip */}
       <TrustStrip />
 
