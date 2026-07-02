@@ -34,8 +34,11 @@ export default function InstagramFeed() {
         </p>
       </div>
 
-      {/* Gapless category grid — 5 across on desktop */}
-      <div className="grid grid-cols-2 gap-0 sm:grid-cols-3 md:grid-cols-5">
+      {/* Editorial category grid — 5 across on desktop. A thin hairline shows
+          between tiles via a neutral background bleeding through 1px gaps: this
+          gives a sharp, continuous grid line both horizontally and vertically at
+          every breakpoint (more robust than divide-x on a wrapping grid). */}
+      <div className="grid grid-cols-2 gap-px overflow-hidden bg-neutral-300 sm:grid-cols-3 md:grid-cols-5">
         {CATEGORIES.map((cat, i) => (
           <Link
             key={cat.href}
