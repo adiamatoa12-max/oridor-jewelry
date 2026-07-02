@@ -6,7 +6,8 @@ import OridorQuality from "@/components/OridorQuality";
 import InstagramFeed from "@/components/InstagramFeed";
 import PremiumFooter from "@/components/PremiumFooter";
 import Hero from "@/components/Hero";
-import Marquee from "@/components/Marquee";
+import NewCollectionBanner from "@/components/NewCollectionBanner";
+import TrustStrip from "@/components/TrustStrip";
 import EditorialFeature from "@/components/EditorialFeature";
 import SignatureSets from "@/components/SignatureSets";
 import MoissanitePreview from "@/components/MoissanitePreview";
@@ -19,9 +20,13 @@ export default function Home() {
       <AnnouncementBar />
       <Navbar />
       <Hero />
-      <Marquee />
 
-      {/* Collections gallery — category navigation, immediately below the hero */}
+      {/* Editorial banner for the new 925-silver collection */}
+      <Reveal><NewCollectionBanner /></Reveal>
+      {/* Trust signals strip */}
+      <TrustStrip />
+
+      {/* Collections gallery — category navigation */}
       <Reveal><InstagramFeed /></Reveal>
 
       {/* ── The two distinct product collections ─────────────────────── */}
