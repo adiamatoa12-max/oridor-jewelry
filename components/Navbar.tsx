@@ -9,7 +9,7 @@ import MobileMenu from "./MobileMenu";
 const LINKS = [
   { label: "מואסניט", href: "/collection/moissanite" },
   { label: "קולקציית כסף", href: "/collection/silver" },
-  { label: "שרשראות", href: "/necklaces" },
+  { label: "קולקציית החתימה", href: "/collection/signature" },
   { label: "צמידים", href: "/bracelets" },
   { label: "טבעות", href: "/rings" },
 ];
