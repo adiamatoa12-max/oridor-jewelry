@@ -26,5 +26,7 @@
   { "id": "matan-25", "name": "עגילי סוליטר", "price": 350, "carat": 1.0, "category": "Earrings", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 25.jpeg", "slug": "matan-25" },
   { "id": "matan-26", "name": "עגילי הילה", "price": 390, "carat": 1.5, "category": "Earrings", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 26.jpeg", "slug": "matan-26" },
   { "id": "matan-27", "name": "עגילי טיפה", "price": 370, "carat": 1.25, "category": "Earrings", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 27.jpeg", "slug": "matan-27" },
-  { "id": "matan-28", "name": "עגילי סוליטר עגול", "price": 400, "carat": 2.0, "category": "Earrings", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 28.jpeg", "slug": "matan-28" }
+  { "id": "matan-28", "name": "עגילי סוליטר עגול", "price": 400, "carat": 2.0, "category": "Earrings", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 28.jpeg", "slug": "matan-28" },
+  { "id": "bracelet-1", "name": "צמיד טניס אבני חן שחורות · כסף 925 טהור", "price": 460, "carat": 3.0, "category": "Bracelets", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/bracelet-1.jpeg", "slug": "bracelet-1" },
+  { "id": "bracelet-2", "name": "צמיד טניס קלאסי · כסף 925 טהור", "price": 490, "carat": 3.0, "category": "Bracelets", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/bracelet-2.jpeg", "slug": "bracelet-2" }
 ]
