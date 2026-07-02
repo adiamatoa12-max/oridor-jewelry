@@ -11,28 +11,20 @@ export const metadata: Metadata = {
 
 const FAQS = [
   {
-    q: "מהו מואסניט וכיצד הוא שונה מיהלום?",
-    a: "מואסניט היא אבן חן יוקרתית בעלת ברק ואש יוצאי דופן. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    q: "ממה עשויים התכשיטים של ORIDOR?",
+    a: "כל התכשיטים שלנו מיוצרים מכסף 925 טהור ואיכותי בציפוי רודיום יוקרתי, המעניק להם ברק יוצא דופן ומגן עליהם מפני השחרה לאורך זמן. שיבוצי האבנים נעשים באבני מואסנייט מובחרות בדרגת ניקיון VVS1 וצבע D, המציעות נצנוץ מושלם שלא נופל מיהלום.",
   },
   {
-    q: "האם התכשיטים עשויים כסף אמיתי?",
-    a: "כל פריט נוצר מכסף סטרלינג 925 טהור בציפוי רודיום. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+    q: "האם יש אחריות על התכשיטים?",
+    a: "בהחלט. אנו עומדים מאחורי איכות הייצור שלנו וכל תכשיט מגיע עם אחריות מלאה. האחריות מכסה פגמים בייצור ושיבוץ האבנים, כדי שתוכלי לענוד את התכשיט שלך בראש שקט לחלוטין.",
   },
   {
-    q: "כמה זמן לוקח המשלוח?",
-    a: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+    q: "כיצד ניתן לדעת מה מידת הטבעת המתאימה לי?",
+    a: "כדי למצוא את המידה המדויקת עבורך, אנו ממליצים להשתמש באפליקציות ייעודיות למדידת טבעות (כמו Ring Sizer) או פשוט למדוד קוטר פנימי של טבעת קיימת שיש ברשותך במילימטרים. אם את עדיין לא בטוחה, שירות הלקוחות שלנו ישמח לסייע לך.",
   },
   {
-    q: "מהי מדיניות ההחזרות שלכם?",
-    a: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua quis nostrud.",
-  },
-  {
-    q: "כיצד עליי לטפל בתכשיטים שלי?",
-    a: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor.",
-  },
-  {
-    q: "האם ניתן להזמין פריט בהתאמה אישית?",
-    a: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    q: "תוך כמה זמן מגיע המשלוח?",
+    a: "אנו דואגים לארוז ולהוציא כל הזמנה במהירות המרבית. משלוחים עם שליח עד הבית מגיעים בדרך כלל תוך ימי עסקים ספורים לכל חלקי הארץ, וכל משלוח מלווה במספר מעקב שישלח אלייך ישירות למייל.",
   },
 ];
 
