@@ -36,7 +36,7 @@ export default function Navbar() {
             href="/"
             className="select-none text-2xl font-light uppercase tracking-brand text-charcoal lg:text-3xl"
           >
-            AMATO
+            ORIDOR
           </Link>
           <button
             type="button"
