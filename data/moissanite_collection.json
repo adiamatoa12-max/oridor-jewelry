@@ -12,8 +12,6 @@
   { "id": "matan-11", "name": "טבעת הילה עגולה", "price": 490, "carat": 1.75, "category": "Rings", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 11.jpeg", "slug": "matan-11" },
   { "id": "matan-12", "name": "טבעת חצי נצח", "price": 540, "carat": 2.0, "category": "Rings", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 12.jpeg", "slug": "matan-12" },
   { "id": "matan-13", "name": "טבעת טיפה סוליטר", "price": 470, "carat": 1.5, "category": "Rings", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 13.jpeg", "slug": "matan-13" },
-  { "id": "matan-14", "name": "צמיד טניס יהלומים", "price": 450, "carat": 3.0, "category": "Bracelets", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 14.jpeg", "slug": "matan-14" },
-  { "id": "matan-15", "name": "צמיד טניס שחור", "price": 470, "carat": 3.0, "category": "Bracelets", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 15.jpeg", "slug": "matan-15" },
   { "id": "matan-16", "name": "שרשרת טניס יהלומים", "price": 690, "carat": 3.0, "category": "Necklaces", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 16.jpeg", "slug": "matan-16" },
   { "id": "matan-17", "name": "שרשרת טניס שחורה", "price": 690, "carat": 3.0, "category": "Necklaces", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 17.jpeg", "slug": "matan-17" },
   { "id": "matan-18", "name": "שרשרת תליון סוליטר", "price": 350, "carat": 0.9, "category": "Necklaces", "material": "כסף 925 טהור בציפוי רודיום", "image_url": "/photo/מתן 18.jpeg", "slug": "matan-18" },
