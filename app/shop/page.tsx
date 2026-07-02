@@ -15,12 +15,12 @@ export default function ShopPage() {
       <AnnouncementBar />
       <Navbar />
 
-      <section className="mx-auto max-w-7xl px-6 pb-24 pt-16 sm:px-10 lg:px-16">
+      <section className="mx-auto max-w-7xl px-4 pb-24 pt-12 sm:px-10 sm:pt-16 lg:px-16">
         <header className="mb-8 text-center">
-          <h1 className="text-4xl font-light tracking-wide text-charcoal">
+          <h1 className="text-2xl font-light tracking-wide text-charcoal sm:text-3xl lg:text-4xl">
             הקולקציה המלאה
           </h1>
-          <p className="mt-4 text-sm font-light text-graphite">
+          <p className="mt-3 text-sm font-light text-graphite sm:mt-4">
             כל הקולקציות שלנו במקום אחד — בחרי קטגוריה וגלי.
           </p>
         </header>

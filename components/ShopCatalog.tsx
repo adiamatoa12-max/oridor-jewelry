@@ -27,7 +27,7 @@ export default function ShopCatalog() {
   return (
     <div>
       {/* Sticky horizontal category filter — sits just below the navbar */}
-      <div className="sticky top-20 z-30 -mx-6 mb-12 border-b border-platinum/40 bg-canvas/85 px-6 py-3 backdrop-blur-md sm:-mx-10 sm:px-10 lg:-mx-16 lg:px-16">
+      <div className="sticky top-20 z-30 -mx-4 mb-12 border-b border-platinum/40 bg-canvas/85 px-4 py-3 backdrop-blur-md sm:-mx-10 sm:px-10 lg:-mx-16 lg:px-16">
         <div className="hide-scrollbar -mb-1 flex gap-2.5 overflow-x-auto pb-1">
           {SHOP_CHIPS.map((chip, i) => {
             const on = i === activeChip;
@@ -37,7 +37,7 @@ export default function ShopCatalog() {
                 type="button"
                 onClick={() => setActiveChip(i)}
                 aria-pressed={on}
-                className={`flex-none whitespace-nowrap rounded-full border px-5 py-2 text-xs tracking-wide transition-all duration-300 ease-cinematic ${
+                className={`inline-flex min-h-[44px] flex-none items-center whitespace-nowrap rounded-full border px-5 text-xs tracking-wide transition-all duration-300 ease-cinematic ${
                   on
                     ? "border-charcoal bg-charcoal text-canvas"
                     : "border-platinum/70 bg-canvas text-graphite hover:border-charcoal/50 hover:text-charcoal"
@@ -50,8 +50,9 @@ export default function ShopCatalog() {
         </div>
       </div>
 
-      {/* Product grid — 2 on mobile, 4 on desktop, generous breathing room */}
-      <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-8">
+      {/* Product grid — strictly 2 on mobile (tight gap → larger images),
+          scaling smoothly to 4 on desktop. */}
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-12">
         {visible.map((p) => (
           <ProductCard
             key={p.id}

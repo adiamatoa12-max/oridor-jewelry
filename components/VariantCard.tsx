@@ -54,11 +54,11 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
       </Link>
 
       <div className="px-1 py-4 text-center">
-        <h3 className="text-sm font-normal tracking-wide text-charcoal">{product.name}</h3>
-        <p className="mt-1 text-sm font-light text-graphite">{formatPrice(product.price)}</p>
+        <h3 className="text-[13px] font-normal leading-snug tracking-wide text-charcoal sm:text-sm md:text-base">{product.name}</h3>
+        <p className="mt-1 text-[13px] font-light text-graphite sm:text-sm md:text-base">{formatPrice(product.price)}</p>
 
-        {/* Color swatches */}
-        <div className="mt-3 flex items-center justify-center gap-2">
+        {/* Color swatches — 20px dots inside a 44px tap target for touch */}
+        <div className="mt-1 flex items-center justify-center gap-1">
           {product.variants.map((v, i) => {
             const on = i === active;
             return (
@@ -69,13 +69,17 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
                 aria-label={`צבע ${v.color}`}
                 aria-pressed={on}
                 title={v.color}
-                className={`h-5 w-5 rounded-full border transition-all duration-200 ${
-                  on
-                    ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-1"
-                    : "border-platinum/70 hover:scale-105"
-                }`}
-                style={{ backgroundColor: v.hex }}
-              />
+                className="inline-flex h-11 w-11 items-center justify-center"
+              >
+                <span
+                  className={`h-5 w-5 rounded-full border transition-all duration-200 ${
+                    on
+                      ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-1"
+                      : "border-platinum/70"
+                  }`}
+                  style={{ backgroundColor: v.hex }}
+                />
+              </button>
             );
           })}
         </div>

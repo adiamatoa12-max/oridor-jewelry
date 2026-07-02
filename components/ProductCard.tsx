@@ -91,11 +91,13 @@ export default function ProductCard({
         </div>
       </div>
 
-      <div className="mt-6 text-center">
-        <h3 className="text-sm font-normal tracking-wide text-charcoal">
+      <div className="mt-4 text-center sm:mt-6">
+        <h3 className="text-[13px] font-normal leading-snug tracking-wide text-charcoal sm:text-sm md:text-base">
           {title}
         </h3>
-        <p className="mt-1.5 text-sm font-light text-graphite">{formattedPrice}</p>
+        <p className="mt-1.5 text-[13px] font-light text-graphite sm:text-sm md:text-base">
+          {formattedPrice}
+        </p>
 
         {/* Quick Add — always visible beneath price on mobile */}
         <button

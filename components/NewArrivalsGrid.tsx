@@ -32,7 +32,7 @@ export default function NewArrivalsGrid({ products }: { products: NewArrival[] }
   };
 
   return (
-    <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 lg:gap-8">
+    <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
       {products.map((p) => (
         <Link key={p.id} href={`/collection/new/${p.slug}`} className="group block">
           <div className="relative aspect-square w-full overflow-hidden rounded-md bg-[#F8F8F8] ring-1 ring-platinum/40 transition-all duration-500 ease-cinematic group-hover:-translate-y-1 group-hover:shadow-cardHover">
@@ -60,8 +60,12 @@ export default function NewArrivalsGrid({ products }: { products: NewArrival[] }
           </div>
 
           <div className="px-1 py-4 text-center">
-            <h3 className="text-sm font-normal tracking-wide text-charcoal">{p.name}</h3>
-            <p className="mt-1 text-sm font-light text-graphite">{formatPrice(p.price)}</p>
+            <h3 className="text-[13px] font-normal leading-snug tracking-wide text-charcoal sm:text-sm md:text-base">
+              {p.name}
+            </h3>
+            <p className="mt-1 text-[13px] font-light text-graphite sm:text-sm md:text-base">
+              {formatPrice(p.price)}
+            </p>
           </div>
         </Link>
       ))}

@@ -217,7 +217,7 @@ export default function CartDrawer() {
                           type="button"
                           aria-label="הפחתת כמות"
                           onClick={() => updateQuantity(item.id, -1)}
-                          className="inline-flex h-9 w-9 items-center justify-center text-charcoal transition-colors hover:bg-gray-50 disabled:opacity-30"
+                          className="inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:bg-gray-50 disabled:opacity-30"
                           disabled={item.quantity <= 1}
                         >
                           <Minus size={14} strokeWidth={1.5} />
@@ -229,7 +229,7 @@ export default function CartDrawer() {
                           type="button"
                           aria-label="הוספת כמות"
                           onClick={() => updateQuantity(item.id, 1)}
-                          className="inline-flex h-9 w-9 items-center justify-center text-charcoal transition-colors hover:bg-gray-50"
+                          className="inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:bg-gray-50"
                         >
                           <Plus size={14} strokeWidth={1.5} />
                         </button>
@@ -239,7 +239,7 @@ export default function CartDrawer() {
                       <button
                         type="button"
                         onClick={() => removeItem(item.id)}
-                        className="text-xs text-gray-400 underline underline-offset-2 transition-colors hover:text-gray-600"
+                        className="inline-flex min-h-[44px] items-center px-1 text-xs text-gray-400 underline underline-offset-2 transition-colors hover:text-gray-600"
                       >
                         הסר
                       </button>

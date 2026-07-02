@@ -42,7 +42,7 @@ export default function PremiumFooter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="אינסטגרם"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-platinum/70 text-neutral-500 transition-colors duration-300 hover:border-black hover:text-black"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-platinum/70 text-neutral-500 transition-colors duration-300 hover:border-black hover:text-black"
             >
               <Instagram size={16} strokeWidth={1.5} />
             </a>
@@ -51,7 +51,7 @@ export default function PremiumFooter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="טיקטוק"
-              className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-platinum/70 text-neutral-500 transition-colors duration-300 hover:border-black hover:text-black"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-platinum/70 text-neutral-500 transition-colors duration-300 hover:border-black hover:text-black"
             >
               <TikTokIcon />
             </a>
@@ -86,7 +86,7 @@ export default function PremiumFooter() {
             <button
               type="submit"
               aria-label="הרשמה לניוזלטר"
-              className="shrink-0 text-neutral-500 transition-colors duration-300 hover:text-black"
+              className="-me-2 inline-flex h-11 w-11 shrink-0 items-center justify-center text-neutral-500 transition-colors duration-300 hover:text-black"
             >
               <ArrowLeft size={18} strokeWidth={1.5} />
             </button>
@@ -119,12 +119,12 @@ function FooterColumn({
       <h3 className="text-[13px] font-semibold uppercase tracking-[0.12em] text-charcoal">
         {title}
       </h3>
-      <ul className="mt-5 space-y-3">
+      <ul className="mt-4 space-y-1">
         {links.map((link) => (
           <li key={link.href}>
             <Link
               href={link.href}
-              className="text-sm font-light text-neutral-500 transition-colors duration-300 hover:text-black"
+              className="inline-flex min-h-[44px] items-center text-sm font-light text-neutral-500 transition-colors duration-300 hover:text-black"
             >
               {link.label}
             </Link>

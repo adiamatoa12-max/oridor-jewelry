@@ -22,10 +22,19 @@
     font-size: 106.25%; /* 17px base */
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
+    /* RTL-safe horizontal-overflow guard. `clip` is preferred over `hidden`
+       because it does NOT create a scroll container — so the sticky navbar
+       keeps working. `hidden` is the fallback for older Safari. */
+    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   body {
     @apply text-charcoal font-sans antialiased;
+    /* Never let a stray wide element push the page past the viewport in RTL. */
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-x: clip;
     /* Generous line-height for readability. */
     line-height: 1.65;
     /* Warm boutique base — subtle beige → cream gradient, fixed so it spans

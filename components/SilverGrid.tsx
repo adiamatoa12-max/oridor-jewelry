@@ -64,9 +64,9 @@ export default function SilverGrid({ products }: { products: SilverProduct[] }) 
           </div>
 
           <div className="px-4 py-5 text-center">
-            <h3 className="text-sm font-normal tracking-wide text-charcoal">{p.name}</h3>
+            <h3 className="text-[13px] font-normal leading-snug tracking-wide text-charcoal sm:text-sm md:text-base">{p.name}</h3>
             <p className="mt-1 text-xs font-light text-ash">{p.material}</p>
-            <p className="mt-2 text-sm font-light text-graphite">{formatPrice(p.price)}</p>
+            <p className="mt-2 text-[13px] font-light text-graphite sm:text-sm md:text-base">{formatPrice(p.price)}</p>
           </div>
         </Link>
       ))}
