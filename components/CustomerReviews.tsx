@@ -72,12 +72,13 @@ export default function CustomerReviews() {
         </p>
       </div>
 
-      {/* Review cards */}
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+      {/* Review cards — a swipeable snap-carousel on mobile (saves vertical
+          space); a neat 3-column grid from md: upward. */}
+      <div className="hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-2 sm:-mx-10 sm:px-10 md:mx-0 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible md:px-0">
         {REVIEWS.map((review) => (
           <article
             key={review.name}
-            className="flex flex-col border border-gray-100 bg-canvas p-10"
+            className="flex w-[85vw] flex-shrink-0 snap-center flex-col border border-gray-100 bg-canvas p-8 sm:w-[70vw] sm:p-10 md:w-auto"
           >
             {/* Top row: verified badge + relative date */}
             <div className="flex items-center justify-between">
