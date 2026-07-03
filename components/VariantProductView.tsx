@@ -32,7 +32,7 @@ export default function VariantProductView({ product }: { product: VariantProduc
   return (
     <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:gap-20">
       {/* Image with variant crossfade */}
-      <div className="relative aspect-square w-full overflow-hidden rounded-md bg-[#F8F8F8] ring-1 ring-platinum/40">
+      <div className="relative flex aspect-square w-full items-center justify-center overflow-hidden rounded-md bg-white ring-1 ring-platinum/40">
         {product.variants.map((v, i) => (
           <Image
             key={v.image_url}
