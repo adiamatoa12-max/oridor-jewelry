@@ -1,15 +1,15 @@
 [
-  {"id": "na-1", "name": "עגילי לב נוצצים · כסף 925 טהור", "price": 290, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-1.jpg", "slug": "newarrival-1"},
-  {"id": "na-2", "name": "עגילי סוליטר עגול · כסף 925 טהור", "price": 270, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-2.jpg", "slug": "newarrival-2"},
-  {"id": "na-3", "name": "עגילי הילה עגולים · כסף 925 טהור", "price": 340, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-3.jpg", "slug": "newarrival-3"},
-  {"id": "na-4", "name": "חישוקי פאווה נוצצים · כסף 925 טהור", "price": 320, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-4.jpg", "slug": "newarrival-4"},
-  {"id": "na-5", "name": "עגילי שרשרת כפולים · כסף 925 טהור", "price": 380, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-5.jpg", "slug": "newarrival-5"},
-  {"id": "na-6", "name": "עגילי מגן דוד משובצים · כסף 925 טהור", "price": 390, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-6.jpg", "slug": "newarrival-6"},
-  {"id": "na-7", "name": "שרשרת Y יוקרתית · כסף 925 טהור", "price": 490, "material": "כסף 925 טהור", "category": "Necklaces", "image_url": "/photo/newarrival-7.jpg", "slug": "newarrival-7"},
-  {"id": "na-8", "name": "עגילי טיפה נתלים · כסף 925 טהור", "price": 420, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-8.jpg", "slug": "newarrival-8"},
-  {"id": "na-9", "name": "עגילי סוליטר קלאסי · כסף 925 טהור", "price": 340, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-9.jpg", "slug": "newarrival-9"},
-  {"id": "na-10", "name": "טבעת אינסוף פאווה · כסף 925 טהור בגימור זהב", "price": 360, "material": "כסף 925 טהור בציפוי זהב", "category": "Rings", "image_url": "/photo/newarrival-10.jpg", "slug": "newarrival-10"},
-  {"id": "na-11", "name": "עגילי הילה עגולים גדולים · כסף 925 טהור", "price": 420, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-11.jpg", "slug": "newarrival-11"},
-  {"id": "na-12", "name": "עגילי הילה טיפה · כסף 925 טהור", "price": 440, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-12.jpg", "slug": "newarrival-12"},
-  {"id": "na-13", "name": "שרשרת תליון לב · כסף 925 טהור", "price": 350, "material": "כסף 925 טהור", "category": "Necklaces", "image_url": "/photo/newarrival-13.jpg", "slug": "newarrival-13"}
+  {"id": "na-1", "name": "עגילי לב נוצצים", "price": 290, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-1.jpg", "slug": "newarrival-1"},
+  {"id": "na-2", "name": "עגילי סוליטר עגול זוהר", "price": 270, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-2.jpg", "slug": "newarrival-2"},
+  {"id": "na-3", "name": "עגילי הילה עגולים", "price": 340, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-3.jpg", "slug": "newarrival-3"},
+  {"id": "na-4", "name": "חישוקי פאווה נוצצים", "price": 320, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-4.jpg", "slug": "newarrival-4"},
+  {"id": "na-5", "name": "עגילי שרשרת כפולים", "price": 380, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-5.jpg", "slug": "newarrival-5"},
+  {"id": "na-6", "name": "עגילי מגן דוד משובצים", "price": 390, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-6.jpg", "slug": "newarrival-6"},
+  {"id": "na-7", "name": "שרשרת Y יוקרתית", "price": 490, "material": "כסף 925 טהור", "category": "Necklaces", "image_url": "/photo/newarrival-7.jpg", "slug": "newarrival-7"},
+  {"id": "na-8", "name": "עגילי טיפה נתלים", "price": 420, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-8.jpg", "slug": "newarrival-8"},
+  {"id": "na-9", "name": "עגילי סוליטר קלאסי", "price": 340, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-9.jpg", "slug": "newarrival-9"},
+  {"id": "na-10", "name": "טבעת אינסוף פאווה", "price": 360, "material": "כסף 925 טהור בציפוי זהב", "category": "Rings", "image_url": "/photo/newarrival-10.jpg", "slug": "newarrival-10"},
+  {"id": "na-11", "name": "עגילי הילה עגולים גדולים", "price": 420, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-11.jpg", "slug": "newarrival-11"},
+  {"id": "na-12", "name": "עגילי הילה טיפה", "price": 440, "material": "כסף 925 טהור", "category": "Earrings", "image_url": "/photo/newarrival-12.jpg", "slug": "newarrival-12"},
+  {"id": "na-13", "name": "שרשרת תליון לב", "price": 350, "material": "כסף 925 טהור", "category": "Necklaces", "image_url": "/photo/newarrival-13.jpg", "slug": "newarrival-13"}
 ]
