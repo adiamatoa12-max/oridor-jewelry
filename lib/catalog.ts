@@ -9,6 +9,13 @@ export const COLLECTION_SILVER = "כסף 925";
 
 export type CatalogCategory = "Necklaces" | "Bracelets" | "Earrings" | "Rings";
 
+/** A single colour option of a product (e.g. Silver / Gold / Rose Gold). */
+export interface ProductColorVariant {
+  color: string;
+  hex: string;
+  image: string;
+}
+
 export interface CatalogProduct {
   id: string;
   title: string;
@@ -22,6 +29,12 @@ export interface CatalogProduct {
   category: CatalogCategory | null;
   /** How the image should fit — product-on-white shots look best contained. */
   fit: "cover" | "contain";
+  /**
+   * Colour variants for multi-colour pieces. Present only when the product is
+   * genuinely offered in more than one finish (each with its own image asset);
+   * single-finish pieces omit this so no swatches are shown.
+   */
+  variants?: ProductColorVariant[];
 }
 
 /** Infer a jewelry type from a Hebrew product name. */
@@ -91,6 +104,15 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     collection: COLLECTION_SILVER,
     category: asType(p.category) ?? inferCategory(p.name),
     fit: "contain",
+    // Only surface swatches when there's genuinely more than one finish.
+    variants:
+      p.variants.length > 1
+        ? p.variants.map((v: any) => ({
+            color: v.color,
+            hex: v.hex,
+            image: encodeURI(v.image_url),
+          }))
+        : undefined,
   }));
 
   return [

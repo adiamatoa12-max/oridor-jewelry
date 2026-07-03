@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "./CartContext";
+import type { ProductColorVariant } from "@/lib/catalog";
 
 export interface ProductCardProps {
   /** Product image — expects a clean white-background product shot. */
@@ -18,6 +20,8 @@ export interface ProductCardProps {
   currency?: string;
   /** Product-on-white shots look best "contain"; lifestyle crops use "cover". */
   fit?: "cover" | "contain";
+  /** Colour variants — renders swatches and swaps the image when >1 present. */
+  variants?: ProductColorVariant[];
 }
 
 /**
@@ -38,9 +42,15 @@ export default function ProductCard({
   href = "#",
   currency = "USD",
   fit = "cover",
+  variants,
 }: ProductCardProps) {
   const { openCart } = useCart();
   const fitClass = fit === "contain" ? "object-contain p-4" : "object-cover";
+
+  // Multi-colour pieces let the shopper preview each finish in place.
+  const hasSwatches = !!variants && variants.length > 1;
+  const [activeColor, setActiveColor] = useState(0);
+  const displayImage = hasSwatches ? variants![activeColor].image : image;
 
   const formattedPrice =
     priceLabel ??
@@ -64,7 +74,7 @@ export default function ProductCard({
       {/* Stable card: subtle shadow lift on hover — the image never swaps. */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F8F8F8] shadow-card ring-1 ring-platinum/40 transition-shadow duration-300 ease-in-out group-hover:shadow-cardHover">
         <Image
-          src={image}
+          src={displayImage}
           alt={`${title} — תכשיט כסף מבית Oridor`}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
@@ -98,6 +108,40 @@ export default function ProductCard({
         <p className="mt-1.5 text-[13px] font-light text-graphite sm:text-sm md:text-base">
           {formattedPrice}
         </p>
+
+        {/* Minimalist colour swatches — 16px dots inside a 44px tap target.
+            Clicking previews the finish in place without leaving the grid. */}
+        {hasSwatches && (
+          <div className="mt-1 flex items-center justify-center gap-0.5">
+            {variants!.map((v, i) => {
+              const on = i === activeColor;
+              return (
+                <button
+                  key={v.color}
+                  type="button"
+                  aria-label={`צבע ${v.color}`}
+                  aria-pressed={on}
+                  title={v.color}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setActiveColor(i);
+                  }}
+                  className="inline-flex h-11 w-11 items-center justify-center"
+                >
+                  <span
+                    className={`h-4 w-4 rounded-full border transition-all duration-200 ${
+                      on
+                        ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-1"
+                        : "border-platinum/70"
+                    }`}
+                    style={{ backgroundColor: v.hex }}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        )}
 
         {/* Quick Add — always visible beneath price on mobile */}
         <button

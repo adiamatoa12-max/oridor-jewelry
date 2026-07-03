@@ -62,6 +62,7 @@ export default function ShopCatalog() {
             title={p.title}
             price={p.price}
             priceLabel={`₪${p.price.toLocaleString("he-IL")}`}
+            variants={p.variants}
           />
         ))}
       </div>
