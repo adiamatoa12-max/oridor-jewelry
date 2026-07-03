@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { Instagram, ArrowLeft } from "lucide-react";
+import { Instagram, ArrowLeft, ChevronDown } from "lucide-react";
 
 const SERVICE_LINKS = [
   { label: "צור קשר", href: "/contact" },
@@ -23,6 +24,12 @@ const COLLECTION_LINKS = [
  * minimalist newsletter, social + payment trust signals.
  */
 export default function PremiumFooter() {
+  // Which link column is expanded on mobile (accordion). Only one open at a
+  // time; `null` = all collapsed. Desktop (sm+) ignores this entirely.
+  const [openSection, setOpenSection] = useState<string | null>(null);
+  const toggle = (title: string) =>
+    setOpenSection((cur) => (cur === title ? null : title));
+
   return (
     <footer dir="rtl" className="bg-[#F8F8F8] text-charcoal">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-16 text-right sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-16">
@@ -59,10 +66,20 @@ export default function PremiumFooter() {
         </div>
 
         {/* Customer service */}
-        <FooterColumn title="שירות לקוחות" links={SERVICE_LINKS} />
+        <FooterColumn
+          title="שירות לקוחות"
+          links={SERVICE_LINKS}
+          isOpen={openSection === "שירות לקוחות"}
+          onToggle={() => toggle("שירות לקוחות")}
+        />
 
         {/* Collections */}
-        <FooterColumn title="הקולקציות" links={COLLECTION_LINKS} />
+        <FooterColumn
+          title="הקולקציות"
+          links={COLLECTION_LINKS}
+          isOpen={openSection === "הקולקציות"}
+          onToggle={() => toggle("הקולקציות")}
+        />
 
         {/* Newsletter */}
         <div>
@@ -110,16 +127,50 @@ export default function PremiumFooter() {
 function FooterColumn({
   title,
   links,
+  isOpen,
+  onToggle,
 }: {
   title: string;
   links: { label: string; href: string }[];
+  isOpen: boolean;
+  onToggle: () => void;
 }) {
   return (
-    <div>
-      <h3 className="text-[13px] font-semibold uppercase tracking-[0.12em] text-charcoal">
-        {title}
-      </h3>
-      <ul className="mt-4 space-y-1">
+    // A hairline divider separates sections on mobile only; desktop is borderless.
+    <div className="border-b border-platinum/50 sm:border-b-0">
+      {/*
+        Title row. On mobile it's a real toggle button with a flipping chevron.
+        From sm: up it's a static, non-interactive heading (pointer-events-none,
+        no chevron, no padding) so the desktop grid is completely unchanged.
+      */}
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        className="flex min-h-[52px] w-full items-center justify-between text-start sm:pointer-events-none sm:min-h-0 sm:cursor-default"
+      >
+        <h3 className="text-[13px] font-semibold uppercase tracking-[0.12em] text-charcoal">
+          {title}
+        </h3>
+        <ChevronDown
+          size={18}
+          strokeWidth={1.5}
+          aria-hidden="true"
+          className={`text-graphite transition-transform duration-300 sm:hidden ${
+            isOpen ? "rotate-180" : ""
+          }`}
+        />
+      </button>
+
+      {/*
+        Sub-links. Hidden on mobile unless this section is open; always visible
+        from sm: up (with the original mt-4 spacing) so desktop is unchanged.
+      */}
+      <ul
+        className={`space-y-1 pb-4 sm:mt-4 sm:block sm:pb-0 ${
+          isOpen ? "block" : "hidden"
+        }`}
+      >
         {links.map((link) => (
           <li key={link.href}>
             <Link
