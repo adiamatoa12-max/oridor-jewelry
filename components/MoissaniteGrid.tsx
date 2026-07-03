@@ -59,13 +59,13 @@ export default function MoissaniteGrid({
           className="group block w-[62%] flex-shrink-0 snap-start sm:w-[42%] lg:w-auto"
         >
           {/* Flush image — no card, no shadow, no border. Just the jewelry. */}
-          <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F6F6F4]">
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 62vw"
-              className="object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-[1.03]"
+              className="object-cover object-center mix-blend-multiply transition-transform duration-700 ease-cinematic group-hover:scale-[1.03]"
             />
 
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}

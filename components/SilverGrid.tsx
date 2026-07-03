@@ -39,13 +39,13 @@ export default function SilverGrid({ products }: { products: SilverProduct[] }) 
           href={`/collection/silver/${p.slug}`}
           className="group block overflow-hidden rounded-md border border-platinum/40 bg-canvas shadow-card transition-all duration-500 ease-cinematic hover:-translate-y-1 hover:shadow-cardHover"
         >
-          <div className="relative aspect-square w-full overflow-hidden bg-[#F8F8F8]">
+          <div className="relative aspect-square w-full overflow-hidden bg-transparent">
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 50vw"
-              className="object-contain object-center p-3"
+              className="object-contain object-center p-3 mix-blend-multiply"
             />
             <span className="pointer-events-none absolute start-3 top-3 border border-platinum/70 bg-canvas/70 px-2.5 py-1 text-[10px] tracking-[0.2em] text-graphite backdrop-blur-sm">
               כסף 925

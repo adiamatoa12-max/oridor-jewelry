@@ -36,7 +36,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
         href={`/collection/signature/${product.slug}`}
         className="block overflow-hidden rounded-md border border-platinum/40 bg-canvas shadow-card transition-all duration-500 ease-cinematic hover:-translate-y-1 hover:shadow-cardHover"
       >
-        <div className="relative aspect-square w-full overflow-hidden bg-[#F8F8F8]">
+        <div className="relative aspect-square w-full overflow-hidden bg-transparent">
           {/* Crossfade between variant images */}
           {product.variants.map((v, i) => (
             <Image
@@ -45,7 +45,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
               alt={`${product.name} — ${v.color}`}
               fill
               sizes="(min-width: 1024px) 25vw, 50vw"
-              className={`object-contain object-center p-4 transition-opacity duration-500 ease-cinematic ${
+              className={`object-contain object-center p-4 mix-blend-multiply transition-opacity duration-500 ease-cinematic ${
                 i === active ? "opacity-100" : "opacity-0"
               }`}
             />
