@@ -13,6 +13,19 @@ const products = data as MoissaniteProduct[];
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
 
+// Educational accordion — justifies the premium price by explaining the stone
+// and the materials. Placed directly under the add-to-cart area.
+const EDUCATION = [
+  {
+    q: "מה זה מואסניט?",
+    a: "מואסניט היא אבן חן יוקרתית הנוצרת במעבדה בתנאים מבוקרים — עמידה במיוחד (9.25 בסולם מוס, שנייה רק ליהלום) ובעלת ברק, אש ופיזור אור יוצאי דופן שמתחרים ואף עולים על יהלום. זו בחירה אתית ומודעת, נצחית ומזהירה, ללא פשרה על יוקרה.",
+  },
+  {
+    q: "חומרי הגלם שלנו",
+    a: "כל תכשיט יצוק מכסף סטרלינג 925 טהור (92.5% כסף) — מתכת מוצקה, לא ציפוי — ומצופה בשכבת רודיום יקרה. הרודיום מעניק ברק לבן זוהר, עמידות מוגברת בפני שריטות והגנה מפני התכהות, כך שהתכשיט שומר על יופיו לאורך שנים.",
+  },
+];
+
 const FAQS = [
   {
     q: "האם התכשיט מתכהה או מחליד?",
@@ -172,6 +185,23 @@ export default function MoissaniteProductPage({
                 מדריך מידות טבעת — איך למדוד בבית
               </Link>
             )}
+
+            {/* Educational accordion — what is moissanite & our materials */}
+            <div className="mt-10 max-w-md divide-y divide-gray-200 border-y border-gray-200">
+              {EDUCATION.map((item) => (
+                <details key={item.q} className="group px-1 py-5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-normal text-charcoal transition-colors hover:text-gold">
+                    {item.q}
+                    <span className="text-ash transition-transform duration-300 group-open:rotate-45">
+                      +
+                    </span>
+                  </summary>
+                  <p className="mt-3 text-sm font-light leading-relaxed text-graphite">
+                    {item.a}
+                  </p>
+                </details>
+              ))}
+            </div>
           </div>
         </div>
 
