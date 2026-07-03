@@ -1,71 +1,100 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { X } from "lucide-react";
 
-const INTERVAL = 5000;
-const FADE = 600;
+// Launch-sale deadline (Israel time). Update to extend the promotion.
+const SALE_END = new Date("2026-07-31T23:59:59+03:00").getTime();
 
-// Elegant, rotating promo lines. The VIP Vault leads.
-const MESSAGES: { text: string; accent?: string }[] = [
-  {
-    accent: "The VIP Vault:",
-    text: " קני מעל ₪499 ופתחי את כספת המתנות שלנו לבחירתך.",
-  },
-  { accent: "ORIDOR10", text: " — 10% הנחה עם הקוד" },
-  { text: "החזרות עם שליח עד הבית" },
-];
+interface TimeLeft {
+  d: number;
+  h: number;
+  m: number;
+  s: number;
+}
 
-/**
- * Thin, elegant top announcement bar — light background, dark text. Sits above
- * the Navbar (not sticky) and gently fades between premium promo lines, led by
- * the VIP Vault gift promotion. Dismissible.
- */
-export default function AnnouncementBar() {
-  const [dismissed, setDismissed] = useState(false);
-  const [index, setIndex] = useState(0);
-  const [shown, setShown] = useState(true);
+function getTimeLeft(): TimeLeft {
+  const diff = Math.max(0, SALE_END - Date.now());
+  return {
+    d: Math.floor(diff / 86_400_000),
+    h: Math.floor(diff / 3_600_000) % 24,
+    m: Math.floor(diff / 60_000) % 60,
+    s: Math.floor(diff / 1_000) % 60,
+  };
+}
+
+const pad = (n: number) => String(n).padStart(2, "0");
+
+/** Elegant Days/Hours/Minutes/Seconds counter. Client-only to avoid SSR drift. */
+function Countdown() {
+  const [t, setT] = useState<TimeLeft | null>(null);
 
   useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const id = window.setInterval(() => {
-      if (reduce) {
-        setIndex((i) => (i + 1) % MESSAGES.length);
-        return;
-      }
-      setShown(false);
-      window.setTimeout(() => {
-        setIndex((i) => (i + 1) % MESSAGES.length);
-        setShown(true);
-      }, FADE);
-    }, INTERVAL);
+    setT(getTimeLeft());
+    const id = window.setInterval(() => setT(getTimeLeft()), 1000);
     return () => window.clearInterval(id);
   }, []);
 
-  if (dismissed) return null;
+  // Render nothing until mounted so server and client markup match.
+  if (!t) return null;
 
-  const msg = MESSAGES[index];
+  const units: { v: number; l: string }[] = [
+    { v: t.d, l: "ימים" },
+    { v: t.h, l: "שע׳" },
+    { v: t.m, l: "דק׳" },
+    { v: t.s, l: "שנ׳" },
+  ];
 
   return (
-    <div className="relative border-b border-platinum/50 bg-cream text-charcoal">
-      <div className="mx-auto flex min-h-9 max-w-7xl items-center justify-center px-10 py-1.5 sm:px-12">
-        <p
-          aria-live="polite"
-          className={`text-center text-[10px] font-light leading-snug tracking-wide transition-opacity duration-500 ease-in-out sm:text-[11px] ${
-            shown ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          {msg.accent && (
-            <span className="font-medium tracking-[0.12em] text-gold">{msg.accent}</span>
+    <span
+      className="inline-flex items-center gap-1.5"
+      aria-label={`נותרו ${t.d} ימים ${t.h} שעות ${t.m} דקות`}
+    >
+      {units.map((u, i) => (
+        <Fragment key={u.l}>
+          <span className="inline-flex min-w-[1.75rem] flex-col items-center leading-none">
+            <span className="text-[12px] font-semibold tabular-nums text-white">
+              {pad(u.v)}
+            </span>
+            <span className="mt-0.5 text-[7px] uppercase tracking-[0.15em] text-stone-400">
+              {u.l}
+            </span>
+          </span>
+          {i < units.length - 1 && (
+            <span aria-hidden="true" className="text-stone-500">
+              :
+            </span>
           )}
-          {msg.text}
+        </Fragment>
+      ))}
+    </span>
+  );
+}
+
+/**
+ * Premium top announcement bar — a deep, rich stone-900 tone (soft-luxury, not
+ * stark black or heavy gold). Shows the launch-sale promo alongside a live
+ * countdown timer. Sits above the sticky header; dismissible.
+ */
+export default function AnnouncementBar() {
+  const [dismissed, setDismissed] = useState(false);
+  if (dismissed) return null;
+
+  return (
+    <div className="relative bg-stone-900 text-stone-100">
+      <div className="mx-auto flex min-h-10 max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-10 py-2 text-center sm:px-12">
+        <p className="text-[11px] font-light leading-snug tracking-wide sm:text-xs">
+          מבצע השקת הקולקציה
+          <span className="mx-1.5 text-stone-500">·</span>
+          <span className="font-medium text-white">2+1 מתנה</span>
         </p>
+        <Countdown />
       </div>
       <button
         type="button"
         aria-label="סגירת סרגל ההודעות"
         onClick={() => setDismissed(true)}
-        className="absolute end-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center text-graphite/60 transition-colors hover:text-charcoal"
+        className="absolute end-1.5 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center text-stone-400 transition-colors hover:text-white"
       >
         <X size={14} strokeWidth={1.5} />
       </button>

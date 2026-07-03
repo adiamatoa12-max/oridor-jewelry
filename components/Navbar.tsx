@@ -27,36 +27,44 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-platinum/50 bg-canvas/95 backdrop-blur-md supports-[backdrop-filter]:bg-canvas/90">
-      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between gap-4 px-6 lg:px-10">
-        {/* Far right (RTL start): logo + mobile hamburger */}
-        <div className="flex flex-1 items-center gap-2">
-          <Link
-            href="/"
-            className="select-none text-2xl font-light uppercase tracking-brand text-charcoal lg:text-3xl"
-          >
-            ORIDOR
-          </Link>
+      <header className="sticky top-0 z-50 border-b border-platinum/40 bg-white/95 backdrop-blur-md transition-shadow duration-300 supports-[backdrop-filter]:bg-white/80">
+      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:h-20 sm:px-6 lg:px-10">
+        {/* RTL start (right): mobile hamburger · desktop logo */}
+        <div className="flex flex-1 items-center justify-start gap-2">
           <button
             type="button"
             aria-label="פתיחת תפריט הניווט"
             onClick={() => setOpen(true)}
-            className="inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:text-graphite md:hidden"
+            className="-ms-2 inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:text-graphite md:hidden"
           >
-            <Menu size={20} strokeWidth={1.5} />
+            <Menu size={22} strokeWidth={1.5} />
           </button>
+          <Link
+            href="/"
+            className="hidden select-none text-2xl font-light uppercase tracking-brand text-charcoal md:block lg:text-3xl"
+          >
+            ORIDOR
+          </Link>
         </div>
 
-        {/* Center: category links — single flex row, even breathable spacing */}
-        <ul className="hidden items-center justify-center gap-6 md:flex lg:gap-8">
-          {LINKS.map((l) => (
-            <NavLink key={l.href} {...l} />
-          ))}
-          <SaleLink />
-        </ul>
+        {/* Center: mobile logo (perfectly centered) · desktop category links */}
+        <div className="flex flex-1 items-center justify-center">
+          <Link
+            href="/"
+            className="select-none whitespace-nowrap text-xl font-light uppercase tracking-brand text-charcoal md:hidden"
+          >
+            ORIDOR
+          </Link>
+          <ul className="hidden items-center justify-center gap-6 md:flex lg:gap-8">
+            {LINKS.map((l) => (
+              <NavLink key={l.href} {...l} />
+            ))}
+            <SaleLink />
+          </ul>
+        </div>
 
-        {/* Far left (RTL end): utility icons */}
-        <div className="-me-2 flex flex-1 items-center justify-end gap-1 text-charcoal">
+        {/* RTL end (left): utility icons — search + cart on mobile, +account on desktop */}
+        <div className="-me-2 flex flex-1 items-center justify-end gap-0.5 text-charcoal sm:gap-1">
           <button
             type="button"
             aria-label="חיפוש באתר"
@@ -67,7 +75,7 @@ export default function Navbar() {
           <Link
             href="/account"
             aria-label="החשבון שלי"
-            className="inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-graphite"
+            className="hidden h-11 w-11 items-center justify-center transition-colors hover:text-graphite md:inline-flex"
           >
             <User size={19} strokeWidth={1.5} />
           </Link>
