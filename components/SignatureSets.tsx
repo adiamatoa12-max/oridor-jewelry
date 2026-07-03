@@ -102,8 +102,9 @@ export default function SignatureSets() {
                 (fixed aspect ratio + overflow-hidden) holds the image, and
                 `object-cover w-full h-full` fills it edge-to-edge so nothing —
                 including the collage's right-hand detail column — can bleed
-                outside the card bounds. */}
-            <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F5F5F0]">
+                outside the card bounds. Compact square crop on mobile to keep
+                cards short; the taller 4/5 portrait returns from md: up. */}
+            <div className="relative aspect-square w-full overflow-hidden bg-[#F5F5F0] md:aspect-[4/5]">
               <Image
                 src={encodeURI(set.image)}
                 alt={set.title}
