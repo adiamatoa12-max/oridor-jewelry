@@ -98,50 +98,19 @@ export default function SignatureSets() {
             className="group block w-[85vw] flex-shrink-0 snap-center overflow-hidden rounded-sm bg-white text-start shadow-card transition-shadow duration-300 hover:shadow-cardHover sm:w-[45vw] md:w-[350px]"
             aria-label={`צפייה בפריטי ${set.title}`}
           >
-            {/* A real editorial grid built from the set's actual piece photos
-                (separate images — not a baked collage): a large hero on the
-                start side, and the remaining pieces in a strict vertical grid
-                on the end side. The aspect-[4/5] frame dictates the height and
-                the right column matches it exactly via `h-full` + `1fr` rows, so
-                nothing can ever overflow below the card. */}
+            {/* Original lifestyle/model collage photo. A strictly-bounded frame
+                (fixed aspect ratio + overflow-hidden) holds the image, and
+                `object-cover w-full h-full` fills it edge-to-edge so nothing —
+                including the collage's right-hand detail column — can bleed
+                outside the card bounds. */}
             <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F5F5F0]">
-              <div className="flex h-full w-full gap-1">
-                {/* Large hero piece — dictates the visual weight */}
-                <div className="relative h-full w-3/5 overflow-hidden bg-white">
-                  <Image
-                    src={encodeURI(set.pieces[0].image)}
-                    alt={`${set.title} — ${set.pieces[0].name}`}
-                    fill
-                    sizes="(min-width: 768px) 210px, 51vw"
-                    className="h-full w-full object-cover object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
-                  />
-                </div>
-
-                {/* Right column — strict vertical grid, one row per piece. Rows
-                    are equal 1fr fractions of the full height, so the column can
-                    never expand past the hero or drop a thumbnail below. */}
-                <div
-                  className="grid h-full w-2/5 gap-1"
-                  style={{
-                    gridTemplateRows: `repeat(${set.pieces.length - 1}, minmax(0, 1fr))`,
-                  }}
-                >
-                  {set.pieces.slice(1).map((pc) => (
-                    <div
-                      key={pc.id}
-                      className="relative h-full w-full overflow-hidden bg-white"
-                    >
-                      <Image
-                        src={encodeURI(pc.image)}
-                        alt={`${set.title} — ${pc.name}`}
-                        fill
-                        sizes="(min-width: 768px) 140px, 34vw"
-                        className="h-full w-full object-cover object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
-                      />
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <Image
+                src={encodeURI(set.image)}
+                alt={set.title}
+                fill
+                sizes="(min-width: 768px) 350px, 85vw"
+                className="h-full w-full object-cover object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
+              />
             </div>
 
             {/* Readable text block — solid white, deep dark type, sits neatly
