@@ -102,7 +102,7 @@ export default function MoissaniteCollection({
       </div>
 
       {visible.length > 0 ? (
-        <MoissaniteGrid products={visible} />
+        <MoissaniteGrid products={visible} layout="grid" />
       ) : (
         <p className="py-16 text-center text-sm font-light text-ash">
           לא נמצאו פריטים התואמים את הסינון.

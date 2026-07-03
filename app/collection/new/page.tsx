@@ -31,7 +31,7 @@ export default function NewArrivalsPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
-        <NewArrivalsGrid products={products} />
+        <NewArrivalsGrid products={products} layout="grid" />
       </section>
 
       <PremiumFooter />

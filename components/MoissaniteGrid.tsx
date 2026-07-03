@@ -26,10 +26,26 @@ const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
  */
 export default function MoissaniteGrid({
   products,
+  layout = "carousel",
 }: {
   products: MoissaniteProduct[];
+  /**
+   * "carousel" — mobile horizontal snap-scroll (used on the homepage preview).
+   * "grid" — a standard vertical 2-col grid on mobile (used on collection pages
+   * so every product is visible by scrolling down).
+   */
+  layout?: "carousel" | "grid";
 }) {
   const { addItem, openCart } = useCart();
+
+  const containerClass =
+    layout === "grid"
+      ? "grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14"
+      : "hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:-mx-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:px-0";
+  const itemClass =
+    layout === "grid"
+      ? "group block"
+      : "group block w-[62%] flex-shrink-0 snap-start sm:w-[42%] lg:w-auto";
 
   const quickAdd = (e: React.MouseEvent, p: MoissaniteProduct) => {
     // Inside a <Link>; don't navigate — just add to the cart and open it.
@@ -49,14 +65,12 @@ export default function MoissaniteGrid({
   });
 
   return (
-    // Mobile: a sleek horizontal snap-carousel showing ~1.6 items (hinting more
-    // to scroll). Desktop: a clean, flush 4-column editorial row.
-    <div className="hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:-mx-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:px-0">
+    <div className={containerClass}>
       {uniqueProducts.map((p) => (
         <Link
           key={p.id}
           href={`/collection/moissanite/${p.slug}`}
-          className="group block w-[62%] flex-shrink-0 snap-start sm:w-[42%] lg:w-auto"
+          className={itemClass}
         >
           {/* Flush image — no card, no shadow, no border. Just the jewelry. */}
           <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
