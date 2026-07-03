@@ -71,14 +71,16 @@ export default function ProductCard({
 
   return (
     <Link href={href} className="group block">
-      {/* Stable card: subtle shadow lift on hover — the image never swaps. */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent shadow-card ring-1 ring-platinum/40 transition-shadow duration-300 ease-in-out group-hover:shadow-cardHover">
+      {/* Seamless card: no border, no shadow, transparent surface — the white
+          JPEG background is knocked out by mix-blend-multiply so the jewelry
+          appears to rest directly on the page. Subtle scale lift on hover. */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
         <Image
           src={displayImage}
           alt={`${title} — תכשיט כסף מבית Oridor`}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className={`${fitClass} object-center mix-blend-multiply`}
+          className={`${fitClass} object-center mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105`}
         />
 
         {/* Minimal status tag — top-right (inline-start in RTL) */}
