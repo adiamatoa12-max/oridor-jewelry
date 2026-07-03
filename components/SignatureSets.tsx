@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { X } from "lucide-react";
+import { X, ChevronLeft } from "lucide-react";
 import { useCart } from "./CartContext";
 
 interface Piece {
@@ -65,8 +65,18 @@ const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
  * premium captions. Each acts as a button that opens a modal listing the pieces
  * that make up the set, each linking to its product page, with an add-all CTA.
  */
-export default function SignatureSets() {
+export default function SignatureSets({
+  layout = "carousel",
+}: {
+  /**
+   * "carousel" — mobile horizontal snap-slider (homepage).
+   * "grid" — standard vertical product grid (collection pages).
+   */
+  layout?: "carousel" | "grid";
+}) {
   const [active, setActive] = useState<SignatureSet | null>(null);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const { addItem, openCart } = useCart();
 
   const addSet = (set: SignatureSet) => {
@@ -77,6 +87,39 @@ export default function SignatureSets() {
     openCart();
   };
 
+  const isCarousel = layout === "carousel";
+
+  // Track which card is centred so the pagination dots stay in sync. Works in
+  // RTL by measuring which child sits closest to the container's centre.
+  const handleScroll = () => {
+    const cont = scrollRef.current;
+    if (!cont) return;
+    const center = cont.getBoundingClientRect().left + cont.clientWidth / 2;
+    let best = 0;
+    let bestDist = Infinity;
+    Array.from(cont.children).forEach((c, i) => {
+      const r = (c as HTMLElement).getBoundingClientRect();
+      const dist = Math.abs(r.left + r.width / 2 - center);
+      if (dist < bestDist) {
+        bestDist = dist;
+        best = i;
+      }
+    });
+    setActiveSlide(best);
+  };
+
+  const goTo = (i: number) => {
+    const child = scrollRef.current?.children[i] as HTMLElement | undefined;
+    child?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  };
+
+  const containerClass = isCarousel
+    ? "hide-scrollbar -mx-6 flex snap-x snap-mandatory flex-nowrap gap-6 overflow-x-auto px-6 pb-2 sm:-mx-10 sm:px-10 sm:gap-8 md:mx-0 md:justify-center md:overflow-visible md:px-0 lg:gap-10"
+    : "grid grid-cols-1 gap-8 sm:grid-cols-3 sm:gap-8 lg:gap-10";
+  const cardClass = isCarousel
+    ? "group block w-[85vw] flex-shrink-0 snap-center text-start sm:w-[45vw] md:w-[320px] lg:w-[350px]"
+    : "group block text-start";
+
   return (
     <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
       <div className="mb-14 text-center">
@@ -86,37 +129,54 @@ export default function SignatureSets() {
         </h2>
       </div>
 
-      {/* Swipeable horizontal carousel — scroll-snaps each card into view.
-          Scrollbar hidden for a clean look; negative margins let cards bleed to
-          the section edge on mobile so a peek of the next card invites swiping. */}
-      <div className="hide-scrollbar -mx-6 flex snap-x snap-mandatory flex-nowrap gap-6 overflow-x-auto px-6 pb-2 sm:-mx-10 sm:px-10 sm:gap-8 lg:-mx-16 lg:px-16 lg:gap-10">
+      <div ref={scrollRef} onScroll={handleScroll} className={containerClass}>
         {SETS.map((set) => (
           <button
             key={set.id}
             type="button"
             onClick={() => setActive(set)}
-            className="group block w-[85vw] flex-shrink-0 snap-center overflow-hidden rounded-sm bg-white text-start shadow-card transition-shadow duration-300 hover:shadow-cardHover sm:w-[45vw] md:w-[350px]"
+            className={cardClass}
             aria-label={`צפייה בפריטי ${set.title}`}
           >
-            {/* Original lifestyle/model collage photo. A strictly-bounded frame
-                (fixed aspect ratio + overflow-hidden) holds the image, and
-                `object-cover w-full h-full` fills it edge-to-edge so nothing —
-                including the collage's right-hand detail column — can bleed
-                outside the card bounds. Compact square crop on mobile to keep
-                cards short; the taller 4/5 portrait returns from md: up. */}
-            <div className="relative aspect-square w-full overflow-hidden bg-[#F5F5F0] md:aspect-[4/5]">
-              <Image
-                src={encodeURI(set.image)}
-                alt={set.title}
-                fill
-                sizes="(min-width: 768px) 350px, 85vw"
-                className="h-full w-full object-cover object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
-              />
+            {/* Refined premium structure: one large lifestyle/model image on the
+                start side, two smaller product-detail shots stacked on the end.
+                The product thumbnails use mix-blend-multiply so their white studio
+                background melts into the page — no hard rectangles. */}
+            <div className="relative flex aspect-square w-full gap-1.5 overflow-hidden md:aspect-[4/5]">
+              {/* Large model image — biased to the left of the collage where the
+                  model sits, so the frame shows the lifestyle shot (not one of the
+                  collage's baked-in detail cells). */}
+              <div className="relative h-full w-3/5 overflow-hidden bg-[#F5F5F0]">
+                <Image
+                  src={encodeURI(set.image)}
+                  alt={set.title}
+                  fill
+                  sizes="(min-width: 768px) 210px, 51vw"
+                  className="h-full w-full object-cover object-left transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
+                />
+              </div>
+
+              {/* Two stacked product-detail thumbnails */}
+              <div className="grid h-full w-2/5 grid-rows-2 gap-1.5">
+                {set.pieces.slice(0, 2).map((pc) => (
+                  <div
+                    key={pc.id}
+                    className="relative h-full w-full overflow-hidden bg-transparent"
+                  >
+                    <Image
+                      src={encodeURI(pc.image)}
+                      alt={`${set.title} — ${pc.name}`}
+                      fill
+                      sizes="(min-width: 768px) 140px, 34vw"
+                      className="h-full w-full object-cover object-center mix-blend-multiply transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Readable text block — solid white, deep dark type, sits neatly
-                below the image for a clean, modern e-commerce card. */}
-            <div className="bg-white p-5 text-center sm:p-6">
+            {/* Text block — flush with the page, deep dark title, muted caption. */}
+            <div className="px-1 pt-4 text-center">
               <h3 className="text-lg font-normal tracking-wide text-neutral-900">
                 {set.title}
               </h3>
@@ -130,6 +190,33 @@ export default function SignatureSets() {
           </button>
         ))}
       </div>
+
+      {/* Mobile swipe cues — a soft chevron hint + pagination dots. Carousel
+          only, and only where the slider actually scrolls (below md). */}
+      {isCarousel && (
+        <div className="mt-7 flex items-center justify-center gap-3 md:hidden">
+          <ChevronLeft
+            size={16}
+            strokeWidth={1.5}
+            aria-hidden="true"
+            className="animate-soft-float text-stone-500 motion-reduce:animate-none"
+          />
+          <div className="flex items-center gap-2">
+            {SETS.map((set, i) => (
+              <button
+                key={set.id}
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`מעבר לסט ${i + 1}`}
+                aria-current={i === activeSlide}
+                className={`h-1.5 rounded-full transition-all duration-300 ease-cinematic ${
+                  i === activeSlide ? "w-5 bg-stone-700" : "w-1.5 bg-stone-300"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Set detail modal */}
       {active && (
