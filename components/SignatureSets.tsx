@@ -52,7 +52,7 @@ const SETS: SignatureSet[] = [
     caption: "הצהרת סטייל ללא פשרות",
     pieces: [
       { id: "matan-17", name: "שרשרת טניס שחורה", price: 690, image: "/photo/מתן 17.jpeg", slug: "matan-17" },
-      { id: "matan-14", name: "צמיד טניס יהלומים", price: 450, image: "/photo/מתן 14.jpeg", slug: "matan-14" },
+      { id: "bracelet-1", name: "צמיד טניס אבני חן שחורות", price: 460, image: "/photo/bracelet-1.jpeg", slug: "bracelet-1" },
       { id: "matan-22", name: "עגילי טיפה הילה", price: 380, image: "/photo/מתן 22.jpeg", slug: "matan-22" },
     ],
   },
