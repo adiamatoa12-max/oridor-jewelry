@@ -22,11 +22,17 @@ const PRICE_OPTIONS: { value: PriceKey; label: string }[] = [
   { value: "over1000", label: "מעל ₪1,000" },
 ];
 
-/** Derive a product type from its name. */
+/**
+ * Derive a product type from its (Hebrew) name — a safety net used only when a
+ * product has no explicit `category`. Keyed on the primary Hebrew noun so a
+ * piece is never silently mis-sorted (the old English regexes never matched a
+ * Hebrew name and dumped everything into Necklaces).
+ */
 function typeOf(name: string): Exclude<TypeKey, "All"> {
-  if (/ring/i.test(name)) return "Rings";
-  if (/bracelet/i.test(name)) return "Bracelets";
-  if (/earrings|studs/i.test(name)) return "Earrings";
+  if (/טבעת/.test(name)) return "Rings";
+  if (/שרשרת/.test(name)) return "Necklaces";
+  if (/צמיד|יד/.test(name)) return "Bracelets";
+  if (/עגיל|חישוק/.test(name)) return "Earrings";
   return "Necklaces";
 }
 

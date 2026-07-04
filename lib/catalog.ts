@@ -42,7 +42,7 @@ function inferCategory(name: string): CatalogCategory | null {
   if (/טבעת/.test(name)) return "Rings";
   if (/שרשרת/.test(name)) return "Necklaces";
   if (/צמיד|יד/.test(name)) return "Bracelets";
-  if (/עגיל/.test(name)) return "Earrings";
+  if (/עגיל|חישוק/.test(name)) return "Earrings";
   return null;
 }
 
