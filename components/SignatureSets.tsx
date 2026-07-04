@@ -260,7 +260,7 @@ export default function SignatureSets({
                         alt={p.name}
                         fill
                         sizes="64px"
-                        className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                        className="object-cover object-center mix-blend-multiply transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                     <div className="flex-1">
