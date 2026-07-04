@@ -138,41 +138,20 @@ export default function SignatureSets({
             className={cardClass}
             aria-label={`צפייה בפריטי ${set.title}`}
           >
-            {/* Refined premium structure: one large lifestyle/model image on the
-                start side, two smaller product-detail shots stacked on the end.
-                The product thumbnails use mix-blend-multiply so their white studio
-                background melts into the page — no hard rectangles. */}
-            <div className="relative flex aspect-square w-full gap-1.5 overflow-hidden md:aspect-[4/5]">
-              {/* Large model image — biased to the left of the collage where the
-                  model sits, so the frame shows the lifestyle shot (not one of the
-                  collage's baked-in detail cells). */}
-              <div className="relative h-full w-3/5 overflow-hidden bg-[#F5F5F0]">
-                <Image
-                  src={encodeURI(set.image)}
-                  alt={set.title}
-                  fill
-                  sizes="(min-width: 768px) 210px, 51vw"
-                  className="h-full w-full object-cover object-left transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
-                />
-              </div>
-
-              {/* Two stacked product-detail thumbnails */}
-              <div className="grid h-full w-2/5 grid-rows-2 gap-1.5">
-                {set.pieces.slice(0, 2).map((pc) => (
-                  <div
-                    key={pc.id}
-                    className="relative h-full w-full overflow-hidden bg-transparent"
-                  >
-                    <Image
-                      src={encodeURI(pc.image)}
-                      alt={`${set.title} — ${pc.name}`}
-                      fill
-                      sizes="(min-width: 768px) 140px, 34vw"
-                      className="h-full w-full object-cover object-center mix-blend-multiply transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
-                    />
-                  </div>
-                ))}
-              </div>
+            {/* Single full-bleed lifestyle collage — one clean composed image per
+                set (model + styled details). No product-shot thumbnails and no
+                mix-blend: those baked-in studio backgrounds are inconsistent
+                (white on most, BLACK on the tennis pieces), which produced hard
+                white/black rectangles. A full-bleed photo has none of that. The
+                container is transparent — no hardcoded background. */}
+            <div className="relative aspect-square w-full overflow-hidden bg-transparent md:aspect-[4/5]">
+              <Image
+                src={encodeURI(set.image)}
+                alt={set.title}
+                fill
+                sizes="(min-width: 768px) 350px, 85vw"
+                className="h-full w-full object-cover object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
+              />
             </div>
 
             {/* Text block — flush with the page, deep dark title, muted caption. */}
