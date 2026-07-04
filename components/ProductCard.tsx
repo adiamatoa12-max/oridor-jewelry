@@ -70,11 +70,15 @@ export default function ProductCard({
   const quickAddLabel = `הוספה מהירה — ${title}`;
 
   return (
-    <Link href={href} className="group block">
-      {/* Seamless card: no border, no shadow, transparent surface — the white
-          JPEG background is knocked out by mix-blend-multiply so the jewelry
-          appears to rest directly on the page. Subtle scale lift on hover. */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
+    <Link
+      href={href}
+      className="group block overflow-hidden rounded-lg bg-[#1a1a1c] shadow-xl shadow-black/25 transition-transform duration-300 ease-out hover:-translate-y-1"
+    >
+      {/* Dark-elegance card. The white studio photos can't be blended onto a
+          dark surface (multiply would darken the jewelry itself), so the image
+          sits in a light well where mix-blend-multiply melts the white edge —
+          keeping the piece crisp — inside the premium near-black card. */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#f3f2ef]">
         <Image
           src={displayImage}
           alt={`${title} — תכשיט כסף מבית Oridor`}
@@ -103,11 +107,11 @@ export default function ProductCard({
         </div>
       </div>
 
-      <div className="mt-4 text-center sm:mt-6">
-        <h3 className="text-[13px] font-normal leading-snug tracking-wide text-charcoal sm:text-sm md:text-base">
+      <div className="px-4 pb-5 pt-4 text-center">
+        <h3 className="text-[13px] font-normal leading-snug tracking-wide text-white sm:text-sm md:text-base">
           {title}
         </h3>
-        <p className="mt-1.5 text-[13px] font-light text-graphite sm:text-sm md:text-base">
+        <p className="mt-1.5 text-[13px] font-light text-neutral-400 sm:text-sm md:text-base">
           {formattedPrice}
         </p>
 
@@ -134,8 +138,8 @@ export default function ProductCard({
                   <span
                     className={`h-4 w-4 rounded-full border transition-all duration-200 ${
                       on
-                        ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-1"
-                        : "border-platinum/70"
+                        ? "scale-110 border-white ring-1 ring-white/40 ring-offset-1 ring-offset-[#1a1a1c]"
+                        : "border-white/40"
                     }`}
                     style={{ backgroundColor: v.hex }}
                   />

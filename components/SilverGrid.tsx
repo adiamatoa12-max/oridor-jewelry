@@ -61,9 +61,9 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
   return (
     <Link
       href={`/collection/silver/${p.slug}`}
-      className="group block rounded-sm bg-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-stone-300/50"
+      className="group block overflow-hidden rounded-lg bg-[#1a1a1c] shadow-xl shadow-black/25 transition-transform duration-300 ease-out hover:-translate-y-1"
     >
-      <div className="relative aspect-square w-full overflow-hidden bg-transparent">
+      <div className="relative aspect-square w-full overflow-hidden bg-[#f3f2ef]">
         <Image
           src={encodeURI(displayImage)}
           alt={`${p.name} — ${p.material}`}
@@ -87,11 +87,11 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
         </button>
       </div>
 
-      <div className="px-4 py-5 text-center">
-        <h3 className="text-[13px] font-normal leading-snug tracking-wide text-charcoal sm:text-sm md:text-base">
+      <div className="px-4 pb-5 pt-4 text-center">
+        <h3 className="text-[13px] font-normal leading-snug tracking-wide text-white sm:text-sm md:text-base">
           {p.name}
         </h3>
-        <p className="mt-2 text-[13px] font-light text-graphite sm:text-sm md:text-base">
+        <p className="mt-2 text-[13px] font-light text-neutral-400 sm:text-sm md:text-base">
           {formatPrice(p.price)}
         </p>
 
@@ -117,8 +117,8 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
                   <span
                     className={`h-4 w-4 rounded-full border transition-all duration-200 ${
                       on
-                        ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-1"
-                        : "border-platinum/70"
+                        ? "scale-110 border-white ring-1 ring-white/40 ring-offset-1 ring-offset-[#1a1a1c]"
+                        : "border-white/40"
                     }`}
                     style={{ backgroundColor: v.hex }}
                   />

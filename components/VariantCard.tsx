@@ -31,12 +31,12 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
   const variant = product.variants[active];
 
   return (
-    <div className="group block">
+    <div className="group block overflow-hidden rounded-lg bg-[#1a1a1c] shadow-xl shadow-black/25 transition-transform duration-300 ease-out hover:-translate-y-1">
       <Link
         href={`/collection/signature/${product.slug}`}
-        className="block rounded-sm bg-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-stone-300/50"
+        className="block"
       >
-        <div className="relative aspect-square w-full overflow-hidden bg-transparent">
+        <div className="relative aspect-square w-full overflow-hidden bg-[#f3f2ef]">
           {/* Crossfade between variant images */}
           {product.variants.map((v, i) => (
             <Image
@@ -53,9 +53,9 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
         </div>
       </Link>
 
-      <div className="px-1 py-4 text-center">
-        <h3 className="text-[13px] font-normal leading-snug tracking-wide text-charcoal sm:text-sm md:text-base">{product.name}</h3>
-        <p className="mt-1 text-[13px] font-light text-graphite sm:text-sm md:text-base">{formatPrice(product.price)}</p>
+      <div className="px-4 pb-5 pt-4 text-center">
+        <h3 className="text-[13px] font-normal leading-snug tracking-wide text-white sm:text-sm md:text-base">{product.name}</h3>
+        <p className="mt-1 text-[13px] font-light text-neutral-400 sm:text-sm md:text-base">{formatPrice(product.price)}</p>
 
         {/* Color swatches — 20px dots inside a 44px tap target for touch */}
         <div className="mt-1 flex items-center justify-center gap-1">
@@ -74,8 +74,8 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
                 <span
                   className={`h-5 w-5 rounded-full border transition-all duration-200 ${
                     on
-                      ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-1"
-                      : "border-platinum/70"
+                      ? "scale-110 border-white ring-1 ring-white/40 ring-offset-1 ring-offset-[#1a1a1c]"
+                      : "border-white/40"
                   }`}
                   style={{ backgroundColor: v.hex }}
                 />
@@ -83,7 +83,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
             );
           })}
         </div>
-        <p className="mt-2 text-[11px] font-light tracking-wide text-ash">{variant.color}</p>
+        <p className="mt-2 text-[11px] font-light tracking-wide text-neutral-500">{variant.color}</p>
       </div>
     </div>
   );

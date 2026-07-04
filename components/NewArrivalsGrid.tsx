@@ -46,10 +46,10 @@ export default function NewArrivalsGrid({
     layout === "grid"
       ? "grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14"
       : "hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:-mx-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:px-0";
-  // Premium card hover: soft lift + a minimal stone shadow that only appears on
-  // hover — no resting box, border or background.
+  // Dark-elegance card: near-black surface, borderless, floating with a soft
+  // shadow and a lift on hover.
   const hoverClass =
-    "rounded-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-stone-300/50";
+    "overflow-hidden rounded-lg bg-[#1a1a1c] shadow-xl shadow-black/25 transition-transform duration-300 ease-out hover:-translate-y-1";
   const itemClass =
     layout === "grid"
       ? `group block ${hoverClass}`
@@ -63,8 +63,9 @@ export default function NewArrivalsGrid({
           href={`/collection/new/${p.slug}`}
           className={itemClass}
         >
-          {/* Flush image — no card, no shadow, no border. Just the jewelry. */}
-          <div className="relative aspect-square w-full overflow-hidden bg-transparent">
+          {/* Light image well — keeps the white-studio jewelry crisp inside the
+              dark card (multiply can't blend it onto a dark surface). */}
+          <div className="relative aspect-square w-full overflow-hidden bg-[#f3f2ef]">
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}
@@ -85,11 +86,11 @@ export default function NewArrivalsGrid({
             </button>
           </div>
 
-          <div className="px-2 pt-4 text-center">
-            <h3 className="text-[13px] font-light leading-snug tracking-wide text-charcoal sm:text-sm md:text-base">
+          <div className="px-4 pb-5 pt-4 text-center">
+            <h3 className="text-[13px] font-light leading-snug tracking-wide text-white sm:text-sm md:text-base">
               {p.name}
             </h3>
-            <p className="mt-2 text-[13px] font-light text-neutral-600 sm:text-sm">
+            <p className="mt-2 text-[13px] font-light text-neutral-400 sm:text-sm">
               {formatPrice(p.price)}
             </p>
           </div>
