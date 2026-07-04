@@ -5,12 +5,12 @@ import Link from "next/link";
 // links to that category. Hebrew filenames are percent-encoded (encodeURI) so
 // the paths resolve without 404s.
 const CATEGORIES = [
-  { image: "/photo/קולקצית.jpeg", label: "שרשראות", href: "/necklaces" },
-  { image: "/photo/קוליקצת 2.jpeg", label: "טבעות", href: "/rings" },
-  { image: "/photo/קולקצית 5.jpeg", label: "צמידים", href: "/bracelets" },
-  { image: "/photo/קולקצית 6.jpeg", label: "עגילים", href: "/earrings" },
+  { image: "/photo/category-1.jpeg", label: "שרשראות", href: "/necklaces" },
+  { image: "/photo/category-2.jpeg", label: "טבעות", href: "/rings" },
+  { image: "/photo/category-5.jpeg", label: "צמידים", href: "/bracelets" },
+  { image: "/photo/category-6.jpeg", label: "עגילים", href: "/earrings" },
   {
-    image: "/photo/קולקצית מונסניט.jpeg",
+    image: "/photo/category-moissanite.jpeg",
     label: "מואסניט",
     href: "/collection/moissanite",
   },

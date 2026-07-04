@@ -25,35 +25,35 @@ interface SignatureSet {
 const SETS: SignatureSet[] = [
   {
     id: "set-evening",
-    image: "/photo/סט 1.jpeg",
+    image: "/photo/set-1.jpeg",
     title: "הסט המושלם לערב",
     caption: "נצנוץ דרמטי לרגעים הגדולים",
     pieces: [
-      { id: "matan-16", name: "שרשרת טניס יהלומים", price: 690, image: "/photo/מתן 16.jpeg", slug: "matan-16" },
-      { id: "matan-24", name: "עגילי הילה כפולה", price: 420, image: "/photo/מתן 24.jpeg", slug: "matan-24" },
-      { id: "matan-11", name: "טבעת הילה עגולה", price: 490, image: "/photo/מתן 11.jpeg", slug: "matan-11" },
+      { id: "matan-16", name: "שרשרת טניס יהלומים", price: 690, image: "/photo/moissanite-16.jpeg", slug: "matan-16" },
+      { id: "matan-24", name: "עגילי הילה כפולה", price: 420, image: "/photo/moissanite-24.jpeg", slug: "matan-24" },
+      { id: "matan-11", name: "טבעת הילה עגולה", price: 490, image: "/photo/moissanite-11.jpeg", slug: "matan-11" },
     ],
   },
   {
     id: "set-daily",
-    image: "/photo/סט 2.jpeg",
+    image: "/photo/set-2.jpeg",
     title: "אלגנטיות לכל יום",
     caption: "עדין, נקי ועל-זמני",
     pieces: [
-      { id: "matan-18", name: "שרשרת תליון סוליטר", price: 350, image: "/photo/מתן 18.jpeg", slug: "matan-18" },
-      { id: "matan-25", name: "עגילי סוליטר", price: 350, image: "/photo/מתן 25.jpeg", slug: "matan-25" },
-      { id: "matan-10", name: "טבעת סוליטר עגולה", price: 410, image: "/photo/מתן 10.jpeg", slug: "matan-10" },
+      { id: "matan-18", name: "שרשרת תליון סוליטר", price: 350, image: "/photo/moissanite-18.jpeg", slug: "matan-18" },
+      { id: "matan-25", name: "עגילי סוליטר", price: 350, image: "/photo/moissanite-25.jpeg", slug: "matan-25" },
+      { id: "matan-10", name: "טבעת סוליטר עגולה", price: 410, image: "/photo/moissanite-10.jpeg", slug: "matan-10" },
     ],
   },
   {
     id: "set-luxe",
-    image: "/photo/סט 3.jpeg",
+    image: "/photo/set-3.jpeg",
     title: "סט יוקרתי במיוחד",
     caption: "הצהרת סטייל ללא פשרות",
     pieces: [
-      { id: "matan-17", name: "שרשרת טניס שחורה", price: 690, image: "/photo/מתן 17.jpeg", slug: "matan-17" },
+      { id: "matan-17", name: "שרשרת טניס שחורה", price: 690, image: "/photo/moissanite-17.jpeg", slug: "matan-17" },
       { id: "bracelet-1", name: "צמיד טניס אבני חן שחורות", price: 460, image: "/photo/bracelet-1.jpeg", slug: "bracelet-1" },
-      { id: "matan-22", name: "עגילי טיפה הילה", price: 380, image: "/photo/מתן 22.jpeg", slug: "matan-22" },
+      { id: "matan-22", name: "עגילי טיפה הילה", price: 380, image: "/photo/moissanite-22.jpeg", slug: "matan-22" },
     ],
   },
 ];
