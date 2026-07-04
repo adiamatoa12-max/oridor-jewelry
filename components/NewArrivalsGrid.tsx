@@ -46,10 +46,14 @@ export default function NewArrivalsGrid({
     layout === "grid"
       ? "grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14"
       : "hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:-mx-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:px-0";
+  // Premium card hover: soft lift + a minimal stone shadow that only appears on
+  // hover — no resting box, border or background.
+  const hoverClass =
+    "rounded-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-stone-300/50";
   const itemClass =
     layout === "grid"
-      ? "group block"
-      : "group block w-[62%] flex-shrink-0 snap-start sm:w-[42%] lg:w-auto";
+      ? `group block ${hoverClass}`
+      : `group block w-[62%] flex-shrink-0 snap-start sm:w-[42%] lg:w-auto ${hoverClass}`;
 
   return (
     <div className={containerClass}>
@@ -66,7 +70,7 @@ export default function NewArrivalsGrid({
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 62vw"
-              className="object-cover object-center mix-blend-multiply transition-transform duration-700 ease-cinematic group-hover:scale-[1.03]"
+              className="object-cover object-center mix-blend-multiply"
             />
 
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
