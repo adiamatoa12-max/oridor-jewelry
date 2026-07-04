@@ -37,7 +37,7 @@ export default function SilverGrid({ products }: { products: SilverProduct[] }) 
         <Link
           key={p.id}
           href={`/collection/silver/${p.slug}`}
-          className="group block overflow-hidden rounded-md border border-platinum/40 bg-canvas shadow-card transition-all duration-500 ease-cinematic hover:-translate-y-1 hover:shadow-cardHover"
+          className="group block rounded-sm bg-transparent transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-stone-300/50"
         >
           <div className="relative aspect-square w-full overflow-hidden bg-transparent">
             <Image
