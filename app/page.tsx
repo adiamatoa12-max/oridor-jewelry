@@ -6,11 +6,11 @@ import OridorQuality from "@/components/OridorQuality";
 import InstagramFeed from "@/components/InstagramFeed";
 import PremiumFooter from "@/components/PremiumFooter";
 import Hero from "@/components/Hero";
-import EditorialFeature from "@/components/EditorialFeature";
 import SignatureSets from "@/components/SignatureSets";
 import MoissanitePreview from "@/components/MoissanitePreview";
 import NewArrivals from "@/components/NewArrivals";
 import Reveal from "@/components/Reveal";
+import MoissaniteEducation from "@/components/MoissaniteEducation";
 
 export default function Home() {
   return (
@@ -34,10 +34,12 @@ export default function Home() {
       <Reveal><SplitPromoBanners /></Reveal>
       {/* Signature sets — curated lookbook (no individual-product overlap) */}
       <Reveal><SignatureSets /></Reveal>
-      <Reveal><EditorialFeature /></Reveal>
       <Reveal><CustomerReviews /></Reveal>
       {/* Quality values — trust-building section just above the footer */}
       <Reveal><OridorQuality /></Reveal>
+
+      {/* Moissanite education — editorial vs.-zircon band near the page bottom */}
+      <Reveal><MoissaniteEducation /></Reveal>
 
       <PremiumFooter />
     </main>

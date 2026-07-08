@@ -42,10 +42,9 @@ export default function MoissaniteGrid({
     layout === "grid"
       ? "grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14"
       : "hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:-mx-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:px-0";
-  // Dark-elegance card: near-black surface, borderless, floating with a soft
-  // shadow and a lift on hover.
+  // Seamless, borderless card — no background block, gentle lift on hover.
   const hoverClass =
-    "overflow-hidden rounded-lg bg-[#1a1a1c] shadow-xl shadow-black/25 transition-transform duration-300 ease-out hover:-translate-y-1";
+    "bg-transparent transition-transform duration-300 ease-out hover:-translate-y-1";
   const itemClass =
     layout === "grid"
       ? `group block ${hoverClass}`
@@ -76,9 +75,8 @@ export default function MoissaniteGrid({
           href={`/collection/moissanite/${p.slug}`}
           className={itemClass}
         >
-          {/* Light image well — keeps the white-studio jewelry crisp inside the
-              dark card (multiply can't blend it onto a dark surface). */}
-          <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#f3f2ef]">
+          {/* Seamless image — white studio background knocked out by multiply. */}
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}
@@ -99,9 +97,9 @@ export default function MoissaniteGrid({
             </button>
           </div>
 
-          <div className="px-4 pb-5 pt-4 text-center">
-            <h3 className="text-[13px] font-light leading-snug tracking-wide text-white sm:text-sm md:text-base">{p.name}</h3>
-            <p className="mt-2 text-[13px] font-light text-neutral-400 sm:text-sm">{formatPrice(p.price)}</p>
+          <div className="px-2 pt-5 text-center">
+            <h3 className="text-xs font-normal leading-snug tracking-[0.06em] text-charcoal sm:text-[13px]">{p.name}</h3>
+            <p className="mt-1.5 text-xs font-light tracking-[0.06em] text-graphite sm:text-[13px]">{formatPrice(p.price)}</p>
           </div>
         </Link>
       ))}

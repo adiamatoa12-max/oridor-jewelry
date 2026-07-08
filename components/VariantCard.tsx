@@ -31,12 +31,12 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
   const variant = product.variants[active];
 
   return (
-    <div className="group block overflow-hidden rounded-lg bg-[#1a1a1c] shadow-xl shadow-black/25 transition-transform duration-300 ease-out hover:-translate-y-1">
+    <div className="group block bg-transparent transition-transform duration-300 ease-out hover:-translate-y-1">
       <Link
         href={`/collection/signature/${product.slug}`}
         className="block"
       >
-        <div className="relative aspect-square w-full overflow-hidden bg-[#f3f2ef]">
+        <div className="relative aspect-square w-full overflow-hidden bg-transparent">
           {/* Crossfade between variant images */}
           {product.variants.map((v, i) => (
             <Image
@@ -53,9 +53,9 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
         </div>
       </Link>
 
-      <div className="px-4 pb-5 pt-4 text-center">
-        <h3 className="text-[13px] font-normal leading-snug tracking-wide text-white sm:text-sm md:text-base">{product.name}</h3>
-        <p className="mt-1 text-[13px] font-light text-neutral-400 sm:text-sm md:text-base">{formatPrice(product.price)}</p>
+      <div className="px-2 pt-5 text-center">
+        <h3 className="text-xs font-normal leading-snug tracking-[0.06em] text-charcoal sm:text-[13px]">{product.name}</h3>
+        <p className="mt-1.5 text-xs font-light tracking-[0.06em] text-graphite sm:text-[13px]">{formatPrice(product.price)}</p>
 
         {/* Color swatches — 20px dots inside a 44px tap target for touch */}
         <div className="mt-1 flex items-center justify-center gap-1">
@@ -74,8 +74,8 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
                 <span
                   className={`h-5 w-5 rounded-full border transition-all duration-200 ${
                     on
-                      ? "scale-110 border-white ring-1 ring-white/40 ring-offset-1 ring-offset-[#1a1a1c]"
-                      : "border-white/40"
+                      ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-1"
+                      : "border-platinum/70"
                   }`}
                   style={{ backgroundColor: v.hex }}
                 />

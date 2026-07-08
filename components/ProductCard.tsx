@@ -72,13 +72,11 @@ export default function ProductCard({
   return (
     <Link
       href={href}
-      className="group block overflow-hidden rounded-lg bg-[#1a1a1c] shadow-xl shadow-black/25 transition-transform duration-300 ease-out hover:-translate-y-1"
+      className="group block bg-transparent transition-transform duration-300 ease-out hover:-translate-y-1"
     >
-      {/* Dark-elegance card. The white studio photos can't be blended onto a
-          dark surface (multiply would darken the jewelry itself), so the image
-          sits in a light well where mix-blend-multiply melts the white edge —
-          keeping the piece crisp — inside the premium near-black card. */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#f3f2ef]">
+      {/* Seamless, borderless card — the white studio background is knocked out
+          by mix-blend-multiply so the jewelry rests directly on the page. */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
         <Image
           src={displayImage}
           alt={`${title} — תכשיט כסף מבית Oridor`}
@@ -107,11 +105,11 @@ export default function ProductCard({
         </div>
       </div>
 
-      <div className="px-4 pb-5 pt-4 text-center">
-        <h3 className="text-[13px] font-normal leading-snug tracking-wide text-white sm:text-sm md:text-base">
+      <div className="px-2 pt-5 text-center">
+        <h3 className="text-xs font-normal leading-snug tracking-[0.06em] text-charcoal sm:text-[13px]">
           {title}
         </h3>
-        <p className="mt-1.5 text-[13px] font-light text-neutral-400 sm:text-sm md:text-base">
+        <p className="mt-1.5 text-xs font-light tracking-[0.06em] text-graphite sm:text-[13px]">
           {formattedPrice}
         </p>
 
@@ -138,8 +136,8 @@ export default function ProductCard({
                   <span
                     className={`h-4 w-4 rounded-full border transition-all duration-200 ${
                       on
-                        ? "scale-110 border-white ring-1 ring-white/40 ring-offset-1 ring-offset-[#1a1a1c]"
-                        : "border-white/40"
+                        ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-1"
+                        : "border-platinum/70"
                     }`}
                     style={{ backgroundColor: v.hex }}
                   />
