@@ -1,7 +1,15 @@
+import Image from "next/image";
+
+/* High-sparkle macro — a round-brilliant halo solitaire on a clean white ground,
+ * cropped tight on the stone so the fire fills the frame and matches the copy.
+ * Uses moissanite-11 (a piece NOT shown in the homepage preview grid) so the
+ * homepage never renders the same photo twice. */
+const SPARKLE_MEDIA = "/photo/moissanite-11.jpeg";
+
 /**
- * Moissanite education — a calm, editorial two-column band.
- * Right (RTL start): high-end typography explaining moissanite vs. zircon.
- * Left: a quietly looping video of the stone's brilliance, rounded to match UI.
+ * The ORIDOR Standard — an editorial materials band.
+ * Right (RTL start): high-end typography on the rhodium finish + moissanite stone.
+ * Left: a macro close-up of a heavily sparkling solitaire, rounded to match UI.
  * Generous vertical padding so it breathes like a luxury spread.
  */
 export default function MoissaniteEducation() {
@@ -10,30 +18,34 @@ export default function MoissaniteEducation() {
       <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-20">
         {/* Right column (RTL start): text */}
         <div className="text-right">
-          <p className="mb-4 text-xs tracking-[0.25em] text-gold">הברק הנצחי</p>
-          <h2 className="text-3xl font-light leading-relaxed tracking-wide text-charcoal lg:text-4xl">
-            מויסאניט, לא זירקון.
+          <p className="mb-4 text-xs tracking-[0.25em] text-gold">הסטנדרט שלנו</p>
+          <h2 className="text-2xl font-light leading-relaxed tracking-wide text-charcoal sm:text-3xl lg:text-[2.1rem]">
+            הסטנדרט של ORIDOR: חומרים ללא פשרות
           </h2>
-          <span className="my-7 block h-px w-16 bg-platinum" />
-          <p className="max-w-md text-base font-light leading-loose text-graphite">
-            זירקון מתעמעם ומאבד את ברקו עם הזמן. מויסאניט לעומת זאת, עם מקדם
-            שבירת אור גבוה משל יהלום, מבטיח שהאש והניצוץ שלו יישארו נצחיים
-            לעולם.
+          <span className="my-8 block h-px w-16 bg-platinum" />
+          <p className="text-base font-light leading-loose text-graphite">
+            כל תכשיט בקולקציה שלנו מיוצר מכסף סטרלינג 925 איכותי ומצופה ברודיום –
+            מתכת נדירה ויוקרתית ממשפחת הפלטינה. ציפוי הרודיום מעניק לתכשיט את הגוון
+            הבוהק של זהב לבן, מגן עליו מפני השחרה לחלוטין ומבטיח שהוא יהיה
+            היפואלרגני ובטוח לעור.
+          </p>
+          <p className="mt-6 text-base font-light leading-loose text-graphite">
+            במרכז העיצובים שלנו עומדת אבן המויסאניט. עם מדד שבירת אור גבוה אפילו
+            מזה של יהלום, מויסאניט מעניקה נצנוץ אש עוצר נשימה וקשיחות יוצאת דופן
+            שעמידה לשריטות. זוהי בחירה חכמה ויוקרתית שמבטיחה תכשיט שישמור על הברק
+            המטורף שלו לנצח – בלי המחיר המופרז של יהלום כרייה.
           </p>
         </div>
 
-        {/* Left column: media */}
-        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-mist shadow-card md:aspect-square">
-          <video
-            className="h-full w-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            aria-hidden="true"
-          >
-            <source src="/video/clara_post_3.mp4" type="video/mp4" />
-          </video>
+        {/* Left column: media — macro sparkle, cropped tight on the stone */}
+        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-mist shadow-card">
+          <Image
+            src={SPARKLE_MEDIA}
+            alt="תקריב של סוליטר מויסאניט עגול לוכד את האור"
+            fill
+            sizes="(min-width: 768px) 50vw, 100vw"
+            className="scale-150 object-cover object-center"
+          />
         </div>
       </div>
     </section>

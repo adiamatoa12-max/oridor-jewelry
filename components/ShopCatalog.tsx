@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProductCard from "./ProductCard";
 import {
   buildUnifiedCatalog,
@@ -18,6 +18,14 @@ function matches(p: CatalogProduct, chip: Chip): boolean {
 export default function ShopCatalog() {
   const products = useMemo(() => buildUnifiedCatalog(), []);
   const [activeChip, setActiveChip] = useState(0);
+
+  // Pre-select a chip when arriving from a category tile (/shop?filter=<label>).
+  useEffect(() => {
+    const filter = new URLSearchParams(window.location.search).get("filter");
+    if (!filter) return;
+    const idx = SHOP_CHIPS.findIndex((c) => c.label === filter);
+    if (idx > 0) setActiveChip(idx);
+  }, []);
 
   const visible = useMemo(
     () => products.filter((p) => matches(p, SHOP_CHIPS[activeChip])),

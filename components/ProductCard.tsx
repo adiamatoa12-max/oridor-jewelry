@@ -72,7 +72,7 @@ export default function ProductCard({
   return (
     <Link
       href={href}
-      className="group block bg-transparent transition-transform duration-300 ease-out hover:-translate-y-1"
+      className="group block bg-transparent transition-[transform,opacity] duration-300 ease-out [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
       {/* Seamless, borderless card — the white studio background is knocked out
           by mix-blend-multiply so the jewelry rests directly on the page. */}

@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// Category gallery — each tile shows a collection photo, a category label, and
-// links to that category. Hebrew filenames are percent-encoded (encodeURI) so
-// the paths resolve without 404s.
+// Category gallery — each tile links to the unified /shop with its category
+// pre-selected via the ?filter=<chip label> param (see ShopCatalog). Moissanite
+// keeps its dedicated collection page. Hebrew filenames are percent-encoded.
 const CATEGORIES = [
-  { image: "/photo/category-1.jpeg", label: "שרשראות", href: "/necklaces" },
-  { image: "/photo/category-2.jpeg", label: "טבעות", href: "/rings" },
-  { image: "/photo/category-5.jpeg", label: "צמידים", href: "/bracelets" },
-  { image: "/photo/category-6.jpeg", label: "עגילים", href: "/earrings" },
+  { image: "/photo/category-1.jpeg", label: "שרשראות", href: "/shop?filter=שרשראות" },
+  { image: "/photo/category-2.jpeg", label: "טבעות", href: "/shop?filter=טבעות" },
+  { image: "/photo/category-5.jpeg", label: "צמידים", href: "/shop?filter=צמידים" },
+  { image: "/photo/category-6.jpeg", label: "עגילים", href: "/shop?filter=עגילים" },
   {
     image: "/photo/category-moissanite.jpeg",
     label: "מואסניט",
