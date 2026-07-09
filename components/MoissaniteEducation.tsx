@@ -1,10 +1,9 @@
 import Image from "next/image";
 
-/* High-sparkle macro — a round-brilliant halo solitaire on a clean white ground,
- * cropped tight on the stone so the fire fills the frame and matches the copy.
- * Uses moissanite-11 (a piece NOT shown in the homepage preview grid) so the
- * homepage never renders the same photo twice. */
-const SPARKLE_MEDIA = "/photo/moissanite-11.jpeg";
+/* Editorial flat-lay of the full moissanite suite (necklace, ring, studs, tennis
+ * bracelet) on a soft white ground — a landscape hero that matches the materials
+ * copy. Constrained and gently rounded so it sits proportionally beside the text. */
+const SPARKLE_MEDIA = "/photo/מונסיאט רקע.jpeg";
 
 /**
  * The ORIDOR Standard — an editorial materials band.
@@ -38,14 +37,14 @@ export default function MoissaniteEducation() {
           </p>
         </div>
 
-        {/* Left column: media — macro sparkle, cropped tight on the stone */}
-        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-lg bg-mist shadow-card">
+        {/* Left column: media — constrained landscape flat-lay, gently rounded */}
+        <div className="relative mx-auto aspect-[4/3] w-full max-w-lg overflow-hidden rounded-2xl bg-mist shadow-card">
           <Image
             src={SPARKLE_MEDIA}
-            alt="תקריב של סוליטר מויסאניט עגול לוכד את האור"
+            alt="פריסת קולקציית המויסאניט — שרשרת, טבעת, עגילים וצמיד טניס"
             fill
-            sizes="(min-width: 768px) 50vw, 100vw"
-            className="scale-150 object-cover object-center"
+            sizes="(min-width: 768px) 32rem, 100vw"
+            className="object-cover object-center"
           />
         </div>
       </div>
