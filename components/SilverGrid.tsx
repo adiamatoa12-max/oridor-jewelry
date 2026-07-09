@@ -61,15 +61,15 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
   return (
     <Link
       href={`/collection/silver/${p.slug}`}
-      className="group block bg-transparent transition-transform duration-300 ease-out hover:-translate-y-1"
+      className="group block bg-transparent transition-transform duration-300 ease-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1"
     >
-      <div className="relative aspect-square w-full overflow-hidden bg-transparent">
+      <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-cream/60 transition-shadow duration-500 ease-out group-hover:shadow-xl group-hover:shadow-charcoal/10">
         <Image
           src={encodeURI(displayImage)}
           alt={`${p.name} — ${p.material}`}
           fill
           sizes="(min-width: 1024px) 25vw, 50vw"
-          className="object-contain object-center p-3 mix-blend-multiply"
+          className="object-contain object-center p-3 mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105"
         />
         <span className="pointer-events-none absolute start-3 top-3 border border-platinum/70 bg-canvas/70 px-2.5 py-1 text-[10px] tracking-[0.2em] text-graphite backdrop-blur-sm">
           כסף 925
@@ -87,11 +87,11 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
         </button>
       </div>
 
-      <div className="px-2 pt-5 text-center">
-        <h3 className="text-xs font-normal leading-snug tracking-[0.06em] text-charcoal sm:text-[13px]">
+      <div className="px-2 pt-6 text-center">
+        <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
           {p.name}
         </h3>
-        <p className="mt-1.5 text-xs font-light tracking-[0.06em] text-graphite sm:text-[13px]">
+        <p className="mt-2 text-xs font-light tracking-[0.08em] text-graphite sm:text-[13px]">
           {formatPrice(p.price)}
         </p>
 

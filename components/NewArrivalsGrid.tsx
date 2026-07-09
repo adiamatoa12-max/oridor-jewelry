@@ -46,9 +46,9 @@ export default function NewArrivalsGrid({
     layout === "grid"
       ? "grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14"
       : "hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:-mx-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:px-0";
-  // Seamless, borderless card — no background block, gentle lift on hover.
+  // Seamless card — gentle lift on hover; no tap-highlight flash on touch.
   const hoverClass =
-    "bg-transparent transition-transform duration-300 ease-out hover:-translate-y-1";
+    "bg-transparent transition-transform duration-300 ease-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1";
   const itemClass =
     layout === "grid"
       ? `group block ${hoverClass}`
@@ -62,14 +62,15 @@ export default function NewArrivalsGrid({
           href={`/collection/new/${p.slug}`}
           className={itemClass}
         >
-          {/* Seamless image — white studio background knocked out by multiply. */}
-          <div className="relative aspect-square w-full overflow-hidden bg-transparent">
+          {/* Soft cream surface, gently rounded; white studio background knocked
+              out by multiply. Blurred ambient shadow blooms on hover. */}
+          <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-cream/60 transition-shadow duration-500 ease-out group-hover:shadow-xl group-hover:shadow-charcoal/10">
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 62vw"
-              className="object-cover object-center mix-blend-multiply"
+              className="object-cover object-center mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105"
             />
 
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
@@ -84,11 +85,11 @@ export default function NewArrivalsGrid({
             </button>
           </div>
 
-          <div className="px-2 pt-5 text-center">
-            <h3 className="text-xs font-normal leading-snug tracking-[0.06em] text-charcoal sm:text-[13px]">
+          <div className="px-2 pt-6 text-center">
+            <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
               {p.name}
             </h3>
-            <p className="mt-1.5 text-xs font-light tracking-[0.06em] text-graphite sm:text-[13px]">
+            <p className="mt-2 text-xs font-light tracking-[0.08em] text-graphite sm:text-[13px]">
               {formatPrice(p.price)}
             </p>
           </div>

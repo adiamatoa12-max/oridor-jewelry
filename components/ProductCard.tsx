@@ -74,9 +74,10 @@ export default function ProductCard({
       href={href}
       className="group block bg-transparent transition-[transform,opacity] duration-300 ease-out [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
-      {/* Seamless, borderless card — the white studio background is knocked out
-          by mix-blend-multiply so the jewelry rests directly on the page. */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
+      {/* Soft, seamless surface — a whisper of warm cream with gentle rounding.
+          The white studio background is knocked out by mix-blend-multiply so the
+          jewelry floats on the card. A blurred ambient shadow blooms on hover. */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-cream/60 transition-shadow duration-500 ease-out group-hover:shadow-xl group-hover:shadow-charcoal/10">
         <Image
           src={displayImage}
           alt={`${title} — תכשיט כסף מבית Oridor`}
@@ -105,11 +106,11 @@ export default function ProductCard({
         </div>
       </div>
 
-      <div className="px-2 pt-5 text-center">
-        <h3 className="text-xs font-normal leading-snug tracking-[0.06em] text-charcoal sm:text-[13px]">
+      <div className="px-2 pt-6 text-center">
+        <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
           {title}
         </h3>
-        <p className="mt-1.5 text-xs font-light tracking-[0.06em] text-graphite sm:text-[13px]">
+        <p className="mt-2 text-xs font-light tracking-[0.08em] text-graphite sm:text-[13px]">
           {formattedPrice}
         </p>
 
