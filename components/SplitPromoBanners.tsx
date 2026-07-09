@@ -19,7 +19,8 @@ const BANNERS: PromoBanner[] = [
     // Right banner (first in RTL flow) — light marble background.
     title: "קולקציית הטניס",
     subtitle: "מבצע השקה: קני 2, קבלי 15% הנחה",
-    href: "/bracelets",
+    // Dedicated tennis collection page — renders only 'טניס'-named pieces.
+    href: "/collection/tennis",
     image: "/photo/clara_post_4.jpg",
     alt: "דוגמנית עונדת צמיד טניס עדין מכסף",
     tone: "light",
@@ -28,7 +29,8 @@ const BANNERS: PromoBanner[] = [
     // Left banner — darker, complex background.
     title: "אלגנטיות לערב",
     subtitle: "פריטים מובחרים לאירועים בלתי נשכחים",
-    href: "/necklaces",
+    // Dedicated evening-sets page (Evening Elegance).
+    href: "/sets",
     image: "/photo/clara_post_5.jpg",
     alt: "דוגמנית עונדת תכשיטי כסף משובחים לערב",
     tone: "dark",
