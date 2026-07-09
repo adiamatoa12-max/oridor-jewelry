@@ -12,6 +12,8 @@ export interface MoissaniteProduct {
   carat: number;
   material: string;
   image_url: string;
+  /** Optional lifestyle/on-model shot that fades in on hover/touch. */
+  hover_image?: string;
   slug: string;
   /** Category key for filtering (Rings/Bracelets/Necklaces/Earrings). */
   category?: string;
@@ -86,6 +88,19 @@ export default function MoissaniteGrid({
               sizes="(min-width: 1024px) 25vw, 62vw"
               className="object-cover object-center mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105"
             />
+
+            {/* Lifestyle/on-model shot — fades in over the product photo on hover
+                (desktop) and on touch-down (mobile, via group-active), then fades
+                back out. A full-bleed cover image, so no multiply blend. */}
+            {p.hover_image && (
+              <Image
+                src={encodeURI(p.hover_image)}
+                alt={`${p.name} בעיצוב על הדוגמנית`}
+                fill
+                sizes="(min-width: 1024px) 25vw, 62vw"
+                className="object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-active:opacity-100"
+              />
+            )}
 
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
             <button
