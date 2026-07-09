@@ -16,20 +16,21 @@ export default function MoissaniteEducation() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
       <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-20">
-        {/* Right column (RTL start): text */}
+        {/* Right column (RTL start): text — clean, whitespace-driven, no dividers */}
         <div className="text-right">
-          <p className="mb-4 text-xs tracking-[0.25em] text-gold">הסטנדרט שלנו</p>
-          <h2 className="text-2xl font-light leading-relaxed tracking-wide text-charcoal sm:text-3xl lg:text-[2.1rem]">
+          <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.3em] text-gold">
+            הסטנדרט שלנו
+          </p>
+          <h2 className="text-[1.75rem] font-medium leading-snug tracking-wide text-charcoal sm:text-4xl lg:text-[2.5rem] lg:leading-[1.2]">
             הסטנדרט של ORIDOR: חומרים ללא פשרות
           </h2>
-          <span className="my-8 block h-px w-16 bg-platinum" />
-          <p className="text-base font-light leading-loose text-graphite">
+          <p className="mt-8 text-[15px] font-normal leading-loose text-graphite sm:text-base">
             כל תכשיט בקולקציה שלנו מיוצר מכסף סטרלינג 925 איכותי ומצופה ברודיום –
             מתכת נדירה ויוקרתית ממשפחת הפלטינה. ציפוי הרודיום מעניק לתכשיט את הגוון
             הבוהק של זהב לבן, מגן עליו מפני השחרה לחלוטין ומבטיח שהוא יהיה
             היפואלרגני ובטוח לעור.
           </p>
-          <p className="mt-6 text-base font-light leading-loose text-graphite">
+          <p className="mt-6 text-[15px] font-normal leading-loose text-graphite sm:text-base">
             במרכז העיצובים שלנו עומדת אבן המויסאניט. עם מדד שבירת אור גבוה אפילו
             מזה של יהלום, מויסאניט מעניקה נצנוץ אש עוצר נשימה וקשיחות יוצאת דופן
             שעמידה לשריטות. זוהי בחירה חכמה ויוקרתית שמבטיחה תכשיט שישמור על הברק
