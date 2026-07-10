@@ -7,6 +7,8 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import type { MoissaniteProduct } from "@/components/MoissaniteGrid";
+import ProductBuyBox from "@/components/ProductBuyBox";
+import { getProductWithVariants } from "@/lib/shopify";
 import data from "@/data/moissanite_collection.json";
 
 const products = data as MoissaniteProduct[];
@@ -58,13 +60,16 @@ export function generateMetadata({
   };
 }
 
-export default function MoissaniteProductPage({
+export default async function MoissaniteProductPage({
   params,
 }: {
   params: { slug: string };
 }) {
   const product = products.find((p) => p.slug === params.slug);
   if (!product) notFound();
+
+  // Live Shopify options + variants for the buy box (null → local fallback).
+  const shopifyProduct = await getProductWithVariants(product.slug);
 
   // Product structured data (Schema.org) for rich search results.
   const productJsonLd = {
@@ -124,9 +129,12 @@ export default function MoissaniteProductPage({
             <h1 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal lg:text-4xl">
               {product.name}
             </h1>
-            <p className="mt-4 text-xl font-light text-graphite">
-              {formatPrice(product.price)}
-            </p>
+            <ProductBuyBox
+              title={product.name}
+              image={encodeURI(product.image_url)}
+              fallbackPrice={product.price}
+              product={shopifyProduct}
+            />
 
             {/* Quality assurance badge */}
             <Link
@@ -159,13 +167,6 @@ export default function MoissaniteProductPage({
               רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אתכן לכל
               החיים.
             </p>
-
-            <button
-              type="button"
-              className="btn-primary mt-10 w-full sm:w-auto sm:px-16"
-            >
-              הוספה לאוסף
-            </button>
 
             {/* VIP Vault upsell callout */}
             <div className="mt-4 flex max-w-md items-center gap-2 rounded-sm border border-gold/30 bg-cream/70 px-4 py-3">

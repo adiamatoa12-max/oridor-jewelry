@@ -7,6 +7,8 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import type { SilverProduct } from "@/components/SilverGrid";
+import ProductBuyBox from "@/components/ProductBuyBox";
+import { getProductWithVariants } from "@/lib/shopify";
 import data from "@/data/silver_collection.json";
 
 const products = data as SilverProduct[];
@@ -30,13 +32,20 @@ export function generateMetadata({
   };
 }
 
-export default function SilverProductPage({
+export default async function SilverProductPage({
   params,
 }: {
   params: { slug: string };
 }) {
   const product = products.find((p) => p.slug === params.slug);
   if (!product) notFound();
+
+  // Live Shopify options + variants for the buy box (null → local fallback).
+  const shopifyProduct = await getProductWithVariants(product.slug);
+  // Map colour value → hex from local variants so swatches keep their tint.
+  const hexByValue: Record<string, string> = Object.fromEntries(
+    (product.variants ?? []).map((v) => [v.color, v.hex]),
+  );
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -92,9 +101,13 @@ export default function SilverProductPage({
             <h1 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal lg:text-4xl">
               {product.name}
             </h1>
-            <p className="mt-4 text-xl font-light text-graphite">
-              {formatPrice(product.price)}
-            </p>
+            <ProductBuyBox
+              title={product.name}
+              image={encodeURI(product.image_url)}
+              fallbackPrice={product.price}
+              product={shopifyProduct}
+              hexByValue={hexByValue}
+            />
 
             <Link
               href="/quality"
@@ -122,12 +135,6 @@ export default function SilverProductPage({
               עיצוב שנועד ללוות אתכן יום-יום, לשנים רבות.
             </p>
 
-            <button
-              type="button"
-              className="btn-primary mt-10 w-full sm:w-auto sm:px-16"
-            >
-              הוספה לאוסף
-            </button>
 
             {/* VIP Vault upsell callout */}
             <div className="mt-4 flex max-w-md items-center gap-2 rounded-sm border border-gold/30 bg-cream/70 px-4 py-3">

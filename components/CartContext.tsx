@@ -6,6 +6,8 @@ export interface CartItem {
   id: string;
   title: string;
   variant?: string;
+  /** Shopify variant GID (gid://shopify/ProductVariant/…) for checkout. */
+  variantId?: string;
   price: number;
   quantity: number;
   image: string;

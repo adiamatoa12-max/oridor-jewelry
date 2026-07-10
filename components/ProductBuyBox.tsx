@@ -1,0 +1,179 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import { useCart } from "./CartContext";
+import type {
+  ShopifyProductOptions,
+  ShopifyVariant,
+} from "@/lib/shopify";
+
+const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
+
+// Option axes rendered as colour swatches vs. text pills. Anything that reads
+// like a colour/material is a swatch; everything else (Carat, Size, …) is a pill.
+const SWATCH_OPTION = /צבע|color|material|חומר|גימור|finish|metal|מתכת/i;
+
+function optionIsSwatch(name: string) {
+  return SWATCH_OPTION.test(name);
+}
+
+/**
+ * Premium product buy box driven by live Shopify options + variants.
+ *
+ * - Colour/Material options → elegant swatches (hex from `hexByValue`).
+ * - Carat/Size/other options → clickable pill buttons.
+ * - Selecting any option resolves the matching Shopify variant, updates the
+ *   displayed price, and passes that variant's ID to the cart.
+ *
+ * Single-variant products (Shopify's default "Title / Default Title") render
+ * no option controls — just the price and the add-to-cart button.
+ */
+export default function ProductBuyBox({
+  title,
+  image,
+  fallbackPrice,
+  product,
+  hexByValue = {},
+}: {
+  title: string;
+  image: string;
+  /** Local price shown when a variant can't be resolved. */
+  fallbackPrice: number;
+  /** Live Shopify options + variants; null when Shopify is unavailable. */
+  product: ShopifyProductOptions | null;
+  /** Optional map of option value → hex, for colour swatches. */
+  hexByValue?: Record<string, string>;
+}) {
+  const { addItem, openCart } = useCart();
+
+  // Real, selectable option axes only (drop Shopify's synthetic "Title" axis).
+  const options = useMemo(
+    () =>
+      (product?.options ?? []).filter(
+        (o) =>
+          o.name.toLowerCase() !== "title" &&
+          !(o.values.length === 1 && o.values[0] === "Default Title"),
+      ),
+    [product],
+  );
+
+  const variants = product?.variants ?? [];
+
+  // Default selection: the first available variant (or the first variant).
+  const initial = useMemo<Record<string, string>>(() => {
+    const base = variants.find((v) => v.available) ?? variants[0];
+    const sel: Record<string, string> = {};
+    base?.selectedOptions.forEach((o) => (sel[o.name] = o.value));
+    return sel;
+  }, [variants]);
+
+  const [selected, setSelected] = useState<Record<string, string>>(initial);
+
+  // Resolve the variant that matches every currently-selected option value.
+  const currentVariant: ShopifyVariant | undefined = useMemo(() => {
+    if (!variants.length) return undefined;
+    return variants.find((v) =>
+      v.selectedOptions.every((o) => selected[o.name] === o.value),
+    );
+  }, [variants, selected]);
+
+  const price = currentVariant?.price ?? fallbackPrice;
+  const soldOut = currentVariant ? !currentVariant.available : false;
+
+  const choose = (optName: string, value: string) =>
+    setSelected((s) => ({ ...s, [optName]: value }));
+
+  const handleAdd = () => {
+    addItem({
+      id: currentVariant?.id ?? title,
+      variantId: currentVariant?.id,
+      title,
+      variant: options.map((o) => selected[o.name]).filter(Boolean).join(" · ") || undefined,
+      price,
+      image,
+    });
+    openCart();
+  };
+
+  return (
+    <div>
+      <p className="mt-4 text-xl font-light text-graphite">{formatPrice(price)}</p>
+
+      {options.map((opt) => {
+        const swatch = optionIsSwatch(opt.name);
+        return (
+          <div key={opt.name} className="mt-7">
+            <p className="mb-3 text-xs uppercase tracking-[0.2em] text-ash">
+              {opt.name}
+              {selected[opt.name] && (
+                <span className="ms-2 tracking-normal text-charcoal">
+                  {selected[opt.name]}
+                </span>
+              )}
+            </p>
+
+            {swatch ? (
+              /* Colour / material swatches */
+              <div className="flex flex-wrap items-center gap-3">
+                {opt.values.map((value) => {
+                  const on = selected[opt.name] === value;
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      aria-label={value}
+                      aria-pressed={on}
+                      title={value}
+                      onClick={() => choose(opt.name, value)}
+                      className="inline-flex h-10 w-10 items-center justify-center"
+                    >
+                      <span
+                        className={`h-6 w-6 rounded-full border transition-all duration-200 ${
+                          on
+                            ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-2"
+                            : "border-platinum/70"
+                        }`}
+                        style={{ backgroundColor: hexByValue[value] ?? "#E8E8E8" }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            ) : (
+              /* Carat / Size / other → pill buttons */
+              <div className="flex flex-wrap gap-2.5">
+                {opt.values.map((value) => {
+                  const on = selected[opt.name] === value;
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      aria-pressed={on}
+                      onClick={() => choose(opt.name, value)}
+                      className={`min-h-[42px] rounded-full border px-5 text-xs tracking-wide transition-all duration-300 ease-out ${
+                        on
+                          ? "border-charcoal bg-charcoal text-canvas"
+                          : "border-platinum/70 bg-canvas text-graphite hover:border-charcoal/50 hover:text-charcoal"
+                      }`}
+                    >
+                      {value}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        );
+      })}
+
+      <button
+        type="button"
+        onClick={handleAdd}
+        disabled={soldOut}
+        className="btn-primary mt-10 w-full disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:px-16"
+      >
+        {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
+      </button>
+    </div>
+  );
+}

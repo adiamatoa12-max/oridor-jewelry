@@ -192,6 +192,95 @@ export async function getProducts(first = 24): Promise<ShopifyProduct[]> {
   return data.products.edges.map((e) => normalizeProduct(e.node));
 }
 
+/* ------------------------------------------------------------------ */
+/* Full product with options + variants (for the product buy box)      */
+/* ------------------------------------------------------------------ */
+
+export interface ShopifySelectedOption {
+  name: string;
+  value: string;
+}
+export interface ShopifyVariant {
+  id: string;
+  title: string;
+  price: number;
+  currencyCode: string;
+  available: boolean;
+  selectedOptions: ShopifySelectedOption[];
+}
+export interface ShopifyProductOptions {
+  handle: string;
+  /** Option axes, e.g. [{ name: "צבע", values: ["כסף","זהב","זהב ורוד"] }]. */
+  options: { name: string; values: string[] }[];
+  variants: ShopifyVariant[];
+}
+
+/**
+ * Fetch a product's options + variants (with per-variant id, price, stock) by
+ * handle. Powers the variant selector on product pages. Returns null when the
+ * product isn't found or Shopify is unconfigured (page then falls back to its
+ * local single-price buy box).
+ */
+export async function getProductWithVariants(
+  handle: string,
+): Promise<ShopifyProductOptions | null> {
+  if (!isShopifyConfigured) return null;
+  const query = /* GraphQL */ `
+    query ProductVariants($handle: String!) {
+      product(handle: $handle) {
+        handle
+        options { name values }
+        variants(first: 100) {
+          edges {
+            node {
+              id
+              title
+              availableForSale
+              price { amount currencyCode }
+              selectedOptions { name value }
+            }
+          }
+        }
+      }
+    }
+  `;
+  try {
+    const data = await shopifyFetch<{
+      product: {
+        handle: string;
+        options: { name: string; values: string[] }[];
+        variants: {
+          edges: {
+            node: {
+              id: string;
+              title: string;
+              availableForSale: boolean;
+              price: MoneyV2;
+              selectedOptions: ShopifySelectedOption[];
+            };
+          }[];
+        };
+      } | null;
+    }>(query, { handle });
+
+    if (!data.product) return null;
+    return {
+      handle: data.product.handle,
+      options: data.product.options,
+      variants: data.product.variants.edges.map(({ node }) => ({
+        id: node.id,
+        title: node.title,
+        price: parseFloat(node.price.amount),
+        currencyCode: node.price.currencyCode,
+        available: node.availableForSale,
+        selectedOptions: node.selectedOptions,
+      })),
+    };
+  } catch {
+    return null;
+  }
+}
+
 /** Live commercial status for one product, keyed by handle. */
 export interface LiveStatus {
   price: number;
