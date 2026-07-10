@@ -26,11 +26,14 @@ export default function Home() {
         {/* Rhythmic block structure — Grid → Banner → Grid → Banner so the page
             reads as punchy, finished sections rather than an endless scroll. */}
 
+        {/* Alternating soft bands (bg-sand) give the scroll depth and rhythm so
+            the page never reads as one flat white wall. */}
+
         {/* Grid: category navigation */}
         <Reveal><InstagramFeed /></Reveal>
 
-        {/* Grid: Moissanite collection */}
-        <Reveal><MoissanitePreview /></Reveal>
+        {/* Grid: Moissanite collection — soft sand band */}
+        <Reveal className="bg-sand/70"><MoissanitePreview /></Reveal>
 
         {/* Banner: full-width feature banners ('אלגנטיות לערב' + 'קולקציית הטניס') */}
         <Reveal><SplitPromoBanners /></Reveal>
@@ -38,8 +41,8 @@ export default function Home() {
         {/* Grid: 925 Silver new arrivals */}
         <Reveal><NewArrivals /></Reveal>
 
-        {/* Grid: signature curated sets */}
-        <Reveal><SignatureSets /></Reveal>
+        {/* Grid: signature curated sets — soft sand band */}
+        <Reveal className="bg-sand/70"><SignatureSets /></Reveal>
 
         {/* Banner: editorial materials band */}
         <Reveal><MoissaniteEducation /></Reveal>

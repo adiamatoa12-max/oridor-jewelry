@@ -15,7 +15,8 @@ const config: Config = {
       colors: {
         // Backgrounds & surfaces — warm boutique palette
         canvas: "#FFFFFF",        // crisp white (cards)
-        offwhite: "#F9F7F5",      // warm premium off-white — global page base
+        offwhite: "#F6F3EC",      // warm greige — global page base
+        sand: "#F1ECE2",          // slightly deeper warm sand — section bands
         cream: "#FAF7F0",         // warm cream base
         beige: "#F5F1E8",         // soft beige (warm surface)
         pearl: "#F4F3F1",         // soft pearl gray (warm-neutral)

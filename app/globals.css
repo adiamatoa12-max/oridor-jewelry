@@ -38,9 +38,11 @@
     overflow-x: clip;
     /* Generous line-height for readability. */
     line-height: 1.65;
-    /* Warm premium off-white base — flat and editorial (no gradient to white,
-       so every section shares the same warm ground). */
-    background-color: #f9f7f5;
+    /* Warm greige base with a whisper-subtle vertical gradient for depth — so
+       the page never reads as a flat white wall. Fixed so it spans the scroll. */
+    background-color: #f6f3ec;
+    background-image: linear-gradient(180deg, #f8f5ef 0%, #f4f0e7 100%);
+    background-attachment: fixed;
     font-feature-settings: "kern";
     -moz-osx-font-smoothing: grayscale;
   }
