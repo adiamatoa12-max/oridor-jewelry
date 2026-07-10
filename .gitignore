@@ -10,3 +10,6 @@ out
 !.env.example
 venv/
 tsconfig.tsbuildinfo
+
+# Generated Shopify import file
+shopify-products.csv
