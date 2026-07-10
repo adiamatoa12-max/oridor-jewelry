@@ -69,7 +69,7 @@ export default function ShopCatalog({
 
       {/* Product grid — strictly 2 on mobile (tight gap → larger images),
           scaling smoothly to 4 on desktop. */}
-      <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-12">
+      <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
         {visible.map((p) => (
           <ProductCard
             key={p.id}

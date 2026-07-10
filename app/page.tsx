@@ -23,23 +23,29 @@ export default function Home() {
       {/* Editorial rhythm — consistent 48px → 96px spacing scale between every
           section so the page breathes evenly on mobile and desktop. */}
       <div className="space-y-12 py-12 lg:space-y-24 lg:py-20">
-        {/* Collections gallery — category navigation */}
+        {/* Rhythmic block structure — Grid → Banner → Grid → Banner so the page
+            reads as punchy, finished sections rather than an endless scroll. */}
+
+        {/* Grid: category navigation */}
         <Reveal><InstagramFeed /></Reveal>
 
-        {/* ── The two distinct product collections ─────────────────────── */}
-        {/* Section 1: Moissanite — ONLY moissanite products */}
+        {/* Grid: Moissanite collection */}
         <Reveal><MoissanitePreview /></Reveal>
-        {/* Section 2: 925 Silver — ONLY the solid-silver products */}
+
+        {/* Banner: full-width feature banners ('אלגנטיות לערב' + 'קולקציית הטניס') */}
+        <Reveal><SplitPromoBanners /></Reveal>
+
+        {/* Grid: 925 Silver new arrivals */}
         <Reveal><NewArrivals /></Reveal>
 
-        {/* Feature banners — 'אלגנטיות לערב' + 'קולקציית הטניס', 50/50 */}
-        <Reveal><SplitPromoBanners /></Reveal>
-        {/* Signature sets — curated lookbook (no individual-product overlap) */}
+        {/* Grid: signature curated sets */}
         <Reveal><SignatureSets /></Reveal>
-        <Reveal><CustomerReviews /></Reveal>
 
-        {/* Moissanite education — editorial vs.-zircon band near the page bottom */}
+        {/* Banner: editorial materials band */}
         <Reveal><MoissaniteEducation /></Reveal>
+
+        {/* Social proof, just above the footer */}
+        <Reveal><CustomerReviews /></Reveal>
       </div>
 
       <PremiumFooter />
