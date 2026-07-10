@@ -3,6 +3,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import MoissaniteGrid, { type MoissaniteProduct } from "@/components/MoissaniteGrid";
+import Reveal from "@/components/Reveal";
 import products from "@/data/moissanite_collection.json";
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ export default function TennisCollectionPage() {
           </p>
         </header>
 
-        <MoissaniteGrid products={tennis} layout="grid" />
+        <Reveal><MoissaniteGrid products={tennis} layout="grid" /></Reveal>
 
         <p className="mt-14 text-center text-xs font-light tracking-wide text-ash">
           {tennis.length} {tennis.length === 1 ? "פריט" : "פריטים"}

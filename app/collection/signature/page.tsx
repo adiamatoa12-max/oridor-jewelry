@@ -3,6 +3,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import SignatureGrid from "@/components/SignatureGrid";
+import Reveal from "@/components/Reveal";
 import type { VariantProduct } from "@/components/VariantCard";
 import data from "@/data/signature_collection.json";
 
@@ -34,7 +35,7 @@ export default function SignatureCollectionPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
-        <SignatureGrid products={products} />
+        <Reveal><SignatureGrid products={products} /></Reveal>
       </section>
 
       <PremiumFooter />

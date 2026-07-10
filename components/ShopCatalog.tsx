@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import ProductCard from "./ProductCard";
+import Reveal from "./Reveal";
 import {
   buildUnifiedCatalog,
   SHOP_CHIPS,
@@ -68,24 +69,28 @@ export default function ShopCatalog({
       </div>
 
       {/* Product grid — strictly 2 on mobile (tight gap → larger images),
-          scaling smoothly to 4 on desktop. */}
-      <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
-        {visible.map((p) => (
-          <ProductCard
-            key={p.id}
-            image={p.image}
-            secondaryImage={p.secondaryImage}
-            handle={p.handle}
-            href={p.href}
-            fit={p.fit}
-            title={p.title}
-            price={p.price}
-            priceLabel={`₪${p.price.toLocaleString("he-IL")}`}
-            compareAt={p.compareAtPrice}
-            variants={p.variants}
-          />
-        ))}
-      </div>
+          scaling smoothly to 4 on desktop. Wrapped in a single Reveal that
+          mounts once, so filtering swaps the cards WITHOUT re-animating (and
+          it sits below the sticky filter bar, never breaking its stickiness). */}
+      <Reveal>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
+          {visible.map((p) => (
+            <ProductCard
+              key={p.id}
+              image={p.image}
+              secondaryImage={p.secondaryImage}
+              handle={p.handle}
+              href={p.href}
+              fit={p.fit}
+              title={p.title}
+              price={p.price}
+              priceLabel={`₪${p.price.toLocaleString("he-IL")}`}
+              compareAt={p.compareAtPrice}
+              variants={p.variants}
+            />
+          ))}
+        </div>
+      </Reveal>
 
       <p className="mt-16 text-center text-xs font-light tracking-wide text-ash">
         {visible.length} {visible.length === 1 ? "פריט" : "פריטים"}

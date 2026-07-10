@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import MoissaniteGrid, { type MoissaniteProduct } from "./MoissaniteGrid";
+import Reveal from "./Reveal";
 
 type TypeKey = "All" | "Rings" | "Bracelets" | "Necklaces" | "Earrings";
 type PriceKey = "all" | "under700" | "700to1000" | "over1000";
@@ -107,13 +108,17 @@ export default function MoissaniteCollection({
         <Select label="טווח מחירים" value={price} options={PRICE_OPTIONS} onChange={setPrice} />
       </div>
 
-      {visible.length > 0 ? (
-        <MoissaniteGrid products={visible} layout="grid" />
-      ) : (
-        <p className="py-16 text-center text-sm font-light text-ash">
-          לא נמצאו פריטים התואמים את הסינון.
-        </p>
-      )}
+      {/* One Reveal that mounts once — filtering swaps products inside without
+          re-triggering the fade-in. */}
+      <Reveal>
+        {visible.length > 0 ? (
+          <MoissaniteGrid products={visible} layout="grid" />
+        ) : (
+          <p className="py-16 text-center text-sm font-light text-ash">
+            לא נמצאו פריטים התואמים את הסינון.
+          </p>
+        )}
+      </Reveal>
 
       <p className="mt-14 text-center text-xs font-light tracking-wide text-ash">
         {visible.length} {visible.length === 1 ? "פריט" : "פריטים"}

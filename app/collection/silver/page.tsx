@@ -3,6 +3,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import SilverGrid, { type SilverProduct } from "@/components/SilverGrid";
+import Reveal from "@/components/Reveal";
 import data from "@/data/silver_collection.json";
 
 const products = data as SilverProduct[];
@@ -33,7 +34,7 @@ export default function SilverCollectionPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
-        <SilverGrid products={products} />
+        <Reveal><SilverGrid products={products} /></Reveal>
       </section>
 
       <PremiumFooter />

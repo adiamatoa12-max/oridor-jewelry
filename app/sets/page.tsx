@@ -3,6 +3,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import SignatureSets from "@/components/SignatureSets";
+import Reveal from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: { absolute: "סטים תואמים | שרשרת, עגילים וטבעת | Oridor" },
@@ -30,7 +31,7 @@ export default function SetsPage() {
 
       {/* Reuse the signature-sets showcase (grid layout) with its shop-the-look
           modal — each piece links to its real product page. */}
-      <SignatureSets layout="grid" />
+      <Reveal><SignatureSets layout="grid" /></Reveal>
 
       <PremiumFooter />
     </main>

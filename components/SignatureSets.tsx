@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { X, ChevronLeft } from "lucide-react";
@@ -81,6 +82,9 @@ export default function SignatureSets({
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { addByHandle } = useCart();
+  // Portal target only exists on the client; guard SSR.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   const addSet = (set: SignatureSet) => {
     // Add each piece's real Shopify variant (mutations are serialized).
@@ -198,8 +202,9 @@ export default function SignatureSets({
         </div>
       )}
 
-      {/* Set detail modal */}
-      {active && (
+      {/* Set detail modal — portalled to <body> so a transformed ancestor
+          (e.g. a Reveal fade-in wrapper) can't confine its fixed positioning. */}
+      {mounted && active && createPortal(
         <div
           className="fixed inset-0 z-[80] flex items-center justify-center p-4"
           role="dialog"
@@ -265,7 +270,8 @@ export default function SignatureSets({
               {formatPrice(active.pieces.reduce((s, p) => s + p.price, 0))}
             </button>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </section>
   );

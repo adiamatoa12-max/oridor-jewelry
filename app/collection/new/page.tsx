@@ -3,6 +3,7 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import NewArrivalsGrid, { type NewArrival } from "@/components/NewArrivalsGrid";
+import Reveal from "@/components/Reveal";
 import data from "@/data/new_arrivals.json";
 
 const products = data as NewArrival[];
@@ -32,7 +33,7 @@ export default function NewArrivalsPage() {
       </section>
 
       <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
-        <NewArrivalsGrid products={products} layout="grid" />
+        <Reveal><NewArrivalsGrid products={products} layout="grid" /></Reveal>
       </section>
 
       <PremiumFooter />
