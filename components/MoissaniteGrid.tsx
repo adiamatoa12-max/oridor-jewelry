@@ -78,10 +78,10 @@ export default function MoissaniteGrid({
           href={`/collection/moissanite/${p.slug}`}
           className={itemClass}
         >
-          {/* Soft cream surface, gently rounded; white studio background knocked
-              out by multiply. A blurred ambient shadow blooms on hover as the
-              image eases up a touch. */}
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-cream/60 shadow-card transition-shadow duration-500 ease-out group-hover:shadow-cardHover">
+          {/* No container — transparent. White studio background knocked out by
+              multiply so the piece floats on the page; the image eases up on
+              hover. Separation comes purely from the grid gap. */}
+          <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}

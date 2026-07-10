@@ -76,10 +76,10 @@ export default function ProductCard({
       href={href}
       className="group block bg-transparent transition-[transform,opacity] duration-300 ease-out [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
-      {/* Soft, seamless surface — a whisper of warm cream with gentle rounding.
-          The white studio background is knocked out by mix-blend-multiply so the
-          jewelry floats on the card. A blurred ambient shadow blooms on hover. */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-cream/60 shadow-card transition-shadow duration-500 ease-out group-hover:shadow-cardHover">
+      {/* No container — transparent. The white studio background is knocked out
+          by mix-blend-multiply so the jewelry floats seamlessly on the page;
+          separation comes purely from the grid gap. */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
         <Image
           src={displayImage}
           alt={`${title} — תכשיט כסף מבית Oridor`}

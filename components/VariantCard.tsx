@@ -37,7 +37,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
         href={`/collection/signature/${product.slug}`}
         className="block [-webkit-tap-highlight-color:transparent]"
       >
-        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-cream/60 shadow-card transition-shadow duration-500 ease-out group-hover:shadow-cardHover">
+        <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
           {/* Crossfade between variant images */}
           {product.variants.map((v, i) => (
             <Image

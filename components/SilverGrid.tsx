@@ -58,7 +58,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
       href={`/collection/silver/${p.slug}`}
       className="group block bg-transparent transition-transform duration-300 ease-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1"
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-cream/60 shadow-card transition-shadow duration-500 ease-out group-hover:shadow-cardHover">
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
         <Image
           src={encodeURI(displayImage)}
           alt={`${p.name} — ${p.material}`}
