@@ -32,8 +32,17 @@ const GIFTS = [
  * mounted so enter/exit both animate. Crisp white panel, graphite typography.
  */
 export default function CartDrawer() {
-  const { isOpen, closeCart, items, subtotal, count, updateQuantity, removeItem } =
-    useCart();
+  const {
+    isOpen,
+    closeCart,
+    items,
+    subtotal,
+    count,
+    updateQuantity,
+    removeItem,
+    checkoutUrl,
+    busy,
+  } = useCart();
   const [selectedGift, setSelectedGift] = useState<string | null>(null);
 
   const unlocked = subtotal >= VAULT_THRESHOLD;
@@ -182,9 +191,15 @@ export default function CartDrawer() {
         {/* Items — always visible and editable below the reward */}
         <div className="px-6">
           {items.length === 0 ? (
-            <p className="py-16 text-center text-sm font-light leading-relaxed text-ash">
-              הכספת שלך ריקה כרגע —<br />הוסיפי פריטים לאוסף שלך.
-            </p>
+            busy ? (
+              <div className="flex justify-center py-16">
+                <span className="h-6 w-6 animate-spin rounded-full border-2 border-platinum/40 border-t-gold" />
+              </div>
+            ) : (
+              <p className="py-16 text-center text-sm font-light leading-relaxed text-ash">
+                הכספת שלך ריקה כרגע —<br />הוסיפי פריטים לאוסף שלך.
+              </p>
+            )
           ) : (
             <ul className="divide-y divide-gray-100">
               {items.map((item) => (
@@ -216,9 +231,9 @@ export default function CartDrawer() {
                         <button
                           type="button"
                           aria-label="הפחתת כמות"
-                          onClick={() => updateQuantity(item.id, -1)}
+                          onClick={() => updateQuantity(item.id, item.quantity - 1)}
                           className="inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:bg-gray-50 disabled:opacity-30"
-                          disabled={item.quantity <= 1}
+                          disabled={item.quantity <= 1 || busy}
                         >
                           <Minus size={14} strokeWidth={1.5} />
                         </button>
@@ -228,8 +243,9 @@ export default function CartDrawer() {
                         <button
                           type="button"
                           aria-label="הוספת כמות"
-                          onClick={() => updateQuantity(item.id, 1)}
-                          className="inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:bg-gray-50"
+                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          disabled={busy}
+                          className="inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:bg-gray-50 disabled:opacity-30"
                         >
                           <Plus size={14} strokeWidth={1.5} />
                         </button>
@@ -264,18 +280,25 @@ export default function CartDrawer() {
           <p className="mt-3 text-center text-xs font-light text-ash">
             משלוח חינם עד הבית מתווסף אוטומטית
           </p>
-          <button
-            type="button"
-            className="group mt-5 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-white transition-all duration-300 ease-cinematic hover:bg-[#1a1a1a] hover:shadow-[0_10px_28px_rgba(45,45,45,0.35)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none"
-            disabled={items.length === 0}
+          <a
+            href={checkoutUrl ?? "#"}
+            aria-disabled={items.length === 0 || !checkoutUrl || busy}
+            onClick={(e) => {
+              if (items.length === 0 || !checkoutUrl || busy) e.preventDefault();
+            }}
+            className={`group mt-5 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-white transition-all duration-300 ease-cinematic hover:bg-[#1a1a1a] hover:shadow-[0_10px_28px_rgba(45,45,45,0.35)] active:scale-[0.99] ${
+              items.length === 0 || !checkoutUrl || busy
+                ? "pointer-events-none cursor-not-allowed opacity-40"
+                : ""
+            }`}
           >
-            מעבר לקופה
+            מעבר לקופה מאובטחת
             <ArrowLeft
               size={15}
               strokeWidth={1.5}
               className="transition-transform duration-300 group-hover:-translate-x-1"
             />
-          </button>
+          </a>
         </div>
       </aside>
     </div>

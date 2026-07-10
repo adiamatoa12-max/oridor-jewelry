@@ -40,7 +40,7 @@ export default function MoissaniteGrid({
    */
   layout?: "carousel" | "grid";
 }) {
-  const { addItem, openCart } = useCart();
+  const { addByHandle } = useCart();
 
   const containerClass =
     layout === "grid"
@@ -55,11 +55,10 @@ export default function MoissaniteGrid({
       : `group block w-[62%] flex-shrink-0 snap-start sm:w-[42%] lg:w-auto ${hoverClass}`;
 
   const quickAdd = (e: React.MouseEvent, p: MoissaniteProduct) => {
-    // Inside a <Link>; don't navigate — just add to the cart and open it.
+    // Inside a <Link>; don't navigate — add the real Shopify variant + open.
     e.preventDefault();
     e.stopPropagation();
-    addItem({ id: p.id, title: p.name, price: p.price, image: encodeURI(p.image_url) });
-    openCart();
+    addByHandle(p.slug);
   };
 
   // Safety: render each product exactly once, even if the source list contains

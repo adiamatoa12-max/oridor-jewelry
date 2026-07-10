@@ -80,14 +80,12 @@ export default function SignatureSets({
   const [active, setActive] = useState<SignatureSet | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const { addItem, openCart } = useCart();
+  const { addByHandle } = useCart();
 
   const addSet = (set: SignatureSet) => {
-    set.pieces.forEach((p) =>
-      addItem({ id: p.id, title: p.name, price: p.price, image: encodeURI(p.image) }),
-    );
+    // Add each piece's real Shopify variant (mutations are serialized).
+    set.pieces.forEach((p) => addByHandle(p.slug));
     setActive(null);
-    openCart();
   };
 
   const isCarousel = layout === "carousel";

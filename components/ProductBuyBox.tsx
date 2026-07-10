@@ -47,7 +47,7 @@ export default function ProductBuyBox({
   /** Optional map of option value → hex, for colour swatches. */
   hexByValue?: Record<string, string>;
 }) {
-  const { addItem, openCart } = useCart();
+  const { addVariant } = useCart();
 
   // Real, selectable option axes only (drop Shopify's synthetic "Title" axis).
   const options = useMemo(
@@ -87,15 +87,8 @@ export default function ProductBuyBox({
     setSelected((s) => ({ ...s, [optName]: value }));
 
   const handleAdd = () => {
-    addItem({
-      id: currentVariant?.id ?? title,
-      variantId: currentVariant?.id,
-      title,
-      variant: options.map((o) => selected[o.name]).filter(Boolean).join(" · ") || undefined,
-      price,
-      image,
-    });
-    openCart();
+    if (!currentVariant) return; // no Shopify variant → nothing to add
+    addVariant(currentVariant.id, 1);
   };
 
   return (
@@ -172,7 +165,7 @@ export default function ProductBuyBox({
       <button
         type="button"
         onClick={handleAdd}
-        disabled={soldOut}
+        disabled={soldOut || !currentVariant}
         className="btn-primary mt-10 w-full disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:px-16"
       >
         {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
@@ -185,7 +178,7 @@ export default function ProductBuyBox({
         <button
           type="button"
           onClick={handleAdd}
-          disabled={soldOut}
+          disabled={soldOut || !currentVariant}
           className="btn-primary flex-1 py-3 text-sm disabled:cursor-not-allowed disabled:opacity-50"
         >
           {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}

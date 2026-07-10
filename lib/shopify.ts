@@ -365,3 +365,215 @@ export async function getProduct(handle: string): Promise<ShopifyProduct | null>
 
   return data.product ? normalizeProduct(data.product) : null;
 }
+
+/* ------------------------------------------------------------------ */
+/* Cart — real Shopify Storefront cart (checkout-ready)                */
+/* ------------------------------------------------------------------ */
+
+export interface ShopifyCartLine {
+  /** Cart line id (used to update/remove this line). */
+  id: string;
+  quantity: number;
+  /** Variant GID (merchandise). */
+  variantId: string;
+  title: string;
+  /** Variant/option title, e.g. a colour. Empty for single-variant products. */
+  variantTitle: string;
+  price: number;
+  image: string | null;
+}
+export interface ShopifyCart {
+  id: string;
+  checkoutUrl: string;
+  totalQuantity: number;
+  subtotal: number;
+  currencyCode: string;
+  lines: ShopifyCartLine[];
+}
+
+const CART_FRAGMENT = /* GraphQL */ `
+  fragment CartFields on Cart {
+    id
+    checkoutUrl
+    totalQuantity
+    cost { subtotalAmount { amount currencyCode } }
+    lines(first: 100) {
+      edges {
+        node {
+          id
+          quantity
+          merchandise {
+            ... on ProductVariant {
+              id
+              title
+              price { amount }
+              product { title featuredImage { url } }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+interface CartNode {
+  id: string;
+  checkoutUrl: string;
+  totalQuantity: number;
+  cost: { subtotalAmount: MoneyV2 };
+  lines: {
+    edges: {
+      node: {
+        id: string;
+        quantity: number;
+        merchandise: {
+          id: string;
+          title: string;
+          price: { amount: string };
+          product: { title: string; featuredImage: { url: string } | null };
+        };
+      };
+    }[];
+  };
+}
+
+function normalizeCart(node: CartNode): ShopifyCart {
+  return {
+    id: node.id,
+    checkoutUrl: node.checkoutUrl,
+    totalQuantity: node.totalQuantity,
+    subtotal: parseFloat(node.cost.subtotalAmount.amount),
+    currencyCode: node.cost.subtotalAmount.currencyCode,
+    lines: node.lines.edges.map(({ node: l }) => ({
+      id: l.id,
+      quantity: l.quantity,
+      variantId: l.merchandise.id,
+      title: l.merchandise.product.title,
+      // Shopify uses "Default Title" for single-variant products — hide it.
+      variantTitle:
+        l.merchandise.title === "Default Title" ? "" : l.merchandise.title,
+      price: parseFloat(l.merchandise.price.amount),
+      image: l.merchandise.product.featuredImage?.url ?? null,
+    })),
+  };
+}
+
+export interface CartLineInput {
+  merchandiseId: string;
+  quantity: number;
+}
+
+/** Create a new cart with the given lines. */
+export async function createCart(
+  lines: CartLineInput[],
+): Promise<ShopifyCart> {
+  const data = await shopifyFetch<{
+    cartCreate: { cart: CartNode; userErrors: { message: string }[] };
+  }>(
+    /* GraphQL */ `
+      ${CART_FRAGMENT}
+      mutation CartCreate($lines: [CartLineInput!]!) {
+        cartCreate(input: { lines: $lines }) {
+          cart { ...CartFields }
+          userErrors { message }
+        }
+      }
+    `,
+    { lines },
+    { cache: "no-store" },
+  );
+  return normalizeCart(data.cartCreate.cart);
+}
+
+/** Add lines to an existing cart. */
+export async function addCartLines(
+  cartId: string,
+  lines: CartLineInput[],
+): Promise<ShopifyCart> {
+  const data = await shopifyFetch<{
+    cartLinesAdd: { cart: CartNode };
+  }>(
+    /* GraphQL */ `
+      ${CART_FRAGMENT}
+      mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+        cartLinesAdd(cartId: $cartId, lines: $lines) {
+          cart { ...CartFields }
+          userErrors { message }
+        }
+      }
+    `,
+    { cartId, lines },
+    { cache: "no-store" },
+  );
+  return normalizeCart(data.cartLinesAdd.cart);
+}
+
+/** Change the quantity of a cart line. */
+export async function updateCartLine(
+  cartId: string,
+  lineId: string,
+  quantity: number,
+): Promise<ShopifyCart> {
+  const data = await shopifyFetch<{ cartLinesUpdate: { cart: CartNode } }>(
+    /* GraphQL */ `
+      ${CART_FRAGMENT}
+      mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+        cartLinesUpdate(cartId: $cartId, lines: $lines) {
+          cart { ...CartFields }
+          userErrors { message }
+        }
+      }
+    `,
+    { cartId, lines: [{ id: lineId, quantity }] },
+    { cache: "no-store" },
+  );
+  return normalizeCart(data.cartLinesUpdate.cart);
+}
+
+/** Remove a cart line entirely. */
+export async function removeCartLine(
+  cartId: string,
+  lineId: string,
+): Promise<ShopifyCart> {
+  const data = await shopifyFetch<{ cartLinesRemove: { cart: CartNode } }>(
+    /* GraphQL */ `
+      ${CART_FRAGMENT}
+      mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+        cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+          cart { ...CartFields }
+          userErrors { message }
+        }
+      }
+    `,
+    { cartId, lineIds: [lineId] },
+    { cache: "no-store" },
+  );
+  return normalizeCart(data.cartLinesRemove.cart);
+}
+
+/** Fetch an existing cart by id. Returns null if it no longer exists. */
+export async function getCart(cartId: string): Promise<ShopifyCart | null> {
+  try {
+    const data = await shopifyFetch<{ cart: CartNode | null }>(
+      /* GraphQL */ `
+        ${CART_FRAGMENT}
+        query Cart($cartId: ID!) {
+          cart(id: $cartId) { ...CartFields }
+        }
+      `,
+      { cartId },
+      { cache: "no-store" },
+    );
+    return data.cart ? normalizeCart(data.cart) : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Resolve the first variant GID for a handle — used by quick-add buttons. */
+export async function getFirstVariantId(
+  handle: string,
+): Promise<string | null> {
+  const product = await getProductWithVariants(handle);
+  return product?.variants[0]?.id ?? null;
+}

@@ -21,6 +21,8 @@ export interface ProductCardProps {
   priceLabel?: string;
   /** Regular price for the launch strikethrough (optional). */
   compareAt?: number;
+  /** Shopify handle — enables the quick-add button to add the real variant. */
+  handle?: string;
   href?: string;
   currency?: string;
   /** Product-on-white shots look best "contain"; lifestyle crops use "cover". */
@@ -46,12 +48,12 @@ export default function ProductCard({
   price,
   priceLabel,
   compareAt,
+  handle,
   href = "#",
-  currency = "USD",
   fit = "cover",
   variants,
 }: ProductCardProps) {
-  const { openCart } = useCart();
+  const { addByHandle, openCart } = useCart();
   const fitClass = fit === "contain" ? "object-contain p-4" : "object-cover";
 
   // Multi-colour pieces let the shopper preview each finish in place.
@@ -59,19 +61,12 @@ export default function ProductCard({
   const [activeColor, setActiveColor] = useState(0);
   const displayImage = hasSwatches ? variants![activeColor].image : image;
 
-  const formattedPrice =
-    priceLabel ??
-    new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 0,
-    }).format(price);
-
-  // Quick-add: don't navigate the parent link; open the cart drawer.
+  // Quick-add: don't navigate the parent link — add the real Shopify variant.
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    openCart();
+    if (handle) addByHandle(handle);
+    else openCart();
   };
 
   const quickAddLabel = `הוספה מהירה — ${title}`;

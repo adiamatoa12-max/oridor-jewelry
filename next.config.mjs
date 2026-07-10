@@ -10,10 +10,12 @@ const csp = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  "img-src 'self' data: blob: https://images.unsplash.com",
+  // cdn.shopify.com serves the live cart line-item images.
+  "img-src 'self' data: blob: https://images.unsplash.com https://cdn.shopify.com",
   "font-src 'self' data:",
+  // *.myshopify.com — the Storefront GraphQL API (client-side cart mutations);
   // prod.spline.design serves the 3D vault-reward scene (.splinecode).
-  `connect-src 'self' https://prod.spline.design https://unpkg.com${isDev ? " ws:" : ""}`,
+  `connect-src 'self' https://*.myshopify.com https://prod.spline.design https://unpkg.com${isDev ? " ws:" : ""}`,
   "worker-src 'self' blob:",
   "media-src 'self'",
   "frame-ancestors 'none'",
@@ -44,7 +46,10 @@ const nextConfig = {
   images: {
     // Serve modern, smaller formats automatically (AVIF, then WebP fallback).
     formats: ["image/avif", "image/webp"],
-    remotePatterns: [{ protocol: "https", hostname: "images.unsplash.com" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "images.unsplash.com" },
+      { protocol: "https", hostname: "cdn.shopify.com" },
+    ],
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

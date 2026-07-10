@@ -1,13 +1,33 @@
 "use client";
 
-import { createContext, useContext, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  createCart,
+  addCartLines,
+  updateCartLine,
+  removeCartLine,
+  getCart,
+  getFirstVariantId,
+  isShopifyConfigured,
+  type ShopifyCart,
+} from "@/lib/shopify";
 
+const STORAGE_KEY = "oridor_cart_id";
+
+/** UI-facing line item, mapped from a real Shopify cart line. */
 export interface CartItem {
+  /** Cart LINE id — used to update/remove this exact line. */
   id: string;
   title: string;
   variant?: string;
-  /** Shopify variant GID (gid://shopify/ProductVariant/…) for checkout. */
-  variantId?: string;
   price: number;
   quantity: number;
   image: string;
@@ -20,69 +40,158 @@ interface CartContextValue {
   items: CartItem[];
   subtotal: number;
   count: number;
-  addItem: (item: Omit<CartItem, "quantity"> & { quantity?: number }) => void;
-  updateQuantity: (id: string, delta: number) => void;
-  removeItem: (id: string) => void;
+  /** Real Shopify checkout URL — null until a cart exists. */
+  checkoutUrl: string | null;
+  /** A cart mutation is in flight. */
+  busy: boolean;
+  /** Add a specific Shopify variant (used by the product buy box). */
+  addVariant: (variantId: string, quantity?: number) => void;
+  /** Add a product's first variant by handle (used by quick-add buttons). */
+  addByHandle: (handle: string) => void;
+  /** Set an absolute quantity for a cart line. */
+  updateQuantity: (lineId: string, quantity: number) => void;
+  removeItem: (lineId: string) => void;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
 
-// Placeholder line items until real cart logic / product data is wired in.
-const PLACEHOLDER_ITEMS: CartItem[] = [
-  {
-    id: "crystal-oval",
-    title: "שרשרת קריסטל אובלית",
-    variant: "כסף 925",
-    price: 280,
-    quantity: 1,
-    image:
-      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=400&q=80",
-  },
-  {
-    id: "tennis-drops",
-    title: "צמיד טניס טיפות",
-    variant: "כסף 925",
-    price: 280,
-    quantity: 1,
-    image:
-      "https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=400&q=80",
-  },
-];
-
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [items, setItems] = useState<CartItem[]>(PLACEHOLDER_ITEMS);
+  const [cart, setCart] = useState<ShopifyCart | null>(null);
+  const [busy, setBusy] = useState(false);
+  const cartRef = useRef<ShopifyCart | null>(null);
+  // Serialize mutations so rapid clicks can't corrupt the cart.
+  const queue = useRef<Promise<unknown>>(Promise.resolve());
+
+  const persist = useCallback((c: ShopifyCart | null) => {
+    cartRef.current = c;
+    setCart(c);
+    try {
+      if (c) localStorage.setItem(STORAGE_KEY, c.id);
+      else localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* storage unavailable — cart still works for the session */
+    }
+  }, []);
+
+  // Re-hydrate an existing Shopify cart on mount (never seeds dummy items).
+  useEffect(() => {
+    if (!isShopifyConfigured) return;
+    let id: string | null = null;
+    try {
+      id = localStorage.getItem(STORAGE_KEY);
+    } catch {
+      id = null;
+    }
+    if (!id) return;
+    getCart(id).then((c) => {
+      if (c) persist(c);
+      else
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch {
+          /* ignore */
+        }
+    });
+  }, [persist]);
+
+  // Run a cart mutation on the serialized queue, updating busy + state.
+  const run = useCallback(
+    (task: () => Promise<ShopifyCart>) => {
+      const next = queue.current
+        .catch(() => {})
+        .then(async () => {
+          setBusy(true);
+          try {
+            persist(await task());
+          } catch (err) {
+            console.error("Cart mutation failed:", err);
+          } finally {
+            setBusy(false);
+          }
+        });
+      queue.current = next;
+      return next;
+    },
+    [persist],
+  );
+
+  const addVariant = useCallback(
+    (variantId: string, quantity = 1) => {
+      if (!isShopifyConfigured) return;
+      setIsOpen(true);
+      run(() => {
+        const current = cartRef.current;
+        return current
+          ? addCartLines(current.id, [{ merchandiseId: variantId, quantity }])
+          : createCart([{ merchandiseId: variantId, quantity }]);
+      });
+    },
+    [run],
+  );
+
+  const addByHandle = useCallback(
+    (handle: string) => {
+      if (!isShopifyConfigured) return;
+      setIsOpen(true);
+      run(async () => {
+        const variantId = await getFirstVariantId(handle);
+        if (!variantId) throw new Error(`No variant found for "${handle}"`);
+        const current = cartRef.current;
+        return current
+          ? addCartLines(current.id, [{ merchandiseId: variantId, quantity: 1 }])
+          : createCart([{ merchandiseId: variantId, quantity: 1 }]);
+      });
+    },
+    [run],
+  );
+
+  const updateQuantity = useCallback(
+    (lineId: string, quantity: number) => {
+      const current = cartRef.current;
+      if (!current) return;
+      if (quantity < 1) {
+        run(() => removeCartLine(current.id, lineId));
+        return;
+      }
+      run(() => updateCartLine(current.id, lineId, quantity));
+    },
+    [run],
+  );
+
+  const removeItem = useCallback(
+    (lineId: string) => {
+      const current = cartRef.current;
+      if (!current) return;
+      run(() => removeCartLine(current.id, lineId));
+    },
+    [run],
+  );
 
   const value = useMemo<CartContextValue>(() => {
-    const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    const count = items.reduce((sum, i) => sum + i.quantity, 0);
+    const items: CartItem[] = (cart?.lines ?? []).map((l) => ({
+      id: l.id,
+      title: l.title,
+      variant: l.variantTitle || undefined,
+      price: l.price,
+      quantity: l.quantity,
+      image: l.image ?? "",
+    }));
     return {
       isOpen,
       openCart: () => setIsOpen(true),
       closeCart: () => setIsOpen(false),
       items,
-      subtotal,
-      count,
-      addItem: (item) =>
-        setItems((prev) => {
-          const existing = prev.find((i) => i.id === item.id);
-          const qty = item.quantity ?? 1;
-          if (existing) {
-            return prev.map((i) =>
-              i.id === item.id ? { ...i, quantity: i.quantity + qty } : i,
-            );
-          }
-          return [...prev, { ...item, quantity: qty }];
-        }),
-      updateQuantity: (id, delta) =>
-        setItems((prev) =>
-          prev.map((i) =>
-            i.id === id ? { ...i, quantity: Math.max(1, i.quantity + delta) } : i,
-          ),
-        ),
-      removeItem: (id) => setItems((prev) => prev.filter((i) => i.id !== id)),
+      subtotal: cart?.subtotal ?? 0,
+      count: cart?.totalQuantity ?? 0,
+      checkoutUrl: cart?.checkoutUrl ?? null,
+      busy,
+      addVariant,
+      addByHandle,
+      updateQuantity,
+      removeItem,
     };
-  }, [isOpen, items]);
+  }, [isOpen, cart, busy, addVariant, addByHandle, updateQuantity, removeItem]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }

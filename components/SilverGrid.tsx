@@ -42,7 +42,7 @@ export default function SilverGrid({ products }: { products: SilverProduct[] }) 
 }
 
 function SilverCard({ product: p }: { product: SilverProduct }) {
-  const { addItem, openCart } = useCart();
+  const { addByHandle } = useCart();
   const hasSwatches = !!p.variants && p.variants.length > 1;
   const [active, setActive] = useState(0);
   const displayImage = hasSwatches ? p.variants![active].image_url : p.image_url;
@@ -50,13 +50,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
   const quickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem({
-      id: p.id,
-      title: p.name,
-      price: p.price,
-      image: encodeURI(displayImage),
-    });
-    openCart();
+    addByHandle(p.slug);
   };
 
   return (

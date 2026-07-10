@@ -34,13 +34,12 @@ export default function NewArrivalsGrid({
    */
   layout?: "carousel" | "grid";
 }) {
-  const { addItem, openCart } = useCart();
+  const { addByHandle } = useCart();
 
   const quickAdd = (e: React.MouseEvent, p: NewArrival) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem({ id: p.id, title: p.name, price: p.price, image: encodeURI(p.image_url) });
-    openCart();
+    addByHandle(p.slug);
   };
 
   const containerClass =
