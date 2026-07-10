@@ -1,47 +1,20 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck, Lock } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import { notFound } from "next/navigation";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import type { MoissaniteProduct } from "@/components/MoissaniteGrid";
 import ProductBuyBox from "@/components/ProductBuyBox";
+import ProductGallery from "@/components/ProductGallery";
+import Accordion from "@/components/Accordion";
+import TrustBadges from "@/components/TrustBadges";
 import { getProductWithVariants } from "@/lib/shopify";
 import data from "@/data/moissanite_collection.json";
 
 const products = data as MoissaniteProduct[];
-const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
-
-// Educational accordion — justifies the premium price by explaining the stone
-// and the materials. Placed directly under the add-to-cart area.
-const EDUCATION = [
-  {
-    q: "מה זה מואסניט?",
-    a: "מואסניט היא אבן חן יוקרתית הנוצרת במעבדה בתנאים מבוקרים — עמידה במיוחד (9.25 בסולם מוס, שנייה רק ליהלום) ובעלת ברק, אש ופיזור אור יוצאי דופן שמתחרים ואף עולים על יהלום. זו בחירה אתית ומודעת, נצחית ומזהירה, ללא פשרה על יוקרה.",
-  },
-  {
-    q: "חומרי הגלם שלנו",
-    a: "כל תכשיט יצוק מכסף סטרלינג 925 טהור (92.5% כסף) — מתכת מוצקה, לא ציפוי — ומצופה בשכבת רודיום יקרה. הרודיום מעניק ברק לבן זוהר, עמידות מוגברת בפני שריטות והגנה מפני התכהות, כך שהתכשיט שומר על יופיו לאורך שנים.",
-  },
-];
-
-const FAQS = [
-  {
-    q: "האם התכשיט מתכהה או מחליד?",
-    a: "לא. כל פריט עשוי מכסף סטרלינג 925 מלא ומצופה רודיום, כך שהוא שומר על הברק לאורך זמן ואינו מחליד בשימוש יומיומי. מומלץ לאחסן במקום יבש ולהסיר במגע עם בישום, קרמים או כלור.",
-  },
-  {
-    q: "אחריות",
-    a: "כל תכשיט מגיע עם אחריות מלאה ותעודת אותנטיות. ניתן להחזיר או להחליף תוך 30 יום ממועד הקבלה — ללא שאלות.",
-  },
-  {
-    q: "מדידת טבעת",
-    a: "לא בטוחות במידה? מדדו היקף של טבעת קיימת שמתאימה לכן, או צרו איתנו קשר בוואטסאפ ונשמח לעזור לכן למצוא את המידה המדויקת לפני ההזמנה.",
-  },
-];
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -108,18 +81,25 @@ export default async function MoissaniteProductPage({
           <span className="text-graphite">{product.name}</span>
         </nav>
 
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:gap-20">
-          {/* Image */}
-          <div className="relative flex aspect-[4/5] w-full items-center justify-center overflow-hidden rounded-md bg-white ring-1 ring-platinum/40">
-            <Image
-              src={encodeURI(product.image_url)}
-              alt={`${product.name} — ${product.material}`}
-              fill
-              priority
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="object-contain object-center p-6"
-            />
-          </div>
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:gap-16">
+          {/* Gallery — main image + on-model lifestyle shot, hover-to-zoom */}
+          <ProductGallery
+            fit="contain"
+            images={[
+              {
+                src: encodeURI(product.image_url),
+                alt: `${product.name} — ${product.material}`,
+              },
+              ...(product.hover_image
+                ? [
+                    {
+                      src: encodeURI(product.hover_image),
+                      alt: `${product.name} בעיצוב על הדוגמנית`,
+                    },
+                  ]
+                : []),
+            ]}
+          />
 
           {/* Details */}
           <div className="flex flex-col justify-center">
@@ -136,95 +116,74 @@ export default async function MoissaniteProductPage({
               product={shopifyProduct}
             />
 
-            {/* Quality assurance badge */}
+            {/* Quality assurance link */}
             <Link
               href="/quality"
-              className="mt-3 inline-flex items-center gap-1.5 text-xs font-light tracking-wide text-graphite underline-offset-4 transition-colors hover:text-gold"
+              className="mt-4 inline-flex items-center gap-1.5 text-xs font-light tracking-wide text-graphite underline-offset-4 transition-colors hover:text-gold"
             >
               <ShieldCheck size={14} strokeWidth={1.5} className="text-gold" />
               איכות ואותנטיות — כסף 925 ומואסניט D / VVS1
             </Link>
 
-            <span className="my-8 block h-px w-16 bg-gold" />
-
-            <dl className="space-y-3 text-sm font-light text-graphite">
-              <div className="flex gap-2">
-                <dt className="text-ash">משקל אבן:</dt>
-                <dd>{product.carat} קראט</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="text-ash">חומר:</dt>
-                <dd>{product.material}</dd>
-              </div>
-              <div className="flex gap-2">
-                <dt className="text-ash">מק״ט:</dt>
-                <dd>{product.id}</dd>
-              </div>
-            </dl>
-
-            <p className="mt-8 max-w-md text-sm font-light leading-relaxed text-graphite">
-              אבן מואסניט נוצצת בעבודת יד מדויקת, משובצת בכסף 925 טהור מצופה
-              רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אתכן לכל
-              החיים.
-            </p>
-
-            {/* VIP Vault upsell callout */}
-            <div className="mt-4 flex max-w-md items-center gap-2 rounded-sm border border-gold/30 bg-cream/70 px-4 py-3">
-              <Lock size={14} strokeWidth={1.5} className="flex-none text-gold" />
-              <p className="text-xs font-light leading-relaxed tracking-wide text-graphite">
-                הוסיפי עוד פריטים ל-₪500 ופתחי את{" "}
-                <span className="font-medium text-charcoal">כספת המתנות</span>
-              </p>
-            </div>
+            {/* Trust signals below the CTA */}
+            <TrustBadges />
 
             {/* Ring size guide — only for rings */}
             {/ring/i.test(product.name) && (
               <Link
                 href="/ring-size-guide"
-                className="mt-4 inline-block text-xs font-light tracking-wide text-graphite underline underline-offset-4 transition-colors hover:text-gold"
+                className="mt-6 inline-block text-xs font-light tracking-wide text-graphite underline underline-offset-4 transition-colors hover:text-gold"
               >
                 מדריך מידות טבעת — איך למדוד בבית
               </Link>
             )}
 
-            {/* Educational accordion — what is moissanite & our materials */}
-            <div className="mt-10 max-w-md divide-y divide-gray-200 border-y border-gray-200">
-              {EDUCATION.map((item) => (
-                <details key={item.q} className="group px-1 py-5">
-                  <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-normal text-charcoal transition-colors hover:text-gold">
-                    {item.q}
-                    <span className="text-ash transition-transform duration-300 group-open:rotate-45">
-                      +
-                    </span>
-                  </summary>
-                  <p className="mt-3 text-sm font-light leading-relaxed text-graphite">
-                    {item.a}
-                  </p>
-                </details>
-              ))}
+            {/* Detail accordions */}
+            <div className="mt-10">
+              <Accordion
+                defaultOpen={0}
+                items={[
+                  {
+                    title: "תיאור",
+                    content:
+                      "אבן מואסניט נוצצת בעבודת יד מדויקת, משובצת בכסף 925 טהור מצופה רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אתכן לכל החיים.",
+                  },
+                  {
+                    title: "חומרים ופרטים",
+                    content: (
+                      <dl className="space-y-2">
+                        <div className="flex gap-2">
+                          <dt className="text-ash">חומר:</dt>
+                          <dd>כסף סטרלינג 925 טהור בציפוי רודיום</dd>
+                        </div>
+                        <div className="flex gap-2">
+                          <dt className="text-ash">אבן:</dt>
+                          <dd>מואסניט בדרגת D / VVS1</dd>
+                        </div>
+                        <div className="flex gap-2">
+                          <dt className="text-ash">משקל אבן:</dt>
+                          <dd>{product.carat} קראט</dd>
+                        </div>
+                        <div className="flex gap-2">
+                          <dt className="text-ash">מק״ט:</dt>
+                          <dd>{product.id}</dd>
+                        </div>
+                      </dl>
+                    ),
+                  },
+                  {
+                    title: "משלוחים והחזרות",
+                    content:
+                      "משלוח חינם עד הבית לכל ההזמנות, בזמן אספקה של 3–7 ימי עסקים. ניתן להחזיר או להחליף תוך 14 יום ממועד הקבלה — ללא שאלות. כל פריט מגיע עם תעודת אותנטיות ואחריות מלאה.",
+                  },
+                  {
+                    title: "הוראות טיפוח",
+                    content:
+                      "אחסני את התכשיט במקום יבש והרחיקי אותו ממים, בישום, קרמים וכלור. נקי בעדינות במטלית רכה ויבשה. מומלץ לענוד את התכשיט אחרון ולהסיר אותו ראשון — כך הוא ישמור על הברק לאורך שנים.",
+                  },
+                ]}
+              />
             </div>
-          </div>
-        </div>
-
-        {/* FAQ */}
-        <div className="mx-auto mt-20 max-w-2xl border-t border-platinum/50 pt-14">
-          <h2 className="mb-8 text-center text-2xl font-light tracking-wide text-charcoal">
-            שאלות נפוצות
-          </h2>
-          <div className="divide-y divide-gray-200 border-y border-gray-200">
-            {FAQS.map((faq) => (
-              <details key={faq.q} className="group px-1 py-5">
-                <summary className="flex cursor-pointer list-none items-center justify-between text-sm font-normal text-charcoal transition-colors hover:text-gold">
-                  {faq.q}
-                  <span className="text-ash transition-transform duration-300 group-open:rotate-45">
-                    +
-                  </span>
-                </summary>
-                <p className="mt-3 text-sm font-light leading-relaxed text-graphite">
-                  {faq.a}
-                </p>
-              </details>
-            ))}
           </div>
         </div>
       </section>

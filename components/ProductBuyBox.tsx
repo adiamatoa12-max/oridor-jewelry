@@ -174,6 +174,20 @@ export default function ProductBuyBox({
       >
         {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
       </button>
+
+      {/* Sticky mobile CTA — a frictionless bottom bar on phones only. Shares
+          the exact same variant selection + add-to-cart handler. */}
+      <div className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-4 border-t border-platinum/50 bg-canvas/95 px-5 py-3 backdrop-blur-md sm:hidden">
+        <span className="text-base font-light text-charcoal">{formatPrice(price)}</span>
+        <button
+          type="button"
+          onClick={handleAdd}
+          disabled={soldOut}
+          className="btn-primary flex-1 py-3 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
+        </button>
+      </div>
     </div>
   );
 }
