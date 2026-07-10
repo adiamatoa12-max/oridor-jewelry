@@ -63,6 +63,8 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     title: p.name,
     price: p.price,
     image: encodeURI(p.image_url),
+    // On-model lifestyle shot that cross-fades in on hover (same as homepage).
+    secondaryImage: p.hover_image ? encodeURI(p.hover_image) : undefined,
     href: `/collection/moissanite/${p.slug}`,
     collection: COLLECTION_MOISSANITE,
     category: asType(p.category),

@@ -9,6 +9,8 @@ import type { ProductColorVariant } from "@/lib/catalog";
 export interface ProductCardProps {
   /** Product image — expects a clean white-background product shot. */
   image: string;
+  /** Optional on-model/lifestyle shot that cross-fades in on hover/touch. */
+  secondaryImage?: string;
   /** Optional minimal status tag, e.g. "BEST SELLER", "LIMITED EDITION". */
   tag?: string;
   title: string;
@@ -35,6 +37,7 @@ export interface ProductCardProps {
  */
 export default function ProductCard({
   image,
+  secondaryImage,
   tag,
   title,
   price,
@@ -85,6 +88,19 @@ export default function ProductCard({
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className={`${fitClass} object-center mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105`}
         />
+
+        {/* On-model lifestyle shot — cross-fades in on hover (desktop) and
+            touch-down (mobile, group-active). Full-bleed cover, no blend.
+            Only shown while the shopper hasn't picked a colour swatch. */}
+        {secondaryImage && activeColor === 0 && (
+          <Image
+            src={secondaryImage}
+            alt={`${title} בעיצוב על הדוגמנית`}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className="object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-active:opacity-100"
+          />
+        )}
 
         {/* Minimal status tag — top-right (inline-start in RTL) */}
         {tag && (

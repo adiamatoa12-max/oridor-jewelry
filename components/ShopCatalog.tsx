@@ -65,6 +65,7 @@ export default function ShopCatalog() {
           <ProductCard
             key={p.id}
             image={p.image}
+            secondaryImage={p.secondaryImage}
             href={p.href}
             fit={p.fit}
             title={p.title}
