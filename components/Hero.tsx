@@ -13,7 +13,7 @@ const HERO_POSTER =
  */
 export default function Hero() {
   return (
-    <section className="relative h-[60vh] max-h-[500px] min-h-[380px] w-full overflow-hidden bg-mist">
+    <section className="relative h-[82vh] max-h-[760px] min-h-[520px] w-full overflow-hidden bg-mist">
       {/* Full-bleed background video — autoplay, muted & inline for iOS */}
       <video
         className="absolute inset-0 z-0 h-full w-full object-cover"
@@ -27,12 +27,12 @@ export default function Hero() {
         <source src="/video/clara_post_6.mp4" type="video/mp4" />
       </video>
 
-      {/* Bottom-up dark gradient so the white text pops sharply, while the top
-          stays clear to show the jewelry in the video */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+      {/* Even, soft vignette so a centred white title reads cleanly across the
+          full frame without hiding the lifestyle imagery behind it. */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/25 to-black/40" />
 
-      {/* Content — anchored to the bottom, staggered cinematic fade-up */}
-      <div className="relative z-10 flex h-full flex-col justify-end px-6 pb-12 text-center md:pb-16">
+      {/* Content — elegantly centred, staggered cinematic fade-up */}
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center">
         <p className="mb-3 animate-fade-up text-xs tracking-brand text-white/90 [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.55))] [animation-delay:100ms]">
           קולקציה חדשה
         </p>
@@ -45,7 +45,7 @@ export default function Hero() {
           גלי את קולקציית ההשקה של Oridor. פריטים על-זמניים לאסתטיקה המודרנית.
         </p>
         <Link
-          href="/necklaces"
+          href="/shop"
           className="mx-auto mt-7 inline-flex min-h-[48px] animate-fade-up items-center justify-center bg-black px-14 py-3 text-xs font-bold uppercase tracking-[0.25em] text-white shadow-lg transition-all duration-500 ease-cinematic [animation-delay:650ms] hover:bg-neutral-800"
         >
           לרכישת הקולקציה

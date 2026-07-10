@@ -15,6 +15,7 @@ const config: Config = {
       colors: {
         // Backgrounds & surfaces — warm boutique palette
         canvas: "#FFFFFF",        // crisp white (cards)
+        offwhite: "#F9F7F5",      // warm premium off-white — global page base
         cream: "#FAF7F0",         // warm cream base
         beige: "#F5F1E8",         // soft beige (warm surface)
         pearl: "#F4F3F1",         // soft pearl gray (warm-neutral)
@@ -25,7 +26,7 @@ const config: Config = {
         silver: "#AFB4BB",        // silver accent for hairlines/hover
         gold: "#C5A059",          // warm luxury gold — accent
         // Typography (deep warm charcoal, high contrast — not pure black)
-        charcoal: "#2B2C2F",      // primary text — deep charcoal
+        charcoal: "#2D2D2D",      // primary text — deep charcoal
         graphite: "#3F4145",      // secondary body text (high contrast)
         ash: "#45474D",           // muted / captions (still strong contrast)
       },

@@ -9,10 +9,11 @@
 
 :root {
   --canvas: #ffffff;
+  --offwhite: #f9f7f5;
   --pearl: #f4f3f1;
   --mist: #ecedef;
   --platinum: #c9ccd1;
-  --charcoal: #2b2c2f;
+  --charcoal: #2d2d2d;
 }
 
 @layer base {
@@ -37,11 +38,9 @@
     overflow-x: clip;
     /* Generous line-height for readability. */
     line-height: 1.65;
-    /* Warm boutique base — subtle beige → cream gradient, fixed so it spans
-       the full scroll without banding. */
-    background-color: #faf7f0;
-    background-image: linear-gradient(to bottom, #f5f1e8, #faf7f0 40%, #ffffff);
-    background-attachment: fixed;
+    /* Warm premium off-white base — flat and editorial (no gradient to white,
+       so every section shares the same warm ground). */
+    background-color: #f9f7f5;
     font-feature-settings: "kern";
     -moz-osx-font-smoothing: grayscale;
   }
@@ -73,10 +72,10 @@
 
   /* Primary call-to-action — refined solid graphite, smooth fade */
   .btn-primary {
-    @apply inline-flex min-h-[44px] items-center justify-center bg-[#2B2C2F] px-10 py-2.5
+    @apply inline-flex min-h-[44px] items-center justify-center bg-[#2D2D2D] px-10 py-2.5
            text-[11px] uppercase tracking-[0.2em] text-canvas
            transition-all duration-500 ease-cinematic
-           hover:bg-[#1a1b1c] focus-visible:outline-none
+           hover:bg-[#1a1a1a] focus-visible:outline-none
            focus-visible:ring-2 focus-visible:ring-charcoal focus-visible:ring-offset-2;
   }
 

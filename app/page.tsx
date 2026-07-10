@@ -21,25 +21,28 @@ export default function Home() {
       {/* Single dynamic video hero */}
       <Hero />
 
-      {/* Collections gallery — category navigation */}
-      <Reveal><InstagramFeed /></Reveal>
+      {/* Editorial rhythm — extra breathing room between every section */}
+      <div className="space-y-10 py-6 sm:space-y-16 sm:py-10 lg:space-y-24 lg:py-16">
+        {/* Collections gallery — category navigation */}
+        <Reveal><InstagramFeed /></Reveal>
 
-      {/* ── The two distinct product collections ─────────────────────── */}
-      {/* Section 1: Moissanite — ONLY moissanite products */}
-      <Reveal><MoissanitePreview /></Reveal>
-      {/* Section 2: 925 Silver — ONLY the solid-silver products */}
-      <Reveal><NewArrivals /></Reveal>
+        {/* ── The two distinct product collections ─────────────────────── */}
+        {/* Section 1: Moissanite — ONLY moissanite products */}
+        <Reveal><MoissanitePreview /></Reveal>
+        {/* Section 2: 925 Silver — ONLY the solid-silver products */}
+        <Reveal><NewArrivals /></Reveal>
 
-      {/* Feature banners — 'אלגנטיות לערב' + 'קולקציית הטניס', 50/50 */}
-      <Reveal><SplitPromoBanners /></Reveal>
-      {/* Signature sets — curated lookbook (no individual-product overlap) */}
-      <Reveal><SignatureSets /></Reveal>
-      <Reveal><CustomerReviews /></Reveal>
-      {/* Quality values — trust-building section just above the footer */}
-      <Reveal><OridorQuality /></Reveal>
+        {/* Feature banners — 'אלגנטיות לערב' + 'קולקציית הטניס', 50/50 */}
+        <Reveal><SplitPromoBanners /></Reveal>
+        {/* Signature sets — curated lookbook (no individual-product overlap) */}
+        <Reveal><SignatureSets /></Reveal>
+        <Reveal><CustomerReviews /></Reveal>
+        {/* Quality values — trust-building section just above the footer */}
+        <Reveal><OridorQuality /></Reveal>
 
-      {/* Moissanite education — editorial vs.-zircon band near the page bottom */}
-      <Reveal><MoissaniteEducation /></Reveal>
+        {/* Moissanite education — editorial vs.-zircon band near the page bottom */}
+        <Reveal><MoissaniteEducation /></Reveal>
+      </div>
 
       <PremiumFooter />
     </main>
