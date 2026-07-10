@@ -64,7 +64,7 @@
 @layer components {
   /* Refined, thin outline call-to-action — elegant border, smooth gold fade */
   .btn-ghost {
-    @apply inline-flex min-h-[44px] items-center justify-center border border-charcoal/40 px-10 py-2.5
+    @apply inline-flex min-h-[44px] items-center justify-center border border-charcoal/40 px-10 py-3
            text-[11px] uppercase tracking-[0.25em] text-charcoal
            transition-all duration-500 ease-cinematic
            hover:border-gold hover:text-gold;
@@ -72,7 +72,7 @@
 
   /* Primary call-to-action — refined solid graphite, smooth fade */
   .btn-primary {
-    @apply inline-flex min-h-[44px] items-center justify-center bg-[#2D2D2D] px-10 py-2.5
+    @apply inline-flex min-h-[44px] items-center justify-center bg-[#2D2D2D] px-10 py-3
            text-[11px] uppercase tracking-[0.2em] text-canvas
            transition-all duration-500 ease-cinematic
            hover:bg-[#1a1a1a] focus-visible:outline-none
@@ -87,7 +87,7 @@
   /* Elegant outlined CTA — thin, wide-tracked, quiet until it inverts on hover.
      Light variant (default) sits on imagery/dark; add `.btn-lux--dark` on light. */
   .btn-lux {
-    @apply inline-block border border-white/80 bg-transparent px-12 py-3.5
+    @apply inline-flex min-h-[44px] items-center justify-center border border-white/80 bg-transparent px-10 py-3
            text-[11px] uppercase tracking-[0.28em] text-white
            transition-all duration-500 ease-cinematic
            hover:bg-white hover:text-charcoal;

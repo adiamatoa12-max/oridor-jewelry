@@ -20,8 +20,9 @@ export default function Home() {
       {/* Single dynamic video hero */}
       <Hero />
 
-      {/* Editorial rhythm — extra breathing room between every section */}
-      <div className="space-y-10 py-6 sm:space-y-16 sm:py-10 lg:space-y-24 lg:py-16">
+      {/* Editorial rhythm — consistent 48px → 96px spacing scale between every
+          section so the page breathes evenly on mobile and desktop. */}
+      <div className="space-y-12 py-12 lg:space-y-24 lg:py-20">
         {/* Collections gallery — category navigation */}
         <Reveal><InstagramFeed /></Reveal>
 

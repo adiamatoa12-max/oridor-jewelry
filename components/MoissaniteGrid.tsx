@@ -82,7 +82,7 @@ export default function MoissaniteGrid({
           {/* Soft cream surface, gently rounded; white studio background knocked
               out by multiply. A blurred ambient shadow blooms on hover as the
               image eases up a touch. */}
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-cream/60 transition-shadow duration-500 ease-out group-hover:shadow-xl group-hover:shadow-charcoal/10">
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-cream/60 shadow-card transition-shadow duration-500 ease-out group-hover:shadow-cardHover">
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}

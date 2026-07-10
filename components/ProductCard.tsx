@@ -84,7 +84,7 @@ export default function ProductCard({
       {/* Soft, seamless surface — a whisper of warm cream with gentle rounding.
           The white studio background is knocked out by mix-blend-multiply so the
           jewelry floats on the card. A blurred ambient shadow blooms on hover. */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-cream/60 transition-shadow duration-500 ease-out group-hover:shadow-xl group-hover:shadow-charcoal/10">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-cream/60 shadow-card transition-shadow duration-500 ease-out group-hover:shadow-cardHover">
         <Image
           src={displayImage}
           alt={`${title} — תכשיט כסף מבית Oridor`}
