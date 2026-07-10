@@ -8,7 +8,6 @@ import type {
   ShopifyVariant,
 } from "@/lib/shopify";
 
-const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
 // Option axes rendered as colour swatches vs. text pills. Anything that reads
 // like a colour/material is a swatch; everything else (Carat, Size, …) is a pill.

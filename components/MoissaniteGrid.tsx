@@ -22,7 +22,6 @@ export interface MoissaniteProduct {
   category?: string;
 }
 
-const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
 /**
  * Moissanite collection grid.

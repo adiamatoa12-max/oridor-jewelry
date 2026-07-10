@@ -266,7 +266,7 @@ export default function CartDrawer() {
           </p>
           <button
             type="button"
-            className="group mt-5 flex w-full items-center justify-center gap-2 bg-[#2B2C2F] py-4 text-xs font-medium uppercase tracking-[0.2em] text-white transition-all duration-300 ease-cinematic hover:bg-[#1a1b1c] hover:shadow-[0_10px_28px_rgba(43,44,47,0.35)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none"
+            className="group mt-5 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-white transition-all duration-300 ease-cinematic hover:bg-[#1a1a1a] hover:shadow-[0_10px_28px_rgba(45,45,45,0.35)] active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:shadow-none"
             disabled={items.length === 0}
           >
             מעבר לקופה

@@ -16,7 +16,6 @@ export interface NewArrival {
   slug: string;
 }
 
-const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
 /**
  * New Arrivals grid — a strict, uniform layout: every image is a square

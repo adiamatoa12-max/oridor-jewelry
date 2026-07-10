@@ -21,7 +21,6 @@ export interface VariantProduct {
   variants: Variant[];
 }
 
-const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
 /**
  * Product card with interactive color swatches. Clicking a swatch instantly

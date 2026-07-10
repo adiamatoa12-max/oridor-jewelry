@@ -91,7 +91,7 @@ export default function CustomerReviews() {
 
             <Stars className="mt-5" />
 
-            <h3 className="mt-4 text-base font-medium text-[#2B2C2F]">
+            <h3 className="mt-4 text-base font-medium text-charcoal">
               {review.title}
             </h3>
             <p className="mt-2 text-sm font-light leading-relaxed text-gray-600">

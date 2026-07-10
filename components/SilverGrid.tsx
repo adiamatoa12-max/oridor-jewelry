@@ -25,7 +25,6 @@ export interface SilverProduct {
   variants?: SilverColorVariant[];
 }
 
-const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
 /**
  * Silver collection grid ("קולקציית כסף").

@@ -81,7 +81,7 @@ export default function MobileMenu({
               key={link.href}
               href={link.href}
               onClick={onClose}
-              className="mb-6 flex min-h-[44px] items-center justify-end text-2xl font-light tracking-wide text-[#2B2C2F] transition-colors duration-300 hover:text-graphite"
+              className="mb-6 flex min-h-[44px] items-center justify-end text-2xl font-light tracking-wide text-charcoal transition-colors duration-300 hover:text-graphite"
             >
               {link.label}
             </Link>
