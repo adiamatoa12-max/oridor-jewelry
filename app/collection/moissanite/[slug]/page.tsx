@@ -6,10 +6,19 @@ import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import type { MoissaniteProduct } from "@/components/MoissaniteGrid";
 import { getProductWithVariants } from "@/lib/shopify";
+import { buildProductJsonLd } from "@/lib/seo";
 import data from "@/data/moissanite_collection.json";
 
 const products = data as MoissaniteProduct[];
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
+
+// Category-specific value phrase for the "[Name] | [Benefit] | Oridor" title.
+const BENEFIT: Record<string, string> = {
+  Rings: "טבעת מואסניט בכסף 925",
+  Necklaces: "שרשרת מואסניט בכסף 925",
+  Bracelets: "צמיד מואסניט בכסף 925",
+  Earrings: "עגילי מואסניט בכסף 925",
+};
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
@@ -22,9 +31,21 @@ export function generateMetadata({
 }): Metadata {
   const product = products.find((p) => p.slug === params.slug);
   if (!product) return { title: "מוצר לא נמצא" };
+  const benefit = BENEFIT[product.category ?? ""] ?? "מואסניט זוהר בכסף 925";
+  const title = `${product.name} | ${benefit} | Oridor`;
+  const description = `${product.name} — מואסניט בדרגת D/VVS1 (${product.carat} קראט) בכסף סטרלינג 925 מצופה רודיום. ברק עוצר נשימה, משלוח חינם ואחריות מלאה.`;
+  const image = `${SITE_URL}${encodeURI(product.image_url)}`;
   return {
-    title: product.name,
-    description: `${product.name} · ${product.carat} קראט · ${product.material}.`,
+    title: { absolute: title },
+    description,
+    alternates: { canonical: `/collection/moissanite/${product.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/collection/moissanite/${product.slug}`,
+      type: "website",
+      images: [{ url: image, alt: product.name }],
+    },
   };
 }
 
@@ -39,23 +60,16 @@ export default async function MoissaniteProductPage({
   // Live Shopify options + variants for the buy box (null → local fallback).
   const shopifyProduct = await getProductWithVariants(product.slug);
 
-  // Product structured data (Schema.org) for rich search results.
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
+  // Rich product structured data for Google rich snippets.
+  const productJsonLd = buildProductJsonLd({
     name: product.name,
-    image: `${SITE_URL}${encodeURI(product.image_url)}`,
-    description: `${product.name} · ${product.carat} קראט · ${product.material}`,
+    images: [`${SITE_URL}${encodeURI(product.image_url)}`],
+    description: `${product.name} — מואסניט בדרגת D/VVS1 (${product.carat} קראט) בכסף סטרלינג 925 טהור מצופה רודיום.`,
+    sku: product.id,
+    path: `/collection/moissanite/${product.slug}`,
+    price: product.price,
     material: product.material,
-    brand: { "@type": "Brand", name: "Oridor" },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "ILS",
-      price: product.price,
-      availability: "https://schema.org/InStock",
-      url: `${SITE_URL}/collection/moissanite/${product.slug}`,
-    },
-  };
+  });
 
   return (
     <main>

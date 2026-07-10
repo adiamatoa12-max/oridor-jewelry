@@ -5,9 +5,10 @@ import PremiumFooter from "@/components/PremiumFooter";
 import SignatureSets from "@/components/SignatureSets";
 
 export const metadata: Metadata = {
-  title: "אלגנטיות לערב — סטים מומלצים",
+  title: { absolute: "סטים תואמים | שרשרת, עגילים וטבעת | Oridor" },
   description:
-    "סטים תואמים לאירועים בלתי נשכחים — שרשרת, צמיד, עגילים וטבעת שנבחרו יחד. אלגנטיות לערב מבית Oridor.",
+    "סטים מעוצבים שנבחרו יחד — שרשרת, צמיד, עגילים וטבעת בכסף 925 עם מואסניט. מוכנים לעטות לרגעים הגדולים. משלוח חינם ואחריות מלאה.",
+  alternates: { canonical: "/sets" },
 };
 
 export default function SetsPage() {

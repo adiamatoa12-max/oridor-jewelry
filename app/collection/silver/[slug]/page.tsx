@@ -6,6 +6,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import type { SilverProduct } from "@/components/SilverGrid";
 import { getProductWithVariants } from "@/lib/shopify";
+import { buildProductJsonLd } from "@/lib/seo";
 import data from "@/data/silver_collection.json";
 
 const products = data as SilverProduct[];
@@ -22,9 +23,20 @@ export function generateMetadata({
 }): Metadata {
   const product = products.find((p) => p.slug === params.slug);
   if (!product) return { title: "מוצר לא נמצא" };
+  const title = `${product.name} | כסף סטרלינג 925 טהור | Oridor`;
+  const description = `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עמיד, היפואלרגני ולנצח מבריק. עיצוב על-זמני, משלוח חינם ואחריות מלאה.`;
+  const image = `${SITE_URL}${encodeURI(product.image_url)}`;
   return {
-    title: product.name,
-    description: `${product.name} · ${product.material} · מקולקציית הכסף של Oridor.`,
+    title: { absolute: title },
+    description,
+    alternates: { canonical: `/collection/silver/${product.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/collection/silver/${product.slug}`,
+      type: "website",
+      images: [{ url: image, alt: product.name }],
+    },
   };
 }
 
@@ -52,22 +64,15 @@ export default async function SilverProductPage({
         }))
       : [{ src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` }];
 
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
+  const productJsonLd = buildProductJsonLd({
     name: product.name,
-    image: `${SITE_URL}${encodeURI(product.image_url)}`,
-    description: `${product.name} · ${product.material} · קולקציית כסף Oridor`,
+    images: [`${SITE_URL}${encodeURI(product.image_url)}`],
+    description: `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עמיד, היפואלרגני ועל-זמני.`,
+    sku: product.id,
+    path: `/collection/silver/${product.slug}`,
+    price: product.price,
     material: product.material,
-    brand: { "@type": "Brand", name: "Oridor" },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "ILS",
-      price: product.price,
-      availability: "https://schema.org/InStock",
-      url: `${SITE_URL}/collection/silver/${product.slug}`,
-    },
-  };
+  });
 
   return (
     <main>

@@ -6,6 +6,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import type { VariantProduct } from "@/components/VariantCard";
 import { getProductWithVariants } from "@/lib/shopify";
+import { buildProductJsonLd } from "@/lib/seo";
 import data from "@/data/signature_collection.json";
 
 const products = data as VariantProduct[];
@@ -22,9 +23,20 @@ export function generateMetadata({
 }): Metadata {
   const product = products.find((p) => p.slug === params.slug);
   if (!product) return { title: "מוצר לא נמצא" };
+  const title = `${product.name} | קולקציית החתימה בכסף 925 | Oridor`;
+  const description = `${product.name} מכסף סטרלינג 925 טהור, זמין ב-${product.variants.length} גימורים (כסף, זהב, זהב ורוד). עיצוב חתימה על-זמני, משלוח חינם ואחריות מלאה.`;
+  const image = `${SITE_URL}${encodeURI(product.variants[0].image_url)}`;
   return {
-    title: product.name,
-    description: `${product.name} · ${product.material} · זמין ב${product.variants.length} גימורים — קולקציית החתימה של Oridor.`,
+    title: { absolute: title },
+    description,
+    alternates: { canonical: `/collection/signature/${product.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/collection/signature/${product.slug}`,
+      type: "website",
+      images: [{ url: image, alt: product.name }],
+    },
   };
 }
 
@@ -45,22 +57,15 @@ export default async function SignatureProductPage({
     alt: `${product.name} — ${v.color}`,
   }));
 
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
+  const productJsonLd = buildProductJsonLd({
     name: product.name,
-    image: product.variants.map((v) => `${SITE_URL}${encodeURI(v.image_url)}`),
-    description: `${product.name} · ${product.material} · קולקציית החתימה Oridor`,
+    images: product.variants.map((v) => `${SITE_URL}${encodeURI(v.image_url)}`),
+    description: `${product.name} מכסף סטרלינג 925 טהור — זמין ב-${product.variants.length} גימורים. קולקציית החתימה של Oridor.`,
+    sku: product.id,
+    path: `/collection/signature/${product.slug}`,
+    price: product.price,
     material: product.material,
-    brand: { "@type": "Brand", name: "Oridor" },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "ILS",
-      price: product.price,
-      availability: "https://schema.org/InStock",
-      url: `${SITE_URL}/collection/signature/${product.slug}`,
-    },
-  };
+  });
 
   return (
     <main>

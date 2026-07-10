@@ -6,9 +6,10 @@ import MoissaniteGrid, { type MoissaniteProduct } from "@/components/MoissaniteG
 import products from "@/data/moissanite_collection.json";
 
 export const metadata: Metadata = {
-  title: "קולקציית הטניס",
+  title: { absolute: "קולקציית הטניס | צמידים ושרשראות זוהרים | Oridor" },
   description:
-    "קולקציית הטניס של Oridor — צמידי ושרשראות טניס נוצצים מכסף 925 מצופה רודיום. שורת אבנים רציפה של ברק על-זמני.",
+    "שורת אבני מואסניט רציפה בכסף 925 מצופה רודיום — קלאסיקה נוצצת שלא יוצאת מהאופנה. צמידי ושרשראות טניס. משלוח חינם ואחריות מלאה.",
+  alternates: { canonical: "/collection/tennis" },
 };
 
 // Only true tennis pieces — items whose name contains 'טניס'.

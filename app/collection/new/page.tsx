@@ -8,9 +8,10 @@ import data from "@/data/new_arrivals.json";
 const products = data as NewArrival[];
 
 export const metadata: Metadata = {
-  title: "קולקציית כסף 925",
+  title: { absolute: "חדש באוסף | תכשיטי כסף 925 חדשים | Oridor" },
   description:
-    "קולקציית הכסף 925 של Oridor — כסף סטרלינג טהור ומוצק (לא ציפוי). עגילים, שרשראות ועוד.",
+    "הפריטים החדשים של Oridor — עגילים, שרשראות וטבעות מכסף סטרלינג 925 טהור בציפוי רודיום. עיצובים נקיים וטריים. משלוח חינם.",
+  alternates: { canonical: "/collection/new" },
 };
 
 export default function NewArrivalsPage() {

@@ -6,6 +6,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import type { NewArrival } from "@/components/NewArrivalsGrid";
 import { getProductWithVariants } from "@/lib/shopify";
+import { buildProductJsonLd } from "@/lib/seo";
 import data from "@/data/new_arrivals.json";
 
 const products = data as NewArrival[];
@@ -22,9 +23,20 @@ export function generateMetadata({
 }): Metadata {
   const product = products.find((p) => p.slug === params.slug);
   if (!product) return { title: "מוצר לא נמצא" };
+  const title = `${product.name} | חדש בכסף 925 | Oridor`;
+  const description = `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עיצוב חדש, נקי ועל-זמני. משלוח חינם ואחריות מלאה על כל פריט.`;
+  const image = `${SITE_URL}${encodeURI(product.image_url)}`;
   return {
-    title: product.name,
-    description: `${product.name} · ${product.material} · קולקציה חדשה של Oridor.`,
+    title: { absolute: title },
+    description,
+    alternates: { canonical: `/collection/new/${product.slug}` },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/collection/new/${product.slug}`,
+      type: "website",
+      images: [{ url: image, alt: product.name }],
+    },
   };
 }
 
@@ -38,22 +50,15 @@ export default async function NewArrivalProductPage({
 
   const shopifyProduct = await getProductWithVariants(product.slug);
 
-  const productJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
+  const productJsonLd = buildProductJsonLd({
     name: product.name,
-    image: `${SITE_URL}${encodeURI(product.image_url)}`,
-    description: `${product.name} · ${product.material} · קולקציה חדשה Oridor`,
+    images: [`${SITE_URL}${encodeURI(product.image_url)}`],
+    description: `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עיצוב חדש, נקי ועל-זמני.`,
+    sku: product.id,
+    path: `/collection/new/${product.slug}`,
+    price: product.price,
     material: product.material,
-    brand: { "@type": "Brand", name: "Oridor" },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "ILS",
-      price: product.price,
-      availability: "https://schema.org/InStock",
-      url: `${SITE_URL}/collection/new/${product.slug}`,
-    },
-  };
+  });
 
   return (
     <main>

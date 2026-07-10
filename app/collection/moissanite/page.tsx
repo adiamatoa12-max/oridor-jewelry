@@ -7,9 +7,10 @@ import { type MoissaniteProduct } from "@/components/MoissaniteGrid";
 import products from "@/data/moissanite_collection.json";
 
 export const metadata: Metadata = {
-  title: "קולקציית מואסניט",
+  title: { absolute: "קולקציית מואסניט | ברק שעוצר נשימה בכסף 925 | Oridor" },
   description:
-    "קולקציית המואסניט של Oridor — אבני מואסניט נוצצות בכסף 925 מצופה רודיום. ברק נצחי, יוקרה יומיומית.",
+    "אבני מואסניט בדרגת D/VVS1 בעבודת יד, בכסף סטרלינג 925 מצופה רודיום. ברק שמתחרה ביהלום — במחיר הוגן. משלוח חינם ואחריות מלאה.",
+  alternates: { canonical: "/collection/moissanite" },
 };
 
 export default function MoissaniteCollectionPage() {

@@ -8,9 +8,10 @@ import data from "@/data/silver_collection.json";
 const products = data as SilverProduct[];
 
 export const metadata: Metadata = {
-  title: "קולקציית כסף",
+  title: { absolute: "קולקציית כסף 925 | תכשיטים על-זמניים שלא מתכהים | Oridor" },
   description:
-    "קולקציית הכסף החדשה של Oridor — טבעות, שרשראות, צמידים ועגילים מכסף 925 טהור. עיצוב על-זמני ונקי.",
+    "תכשיטי כסף סטרלינג 925 טהור בציפוי רודיום — עמידים, היפואלרגניים ולנצח מבריקים. עיצוב נקי לכל יום. משלוח חינם ואחריות מלאה.",
+  alternates: { canonical: "/collection/silver" },
 };
 
 export default function SilverCollectionPage() {

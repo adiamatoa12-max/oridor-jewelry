@@ -9,9 +9,10 @@ import data from "@/data/signature_collection.json";
 const products = data as VariantProduct[];
 
 export const metadata: Metadata = {
-  title: "קולקציית החתימה",
+  title: { absolute: "קולקציית החתימה | שלושה גימורים בכסף 925 | Oridor" },
   description:
-    "קולקציית החתימה של Oridor — תכשיטי כסף 925 בשלושה גימורים: כסף, זהב וזהב ורוד. בחרי את הצבע שלך.",
+    "תכשיטי כסף סטרלינג 925 בשלושה גימורים — כסף, זהב וזהב ורוד. עיצוב חתימה על-זמני, בחרי את הצבע שלך. משלוח חינם ואחריות מלאה.",
+  alternates: { canonical: "/collection/signature" },
 };
 
 export default function SignatureCollectionPage() {
