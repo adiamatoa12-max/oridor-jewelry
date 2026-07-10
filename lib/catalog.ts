@@ -20,6 +20,8 @@ export interface CatalogProduct {
   id: string;
   title: string;
   price: number;
+  /** Original ("regular") price for the launch strikethrough, when on promo. */
+  compareAtPrice?: number;
   image: string;
   /** Second image that cross-fades in on hover, when available. */
   secondaryImage?: string;
@@ -66,6 +68,7 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     id: `mois-${p.id}`,
     title: p.name,
     price: p.price,
+    compareAtPrice: p.compare_at_price,
     image: encodeURI(p.image_url),
     // On-model lifestyle shot that cross-fades in on hover (same as homepage).
     secondaryImage: p.hover_image ? encodeURI(p.hover_image) : undefined,
@@ -81,6 +84,7 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     id: `silv-${p.id}`,
     title: p.name,
     price: p.price,
+    compareAtPrice: p.compare_at_price,
     image: encodeURI(p.image_url),
     handle: p.slug,
     href: `/collection/silver/${p.slug}`,
@@ -102,6 +106,7 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     id: `na-${p.id}`,
     title: p.name,
     price: p.price,
+    compareAtPrice: p.compare_at_price,
     image: encodeURI(p.image_url),
     handle: p.slug,
     href: `/collection/new/${p.slug}`,
@@ -114,6 +119,7 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     id: `sig-${p.id}`,
     title: p.name,
     price: p.price,
+    compareAtPrice: p.compare_at_price,
     image: encodeURI(p.variants[0].image_url),
     secondaryImage: p.variants[1]?.image_url
       ? encodeURI(p.variants[1].image_url)
@@ -148,14 +154,25 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
  * Products with no live match keep their local price and are treated as
  * available (so an unconfigured/empty map is a safe no-op).
  */
-export function applyLiveStatus<T extends { handle: string; price: number }>(
+export function applyLiveStatus<
+  T extends { handle: string; price: number; compareAtPrice?: number },
+>(
   products: T[],
-  live: Record<string, { price: number; available: boolean }>,
+  live: Record<
+    string,
+    { price: number; compareAtPrice?: number; available: boolean }
+  >,
 ): (T & { available?: boolean })[] {
   return products.map((p) => {
     const status = live[p.handle];
     if (!status) return p;
-    return { ...p, price: status.price, available: status.available };
+    // Price AND strikethrough both come from Shopify so they never disagree.
+    return {
+      ...p,
+      price: status.price,
+      compareAtPrice: status.compareAtPrice,
+      available: status.available,
+    };
   });
 }
 

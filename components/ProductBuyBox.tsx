@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useCart } from "./CartContext";
+import PriceTag from "./PriceTag";
 import type {
   ShopifyProductOptions,
   ShopifyVariant,
@@ -32,6 +33,7 @@ export default function ProductBuyBox({
   title,
   image,
   fallbackPrice,
+  compareAtPrice,
   product,
   hexByValue = {},
 }: {
@@ -39,6 +41,8 @@ export default function ProductBuyBox({
   image: string;
   /** Local price shown when a variant can't be resolved. */
   fallbackPrice: number;
+  /** Regular price for the launch strikethrough (optional). */
+  compareAtPrice?: number;
   /** Live Shopify options + variants; null when Shopify is unavailable. */
   product: ShopifyProductOptions | null;
   /** Optional map of option value → hex, for colour swatches. */
@@ -97,7 +101,7 @@ export default function ProductBuyBox({
 
   return (
     <div>
-      <p className="mt-4 text-xl font-light text-graphite">{formatPrice(price)}</p>
+      <PriceTag price={price} compareAt={compareAtPrice} size="lg" className="mt-4" />
 
       {options.map((opt) => {
         const swatch = optionIsSwatch(opt.name);
@@ -178,7 +182,7 @@ export default function ProductBuyBox({
       {/* Sticky mobile CTA — a frictionless bottom bar on phones only. Shares
           the exact same variant selection + add-to-cart handler. */}
       <div className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-4 border-t border-platinum/50 bg-canvas/95 px-5 py-3 backdrop-blur-md sm:hidden">
-        <span className="text-base font-light text-charcoal">{formatPrice(price)}</span>
+        <PriceTag price={price} compareAt={compareAtPrice} />
         <button
           type="button"
           onClick={handleAdd}

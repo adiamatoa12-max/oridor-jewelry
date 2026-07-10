@@ -43,6 +43,7 @@ const HEADERS = [
   "Option1 Name",
   "Option1 Value",
   "Variant Price",
+  "Variant Compare At Price",
   "Image Src",
 ];
 
@@ -81,7 +82,12 @@ const rows = [];
 for (const p of products) {
   const hasVariants = Array.isArray(p.variants) && p.variants.length > 0;
   const handle = p.slug || p.id;
-  const price = Number(p.price).toFixed(2); // store currency (set store to ILS)
+  const price = Number(p.price).toFixed(2); // launch price, store currency (ILS)
+  // "Compare At" = regular price → Shopify renders the strikethrough sale.
+  const compareAt =
+    p.compare_at_price && p.compare_at_price > p.price
+      ? Number(p.compare_at_price).toFixed(2)
+      : "";
   const tags = [p.category, p._source.replace(".json", "")].filter(Boolean).join(", ");
   const body = p.material ? `<p>${p.material}</p>` : "";
   const imgs = imagesFor(p, hasVariants);
@@ -109,6 +115,7 @@ for (const p of products) {
       first ? optName : "",
       variant ? variant.optValue : "",
       variant ? variant.price : "",
+      variant ? compareAt : "",
       imgs[r] ? abs(imgs[r]) : "",
     ]);
   }

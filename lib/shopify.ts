@@ -284,6 +284,8 @@ export async function getProductWithVariants(
 /** Live commercial status for one product, keyed by handle. */
 export interface LiveStatus {
   price: number;
+  /** Regular ("compare at") price when the product is on sale in Shopify. */
+  compareAtPrice?: number;
   currencyCode: string;
   available: boolean;
 }
@@ -306,6 +308,7 @@ export async function getLivePriceMap(): Promise<Record<string, LiveStatus>> {
             handle
             availableForSale
             priceRange { minVariantPrice { amount currencyCode } }
+            compareAtPriceRange { minVariantPrice { amount } }
           }
         }
       }
@@ -319,6 +322,7 @@ export async function getLivePriceMap(): Promise<Record<string, LiveStatus>> {
             handle: string;
             availableForSale: boolean;
             priceRange: { minVariantPrice: MoneyV2 };
+            compareAtPriceRange: { minVariantPrice: { amount: string } };
           };
         }[];
       };
@@ -326,8 +330,12 @@ export async function getLivePriceMap(): Promise<Record<string, LiveStatus>> {
 
     const map: Record<string, LiveStatus> = {};
     for (const { node } of data.products.edges) {
+      const compareAt = parseFloat(
+        node.compareAtPriceRange?.minVariantPrice?.amount ?? "0",
+      );
       map[node.handle] = {
         price: parseFloat(node.priceRange.minVariantPrice.amount),
+        compareAtPrice: compareAt > 0 ? compareAt : undefined,
         currencyCode: node.priceRange.minVariantPrice.currencyCode,
         available: node.availableForSale,
       };

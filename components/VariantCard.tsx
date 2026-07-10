@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import PriceTag from "./PriceTag";
 
 export interface Variant {
   color: string;
@@ -13,6 +14,7 @@ export interface VariantProduct {
   id: string;
   name: string;
   price: number;
+  compare_at_price?: number;
   category: string;
   material: string;
   slug: string;
@@ -55,7 +57,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
 
       <div className="px-2 pt-5 text-center">
         <h3 className="text-xs font-normal leading-snug tracking-[0.06em] text-charcoal sm:text-[13px]">{product.name}</h3>
-        <p className="mt-1.5 text-xs font-light tracking-[0.06em] text-graphite sm:text-[13px]">{formatPrice(product.price)}</p>
+        <PriceTag price={product.price} compareAt={product.compare_at_price} className="mt-1.5" />
 
         {/* Color swatches — 20px dots inside a 44px tap target for touch */}
         <div className="mt-1 flex items-center justify-center gap-1">

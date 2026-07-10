@@ -13,7 +13,13 @@ export default async function MoissanitePreview() {
   const highlights = (products as MoissaniteProduct[])
     .slice(0, 8)
     .map((p) =>
-      live[p.slug] ? { ...p, price: live[p.slug].price } : p,
+      live[p.slug]
+        ? {
+            ...p,
+            price: live[p.slug].price,
+            compare_at_price: live[p.slug].compareAtPrice,
+          }
+        : p,
     );
 
   return (

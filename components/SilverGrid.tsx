@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "./CartContext";
+import PriceTag from "./PriceTag";
 
 export interface SilverColorVariant {
   color: string;
@@ -16,6 +17,7 @@ export interface SilverProduct {
   id: string;
   name: string;
   price: number;
+  compare_at_price?: number;
   material: string;
   image_url: string;
   slug: string;
@@ -91,9 +93,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
         <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
           {p.name}
         </h3>
-        <p className="mt-2 text-xs font-light tracking-[0.08em] text-graphite sm:text-[13px]">
-          {formatPrice(p.price)}
-        </p>
+        <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-2" />
 
         {/* Colour swatches — 16px dots in a 44px tap target; preview in place. */}
         {hasSwatches && (

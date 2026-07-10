@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { ShieldCheck } from "lucide-react";
 import { useCart } from "./CartContext";
+import PriceTag from "./PriceTag";
 import type { VariantProduct } from "./VariantCard";
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
@@ -54,7 +55,7 @@ export default function VariantProductView({ product }: { product: VariantProduc
         <h1 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal lg:text-4xl">
           {product.name}
         </h1>
-        <p className="mt-4 text-xl font-light text-graphite">{formatPrice(product.price)}</p>
+        <PriceTag price={product.price} compareAt={product.compare_at_price} size="lg" className="mt-4" />
 
         <span className="my-8 block h-px w-16 bg-gold" />
 

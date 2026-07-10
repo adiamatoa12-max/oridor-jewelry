@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "./CartContext";
+import PriceTag from "./PriceTag";
 import type { ProductColorVariant } from "@/lib/catalog";
 
 export interface ProductCardProps {
@@ -18,6 +19,8 @@ export interface ProductCardProps {
   price: number;
   /** Optional pre-formatted price string (overrides `price` formatting). */
   priceLabel?: string;
+  /** Regular price for the launch strikethrough (optional). */
+  compareAt?: number;
   href?: string;
   currency?: string;
   /** Product-on-white shots look best "contain"; lifestyle crops use "cover". */
@@ -42,6 +45,7 @@ export default function ProductCard({
   title,
   price,
   priceLabel,
+  compareAt,
   href = "#",
   currency = "USD",
   fit = "cover",
@@ -126,9 +130,7 @@ export default function ProductCard({
         <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
           {title}
         </h3>
-        <p className="mt-2 text-xs font-light tracking-[0.08em] text-graphite sm:text-[13px]">
-          {formattedPrice}
-        </p>
+        <PriceTag price={price} compareAt={compareAt} className="mt-2" />
 
         {/* Minimalist colour swatches — 16px dots inside a 44px tap target.
             Clicking previews the finish in place without leaving the grid. */}

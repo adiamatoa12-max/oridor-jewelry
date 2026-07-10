@@ -113,6 +113,7 @@ export default async function MoissaniteProductPage({
               title={product.name}
               image={encodeURI(product.image_url)}
               fallbackPrice={product.price}
+              compareAtPrice={product.compare_at_price}
               product={shopifyProduct}
             />
 

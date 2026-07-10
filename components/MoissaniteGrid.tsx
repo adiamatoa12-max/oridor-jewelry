@@ -4,11 +4,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "./CartContext";
+import PriceTag from "./PriceTag";
 
 export interface MoissaniteProduct {
   id: string;
   name: string;
   price: number;
+  /** Regular price for the launch strikethrough (optional). */
+  compare_at_price?: number;
   carat: number;
   material: string;
   image_url: string;
@@ -116,7 +119,7 @@ export default function MoissaniteGrid({
 
           <div className="px-2 pt-6 text-center">
             <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">{p.name}</h3>
-            <p className="mt-2 text-xs font-light tracking-[0.08em] text-graphite sm:text-[13px]">{formatPrice(p.price)}</p>
+            <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-2" />
           </div>
         </Link>
       ))}
