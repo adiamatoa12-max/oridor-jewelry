@@ -33,6 +33,8 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-assistant)", "ui-sans-serif", "system-ui", "sans-serif"],
         serif: ["var(--font-playfair)", "ui-serif", "Georgia", "serif"],
+        // Editorial display serif (Hebrew-complete) — luxury headings.
+        display: ["var(--font-display)", "ui-serif", "Georgia", "serif"],
       },
       letterSpacing: {
         brand: "0.35em",

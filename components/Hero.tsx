@@ -36,7 +36,7 @@ export default function Hero() {
         <p className="mb-3 animate-fade-up text-xs tracking-brand text-white/90 [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.55))] [animation-delay:100ms]">
           קולקציה חדשה
         </p>
-        <h1 className="mx-auto max-w-3xl animate-fade-up text-2xl font-semibold leading-relaxed tracking-wide text-white [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.55))] [animation-delay:250ms] sm:text-3xl md:text-4xl">
+        <h1 className="mx-auto max-w-3xl animate-fade-up text-3xl font-light leading-[1.15] tracking-wide text-white [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.55))] [animation-delay:250ms] [text-wrap:balance] sm:text-4xl md:text-5xl">
           <span className="inline-block animate-soft-float motion-reduce:animate-none">
             אלגנטיות, מוגדרת מחדש.
           </span>
@@ -46,7 +46,7 @@ export default function Hero() {
         </p>
         <Link
           href="/shop"
-          className="mx-auto mt-7 inline-flex min-h-[48px] animate-fade-up items-center justify-center bg-black px-14 py-3 text-xs font-bold uppercase tracking-[0.25em] text-white shadow-lg transition-all duration-500 ease-cinematic [animation-delay:650ms] hover:bg-neutral-800"
+          className="btn-lux mt-9 animate-fade-up [animation-delay:650ms]"
         >
           לרכישת הקולקציה
         </Link>

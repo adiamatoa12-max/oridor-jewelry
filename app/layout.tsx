@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Assistant, Playfair_Display } from "next/font/google";
+import { Assistant, Playfair_Display, Frank_Ruhl_Libre } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
@@ -23,12 +23,27 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
+// Editorial display serif — Hebrew-complete, used for luxury headings.
+const frankRuhl = Frank_Ruhl_Libre({
+  subsets: ["hebrew", "latin"],
+  weight: ["300", "400", "500"],
+  variable: "--font-display",
+  display: "swap",
+});
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
+
+const OG_IMAGE = {
+  url: "/og-image.jpg",
+  width: 1536,
+  height: 1024,
+  alt: "קולקציית תכשיטי המויסאניט של Oridor — שרשרת, טבעת, עגילים וצמיד טניס",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Oridor — תכשיטי יוקרה",
+    default: "Oridor | תכשיטי מויסאניט פרימיום",
     template: "%s — Oridor",
   },
   description:
@@ -39,10 +54,18 @@ export const metadata: Metadata = {
     type: "website",
     locale: "he_IL",
     siteName: "Oridor",
-    title: "Oridor — תכשיטי יוקרה",
+    title: "Oridor | תכשיטי מויסאניט פרימיום",
     description:
       "תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסניט. מינימליסטי, על-זמני, אלגנטי.",
     url: SITE_URL,
+    images: [OG_IMAGE],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Oridor | תכשיטי מויסאניט פרימיום",
+    description:
+      "תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסניט. מינימליסטי, על-זמני, אלגנטי.",
+    images: ["/og-image.jpg"],
   },
   robots: { index: true, follow: true },
 };
@@ -69,7 +92,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="he" dir="rtl" className={`${assistant.variable} ${playfair.variable}`}>
+    <html lang="he" dir="rtl" className={`${assistant.variable} ${playfair.variable} ${frankRuhl.variable}`}>
       <body>
         <script
           type="application/ld+json"
