@@ -192,6 +192,63 @@ export async function getProducts(first = 24): Promise<ShopifyProduct[]> {
   return data.products.edges.map((e) => normalizeProduct(e.node));
 }
 
+/** Live commercial status for one product, keyed by handle. */
+export interface LiveStatus {
+  price: number;
+  currencyCode: string;
+  available: boolean;
+}
+
+/**
+ * Fetch a { handle → live price/availability } map for the whole store.
+ *
+ * Used by the hybrid data layer: local JSON drives the rich UI (hover images,
+ * swatches, sets), while THIS overlays live price + stock matched by handle.
+ * Never throws — returns {} if Shopify is unconfigured or the request fails, so
+ * pages transparently fall back to their local prices.
+ */
+export async function getLivePriceMap(): Promise<Record<string, LiveStatus>> {
+  if (!isShopifyConfigured) return {};
+  const query = /* GraphQL */ `
+    query LiveStatus($first: Int!) {
+      products(first: $first) {
+        edges {
+          node {
+            handle
+            availableForSale
+            priceRange { minVariantPrice { amount currencyCode } }
+          }
+        }
+      }
+    }
+  `;
+  try {
+    const data = await shopifyFetch<{
+      products: {
+        edges: {
+          node: {
+            handle: string;
+            availableForSale: boolean;
+            priceRange: { minVariantPrice: MoneyV2 };
+          };
+        }[];
+      };
+    }>(query, { first: 250 });
+
+    const map: Record<string, LiveStatus> = {};
+    for (const { node } of data.products.edges) {
+      map[node.handle] = {
+        price: parseFloat(node.priceRange.minVariantPrice.amount),
+        currencyCode: node.priceRange.minVariantPrice.currencyCode,
+        available: node.availableForSale,
+      };
+    }
+    return map;
+  } catch {
+    return {};
+  }
+}
+
 /**
  * Fetch a single product by its handle (URL slug). Returns null if not found.
  */

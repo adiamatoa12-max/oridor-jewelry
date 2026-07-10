@@ -23,6 +23,10 @@ export interface CatalogProduct {
   image: string;
   /** Second image that cross-fades in on hover, when available. */
   secondaryImage?: string;
+  /** Shopify handle / URL slug — the join key for live price & stock. */
+  handle: string;
+  /** Live stock flag from Shopify (undefined when live data is unavailable). */
+  available?: boolean;
   href: string;
   /** Collection this piece belongs to (Hebrew label). */
   collection: string;
@@ -65,6 +69,7 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     image: encodeURI(p.image_url),
     // On-model lifestyle shot that cross-fades in on hover (same as homepage).
     secondaryImage: p.hover_image ? encodeURI(p.hover_image) : undefined,
+    handle: p.slug,
     href: `/collection/moissanite/${p.slug}`,
     collection: COLLECTION_MOISSANITE,
     category: asType(p.category),
@@ -77,6 +82,7 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     title: p.name,
     price: p.price,
     image: encodeURI(p.image_url),
+    handle: p.slug,
     href: `/collection/silver/${p.slug}`,
     collection: COLLECTION_SILVER,
     category: asType(p.category) ?? inferCategory(p.name),
@@ -97,6 +103,7 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     title: p.name,
     price: p.price,
     image: encodeURI(p.image_url),
+    handle: p.slug,
     href: `/collection/new/${p.slug}`,
     collection: COLLECTION_SILVER,
     category: asType(p.category) ?? inferCategory(p.name),
@@ -111,6 +118,7 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     secondaryImage: p.variants[1]?.image_url
       ? encodeURI(p.variants[1].image_url)
       : undefined,
+    handle: p.slug,
     href: `/collection/signature/${p.slug}`,
     collection: COLLECTION_SILVER,
     category: asType(p.category) ?? inferCategory(p.name),
@@ -132,6 +140,23 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     ...newArrivalItems,
     ...signatureItems,
   ];
+}
+
+/**
+ * Hybrid overlay: given the local catalog and a live { handle → status } map
+ * from Shopify, return a new list with LIVE price + availability applied.
+ * Products with no live match keep their local price and are treated as
+ * available (so an unconfigured/empty map is a safe no-op).
+ */
+export function applyLiveStatus<T extends { handle: string; price: number }>(
+  products: T[],
+  live: Record<string, { price: number; available: boolean }>,
+): (T & { available?: boolean })[] {
+  return products.map((p) => {
+    const status = live[p.handle];
+    if (!status) return p;
+    return { ...p, price: status.price, available: status.available };
+  });
 }
 
 /** Sticky filter chips — mixes collection and type axes; each chip filters one. */

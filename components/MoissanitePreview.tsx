@@ -1,12 +1,20 @@
 import Link from "next/link";
 import MoissaniteGrid, { type MoissaniteProduct } from "./MoissaniteGrid";
 import products from "@/data/moissanite_collection.json";
+import { getLivePriceMap } from "@/lib/shopify";
 
 /**
  * Homepage section — "קולקציית מואסניט": strictly Moissanite products only.
+ * Hybrid: local data drives the cards; live Shopify price is overlaid by handle
+ * (slug). Safe no-op when Shopify is unconfigured.
  */
-export default function MoissanitePreview() {
-  const highlights = (products as MoissaniteProduct[]).slice(0, 8);
+export default async function MoissanitePreview() {
+  const live = await getLivePriceMap();
+  const highlights = (products as MoissaniteProduct[])
+    .slice(0, 8)
+    .map((p) =>
+      live[p.slug] ? { ...p, price: live[p.slug].price } : p,
+    );
 
   return (
     <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">

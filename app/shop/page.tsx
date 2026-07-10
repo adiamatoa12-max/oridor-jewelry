@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import ShopCatalog from "@/components/ShopCatalog";
+import { buildUnifiedCatalog, applyLiveStatus } from "@/lib/catalog";
+import { getLivePriceMap } from "@/lib/shopify";
 
 export const metadata: Metadata = {
   title: "הקולקציה המלאה",
@@ -9,7 +11,12 @@ export const metadata: Metadata = {
     "כל הקולקציות שלנו במקום אחד — מואסניט, קולקציית כסף וקולקציית החתימה. סינון מהיר לפי קטגוריה.",
 };
 
-export default function ShopPage() {
+// Hybrid: local catalog drives the rich UI; live Shopify price + stock is
+// overlaid by handle on the server (safe no-op if Shopify is unconfigured).
+export default async function ShopPage() {
+  const live = await getLivePriceMap();
+  const products = applyLiveStatus(buildUnifiedCatalog(), live);
+
   return (
     <main>
       <AnnouncementBar />
@@ -25,7 +32,7 @@ export default function ShopPage() {
           </p>
         </header>
 
-        <ShopCatalog />
+        <ShopCatalog products={products} />
       </section>
     </main>
   );

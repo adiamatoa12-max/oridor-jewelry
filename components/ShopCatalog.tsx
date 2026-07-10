@@ -15,8 +15,17 @@ function matches(p: CatalogProduct, chip: Chip): boolean {
   return p.category === chip.value;
 }
 
-export default function ShopCatalog() {
-  const products = useMemo(() => buildUnifiedCatalog(), []);
+export default function ShopCatalog({
+  products: provided,
+}: {
+  /** Server-enriched products (local UI + live Shopify price/stock). Falls
+   *  back to a client-side local build when not supplied. */
+  products?: CatalogProduct[];
+}) {
+  const products = useMemo(
+    () => provided ?? buildUnifiedCatalog(),
+    [provided],
+  );
   const [activeChip, setActiveChip] = useState(0);
 
   // Pre-select a chip when arriving from a category tile (/shop?filter=<label>).
