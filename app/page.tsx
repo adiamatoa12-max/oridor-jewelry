@@ -2,7 +2,6 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import SplitPromoBanners from "@/components/SplitPromoBanners";
 import CustomerReviews from "@/components/CustomerReviews";
-import OridorQuality from "@/components/OridorQuality";
 import InstagramFeed from "@/components/InstagramFeed";
 import PremiumFooter from "@/components/PremiumFooter";
 import Hero from "@/components/Hero";
@@ -37,8 +36,6 @@ export default function Home() {
         {/* Signature sets — curated lookbook (no individual-product overlap) */}
         <Reveal><SignatureSets /></Reveal>
         <Reveal><CustomerReviews /></Reveal>
-        {/* Quality values — trust-building section just above the footer */}
-        <Reveal><OridorQuality /></Reveal>
 
         {/* Moissanite education — editorial vs.-zircon band near the page bottom */}
         <Reveal><MoissaniteEducation /></Reveal>

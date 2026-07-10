@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ShieldCheck, Gem, Sparkles, BadgeCheck } from "lucide-react";
+import { ShieldCheck, Gem, Sparkles, BadgeCheck, Award } from "lucide-react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
@@ -26,6 +26,11 @@ const PILLARS = [
     icon: Sparkles,
     title: "נוצר לעמידות ולאריכות ימים",
     body: "כל פריט עובר עבודת יד מדויקת וגימור קפדני, ומצופה רודיום להגנה מרבית מפני שריטות ועמעום. תכשיט על-זמני שנועד ללוות אתכן יום-יום, לשנים רבות.",
+  },
+  {
+    icon: Award,
+    title: "עיצוב פרימיום",
+    body: "עיצובים נקיים ועל-זמניים, בהשראת אסתטיקה מודרנית ומינימליסטית. כל פריט נבחר ומעוצב בקפידה כדי להיראות יוקרתי, אלגנטי ורלוונטי לאורך שנים — לא אופנתי לרגע, אלא קלאסי לתמיד.",
   },
 ];
 
@@ -53,7 +58,7 @@ export default function QualityPage() {
 
       {/* Pillars */}
       <section className="mx-auto max-w-6xl px-6 pb-8 sm:px-10 lg:px-16">
-        <div className="grid grid-cols-1 gap-px overflow-hidden border border-gray-200 bg-gray-200 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-px overflow-hidden border border-gray-200 bg-gray-200 sm:grid-cols-2 md:grid-cols-4">
           {PILLARS.map((p) => (
             <div key={p.title} className="flex flex-col items-center bg-canvas p-10 text-center lg:p-12">
               <p.icon size={28} strokeWidth={1.25} className="text-gold" />
