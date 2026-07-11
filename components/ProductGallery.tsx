@@ -28,7 +28,10 @@ export default function ProductGallery({
 
   const gallery = images.filter((i) => i.src);
   const current = gallery[active] ?? gallery[0];
-  const fitClass = fit === "cover" ? "object-cover" : "object-contain p-6";
+  const fitClass =
+    fit === "cover"
+      ? "object-cover"
+      : "object-contain p-6 [filter:drop-shadow(0px_8px_20px_rgba(0,0,0,0.10))]";
 
   const onMove = (e: React.MouseEvent) => {
     const el = frameRef.current;
@@ -43,9 +46,10 @@ export default function ProductGallery({
 
   return (
     <div className="flex flex-col-reverse gap-4 sm:flex-row sm:gap-5">
-      {/* Thumbnail rail */}
+      {/* Thumbnail rail — borderless; the active thumb reads full-strength
+          while the rest sit gently dimmed, with a soft scale on hover. */}
       {gallery.length > 1 && (
-        <div className="flex gap-3 sm:flex-col">
+        <div className="flex gap-3.5 sm:flex-col">
           {gallery.map((img, i) => {
             const on = i === active;
             return (
@@ -55,16 +59,16 @@ export default function ProductGallery({
                 onClick={() => setActive(i)}
                 aria-label={`תמונה ${i + 1}`}
                 aria-current={on}
-                className={`relative h-16 w-16 flex-none overflow-hidden rounded-lg bg-canvas ring-1 transition-all duration-200 sm:h-20 sm:w-20 ${
-                  on ? "ring-charcoal" : "ring-platinum/50 hover:ring-charcoal/40"
+                className={`relative h-20 w-20 flex-none overflow-hidden rounded-lg bg-transparent transition-all duration-300 ease-out hover:scale-105 sm:h-24 sm:w-24 ${
+                  on ? "opacity-100" : "opacity-45 hover:opacity-100"
                 }`}
               >
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
-                  sizes="80px"
-                  className={fit === "cover" ? "object-cover" : "object-contain p-1.5"}
+                  sizes="96px"
+                  className={fit === "cover" ? "object-cover" : "object-contain p-1"}
                 />
               </button>
             );
@@ -72,13 +76,14 @@ export default function ProductGallery({
         </div>
       )}
 
-      {/* Main image with hover-to-zoom */}
+      {/* Main image with hover-to-zoom — seamless, no box: the piece floats on
+          the page background. */}
       <div
         ref={frameRef}
         onMouseEnter={() => setZoom(true)}
         onMouseLeave={() => setZoom(false)}
         onMouseMove={onMove}
-        className="relative aspect-[4/5] w-full flex-1 cursor-zoom-in overflow-hidden rounded-xl bg-canvas ring-1 ring-platinum/40"
+        className="relative aspect-[4/5] w-full flex-1 cursor-zoom-in overflow-hidden bg-transparent"
       >
         <Image
           key={current.src}
