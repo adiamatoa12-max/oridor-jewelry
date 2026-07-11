@@ -11,7 +11,8 @@ const MAIN_LINKS = [
 ];
 
 const UTILITY_LINKS = [
-  { label: "התחברות / הרשמה", href: "/account" },
+  // Account link hidden until the user-auth system is built:
+  // { label: "התחברות / הרשמה", href: "/account" },
   { label: "שירות לקוחות", href: "/contact" },
   { label: "האינסטגרם שלנו", href: "https://instagram.com" },
 ];

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Search, User, ShoppingBag, Menu } from "lucide-react";
+import { Search, ShoppingBag, Menu } from "lucide-react";
 import { useCart } from "./CartContext";
 import MobileMenu from "./MobileMenu";
 
@@ -63,13 +63,15 @@ export default function Navbar() {
             >
               <Search size={19} strokeWidth={1.5} />
             </button>
-            <Link
+            {/* Account link — hidden until the user-auth system is built.
+                Re-enable by restoring this block and the `User` import. */}
+            {/* <Link
               href="/account"
               aria-label="החשבון שלי"
               className="hidden h-11 w-11 items-center justify-center transition-colors hover:text-graphite md:inline-flex"
             >
               <User size={19} strokeWidth={1.5} />
-            </Link>
+            </Link> */}
             <button
               type="button"
               onClick={openCart}
