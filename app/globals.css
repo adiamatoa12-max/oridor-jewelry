@@ -86,11 +86,11 @@
   /* High-contrast solid-gold CTA — bright accent with dark text, made to
      "pop" against a dark content panel. Subtle lift + glow on hover. */
   .btn-gold {
-    @apply inline-flex min-h-[54px] items-center justify-center bg-gold px-12 py-4
-           text-xs font-bold uppercase tracking-[0.18em] text-[#0a0a0a]
+    @apply inline-flex min-h-[46px] items-center justify-center bg-gold px-9 py-3
+           text-[11px] font-semibold uppercase tracking-[0.28em] text-[#0a0a0a]
            transition-all duration-300 ease-cinematic
            hover:-translate-y-0.5 hover:bg-[#d4b06a]
-           hover:shadow-[0_12px_32px_rgba(197,160,89,0.45)]
+           hover:shadow-[0_10px_28px_rgba(197,160,89,0.4)]
            focus-visible:outline-none focus-visible:ring-2
            focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-ink;
   }

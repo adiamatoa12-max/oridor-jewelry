@@ -32,19 +32,19 @@ export default function Hero() {
       {/* Content — centred both axes, clear of the subject's face and the
           bottom-anchored floating widgets, with generous breathing room. */}
       <div className="relative z-10 flex h-full items-center justify-center px-6 py-24">
-        <div className="max-w-2xl text-center [filter:drop-shadow(0_2px_12px_rgba(0,0,0,0.6))]">
-          <p className="mb-5 animate-fade-up text-xs font-medium uppercase tracking-[0.35em] text-gold [animation-delay:100ms]">
+        <div className="mx-auto max-w-xl text-center [filter:drop-shadow(0_2px_12px_rgba(0,0,0,0.6))]">
+          <p className="mb-6 animate-fade-up text-xs font-medium uppercase tracking-[0.4em] text-gold [animation-delay:100ms]">
             קולקציה חדשה
           </p>
-          <h1 className="animate-fade-up text-5xl font-bold leading-[1.05] tracking-tight text-white [text-wrap:balance] [animation-delay:250ms] sm:text-6xl lg:text-7xl">
+          <h1 className="animate-fade-up text-[2.75rem] font-bold leading-[1.14] tracking-wide text-white [text-wrap:balance] [animation-delay:250ms] sm:text-6xl lg:text-7xl">
             אלגנטיות, מוגדרת מחדש.
           </h1>
-          <p className="mx-auto mt-6 max-w-sm animate-fade-up text-base font-light leading-relaxed text-white/85 [animation-delay:450ms] sm:text-lg">
+          <p className="mx-auto mt-8 max-w-md animate-fade-up text-sm font-light leading-loose tracking-wide text-white/80 [animation-delay:450ms] sm:text-base">
             פריטים על-זמניים לאסתטיקה המודרנית.
           </p>
           <div className="animate-fade-up [animation-delay:650ms]">
-            <Link href="/shop" className="btn-gold mt-10 inline-flex">
-              לרכישת הקולקציה
+            <Link href="/shop" className="btn-gold mt-12 inline-flex">
+              צפייה בקולקציה
             </Link>
           </div>
         </div>
