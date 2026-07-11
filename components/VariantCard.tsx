@@ -52,7 +52,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
               alt={`${product.name} — ${v.color}`}
               fill
               sizes="(min-width: 1024px) 25vw, 50vw"
-              className={`object-contain object-center p-4 transition-opacity duration-500 ease-cinematic ${
+              className={`object-contain object-center p-4 [filter:drop-shadow(0px_4px_8px_rgba(0,0,0,0.08))] transition-opacity duration-500 ease-cinematic ${
                 i === active ? "opacity-100" : "opacity-0"
               }`}
             />
