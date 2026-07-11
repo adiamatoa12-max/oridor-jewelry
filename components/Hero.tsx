@@ -1,35 +1,27 @@
+import Image from "next/image";
 import Link from "next/link";
-
-// Poster shown while the video loads / if it can't play (e.g. data-saver, iOS
-// low-power mode). Kept as a graceful fallback behind the background video.
-const HERO_POSTER =
-  "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=2000";
 
 /**
  * Cinematic hero.
- * Full-bleed autoplaying campaign video with a dark overlay; content sits above
- * it. The video sits at the back via DOM order (a negative z-index would paint
- * it behind the section's own background).
+ * Full-bleed campaign image with a soft dark vignette; content sits above it.
+ * The image fills a fixed-height section (object-cover, centred) so it stays
+ * premium on every viewport with no layout shift and no letterboxing.
  */
 export default function Hero() {
   return (
     <section className="relative h-[82vh] max-h-[760px] min-h-[520px] w-full overflow-hidden bg-mist">
-      {/* Full-bleed background video — autoplay, muted & inline for iOS */}
-      <video
-        className="absolute inset-0 z-0 h-full w-full object-cover"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
-        poster={HERO_POSTER}
-        aria-hidden="true"
-      >
-        <source src="/video/clara_post_6.mp4" type="video/mp4" />
-      </video>
+      {/* Full-bleed background image — cover + centre, priority for fast LCP */}
+      <Image
+        src="/photo/hero-banner.png"
+        alt="קולקציית ההשקה של Oridor — תכשיטי מויסאניט וכסף 925"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center"
+      />
 
       {/* Even, soft vignette so a centred white title reads cleanly across the
-          full frame without hiding the lifestyle imagery behind it. */}
+          full frame without hiding the imagery behind it. */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/25 to-black/40" />
 
       {/* Content — elegantly centred, staggered cinematic fade-up */}
