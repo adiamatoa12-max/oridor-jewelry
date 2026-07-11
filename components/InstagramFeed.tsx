@@ -51,6 +51,10 @@ export default function InstagramFeed() {
               alt={`קטגוריית ${cat.label} — Oridor`}
               fill
               sizes="(min-width: 768px) 20vw, (min-width: 640px) 33vw, 50vw"
+              // Serve the raw file directly (skip the Next image optimizer) so
+              // the browser requests /photo/<file> — sidesteps any optimizer/CDN
+              // cache quirk that can leave a tile blank.
+              unoptimized
               // Above-the-fold: eager-load the first row; the rest lazy-load.
               priority={i < 3}
               className="object-cover object-center transition-transform duration-700 ease-cinematic group-hover:scale-105"
