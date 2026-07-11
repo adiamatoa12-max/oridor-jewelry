@@ -62,9 +62,15 @@ export default function NewArrivalsGrid({
           href={`/collection/new/${p.slug}`}
           className={itemClass}
         >
-          {/* Intentional white card — soft ring + shadow; padded so the piece
-              breathes. Text sits below on the cream page. */}
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]">
+          {/* Transparent PNG → floats on cream; white-bg JPEG → clean framed
+              white card. Auto-switches per image. */}
+          <div
+            className={`relative aspect-[4/5] w-full overflow-hidden ${
+              p.image_url.endsWith(".png")
+                ? "bg-transparent"
+                : "rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]"
+            }`}
+          >
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}

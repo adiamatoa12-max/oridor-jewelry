@@ -239,13 +239,13 @@ export default function SignatureSets({
                     className="group flex items-center gap-4"
                     onClick={() => setActive(null)}
                   >
-                    <div className="relative h-16 w-16 flex-none overflow-hidden rounded-sm bg-[#F8F8F8]">
+                    <div className="relative h-16 w-16 flex-none overflow-hidden rounded-sm bg-white">
                       <Image
                         src={encodeURI(p.image)}
                         alt={p.name}
                         fill
                         sizes="64px"
-                        className="object-cover object-center mix-blend-multiply [filter:brightness(1.06)_contrast(1.04)] transition-transform duration-500 group-hover:scale-105"
+                        className="object-contain object-center p-1.5 transition-transform duration-500 group-hover:scale-105"
                       />
                     </div>
                     <div className="flex-1">

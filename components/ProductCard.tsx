@@ -75,10 +75,15 @@ export default function ProductCard({
       href={href}
       className="group block bg-transparent transition-[transform,opacity] duration-300 ease-out [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
-      {/* Intentional white card — soft ring + shadow so the studio-white photo
-          reads as a deliberate framed surface. Padded so the piece breathes;
-          the title + price sit below on the cream page. */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]">
+      {/* Transparent PNG → floats seamlessly on the cream; white-bg JPEG → a
+          clean framed white card so it never looks glitched. Per-image. */}
+      <div
+        className={`relative aspect-[4/5] w-full overflow-hidden ${
+          displayImage.endsWith(".png")
+            ? "bg-transparent"
+            : "rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]"
+        }`}
+      >
         <Image
           src={displayImage}
           alt={`${title} — תכשיט כסף מבית Oridor`}

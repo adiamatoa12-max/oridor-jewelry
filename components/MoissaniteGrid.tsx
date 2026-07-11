@@ -78,10 +78,16 @@ export default function MoissaniteGrid({
           href={`/collection/moissanite/${p.slug}`}
           className={itemClass}
         >
-          {/* Intentional white card — soft ring + shadow so the studio-white
-              photo reads as a deliberate framed surface, not a glitch. Padding
-              gives the jewelry room to breathe; text sits below on the cream. */}
-          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]">
+          {/* Transparent PNGs float seamlessly on the cream (no box); any photo
+              still on a white JPEG background gets a clean framed white card so
+              it never looks glitched. Auto-switches per image. */}
+          <div
+            className={`relative aspect-[4/5] w-full overflow-hidden ${
+              p.image_url.endsWith(".png")
+                ? "bg-transparent"
+                : "rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]"
+            }`}
+          >
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}
