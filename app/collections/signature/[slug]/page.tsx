@@ -59,16 +59,10 @@ export default async function SignatureProductPage({
   const imageByValue: Record<string, string> = Object.fromEntries(
     product.variants.map((v) => [v.color, encodeURI(v.image_url)]),
   );
-  const galleryImages = [
-    // Optional lifestyle/hero image leads the gallery when present.
-    ...(product.image_url
-      ? [{ src: encodeURI(product.image_url), alt: product.name }]
-      : []),
-    ...product.variants.map((v) => ({
-      src: encodeURI(v.image_url),
-      alt: `${product.name} — ${v.color}`,
-    })),
-  ];
+  const galleryImages = product.variants.map((v) => ({
+    src: encodeURI(v.image_url),
+    alt: `${product.name} — ${v.color}`,
+  }));
 
   const productJsonLd = buildProductJsonLd({
     name: product.name,
@@ -98,7 +92,7 @@ export default async function SignatureProductPage({
         slug={product.slug}
         allProducts={products.map((p) => ({
           ...p,
-          image_url: p.image_url ?? p.variants[0]?.image_url ?? "",
+          image_url: p.variants[0]?.image_url ?? "",
         }))}
         images={galleryImages}
         fit="contain"

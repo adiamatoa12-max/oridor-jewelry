@@ -40,7 +40,7 @@ const SETS: SignatureSet[] = [
     title: "הסט המושלם לערב",
     caption: "נצנוץ דרמטי לרגעים הגדולים",
     pieces: [
-      { id: "matan-18", name: "שרשרת תליון סוליטר", image: "/photo/oridor-necklace-solitaire-moissanite-neck.webp", slug: "matan-18", href: "/collections/moissanite/matan-18" },
+      { id: "matan-18", name: "שרשרת תליון סוליטר", image: "/photo/moissanite-18.png", slug: "matan-18", href: "/collections/moissanite/matan-18" },
       { id: "matan-3", name: "צמיד עדין סוליטר", image: "/photo/moissanite-3.png", slug: "matan-3", href: "/collections/moissanite/matan-3" },
       { id: "matan-28", name: "עגילי סוליטר עגול", image: "/photo/moissanite-28.png", slug: "matan-28", href: "/collections/moissanite/matan-28" },
       { id: "matan-10", name: "טבעת סוליטר עגולה", image: "/photo/moissanite-10.png", slug: "matan-10", href: "/collections/moissanite/matan-10" },
@@ -65,7 +65,7 @@ const SETS: SignatureSet[] = [
     caption: "הצהרת סטייל ללא פשרות",
     pieces: [
       { id: "matan-17", name: "שרשרת טניס שחורה", image: "/photo/moissanite-17.png", slug: "matan-17", href: "/collections/moissanite/matan-17" },
-      { id: "bracelet-1", name: "צמיד טניס אבני חן שחורות", image: "/photo/oridor-bracelet-tennis-black-moissanite-wrist.webp", slug: "bracelet-1", href: "/collections/moissanite/bracelet-1" },
+      { id: "bracelet-1", name: "צמיד טניס אבני חן שחורות", image: "/photo/bracelet-1.png", slug: "bracelet-1", href: "/collections/moissanite/bracelet-1" },
     ],
   },
 ];
