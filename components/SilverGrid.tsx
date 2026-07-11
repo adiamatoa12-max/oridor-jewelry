@@ -70,7 +70,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
           alt={`${p.name} — ${p.material}`}
           fill
           sizes="(min-width: 1024px) 25vw, 50vw"
-          className="object-contain object-center p-6 transition-transform duration-500 ease-out group-hover:scale-105"
+          className="object-contain object-center p-4 transition-transform duration-500 ease-out group-hover:scale-105"
         />
         <span className="pointer-events-none absolute start-3 top-3 border border-platinum/70 bg-canvas/70 px-2.5 py-1 text-[10px] tracking-[0.2em] text-graphite backdrop-blur-sm">
           כסף 925

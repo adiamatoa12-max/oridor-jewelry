@@ -93,7 +93,7 @@ export default function MoissaniteGrid({
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 62vw"
-              className="object-contain object-center p-6 transition-transform duration-500 ease-out group-hover:scale-105"
+              className="object-contain object-center p-4 transition-transform duration-500 ease-out group-hover:scale-105"
             />
 
             {/* Lifestyle/on-model shot — fades in over the product photo on hover

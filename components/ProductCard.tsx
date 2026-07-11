@@ -89,7 +89,7 @@ export default function ProductCard({
           alt={`${title} — תכשיט כסף מבית Oridor`}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-contain object-center p-6 transition-transform duration-500 ease-out group-hover:scale-105"
+          className="object-contain object-center p-4 transition-transform duration-500 ease-out group-hover:scale-105"
         />
 
         {/* On-model lifestyle shot — cross-fades in on hover (desktop) and
