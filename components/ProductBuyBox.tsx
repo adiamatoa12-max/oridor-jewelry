@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import type {
@@ -99,6 +99,20 @@ export default function ProductBuyBox({
     addVariant(currentVariant.id, 1);
   };
 
+  // Reveal the sticky mobile bar only once the main CTA scrolls out of view.
+  const mainCtaRef = useRef<HTMLButtonElement>(null);
+  const [ctaVisible, setCtaVisible] = useState(true);
+  useEffect(() => {
+    const el = mainCtaRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => setCtaVisible(entry.isIntersecting),
+      { rootMargin: "0px 0px -8px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
     <div>
       <PriceTag price={price} compareAt={compareAtPrice} size="lg" className="mt-4" />
@@ -171,6 +185,7 @@ export default function ProductBuyBox({
       })}
 
       <button
+        ref={mainCtaRef}
         type="button"
         onClick={handleAdd}
         disabled={soldOut || !currentVariant}
@@ -179,15 +194,33 @@ export default function ProductBuyBox({
         {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
       </button>
 
-      {/* Sticky mobile CTA — a frictionless bottom bar on phones only. Shares
-          the exact same variant selection + add-to-cart handler. */}
-      <div className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-4 border-t border-platinum/50 bg-canvas/95 px-5 py-3 backdrop-blur-md sm:hidden">
-        <PriceTag price={price} compareAt={compareAtPrice} />
+      {/* Scarcity nudge — subtle, informative, never aggressive. */}
+      {!soldOut && (
+        <p className="mt-3 text-center text-[11px] font-light text-ash">
+          נותרו פריטים אחרונים במלאי במידה זו
+        </p>
+      )}
+
+      {/* Sticky mobile CTA — slides up only once the main button is scrolled
+          out of view. Shows a brief title + price and shares the same handler. */}
+      <div
+        className={`fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-platinum/50 bg-canvas/95 px-5 py-3 backdrop-blur-md transition-all duration-300 ease-cinematic sm:hidden ${
+          ctaVisible
+            ? "pointer-events-none translate-y-full opacity-0"
+            : "translate-y-0 opacity-100"
+        }`}
+      >
+        <div className="min-w-0">
+          <p className="truncate text-[13px] font-medium leading-tight text-charcoal">
+            {title}
+          </p>
+          <PriceTag price={price} compareAt={compareAtPrice} />
+        </div>
         <button
           type="button"
           onClick={handleAdd}
           disabled={soldOut || !currentVariant}
-          className="btn-primary flex-1 py-3 text-sm disabled:cursor-not-allowed disabled:opacity-50"
+          className="btn-primary ms-auto flex-none px-8 py-3 text-sm disabled:cursor-not-allowed disabled:opacity-50"
         >
           {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
         </button>

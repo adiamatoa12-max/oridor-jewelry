@@ -4,6 +4,7 @@ import { ShieldCheck } from "lucide-react";
 import ProductGallery, { type GalleryImage } from "./ProductGallery";
 import ProductBuyBox from "./ProductBuyBox";
 import SizeSelector from "./SizeSelector";
+import SizeGuideModal from "./SizeGuideModal";
 import Accordion, { type AccordionItem } from "./Accordion";
 import TrustBadges from "./TrustBadges";
 import PriceTag from "./PriceTag";
@@ -159,6 +160,10 @@ export default function ProductDetail({
             hexByValue={hexByValue}
           />
 
+          {/* Trust reinforcement — placed directly under the CTA, where buyers
+              seek reassurance right before clicking. */}
+          <TrustBadges />
+
           <Link
             href="/quality"
             className="mt-5 inline-flex items-center gap-1.5 text-xs font-light tracking-wide text-graphite underline-offset-4 transition-colors hover:text-gold"
@@ -167,16 +172,7 @@ export default function ProductDetail({
             {qualityNote}
           </Link>
 
-          <TrustBadges />
-
-          {showRingGuide && (
-            <Link
-              href="/ring-size-guide"
-              className="mt-5 inline-block text-xs font-light tracking-wide text-graphite underline underline-offset-4 transition-colors hover:text-gold"
-            >
-              מדריך מידות טבעת — איך למדוד בבית
-            </Link>
-          )}
+          {showRingGuide && <SizeGuideModal />}
 
           <div className="mt-8">
             <Accordion defaultOpen={0} items={accordionItems} />
