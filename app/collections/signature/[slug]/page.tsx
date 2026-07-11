@@ -52,6 +52,10 @@ export default async function SignatureProductPage({
   const hexByValue: Record<string, string> = Object.fromEntries(
     product.variants.map((v) => [v.color, v.hex]),
   );
+  // Colour → gallery image src, so choosing a swatch swaps the main image.
+  const imageByValue: Record<string, string> = Object.fromEntries(
+    product.variants.map((v) => [v.color, encodeURI(v.image_url)]),
+  );
   const galleryImages = product.variants.map((v) => ({
     src: encodeURI(v.image_url),
     alt: `${product.name} — ${v.color}`,
@@ -93,6 +97,7 @@ export default async function SignatureProductPage({
         compareAtPrice={product.compare_at_price}
         shopifyProduct={shopifyProduct}
         hexByValue={hexByValue}
+        imageByValue={imageByValue}
         qualityNote="איכות ואותנטיות — כסף 925 טהור"
         showRingGuide={/טבעת/.test(product.name)}
         description={`${product.name} — מקולקציית החתימה של Oridor, זמין ב-${product.variants.length} גימורים. עבודת יד מדויקת בכסף 925 טהור, לגימור נקי ועל-זמני.`}

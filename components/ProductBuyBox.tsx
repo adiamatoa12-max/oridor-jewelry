@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "./CartContext";
+import { usePdpImageSync } from "./PdpImageSync";
 import PriceTag from "./PriceTag";
 import type {
   ShopifyProductOptions,
@@ -35,6 +36,7 @@ export default function ProductBuyBox({
   compareAtPrice,
   product,
   hexByValue = {},
+  imageByValue = {},
 }: {
   title: string;
   image: string;
@@ -46,8 +48,11 @@ export default function ProductBuyBox({
   product: ShopifyProductOptions | null;
   /** Optional map of option value → hex, for colour swatches. */
   hexByValue?: Record<string, string>;
+  /** Optional map of option value → image src, to swap the gallery on select. */
+  imageByValue?: Record<string, string>;
 }) {
   const { addVariant } = useCart();
+  const imageSync = usePdpImageSync();
 
   // Flag the sticky mobile CTA's presence on <body> so the global floating
   // widgets (WhatsApp, accessibility) lift above it on phones and never cover
@@ -91,8 +96,12 @@ export default function ProductBuyBox({
   const price = currentVariant?.price ?? fallbackPrice;
   const soldOut = currentVariant ? !currentVariant.available : false;
 
-  const choose = (optName: string, value: string) =>
+  const choose = (optName: string, value: string) => {
     setSelected((s) => ({ ...s, [optName]: value }));
+    // If this option value has a mapped image, swap the main gallery image.
+    const src = imageByValue[value];
+    if (src) imageSync?.setActiveSrc(src);
+  };
 
   const handleAdd = () => {
     if (!currentVariant) return; // no Shopify variant → nothing to add

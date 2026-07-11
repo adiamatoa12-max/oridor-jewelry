@@ -7,6 +7,7 @@ import SizeGuideModal from "./SizeGuideModal";
 import Accordion, { type AccordionItem } from "./Accordion";
 import TrustBadges from "./TrustBadges";
 import RelatedProducts from "./RelatedProducts";
+import { PdpImageSyncProvider } from "./PdpImageSync";
 import type { ShopifyProductOptions } from "@/lib/shopify";
 
 // Minimal shape any collection product must satisfy for sizing + related logic.
@@ -78,6 +79,7 @@ export default function ProductDetail({
   compareAtPrice,
   shopifyProduct,
   hexByValue,
+  imageByValue,
   qualityNote,
   description,
   materials,
@@ -96,6 +98,8 @@ export default function ProductDetail({
   compareAtPrice?: number;
   shopifyProduct: ShopifyProductOptions | null;
   hexByValue?: Record<string, string>;
+  /** Map of swatch value → gallery image src (switches the main image). */
+  imageByValue?: Record<string, string>;
   qualityNote: string;
   /** Product description (accordion, open by default). */
   description: string;
@@ -133,6 +137,7 @@ export default function ProductDetail({
         <span className="text-graphite">{title}</span>
       </nav>
 
+      <PdpImageSyncProvider>
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-14">
         {/* Gallery — primary visual anchor: left column on desktop, first on
             mobile (order utilities keep the RTL info panel on the right). */}
@@ -169,6 +174,7 @@ export default function ProductDetail({
             compareAtPrice={compareAtPrice}
             product={shopifyProduct}
             hexByValue={hexByValue}
+            imageByValue={imageByValue}
           />
 
           {/* Trust reinforcement — placed directly under the CTA, where buyers
@@ -190,6 +196,7 @@ export default function ProductDetail({
           </div>
         </div>
       </div>
+      </PdpImageSyncProvider>
 
       {/* Related products — "complete the look" */}
       <RelatedProducts items={related} hrefBase={breadcrumbHref} />

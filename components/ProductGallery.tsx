@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import { usePdpImageSync } from "./PdpImageSync";
 
 export interface GalleryImage {
   src: string;
@@ -27,6 +28,17 @@ export default function ProductGallery({
   const frameRef = useRef<HTMLDivElement>(null);
 
   const gallery = images.filter((i) => i.src);
+
+  // Sync with the color swatches: when the buy box picks a variant image,
+  // switch the main view to the matching thumbnail.
+  const sync = usePdpImageSync();
+  useEffect(() => {
+    const src = sync?.activeSrc;
+    if (!src) return;
+    const idx = gallery.findIndex((g) => g.src === src);
+    if (idx >= 0) setActive(idx);
+  }, [sync?.activeSrc, gallery]);
+
   const current = gallery[active] ?? gallery[0];
   const fitClass =
     fit === "cover"
