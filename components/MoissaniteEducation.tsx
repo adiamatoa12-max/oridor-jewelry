@@ -2,7 +2,7 @@ import Image from "next/image";
 
 /* Dramatic macro of a moissanite oval pendant on black rock — a dark, high-fire
  * hero that blends into the dark highlight band and matches the materials copy. */
-const SPARKLE_MEDIA = "/photo/quality-standard.png";
+const SPARKLE_MEDIA = "/photo/quality-standard.webp";
 
 /**
  * The ORIDOR Standard — an editorial materials band.
