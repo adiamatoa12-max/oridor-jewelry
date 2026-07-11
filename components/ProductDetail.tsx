@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { ShieldCheck, Star } from "lucide-react";
 import ProductGallery, { type GalleryImage } from "./ProductGallery";
 import ProductBuyBox from "./ProductBuyBox";
@@ -7,7 +6,7 @@ import SizeSelector from "./SizeSelector";
 import SizeGuideModal from "./SizeGuideModal";
 import Accordion, { type AccordionItem } from "./Accordion";
 import TrustBadges from "./TrustBadges";
-import PriceTag from "./PriceTag";
+import RelatedProducts from "./RelatedProducts";
 import type { ShopifyProductOptions } from "@/lib/shopify";
 
 // Minimal shape any collection product must satisfy for sizing + related logic.
@@ -192,43 +191,8 @@ export default function ProductDetail({
         </div>
       </div>
 
-      {/* Related products — "complete the look": same-category pieces */}
-      {related.length > 0 && (
-        <div className="mt-20 lg:mt-28">
-          <h2 className="mb-10 text-center text-2xl font-light tracking-widest text-charcoal">
-            משלים את הלוק
-          </h2>
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:gap-x-10">
-            {related.map((item) => (
-              <Link
-                key={item.id}
-                href={`${breadcrumbHref}/${item.slug}`}
-                className="group block bg-transparent transition-transform duration-300 ease-out md:hover:-translate-y-1"
-              >
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
-                  <Image
-                    src={encodeURI(item.image_url)}
-                    alt={item.name}
-                    fill
-                    sizes="(min-width: 768px) 30vw, 50vw"
-                    className="object-contain object-center p-4 [filter:drop-shadow(0px_4px_8px_rgba(0,0,0,0.08))] transition-transform duration-500 ease-out group-hover:scale-105"
-                  />
-                </div>
-                <div className="px-2 pt-5 text-center">
-                  <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
-                    {item.name}
-                  </h3>
-                  <PriceTag
-                    price={item.price}
-                    compareAt={item.compare_at_price}
-                    className="mt-2"
-                  />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Related products — "complete the look" */}
+      <RelatedProducts items={related} hrefBase={breadcrumbHref} />
     </section>
   );
 }
