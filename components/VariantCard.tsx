@@ -18,6 +18,8 @@ export interface VariantProduct {
   category: string;
   material: string;
   slug: string;
+  /** Optional hero/lifestyle image shown first in the PDP gallery. */
+  image_url?: string;
   variants: Variant[];
 }
 
