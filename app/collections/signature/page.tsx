@@ -5,6 +5,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import SignatureGrid from "@/components/SignatureGrid";
 import Reveal from "@/components/Reveal";
 import type { VariantProduct } from "@/components/VariantCard";
+import CollectionHero from "@/components/CollectionHero";
 import data from "@/data/signature_collection.json";
 
 const products = data as VariantProduct[];
@@ -22,19 +23,14 @@ export default function SignatureCollectionPage() {
       <AnnouncementBar />
       <Navbar />
 
-      <section className="mx-auto max-w-3xl px-6 pt-20 text-center sm:px-10 lg:pt-28">
-        <p className="mb-4 text-xs tracking-[0.25em] text-gold">בחרי את הצבע שלך</p>
-        <h1 className="text-4xl font-light leading-relaxed tracking-wide text-charcoal">
-          קולקציית החתימה
-        </h1>
-        <span className="mx-auto mt-8 block h-px w-16 bg-gold" />
-        <p className="mx-auto mt-8 max-w-xl text-base font-light leading-relaxed text-graphite">
-          כל פריט זמין במגוון גימורים — כסף, זהב וזהב ורוד. לחצי על נקודת הצבע כדי
-          לראות את הפריט בגוון שאהבת.
-        </p>
-      </section>
+      <CollectionHero
+        image="/photo/set-1.jpeg"
+        eyebrow="בחרי את הצבע שלך"
+        title="קולקציית החתימה"
+        subtitle="כל פריט במגוון גימורים — כסף, זהב וזהב ורוד."
+      />
 
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
+      <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
         <Reveal><SignatureGrid products={products} /></Reveal>
       </section>
 

@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import SilverGrid, { type SilverProduct } from "@/components/SilverGrid";
 import Reveal from "@/components/Reveal";
+import CollectionHero from "@/components/CollectionHero";
 import data from "@/data/silver_collection.json";
 
 const products = data as SilverProduct[];
@@ -21,19 +22,14 @@ export default function SilverCollectionPage() {
       <AnnouncementBar />
       <Navbar />
 
-      <section className="mx-auto max-w-3xl px-6 pt-20 text-center sm:px-10 lg:pt-28">
-        <p className="mb-4 text-xs tracking-[0.25em] text-gold">קולקציה חדשה</p>
-        <h1 className="text-4xl font-light leading-relaxed tracking-wide text-charcoal">
-          קולקציית כסף
-        </h1>
-        <span className="mx-auto mt-8 block h-px w-16 bg-gold" />
-        <p className="mx-auto mt-8 max-w-xl text-base font-light leading-relaxed text-graphite">
-          קולקציה חדשה של תכשיטי כסף 925 טהור — עיצוב נקי, על-זמני ומלוטש. כל
-          פריט נבחר בקפידה כדי ללוות אתכן בכל רגע.
-        </p>
-      </section>
+      <CollectionHero
+        image="/photo/clara_post_5.jpg"
+        eyebrow="כסף 925 טהור"
+        title="קולקציית כסף 925"
+        subtitle="עיצוב נקי, על-זמני ומלוטש — לכל רגע."
+      />
 
-      <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
+      <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
         <Reveal><SilverGrid products={products} /></Reveal>
       </section>
 
