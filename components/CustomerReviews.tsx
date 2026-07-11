@@ -7,9 +7,10 @@ interface Review {
   name: string;
   date: string;
   product: string;
-  /** Optional customer-uploaded photo (UGC). When present it becomes the
-   *  focal point of the review. Path under /public. */
-  photo?: string;
+  /** Customer photo (UGC). */
+  photo: string;
+  /** Accessible description of the photo. */
+  photoAlt: string;
 }
 
 const REVIEWS: Review[] = [
@@ -19,7 +20,8 @@ const REVIEWS: Review[] = [
     title: "מושלם מושלם מושלם!",
     body: "השרשרת אפילו יותר יפה במציאות. הגיעה באריזה מהממת תוך יומיים עד הבית. ממליצה בחום!",
     product: "שרשרת קריסטל אובלית",
-    photo: "/photo/hover אורידור 4.jpeg",
+    photo: "/photo/review-1.webp",
+    photoAlt: "לקוחה עונדת שרשרת קריסטל אובלית מבית Oridor",
   },
   {
     name: "דנה ר.",
@@ -27,7 +29,8 @@ const REVIEWS: Review[] = [
     title: "איכות מטורפת",
     body: "חיפשתי צמיד טניס שלא נראה זול וזה פשוט קליעה בול. עונדת אותו כל יום במקלחת והוא נשאר נוצץ לגמרי.",
     product: "צמיד טניס טיפות",
-    photo: "/photo/hover אורידור 8.jpeg",
+    photo: "/photo/review-2.webp",
+    photoAlt: "לקוחה עונדת צמיד טניס טיפות מבית Oridor",
   },
   {
     name: "נועה א.",
@@ -35,6 +38,8 @@ const REVIEWS: Review[] = [
     title: "המתנה הכי טובה שקיבלתי",
     body: "בעלי קנה לי ליום הנישואין. שירות הלקוחות היה מהמם ועזר לו לבחור. פשוט תכשיטים ברמה גבוהה.",
     product: "עגילי הלו צמודים",
+    photo: "/photo/review-3.webp",
+    photoAlt: "לקוחה עונדת עגילי הלו צמודים מבית Oridor",
   },
 ];
 
@@ -50,17 +55,15 @@ function Stars({ className = "" }: { className?: string }) {
 }
 
 /**
- * Customer reviews — organic social proof, not a widget.
- *
- * Frameless editorial spread: no cards, borders, shadows, or fills. Each review
- * floats on the page with generous whitespace. Reviews with a customer photo
- * (UGC) lead with the image as the focal point; text-only reviews read as a
- * clean pull-quote. Seamless swipe on mobile, an editorial 3-column grid on
- * desktop. Stars stay crisp and golden.
+ * Customer reviews — an editorial spread of real customer photos.
+ * Each review is a balanced 50/50 split: a soft-rounded customer photo on one
+ * side, the quote on the other, alternating sides down the page for rhythm.
+ * Images carry a subtle shadow + hairline so they lift off the background.
+ * Stacks cleanly on mobile (photo above text). Stars stay crisp and golden.
  */
 export default function CustomerReviews() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+    <section className="mx-auto max-w-6xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
       {/* Header */}
       <div className="mb-14 flex flex-col items-center text-center lg:mb-20">
         <p className="mb-3 text-[11px] uppercase tracking-[0.3em] text-gold">
@@ -77,52 +80,53 @@ export default function CustomerReviews() {
         </div>
       </div>
 
-      {/* Reviews — seamless swipe carousel on mobile; a frameless editorial
-          grid from md upward. No boxes: content floats on the page. */}
-      <div className="hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-8 overflow-x-auto px-6 pb-2 sm:-mx-10 sm:px-10 md:mx-0 md:grid md:grid-cols-3 md:gap-x-10 md:gap-y-16 md:overflow-visible md:px-0 lg:gap-x-14">
-        {REVIEWS.map((review) => (
-          <figure
+      {/* Reviews — alternating image/text spread */}
+      <div className="space-y-16 lg:space-y-24">
+        {REVIEWS.map((review, i) => (
+          <article
             key={review.name}
-            className="flex w-[82vw] flex-shrink-0 snap-center flex-col sm:w-[60vw] md:w-auto"
+            className={`flex flex-col gap-7 md:items-center md:gap-12 lg:gap-16 ${
+              i % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"
+            }`}
           >
-            {/* UGC photo — the focal point when a customer shared one */}
-            {review.photo && (
-              <div className="relative mb-6 aspect-[4/5] w-full overflow-hidden rounded-xl">
-                <Image
-                  src={encodeURI(review.photo)}
-                  alt={`תמונה מ${review.name} — ${review.product}`}
-                  fill
-                  sizes="(min-width: 768px) 30vw, 82vw"
-                  className="object-cover object-center"
-                />
-              </div>
-            )}
+            {/* Customer photo — soft corners, subtle shadow + hairline */}
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-[0_18px_44px_-16px_rgba(0,0,0,0.25)] ring-1 ring-charcoal/10 md:basis-1/2">
+              <Image
+                src={review.photo}
+                alt={review.photoAlt}
+                fill
+                sizes="(min-width: 768px) 45vw, 100vw"
+                className="object-cover object-center"
+              />
+            </div>
 
-            <Stars className="mb-4" />
+            {/* Quote */}
+            <div className="text-right md:basis-1/2">
+              <Stars className="mb-4" />
+              <h3 className="text-lg font-medium leading-snug text-charcoal">
+                {review.title}
+              </h3>
+              <blockquote className="mt-3 text-[15px] font-light leading-[1.85] text-graphite">
+                {review.body}
+              </blockquote>
 
-            <h3 className="text-[15px] font-medium leading-snug text-charcoal">
-              {review.title}
-            </h3>
-            <blockquote className="mt-2.5 text-[15px] font-light leading-[1.85] text-graphite">
-              {review.body}
-            </blockquote>
-
-            {/* Attribution — deliberately small and quiet */}
-            <figcaption className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-light text-ash">
-              <span className="font-medium tracking-wide text-graphite">
-                {review.name}
-              </span>
-              <span className="inline-flex items-center gap-1">
-                <BadgeCheck size={12} strokeWidth={1.5} className="text-emerald-500" />
-                מאומתת
-              </span>
-              <span aria-hidden="true">·</span>
-              <span>{review.date}</span>
-            </figcaption>
-            <p className="mt-1 text-[11px] font-light text-ash">
-              רכשה: {review.product}
-            </p>
-          </figure>
+              {/* Attribution — small and quiet */}
+              <figcaption className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-light text-ash">
+                <span className="font-medium tracking-wide text-graphite">
+                  {review.name}
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <BadgeCheck size={12} strokeWidth={1.5} className="text-emerald-500" />
+                  מאומתת
+                </span>
+                <span aria-hidden="true">·</span>
+                <span>{review.date}</span>
+              </figcaption>
+              <p className="mt-1 text-[11px] font-light text-ash">
+                רכשה: {review.product}
+              </p>
+            </div>
+          </article>
         ))}
       </div>
     </section>
