@@ -78,15 +78,10 @@ export default function MoissaniteGrid({
           href={`/collection/moissanite/${p.slug}`}
           className={itemClass}
         >
-          {/* Transparent PNGs float seamlessly on the cream (no box); any photo
-              still on a white JPEG background gets a clean framed white card so
-              it never looks glitched. Auto-switches per image. */}
+          {/* Flat, transparent card — the product image sits directly on the page
+          background with no box, border, or shadow. */}
           <div
-            className={`relative aspect-[4/5] w-full overflow-hidden ${
-              p.image_url.endsWith(".png")
-                ? "bg-transparent"
-                : "rounded-2xl bg-canvas shadow-card ring-1 ring-charcoal/[0.05]"
-            }`}
+            className={`relative aspect-[4/5] w-full overflow-hidden bg-transparent`}
           >
             <Image
               src={encodeURI(p.image_url)}

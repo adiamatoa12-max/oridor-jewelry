@@ -62,14 +62,10 @@ export default function NewArrivalsGrid({
           href={`/collection/new/${p.slug}`}
           className={itemClass}
         >
-          {/* Transparent PNG → floats on cream; white-bg JPEG → clean framed
-              white card. Auto-switches per image. */}
+          {/* Flat, transparent card — the product image sits directly on the
+              page background with no box, border, or shadow. */}
           <div
-            className={`relative aspect-[4/5] w-full overflow-hidden ${
-              p.image_url.endsWith(".png")
-                ? "bg-transparent"
-                : "rounded-2xl bg-canvas shadow-card ring-1 ring-charcoal/[0.05]"
-            }`}
+            className={`relative aspect-[4/5] w-full overflow-hidden bg-transparent`}
           >
             <Image
               src={encodeURI(p.image_url)}

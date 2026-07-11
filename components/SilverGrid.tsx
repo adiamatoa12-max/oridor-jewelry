@@ -59,11 +59,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
       className="group block bg-transparent transition-transform duration-300 ease-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1"
     >
       <div
-        className={`relative aspect-[4/5] w-full overflow-hidden ${
-          displayImage.endsWith(".png")
-            ? "bg-transparent"
-            : "rounded-2xl bg-canvas shadow-card ring-1 ring-charcoal/[0.05]"
-        }`}
+        className={`relative aspect-[4/5] w-full overflow-hidden bg-transparent`}
       >
         <Image
           src={encodeURI(displayImage)}

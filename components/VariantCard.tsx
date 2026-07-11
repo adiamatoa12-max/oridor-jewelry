@@ -38,11 +38,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
         className="block [-webkit-tap-highlight-color:transparent]"
       >
         <div
-          className={`relative aspect-[4/5] w-full overflow-hidden ${
-            variant.image_url.endsWith(".png")
-              ? "bg-transparent"
-              : "rounded-2xl bg-canvas shadow-card ring-1 ring-charcoal/[0.05]"
-          }`}
+          className={`relative aspect-[4/5] w-full overflow-hidden bg-transparent`}
         >
           {/* Crossfade between variant images */}
           {product.variants.map((v, i) => (

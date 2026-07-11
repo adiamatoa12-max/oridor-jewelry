@@ -75,14 +75,10 @@ export default function ProductCard({
       href={href}
       className="group block bg-transparent transition-[transform,opacity] duration-300 ease-out [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
-      {/* Transparent PNG → floats seamlessly on the cream; white-bg JPEG → a
-          clean framed white card so it never looks glitched. Per-image. */}
+      {/* Flat, transparent card — the product image sits directly on the page
+          background with no box, border, or shadow. */}
       <div
-        className={`relative aspect-[4/5] w-full overflow-hidden ${
-          displayImage.endsWith(".png")
-            ? "bg-transparent"
-            : "rounded-2xl bg-canvas shadow-card ring-1 ring-charcoal/[0.05]"
-        }`}
+        className={`relative aspect-[4/5] w-full overflow-hidden bg-transparent`}
       >
         <Image
           src={displayImage}
