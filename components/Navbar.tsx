@@ -14,12 +14,14 @@ const LINKS = [
 ];
 
 /**
- * Premium RTL navbar — stable three-section flex layout:
- *  · AMATO wordmark on the far right (inline-start in RTL)
- *  · category links perfectly centered in the middle
- *  · utility icons on the far left (inline-end in RTL)
- * The two side groups are equal-width (flex-1) so the centered links stay
- * dead-centre regardless of their content. Mobile: hamburger reveals a drawer.
+ * Premium RTL navbar — symmetric, centered-wordmark layout (luxury standard):
+ *  · Center: the ORIDOR wordmark, absolutely centered so it stays dead-centre
+ *    regardless of how wide the side groups grow.
+ *  · Inline-start (right, reading start): hamburger on mobile · category links on desktop.
+ *  · Inline-end (left, reading end): utility icons (search · account · cart).
+ * Both side groups are flex-1 with generous inner padding so the wordmark
+ * never feels cramped. Everything is vertically centered. Mobile keeps it
+ * clean: hamburger (start) — logo (center) — cart (end).
  */
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -28,9 +30,19 @@ export default function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-platinum/40 bg-canvas/95 backdrop-blur-md transition-shadow duration-300 supports-[backdrop-filter]:bg-canvas/80">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-4 sm:h-20 sm:px-6 lg:px-10">
-        {/* RTL start (right): mobile hamburger · desktop logo */}
-        <div className="flex flex-1 items-center justify-start gap-2">
+      <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:gap-6 sm:px-6 lg:px-10">
+        {/* Absolutely-centered wordmark — true horizontal center of the header,
+            independent of the side groups' widths. */}
+        <Link
+          href="/"
+          aria-label="ORIDOR — לעמוד הבית"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap text-xl font-light uppercase tracking-brand text-charcoal sm:text-2xl lg:text-3xl"
+        >
+          ORIDOR
+        </Link>
+
+        {/* Inline-start (right): mobile hamburger · desktop category links */}
+        <div className="flex flex-1 items-center justify-start gap-6 lg:gap-8">
           <button
             type="button"
             aria-label="פתיחת תפריט הניווט"
@@ -39,23 +51,7 @@ export default function Navbar() {
           >
             <Menu size={22} strokeWidth={1.5} />
           </button>
-          <Link
-            href="/"
-            className="hidden select-none text-2xl font-light uppercase tracking-brand text-charcoal md:block lg:text-3xl"
-          >
-            ORIDOR
-          </Link>
-        </div>
-
-        {/* Center: mobile logo (perfectly centered) · desktop category links */}
-        <div className="flex flex-1 items-center justify-center">
-          <Link
-            href="/"
-            className="select-none whitespace-nowrap text-xl font-light uppercase tracking-brand text-charcoal md:hidden"
-          >
-            ORIDOR
-          </Link>
-          <ul className="hidden items-center justify-center gap-6 md:flex lg:gap-8">
+          <ul className="hidden items-center gap-6 md:flex lg:gap-8">
             {LINKS.map((l) => (
               <NavLink key={l.href} {...l} />
             ))}
@@ -63,7 +59,7 @@ export default function Navbar() {
           </ul>
         </div>
 
-        {/* RTL end (left): utility icons — search + cart on mobile, +account on desktop */}
+        {/* Inline-end (left): utility icons — search + cart on mobile, +account on desktop */}
         <div className="-me-2 flex flex-1 items-center justify-end gap-0.5 text-charcoal sm:gap-1">
           <button
             type="button"
