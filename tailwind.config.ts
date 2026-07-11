@@ -13,24 +13,26 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Dark-luxury palette — deep charcoal surfaces, soft-white type, gold.
-        // Surfaces (was light → now dark)
-        canvas: "#141414",        // card / nav / raised surface
-        offwhite: "#0A0A0A",      // global page base (deep charcoal)
-        sand: "#161616",          // subtle section band
-        cream: "#141414",         // raised dark surface
-        beige: "#1A1A1A",         // soft dark panel
-        pearl: "#141414",         // dark neutral surface
-        mist: "#1A1A1A",          // section wash
-        cloud: "#242424",         // slightly lighter dark
-        // Accents / borders
-        platinum: "#333333",      // subtle hairline / border on dark
-        silver: "#9A9A9A",        // silver accent
-        gold: "#C9A45C",          // warm metallic gold — primary accent
-        // Typography (was dark → now soft white on dark)
-        charcoal: "#E0E0E0",      // primary text — soft white
-        graphite: "#B4B4B4",      // secondary body text
-        ash: "#8A8A8A",           // muted / captions
+        // Boutique-luxury palette — warm off-white surfaces, deep charcoal type,
+        // gold accent. Deep #0A0A0A is reserved for highlight blocks only.
+        // Surfaces (bright & warm)
+        canvas: "#FFFFFF",        // crisp white card / nav / raised surface
+        offwhite: "#FAF9F6",      // global page base — soft warm off-white
+        sand: "#F2EEE7",          // subtle warm section band
+        cream: "#FAF7F0",         // warm cream surface
+        beige: "#F5F1E8",         // soft beige panel
+        pearl: "#F4F3F1",         // pearl-neutral surface
+        mist: "#EFEDE9",          // warm section wash
+        cloud: "#E7E3DC",         // slightly deeper warm neutral
+        // Highlight / accents
+        ink: "#0A0A0A",           // deep charcoal — highlight blocks only
+        platinum: "#DAD5CC",      // soft warm hairline / border
+        silver: "#AFB4BB",        // silver accent
+        gold: "#C5A059",          // warm luxury gold — primary accent
+        // Typography (deep, sophisticated charcoal — not pure black)
+        charcoal: "#1A1A1A",      // primary text — deep charcoal
+        graphite: "#4A4A4A",      // secondary body text
+        ash: "#6B6B6B",           // muted / captions
       },
       fontFamily: {
         sans: ["var(--font-assistant)", "ui-sans-serif", "system-ui", "sans-serif"],

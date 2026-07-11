@@ -286,7 +286,7 @@ export default function CartDrawer() {
             onClick={(e) => {
               if (items.length === 0 || !checkoutUrl || busy) e.preventDefault();
             }}
-            className={`group mt-5 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-[#0a0a0a] transition-all duration-300 ease-cinematic hover:bg-gold hover:text-[#0a0a0a] active:scale-[0.99] ${
+            className={`group mt-5 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-canvas transition-all duration-300 ease-cinematic hover:bg-gold hover:text-charcoal active:scale-[0.99] ${
               items.length === 0 || !checkoutUrl || busy
                 ? "pointer-events-none cursor-not-allowed opacity-40"
                 : ""

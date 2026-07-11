@@ -8,12 +8,12 @@
 */
 
 :root {
-  --canvas: #141414;
-  --offwhite: #0a0a0a;
-  --pearl: #141414;
-  --mist: #1a1a1a;
-  --platinum: #333333;
-  --charcoal: #e0e0e0;
+  --canvas: #ffffff;
+  --offwhite: #faf9f6;
+  --pearl: #f4f3f1;
+  --mist: #efede9;
+  --platinum: #dad5cc;
+  --charcoal: #1a1a1a;
 }
 
 @layer base {
@@ -38,12 +38,12 @@
     overflow-x: clip;
     /* Generous line-height for readability. */
     line-height: 1.65;
-    /* Deep-charcoal luxury base with a whisper-subtle vertical gradient so the
-       dark never reads as a flat black wall. Fixed so it spans the scroll. */
-    background-color: #0a0a0a;
-    background-image: linear-gradient(180deg, #0d0d0d 0%, #070707 100%);
+    /* Soft warm off-white base — boutique-luxury, like premium packaging.
+       A whisper-subtle gradient keeps it from reading as flat. */
+    background-color: #faf9f6;
+    background-image: linear-gradient(180deg, #fbfaf7 0%, #f7f5f0 100%);
     background-attachment: fixed;
-    color: #e0e0e0;
+    color: #1a1a1a;
     font-feature-settings: "kern";
     -moz-osx-font-smoothing: grayscale;
   }
@@ -73,14 +73,14 @@
            hover:border-gold hover:text-gold;
   }
 
-  /* Primary call-to-action — soft-white on dark, warms to gold on hover */
+  /* Primary call-to-action — crisp deep-charcoal, warms to gold on hover */
   .btn-primary {
     @apply inline-flex min-h-[44px] items-center justify-center bg-charcoal px-10 py-3
-           text-[11px] uppercase tracking-[0.2em] text-[#0a0a0a]
+           text-[11px] uppercase tracking-[0.2em] text-canvas
            transition-all duration-500 ease-cinematic
-           hover:bg-gold hover:text-[#0a0a0a] focus-visible:outline-none
+           hover:bg-gold hover:text-charcoal focus-visible:outline-none
            focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2
-           focus-visible:ring-offset-[#0a0a0a];
+           focus-visible:ring-offset-offwhite;
   }
 
   /* Thin platinum hairline divider */

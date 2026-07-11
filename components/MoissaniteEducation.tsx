@@ -13,23 +13,25 @@ const SPARKLE_MEDIA = "/photo/מונסיאט רקע.jpeg";
  */
 export default function MoissaniteEducation() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
-      <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-20">
+    // Dark highlight block — a full-width #0A0A0A band that punctuates the
+    // bright boutique layout, like a special editorial spread.
+    <section className="w-full bg-ink py-20 sm:py-24 lg:py-32">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 sm:px-10 md:grid-cols-2 lg:gap-20 lg:px-16">
         {/* Right column (RTL start): text — clean, whitespace-driven, no dividers */}
         <div className="text-right">
           <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.3em] text-gold">
             הסטנדרט שלנו
           </p>
-          <h2 className="text-[1.75rem] font-medium leading-snug tracking-wide text-charcoal sm:text-4xl lg:text-[2.5rem] lg:leading-[1.2]">
+          <h2 className="text-[1.75rem] font-medium leading-snug tracking-wide text-white sm:text-4xl lg:text-[2.5rem] lg:leading-[1.2]">
             הסטנדרט של ORIDOR: חומרים ללא פשרות
           </h2>
-          <p className="mt-8 text-[15px] font-normal leading-loose text-graphite sm:text-base">
+          <p className="mt-8 text-[15px] font-normal leading-loose text-white/70 sm:text-base">
             כל תכשיט בקולקציה שלנו מיוצר מכסף סטרלינג 925 איכותי ומצופה ברודיום –
             מתכת נדירה ויוקרתית ממשפחת הפלטינה. ציפוי הרודיום מעניק לתכשיט את הגוון
             הבוהק של זהב לבן, מגן עליו מפני השחרה לחלוטין ומבטיח שהוא יהיה
             היפואלרגני ובטוח לעור.
           </p>
-          <p className="mt-6 text-[15px] font-normal leading-loose text-graphite sm:text-base">
+          <p className="mt-6 text-[15px] font-normal leading-loose text-white/70 sm:text-base">
             במרכז העיצובים שלנו עומדת אבן המויסאניט. עם מדד שבירת אור גבוה אפילו
             מזה של יהלום, מויסאניט מעניקה נצנוץ אש עוצר נשימה וקשיחות יוצאת דופן
             שעמידה לשריטות. זוהי בחירה חכמה ויוקרתית שמבטיחה תכשיט שישמור על הברק
@@ -38,7 +40,7 @@ export default function MoissaniteEducation() {
         </div>
 
         {/* Left column: media — constrained landscape flat-lay, gently rounded */}
-        <div className="relative mx-auto aspect-[4/3] w-full max-w-lg overflow-hidden rounded-2xl bg-mist shadow-card">
+        <div className="relative mx-auto aspect-[4/3] w-full max-w-lg overflow-hidden rounded-2xl bg-white/5 shadow-card">
           <Image
             src={SPARKLE_MEDIA}
             alt="פריסת קולקציית המויסאניט — שרשרת, טבעת, עגילים וצמיד טניס"
