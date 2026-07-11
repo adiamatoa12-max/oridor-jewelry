@@ -1,9 +1,8 @@
 import Image from "next/image";
 
-/* Editorial flat-lay of the full moissanite suite (necklace, ring, studs, tennis
- * bracelet) on a soft white ground — a landscape hero that matches the materials
- * copy. Constrained and gently rounded so it sits proportionally beside the text. */
-const SPARKLE_MEDIA = "/photo/מונסיאט רקע.jpeg";
+/* Dramatic macro of a moissanite oval pendant on black rock — a dark, high-fire
+ * hero that blends into the dark highlight band and matches the materials copy. */
+const SPARKLE_MEDIA = "/photo/quality-standard.png";
 
 /**
  * The ORIDOR Standard — an editorial materials band.
@@ -39,11 +38,12 @@ export default function MoissaniteEducation() {
           </p>
         </div>
 
-        {/* Left column: media — constrained landscape flat-lay, gently rounded */}
-        <div className="relative mx-auto aspect-[4/3] w-full max-w-lg overflow-hidden rounded-2xl bg-white/5 shadow-card">
+        {/* Left column: media — dark macro pendant, native 3:2, gently rounded
+            and centred; blends into the dark band. */}
+        <div className="relative mx-auto aspect-[3/2] w-full max-w-lg overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
           <Image
             src={SPARKLE_MEDIA}
-            alt="פריסת קולקציית המויסאניט — שרשרת, טבעת, עגילים וצמיד טניס"
+            alt="תקריב של תליון מויסאניט אובל — הסטנדרט של ORIDOR"
             fill
             sizes="(min-width: 768px) 32rem, 100vw"
             className="object-cover object-center"
