@@ -11,11 +11,15 @@ export default function CollectionHero({
   eyebrow,
   title,
   subtitle,
+  scrim = "bg-gradient-to-b from-black/45 via-black/45 to-black/60",
 }: {
   image: string;
   eyebrow?: string;
   title: string;
   subtitle?: string;
+  /** Overlay gradient classes — tune per image so the text always pops
+   *  (heavier over bright photos, lighter over dark ones). */
+  scrim?: string;
 }) {
   return (
     <section className="relative h-[300px] w-full overflow-hidden bg-mist md:h-[400px]">
@@ -30,10 +34,7 @@ export default function CollectionHero({
       />
 
       {/* Dark scrim so the white text stays perfectly readable */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/45 to-black/60"
-      />
+      <div aria-hidden="true" className={`absolute inset-0 ${scrim}`} />
 
       {/* Centred editorial text */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.5))]">
