@@ -72,7 +72,7 @@ export default function CartDrawer() {
         }`}
       >
         {/* Header — exclusive "VIP Vault" identity */}
-        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
+        <div className="flex items-center justify-between border-b border-platinum/50 px-6 py-5">
           <div className="flex items-center gap-2.5">
             <Lock size={15} strokeWidth={1.5} className="text-gold" />
             <h2 className="text-base font-medium tracking-wide text-charcoal">
@@ -99,7 +99,7 @@ export default function CartDrawer() {
         <div className="flex-1 overflow-y-auto">
         {/* VIP Vault — progress + gift selector */}
         {items.length > 0 && (
-          <div className="border-b border-gray-200 bg-cream/60 px-6 py-4">
+          <div className="border-b border-platinum/50 bg-cream/60 px-6 py-4">
             <p className="text-xs font-light leading-relaxed tracking-wide text-charcoal">
               {unlocked ? (
                 <>
@@ -201,11 +201,11 @@ export default function CartDrawer() {
               </p>
             )
           ) : (
-            <ul className="divide-y divide-gray-100">
+            <ul className="divide-y divide-platinum/30">
               {items.map((item) => (
                 <li key={item.id} className="flex gap-5 py-7">
                   {/* Square image */}
-                  <div className="relative aspect-square w-24 flex-none overflow-hidden rounded-sm bg-gray-50">
+                  <div className="relative aspect-square w-24 flex-none overflow-hidden rounded-sm bg-canvas">
                     <Image
                       src={item.image}
                       alt={`${item.title} — תכשיט כסף מבית Oridor`}
@@ -227,12 +227,12 @@ export default function CartDrawer() {
 
                     <div className="mt-auto flex items-center justify-between pt-4">
                       {/* Quantity selector */}
-                      <div className="flex items-center border border-gray-200">
+                      <div className="flex items-center border border-platinum/50">
                         <button
                           type="button"
                           aria-label="הפחתת כמות"
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:bg-gray-50 disabled:opacity-30"
+                          className="inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:bg-canvas disabled:opacity-30"
                           disabled={item.quantity <= 1 || busy}
                         >
                           <Minus size={14} strokeWidth={1.5} />
@@ -245,7 +245,7 @@ export default function CartDrawer() {
                           aria-label="הוספת כמות"
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           disabled={busy}
-                          className="inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:bg-gray-50 disabled:opacity-30"
+                          className="inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:bg-canvas disabled:opacity-30"
                         >
                           <Plus size={14} strokeWidth={1.5} />
                         </button>
@@ -255,7 +255,7 @@ export default function CartDrawer() {
                       <button
                         type="button"
                         onClick={() => removeItem(item.id)}
-                        className="inline-flex min-h-[44px] items-center px-1 text-xs text-gray-400 underline underline-offset-2 transition-colors hover:text-gray-600"
+                        className="inline-flex min-h-[44px] items-center px-1 text-xs text-ash underline underline-offset-2 transition-colors hover:text-graphite"
                       >
                         הסר
                       </button>
@@ -270,7 +270,7 @@ export default function CartDrawer() {
         </div>
 
         {/* Footer: subtotal + checkout — pinned at the bottom */}
-        <div className="border-t border-gray-200 px-6 py-6">
+        <div className="border-t border-platinum/50 px-6 py-6">
           <div className="flex items-center justify-between">
             <span className="text-sm tracking-wide text-graphite">סך הכל הביניים</span>
             <span className="text-base font-normal text-charcoal">
@@ -286,7 +286,7 @@ export default function CartDrawer() {
             onClick={(e) => {
               if (items.length === 0 || !checkoutUrl || busy) e.preventDefault();
             }}
-            className={`group mt-5 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-white transition-all duration-300 ease-cinematic hover:bg-[#1a1a1a] hover:shadow-[0_10px_28px_rgba(45,45,45,0.35)] active:scale-[0.99] ${
+            className={`group mt-5 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-[#0a0a0a] transition-all duration-300 ease-cinematic hover:bg-gold hover:text-[#0a0a0a] active:scale-[0.99] ${
               items.length === 0 || !checkoutUrl || busy
                 ? "pointer-events-none cursor-not-allowed opacity-40"
                 : ""

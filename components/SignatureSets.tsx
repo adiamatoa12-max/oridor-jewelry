@@ -161,10 +161,10 @@ export default function SignatureSets({
 
             {/* Text block — flush with the page, deep dark title, muted caption. */}
             <div className="px-1 pt-4 text-center">
-              <h3 className="text-lg font-normal tracking-wide text-neutral-900">
+              <h3 className="text-lg font-normal tracking-wide text-charcoal">
                 {set.title}
               </h3>
-              <p className="mt-1.5 text-sm font-light tracking-wide text-neutral-500">
+              <p className="mt-1.5 text-sm font-light tracking-wide text-ash">
                 {set.caption}
               </p>
               <span className="mt-3 inline-block border-b border-gold/70 pb-0.5 text-[11px] tracking-[0.2em] text-gold opacity-0 transition-opacity duration-500 group-hover:opacity-100">
@@ -183,7 +183,7 @@ export default function SignatureSets({
             size={16}
             strokeWidth={1.5}
             aria-hidden="true"
-            className="animate-soft-float text-stone-500 motion-reduce:animate-none"
+            className="animate-soft-float text-ash motion-reduce:animate-none"
           />
           <div className="flex items-center gap-2">
             {SETS.map((set, i) => (
@@ -194,7 +194,7 @@ export default function SignatureSets({
                 aria-label={`מעבר לסט ${i + 1}`}
                 aria-current={i === activeSlide}
                 className={`h-1.5 rounded-full transition-all duration-300 ease-cinematic ${
-                  i === activeSlide ? "w-5 bg-stone-700" : "w-1.5 bg-stone-300"
+                  i === activeSlide ? "w-5 bg-charcoal" : "w-1.5 bg-platinum"
                 }`}
               />
             ))}
@@ -212,7 +212,7 @@ export default function SignatureSets({
           aria-label={active.title}
         >
           <div
-            className="absolute inset-0 bg-charcoal/50 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/70 backdrop-blur-sm"
             onClick={() => setActive(null)}
           />
           <div className="relative z-10 w-full max-w-lg rounded-md bg-canvas p-8 shadow-cardHover sm:p-10">
@@ -239,7 +239,7 @@ export default function SignatureSets({
                     className="group flex items-center gap-4"
                     onClick={() => setActive(null)}
                   >
-                    <div className="relative h-16 w-16 flex-none overflow-hidden rounded-sm bg-white">
+                    <div className="relative h-16 w-16 flex-none overflow-hidden rounded-sm bg-canvas">
                       <Image
                         src={encodeURI(p.image)}
                         alt={p.name}

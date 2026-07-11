@@ -8,12 +8,12 @@
 */
 
 :root {
-  --canvas: #ffffff;
-  --offwhite: #f9f7f5;
-  --pearl: #f4f3f1;
-  --mist: #ecedef;
-  --platinum: #c9ccd1;
-  --charcoal: #2d2d2d;
+  --canvas: #141414;
+  --offwhite: #0a0a0a;
+  --pearl: #141414;
+  --mist: #1a1a1a;
+  --platinum: #333333;
+  --charcoal: #e0e0e0;
 }
 
 @layer base {
@@ -38,11 +38,12 @@
     overflow-x: clip;
     /* Generous line-height for readability. */
     line-height: 1.65;
-    /* Warm greige base with a whisper-subtle vertical gradient for depth — so
-       the page never reads as a flat white wall. Fixed so it spans the scroll. */
-    background-color: #f6f3ec;
-    background-image: linear-gradient(180deg, #f8f5ef 0%, #f4f0e7 100%);
+    /* Deep-charcoal luxury base with a whisper-subtle vertical gradient so the
+       dark never reads as a flat black wall. Fixed so it spans the scroll. */
+    background-color: #0a0a0a;
+    background-image: linear-gradient(180deg, #0d0d0d 0%, #070707 100%);
     background-attachment: fixed;
+    color: #e0e0e0;
     font-feature-settings: "kern";
     -moz-osx-font-smoothing: grayscale;
   }
@@ -72,13 +73,14 @@
            hover:border-gold hover:text-gold;
   }
 
-  /* Primary call-to-action — refined solid graphite, smooth fade */
+  /* Primary call-to-action — soft-white on dark, warms to gold on hover */
   .btn-primary {
-    @apply inline-flex min-h-[44px] items-center justify-center bg-[#2D2D2D] px-10 py-3
-           text-[11px] uppercase tracking-[0.2em] text-canvas
+    @apply inline-flex min-h-[44px] items-center justify-center bg-charcoal px-10 py-3
+           text-[11px] uppercase tracking-[0.2em] text-[#0a0a0a]
            transition-all duration-500 ease-cinematic
-           hover:bg-[#1a1a1a] focus-visible:outline-none
-           focus-visible:ring-2 focus-visible:ring-charcoal focus-visible:ring-offset-2;
+           hover:bg-gold hover:text-[#0a0a0a] focus-visible:outline-none
+           focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2
+           focus-visible:ring-offset-[#0a0a0a];
   }
 
   /* Thin platinum hairline divider */
@@ -92,11 +94,11 @@
     @apply inline-flex min-h-[44px] items-center justify-center border border-white/80 bg-transparent px-10 py-3
            text-[11px] uppercase tracking-[0.28em] text-white
            transition-all duration-500 ease-cinematic
-           hover:bg-white hover:text-charcoal;
+           hover:bg-white hover:text-[#0a0a0a];
   }
   .btn-lux--dark {
     @apply border-charcoal/70 text-charcoal
-           hover:border-charcoal hover:bg-charcoal hover:text-white;
+           hover:border-gold hover:bg-gold hover:text-[#0a0a0a];
   }
 }
 

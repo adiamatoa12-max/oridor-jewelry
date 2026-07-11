@@ -56,12 +56,12 @@ function Countdown() {
             <span className="text-[12px] font-semibold tabular-nums text-white">
               {pad(u.v)}
             </span>
-            <span className="mt-0.5 text-[7px] uppercase tracking-[0.15em] text-stone-400">
+            <span className="mt-0.5 text-[7px] uppercase tracking-[0.15em] text-ash">
               {u.l}
             </span>
           </span>
           {i < units.length - 1 && (
-            <span aria-hidden="true" className="text-stone-500">
+            <span aria-hidden="true" className="text-ash">
               :
             </span>
           )}
@@ -81,11 +81,11 @@ export default function AnnouncementBar() {
   if (dismissed) return null;
 
   return (
-    <div className="relative bg-stone-900 text-stone-100">
+    <div className="relative bg-canvas text-charcoal">
       <div className="mx-auto flex min-h-10 max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-10 py-2 text-center sm:px-12">
         <p className="text-[11px] font-light leading-snug tracking-wide sm:text-xs">
           מבצע השקת הקולקציה
-          <span className="mx-1.5 text-stone-500">·</span>
+          <span className="mx-1.5 text-ash">·</span>
           <span className="font-medium text-white">2+1 מתנה</span>
         </p>
         <Countdown />
@@ -94,7 +94,7 @@ export default function AnnouncementBar() {
         type="button"
         aria-label="סגירת סרגל ההודעות"
         onClick={() => setDismissed(true)}
-        className="absolute end-1.5 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center text-stone-400 transition-colors hover:text-white"
+        className="absolute end-1.5 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center text-ash transition-colors hover:text-white"
       >
         <X size={14} strokeWidth={1.5} />
       </button>

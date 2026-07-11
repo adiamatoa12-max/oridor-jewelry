@@ -88,13 +88,13 @@ export default function MobileMenu({
           ))}
 
           {/* Footer utility links */}
-          <div className="mt-6 space-y-4 border-t border-gray-100 pt-6 text-right">
+          <div className="mt-6 space-y-4 border-t border-platinum/40 pt-6 text-right">
             {UTILITY_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={onClose}
-                className="block min-h-[44px] text-sm text-gray-500 transition-colors duration-300 hover:text-charcoal"
+                className="block min-h-[44px] text-sm text-ash transition-colors duration-300 hover:text-charcoal"
               >
                 {link.label}
               </Link>

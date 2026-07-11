@@ -55,7 +55,7 @@ export default function ProductGallery({
                 onClick={() => setActive(i)}
                 aria-label={`תמונה ${i + 1}`}
                 aria-current={on}
-                className={`relative h-16 w-16 flex-none overflow-hidden rounded-lg bg-white ring-1 transition-all duration-200 sm:h-20 sm:w-20 ${
+                className={`relative h-16 w-16 flex-none overflow-hidden rounded-lg bg-canvas ring-1 transition-all duration-200 sm:h-20 sm:w-20 ${
                   on ? "ring-charcoal" : "ring-platinum/50 hover:ring-charcoal/40"
                 }`}
               >
@@ -78,7 +78,7 @@ export default function ProductGallery({
         onMouseEnter={() => setZoom(true)}
         onMouseLeave={() => setZoom(false)}
         onMouseMove={onMove}
-        className="relative aspect-[4/5] w-full flex-1 cursor-zoom-in overflow-hidden rounded-xl bg-white ring-1 ring-platinum/40"
+        className="relative aspect-[4/5] w-full flex-1 cursor-zoom-in overflow-hidden rounded-xl bg-canvas ring-1 ring-platinum/40"
       >
         <Image
           key={current.src}

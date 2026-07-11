@@ -13,23 +13,24 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Backgrounds & surfaces — warm boutique palette
-        canvas: "#FFFFFF",        // crisp white (cards)
-        offwhite: "#F6F3EC",      // warm greige — global page base
-        sand: "#F1ECE2",          // slightly deeper warm sand — section bands
-        cream: "#FAF7F0",         // warm cream base
-        beige: "#F5F1E8",         // soft beige (warm surface)
-        pearl: "#F4F3F1",         // soft pearl gray (warm-neutral)
-        mist: "#ECEDEF",          // light grey hero/section wash
-        cloud: "#E3E5E8",         // slightly deeper pearl
-        // Accents
-        platinum: "#C9CCD1",      // light platinum/silver
-        silver: "#AFB4BB",        // silver accent for hairlines/hover
-        gold: "#C5A059",          // warm luxury gold — accent
-        // Typography (deep warm charcoal, high contrast — not pure black)
-        charcoal: "#2D2D2D",      // primary text — deep charcoal
-        graphite: "#3F4145",      // secondary body text (high contrast)
-        ash: "#45474D",           // muted / captions (still strong contrast)
+        // Dark-luxury palette — deep charcoal surfaces, soft-white type, gold.
+        // Surfaces (was light → now dark)
+        canvas: "#141414",        // card / nav / raised surface
+        offwhite: "#0A0A0A",      // global page base (deep charcoal)
+        sand: "#161616",          // subtle section band
+        cream: "#141414",         // raised dark surface
+        beige: "#1A1A1A",         // soft dark panel
+        pearl: "#141414",         // dark neutral surface
+        mist: "#1A1A1A",          // section wash
+        cloud: "#242424",         // slightly lighter dark
+        // Accents / borders
+        platinum: "#333333",      // subtle hairline / border on dark
+        silver: "#9A9A9A",        // silver accent
+        gold: "#C9A45C",          // warm metallic gold — primary accent
+        // Typography (was dark → now soft white on dark)
+        charcoal: "#E0E0E0",      // primary text — soft white
+        graphite: "#B4B4B4",      // secondary body text
+        ash: "#8A8A8A",           // muted / captions
       },
       fontFamily: {
         sans: ["var(--font-assistant)", "ui-sans-serif", "system-ui", "sans-serif"],

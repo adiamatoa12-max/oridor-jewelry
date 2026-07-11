@@ -58,7 +58,7 @@ export default function QualityPage() {
 
       {/* Pillars */}
       <section className="mx-auto max-w-6xl px-6 pb-8 sm:px-10 lg:px-16">
-        <div className="grid grid-cols-1 gap-px overflow-hidden border border-gray-200 bg-gray-200 sm:grid-cols-2 md:grid-cols-4">
+        <div className="grid grid-cols-1 gap-px overflow-hidden border border-platinum/50 bg-platinum/40 sm:grid-cols-2 md:grid-cols-4">
           {PILLARS.map((p) => (
             <div key={p.title} className="flex flex-col items-center bg-canvas p-10 text-center lg:p-12">
               <p.icon size={28} strokeWidth={1.25} className="text-gold" />
@@ -90,7 +90,7 @@ export default function QualityPage() {
       </section>
 
       {/* Satisfaction Guarantee */}
-      <section className="bg-[#F8F8F8]">
+      <section className="bg-canvas">
         <div className="mx-auto max-w-3xl px-6 py-20 text-center sm:px-10 lg:py-24">
           <BadgeCheck size={30} strokeWidth={1.25} className="mx-auto text-gold" />
           <h2 className="mt-6 text-3xl font-light leading-relaxed tracking-widest text-charcoal">

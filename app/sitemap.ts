@@ -18,6 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/collection/silver",
     "/collection/signature",
     "/collection/new",
+    "/collection/tennis",
+    "/sets",
     "/quality",
     "/ring-size-guide",
     "/faq",

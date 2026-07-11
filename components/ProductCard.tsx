@@ -81,7 +81,7 @@ export default function ProductCard({
         className={`relative aspect-[4/5] w-full overflow-hidden ${
           displayImage.endsWith(".png")
             ? "bg-transparent"
-            : "rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]"
+            : "rounded-2xl bg-canvas shadow-card ring-1 ring-charcoal/[0.05]"
         }`}
       >
         <Image

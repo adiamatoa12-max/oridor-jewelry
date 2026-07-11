@@ -41,7 +41,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
           className={`relative aspect-[4/5] w-full overflow-hidden ${
             variant.image_url.endsWith(".png")
               ? "bg-transparent"
-              : "rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]"
+              : "rounded-2xl bg-canvas shadow-card ring-1 ring-charcoal/[0.05]"
           }`}
         >
           {/* Crossfade between variant images */}
@@ -90,7 +90,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
             );
           })}
         </div>
-        <p className="mt-2 text-[11px] font-light tracking-wide text-neutral-500">{variant.color}</p>
+        <p className="mt-2 text-[11px] font-light tracking-wide text-ash">{variant.color}</p>
       </div>
     </div>
   );

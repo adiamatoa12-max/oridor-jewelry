@@ -75,19 +75,19 @@ export default function SplitPromoBanners() {
             {/* Centered content */}
             <div
               className={`relative z-10 px-6 text-center ${
-                isLight ? "text-neutral-900" : "text-white [&_*]:drop-shadow-md"
+                isLight ? "text-charcoal" : "text-white [&_*]:drop-shadow-md"
               }`}
             >
               <h2
                 className={`text-2xl font-semibold leading-relaxed tracking-wide sm:text-3xl lg:text-4xl ${
-                  isLight ? "text-neutral-900" : "text-white"
+                  isLight ? "text-charcoal" : "text-white"
                 }`}
               >
                 {banner.title}
               </h2>
               <p
                 className={`mt-4 text-base font-normal tracking-wide ${
-                  isLight ? "text-neutral-900" : "text-white"
+                  isLight ? "text-charcoal" : "text-white"
                 }`}
               >
                 {banner.subtitle}
@@ -95,7 +95,7 @@ export default function SplitPromoBanners() {
               <span
                 className={`mt-8 inline-block border-2 px-8 py-2.5 text-[11px] font-medium uppercase tracking-[0.25em] backdrop-blur-sm transition-all duration-500 ease-cinematic ${
                   isLight
-                    ? "border-neutral-900 text-neutral-900 hover:bg-neutral-900 hover:text-white"
+                    ? "border-platinum/60 text-charcoal hover:bg-canvas hover:text-white"
                     : "border-white/80 bg-charcoal/25 text-white group-hover:border-gold group-hover:bg-gold/25"
                 }`}
               >

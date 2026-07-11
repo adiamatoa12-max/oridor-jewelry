@@ -78,7 +78,7 @@ export default function CustomerReviews() {
         {REVIEWS.map((review) => (
           <article
             key={review.name}
-            className="flex w-[85vw] flex-shrink-0 snap-center flex-col border border-gray-100 bg-canvas p-8 sm:w-[70vw] sm:p-10 md:w-auto"
+            className="flex w-[85vw] flex-shrink-0 snap-center flex-col border border-platinum/40 bg-canvas p-8 sm:w-[70vw] sm:p-10 md:w-auto"
           >
             {/* Top row: verified badge + relative date */}
             <div className="flex items-center justify-between">
@@ -86,7 +86,7 @@ export default function CustomerReviews() {
                 <BadgeCheck size={15} strokeWidth={1.75} className="text-emerald-500" />
                 ביקורת מאומתת
               </span>
-              <span className="text-xs font-light text-gray-400">{review.date}</span>
+              <span className="text-xs font-light text-ash">{review.date}</span>
             </div>
 
             <Stars className="mt-5" />
@@ -94,15 +94,15 @@ export default function CustomerReviews() {
             <h3 className="mt-4 text-base font-medium text-charcoal">
               {review.title}
             </h3>
-            <p className="mt-2 text-sm font-light leading-relaxed text-gray-600">
+            <p className="mt-2 text-sm font-light leading-relaxed text-graphite">
               {review.body}
             </p>
 
             {/* Reviewer identity — minimal initials avatar */}
-            <div className="mt-8 flex items-center gap-3 border-t border-gray-100 pt-6">
+            <div className="mt-8 flex items-center gap-3 border-t border-platinum/40 pt-6">
               <span
                 aria-hidden="true"
-                className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-gray-100 text-xs font-medium text-graphite"
+                className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-canvas text-xs font-medium text-graphite"
               >
                 {initials(review.name)}
               </span>

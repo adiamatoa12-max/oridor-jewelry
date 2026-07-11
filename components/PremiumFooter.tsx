@@ -31,14 +31,14 @@ export default function PremiumFooter() {
     setOpenSection((cur) => (cur === title ? null : title));
 
   return (
-    <footer dir="rtl" className="bg-[#F8F8F8] text-charcoal">
+    <footer dir="rtl" className="bg-canvas text-charcoal">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-16 text-right sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-16">
         {/* Brand — first visual column on the right */}
         <div>
           <span className="text-2xl font-light uppercase tracking-brand text-charcoal">
             Oridor
           </span>
-          <p className="mt-5 max-w-xs text-sm font-light leading-relaxed text-neutral-500">
+          <p className="mt-5 max-w-xs text-sm font-light leading-relaxed text-ash">
             תכשיטים על-זמניים המעוצבים מתוך אהבה לאסתטיקה נקייה ויוקרה יומיומית.
           </p>
 
@@ -49,7 +49,7 @@ export default function PremiumFooter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="אינסטגרם"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-platinum/70 text-neutral-500 transition-colors duration-300 hover:border-black hover:text-black"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-platinum/70 text-ash transition-colors duration-300 hover:border-black hover:text-black"
             >
               <Instagram size={16} strokeWidth={1.5} />
             </a>
@@ -58,7 +58,7 @@ export default function PremiumFooter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="טיקטוק"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-platinum/70 text-neutral-500 transition-colors duration-300 hover:border-black hover:text-black"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-platinum/70 text-ash transition-colors duration-300 hover:border-black hover:text-black"
             >
               <TikTokIcon />
             </a>
@@ -86,7 +86,7 @@ export default function PremiumFooter() {
           <h3 className="text-[13px] font-semibold uppercase tracking-[0.12em] text-charcoal">
             הצטרפו למועדון
           </h3>
-          <p className="mt-4 text-sm font-light leading-relaxed text-neutral-500">
+          <p className="mt-4 text-sm font-light leading-relaxed text-ash">
             קבלו 10% הנחה על ההזמנה הראשונה.
           </p>
           <form
@@ -98,12 +98,12 @@ export default function PremiumFooter() {
               required
               placeholder="כתובת אימייל"
               aria-label="כתובת אימייל"
-              className="w-full bg-transparent text-sm font-light text-charcoal placeholder:text-neutral-400 focus:outline-none"
+              className="w-full bg-transparent text-sm font-light text-charcoal placeholder:text-ash focus:outline-none"
             />
             <button
               type="submit"
               aria-label="הרשמה לניוזלטר"
-              className="-me-2 inline-flex h-11 w-11 shrink-0 items-center justify-center text-neutral-500 transition-colors duration-300 hover:text-black"
+              className="-me-2 inline-flex h-11 w-11 shrink-0 items-center justify-center text-ash transition-colors duration-300 hover:text-black"
             >
               <ArrowLeft size={18} strokeWidth={1.5} />
             </button>
@@ -114,7 +114,7 @@ export default function PremiumFooter() {
       {/* Bottom bar — copyright + accepted payment methods */}
       <div className="border-t border-platinum/60">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 sm:flex-row sm:px-10 lg:px-16">
-          <p className="text-xs font-light text-neutral-500">
+          <p className="text-xs font-light text-ash">
             © 2026 Oridor. כל הזכויות שמורות.
           </p>
           <PaymentIcons />
@@ -175,7 +175,7 @@ function FooterColumn({
           <li key={link.href}>
             <Link
               href={link.href}
-              className="inline-flex min-h-[44px] items-center text-sm font-light text-neutral-500 transition-colors duration-300 hover:text-black"
+              className="inline-flex min-h-[44px] items-center text-sm font-light text-ash transition-colors duration-300 hover:text-black"
             >
               {link.label}
             </Link>
@@ -198,14 +198,14 @@ function TikTokIcon() {
 /** Subtle, monochrome accepted-payment badges. */
 function PaymentIcons() {
   const box =
-    "inline-flex h-6 w-9 items-center justify-center rounded border border-platinum/70 bg-canvas text-neutral-500";
+    "inline-flex h-6 w-9 items-center justify-center rounded border border-platinum/70 bg-canvas text-ash";
   return (
     <div className="flex items-center gap-2" aria-label="אמצעי תשלום מקובלים">
       <span className={`${box} text-[8px] font-bold italic tracking-tight`}>VISA</span>
       <span className={box} aria-label="Mastercard">
         <span className="flex">
-          <span className="h-2.5 w-2.5 rounded-full bg-neutral-400" />
-          <span className="-ms-1 h-2.5 w-2.5 rounded-full bg-neutral-300" />
+          <span className="h-2.5 w-2.5 rounded-full bg-platinum" />
+          <span className="-ms-1 h-2.5 w-2.5 rounded-full bg-platinum" />
         </span>
       </span>
       <span className={`${box} gap-0.5 text-[8px] font-semibold`}>
