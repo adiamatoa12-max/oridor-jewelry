@@ -6,9 +6,11 @@ import SignatureGrid from "@/components/SignatureGrid";
 import Reveal from "@/components/Reveal";
 import type { VariantProduct } from "@/components/VariantCard";
 import CollectionHero from "@/components/CollectionHero";
+import { getLivePriceMap } from "@/lib/shopify";
+import { overlayLivePrices } from "@/lib/catalog";
 import data from "@/data/signature_collection.json";
 
-const products = data as VariantProduct[];
+export const revalidate = 120;
 
 export const metadata: Metadata = {
   title: { absolute: "קולקציית החתימה | שלושה גימורים בכסף 925 | Oridor" },
@@ -17,7 +19,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/collections/signature" },
 };
 
-export default function SignatureCollectionPage() {
+export default async function SignatureCollectionPage() {
+  const live = await getLivePriceMap();
+  const products = overlayLivePrices(data as VariantProduct[], live);
   return (
     <main>
       <AnnouncementBar />

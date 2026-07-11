@@ -5,9 +5,11 @@ import PremiumFooter from "@/components/PremiumFooter";
 import SilverGrid, { type SilverProduct } from "@/components/SilverGrid";
 import Reveal from "@/components/Reveal";
 import CollectionHero from "@/components/CollectionHero";
+import { getLivePriceMap } from "@/lib/shopify";
+import { overlayLivePrices } from "@/lib/catalog";
 import data from "@/data/silver_collection.json";
 
-const products = data as SilverProduct[];
+export const revalidate = 120;
 
 export const metadata: Metadata = {
   title: { absolute: "קולקציית כסף 925 | תכשיטים על-זמניים שלא מתכהים | Oridor" },
@@ -16,7 +18,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/collections/silver" },
 };
 
-export default function SilverCollectionPage() {
+export default async function SilverCollectionPage() {
+  const live = await getLivePriceMap();
+  const products = overlayLivePrices(data as SilverProduct[], live);
   return (
     <main>
       <AnnouncementBar />

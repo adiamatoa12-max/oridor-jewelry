@@ -5,9 +5,11 @@ import PremiumFooter from "@/components/PremiumFooter";
 import NewArrivalsGrid, { type NewArrival } from "@/components/NewArrivalsGrid";
 import Reveal from "@/components/Reveal";
 import CollectionHero from "@/components/CollectionHero";
+import { getLivePriceMap } from "@/lib/shopify";
+import { overlayLivePrices } from "@/lib/catalog";
 import data from "@/data/new_arrivals.json";
 
-const products = data as NewArrival[];
+export const revalidate = 120;
 
 export const metadata: Metadata = {
   title: { absolute: "חדש באוסף | תכשיטי כסף 925 חדשים | Oridor" },
@@ -16,7 +18,9 @@ export const metadata: Metadata = {
   alternates: { canonical: "/collections/new" },
 };
 
-export default function NewArrivalsPage() {
+export default async function NewArrivalsPage() {
+  const live = await getLivePriceMap();
+  const products = overlayLivePrices(data as NewArrival[], live);
   return (
     <main>
       <AnnouncementBar />

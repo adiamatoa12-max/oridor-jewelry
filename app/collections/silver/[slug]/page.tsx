@@ -5,7 +5,8 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import type { SilverProduct } from "@/components/SilverGrid";
-import { getProductWithVariants } from "@/lib/shopify";
+import { getProductWithVariants, getLivePriceMap } from "@/lib/shopify";
+import { overlayLivePrices } from "@/lib/catalog";
 import { buildProductJsonLd } from "@/lib/seo";
 import data from "@/data/silver_collection.json";
 
@@ -45,6 +46,8 @@ export default async function SilverProductPage({
 }: {
   params: { slug: string };
 }) {
+  const live = await getLivePriceMap();
+  const products = overlayLivePrices(data as SilverProduct[], live);
   const product = products.find((p) => p.slug === params.slug);
   if (!product) notFound();
 

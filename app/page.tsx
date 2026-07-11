@@ -10,8 +10,17 @@ import MoissanitePreview from "@/components/MoissanitePreview";
 import NewArrivals from "@/components/NewArrivals";
 import Reveal from "@/components/Reveal";
 import MoissaniteEducation from "@/components/MoissaniteEducation";
+import { getLivePriceMap } from "@/lib/shopify";
 
-export default function Home() {
+// Refresh live Shopify prices at most every 2 min (ISR).
+export const revalidate = 120;
+
+export default async function Home() {
+  // Shopify prices by slug, passed to the client set carousel.
+  const live = await getLivePriceMap();
+  const livePrices = Object.fromEntries(
+    Object.entries(live).map(([slug, s]) => [slug, s.price]),
+  );
   return (
     <main>
       <AnnouncementBar />
@@ -42,7 +51,7 @@ export default function Home() {
         <Reveal><NewArrivals /></Reveal>
 
         {/* Grid: signature curated sets — soft sand band */}
-        <Reveal className="bg-sand/70"><SignatureSets /></Reveal>
+        <Reveal className="bg-sand/70"><SignatureSets livePrices={livePrices} /></Reveal>
 
         {/* Banner: editorial materials band */}
         <Reveal><MoissaniteEducation /></Reveal>

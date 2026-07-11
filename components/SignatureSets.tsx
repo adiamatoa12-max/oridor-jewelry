@@ -8,15 +8,13 @@ import { X, ChevronLeft } from "lucide-react";
 import { useCart } from "./CartContext";
 import moissaniteData from "@/data/moissanite_collection.json";
 
-// Single source of truth for prices — read from the catalog data by slug so
-// the sets always reflect the same price as the collection grid & product page.
+// JSON prices, used only as a fallback before Shopify prices arrive.
 const PRICE_BY_SLUG: Record<string, number> = Object.fromEntries(
   (moissaniteData as { slug: string; price: number }[]).map((p) => [
     p.slug,
     p.price,
   ]),
 );
-const priceFor = (slug: string) => PRICE_BY_SLUG[slug] ?? 0;
 
 interface Piece {
   id: string;
@@ -81,13 +79,19 @@ const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
  */
 export default function SignatureSets({
   layout = "carousel",
+  livePrices,
 }: {
   /**
    * "carousel" — mobile horizontal snap-slider (homepage).
    * "grid" — standard vertical product grid (collection pages).
    */
   layout?: "carousel" | "grid";
+  /** Live Shopify prices by slug; falls back to the JSON price when absent. */
+  livePrices?: Record<string, number>;
 }) {
+  // Shopify is the source of truth; JSON is only the fallback.
+  const priceFor = (slug: string) =>
+    livePrices?.[slug] ?? PRICE_BY_SLUG[slug] ?? 0;
   const [active, setActive] = useState<SignatureSet | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);

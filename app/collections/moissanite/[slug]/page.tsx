@@ -5,7 +5,8 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import type { MoissaniteProduct } from "@/components/MoissaniteGrid";
-import { getProductWithVariants } from "@/lib/shopify";
+import { getProductWithVariants, getLivePriceMap } from "@/lib/shopify";
+import { overlayLivePrices } from "@/lib/catalog";
 import { buildProductJsonLd } from "@/lib/seo";
 import data from "@/data/moissanite_collection.json";
 
@@ -54,6 +55,8 @@ export default async function MoissaniteProductPage({
 }: {
   params: { slug: string };
 }) {
+  const live = await getLivePriceMap();
+  const products = overlayLivePrices(data as MoissaniteProduct[], live);
   const product = products.find((p) => p.slug === params.slug);
   if (!product) notFound();
 

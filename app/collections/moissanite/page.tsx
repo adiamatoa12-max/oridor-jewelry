@@ -5,7 +5,9 @@ import PremiumFooter from "@/components/PremiumFooter";
 import MoissaniteCollection from "@/components/MoissaniteCollection";
 import { type MoissaniteProduct } from "@/components/MoissaniteGrid";
 import CollectionHero from "@/components/CollectionHero";
-import products from "@/data/moissanite_collection.json";
+import { getLivePriceMap } from "@/lib/shopify";
+import { overlayLivePrices } from "@/lib/catalog";
+import productsData from "@/data/moissanite_collection.json";
 
 export const metadata: Metadata = {
   title: { absolute: "קולקציית מואסניט | ברק שעוצר נשימה בכסף 925 | Oridor" },
@@ -14,7 +16,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/collections/moissanite" },
 };
 
-export default function MoissaniteCollectionPage() {
+// Re-fetch live Shopify prices at most every 2 min (ISR) so pricing changes
+// made in Shopify propagate without a rebuild.
+export const revalidate = 120;
+
+export default async function MoissaniteCollectionPage() {
+  const live = await getLivePriceMap();
+  const products = overlayLivePrices(
+    productsData as MoissaniteProduct[],
+    live,
+  );
   return (
     <main>
       <AnnouncementBar />
@@ -29,7 +40,7 @@ export default function MoissaniteCollectionPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
-        <MoissaniteCollection products={products as MoissaniteProduct[]} />
+        <MoissaniteCollection products={products} />
       </section>
 
       <PremiumFooter />

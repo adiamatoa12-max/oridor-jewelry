@@ -176,6 +176,26 @@ export function applyLiveStatus<
   });
 }
 
+/**
+ * Overlay live Shopify prices onto raw catalog items (the {slug, price,
+ * compare_at_price} shape the collection grids use). Shopify is the single
+ * source of truth: any item whose slug matches a live handle takes the Shopify
+ * price + compare-at. Items with no live match keep their JSON price, so an
+ * unconfigured/empty map is a safe no-op (nothing breaks before Shopify is set).
+ */
+export function overlayLivePrices<
+  T extends { slug: string; price: number; compare_at_price?: number },
+>(
+  products: T[],
+  live: Record<string, { price: number; compareAtPrice?: number }>,
+): T[] {
+  return products.map((p) => {
+    const status = live[p.slug];
+    if (!status) return p;
+    return { ...p, price: status.price, compare_at_price: status.compareAtPrice };
+  });
+}
+
 /** Sticky filter chips — mixes collection and type axes; each chip filters one. */
 export type Chip =
   | { label: string; kind: "all" }
