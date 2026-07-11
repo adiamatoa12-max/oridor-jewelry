@@ -85,6 +85,9 @@ export default async function MoissaniteProductPage({
         breadcrumbLabel="קולקציית מואסניט"
         eyebrow="מואסניט"
         title={product.name}
+        category={product.category}
+        slug={product.slug}
+        allProducts={products}
         images={[
           { src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` },
           ...(product.hover_image

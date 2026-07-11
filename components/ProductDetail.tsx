@@ -1,10 +1,53 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ShieldCheck } from "lucide-react";
 import ProductGallery, { type GalleryImage } from "./ProductGallery";
 import ProductBuyBox from "./ProductBuyBox";
+import SizeSelector from "./SizeSelector";
 import Accordion, { type AccordionItem } from "./Accordion";
 import TrustBadges from "./TrustBadges";
+import PriceTag from "./PriceTag";
 import type { ShopifyProductOptions } from "@/lib/shopify";
+
+// Minimal shape any collection product must satisfy for sizing + related logic.
+export interface RelatedProduct {
+  id: string;
+  name: string;
+  price: number;
+  compare_at_price?: number;
+  image_url: string;
+  slug: string;
+  category?: string;
+}
+
+// Available sizes per product category. Edit here to scale — no DB needed.
+// Keys are normalized categories (lowercase, singular); "default" is the
+// fallback when a product's category isn't listed.
+const sizeConfig: Record<string, string[]> = {
+  bracelet: ["18cm", "20cm"],
+  ring: ["50", "52", "54"],
+  necklace: ["40cm", "45cm"],
+  default: ["One Size"],
+};
+
+/** Resolve the size options for a product's category (falls back to default). */
+function sizesForCategory(category?: string): string[] {
+  if (!category) return sizeConfig.default;
+  const key = category.trim().toLowerCase().replace(/s$/, "");
+  return sizeConfig[key] ?? sizeConfig.default;
+}
+
+/** First 3 products sharing the category, excluding the current one. */
+function getRelatedProducts(
+  all: RelatedProduct[] | undefined,
+  currentSlug: string | undefined,
+  category: string | undefined,
+): RelatedProduct[] {
+  if (!all || !category) return [];
+  return all
+    .filter((p) => p.category === category && p.slug !== currentSlug)
+    .slice(0, 3);
+}
 
 // Shared accordion sections — identical across every collection.
 const SHIPPING: AccordionItem = {
@@ -39,6 +82,9 @@ export default function ProductDetail({
   description,
   materials,
   showRingGuide = false,
+  category,
+  slug,
+  allProducts,
 }: {
   breadcrumbHref: string;
   breadcrumbLabel: string;
@@ -57,6 +103,12 @@ export default function ProductDetail({
   materials: React.ReactNode;
   /** Show the ring-size-guide link (rings only). */
   showRingGuide?: boolean;
+  /** Product category — drives the size options and related products. */
+  category?: string;
+  /** Current product slug — excluded from related products. */
+  slug?: string;
+  /** Full collection list — used to find related products. */
+  allProducts?: RelatedProduct[];
 }) {
   const accordionItems: AccordionItem[] = [
     { title: "תיאור", content: description },
@@ -64,6 +116,9 @@ export default function ProductDetail({
     SHIPPING,
     CARE,
   ];
+
+  const sizes = sizesForCategory(category);
+  const related = getRelatedProducts(allProducts, slug, category);
 
   return (
     // Extra mobile bottom padding (pb-28) so the last accordion clears the
@@ -91,6 +146,9 @@ export default function ProductDetail({
           <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight text-charcoal lg:text-5xl">
             {title}
           </h1>
+
+          {/* Config-driven size options (by category) */}
+          <SizeSelector sizes={sizes} />
 
           <ProductBuyBox
             title={title}
@@ -125,6 +183,44 @@ export default function ProductDetail({
           </div>
         </div>
       </div>
+
+      {/* Related products — "complete the look": same-category pieces */}
+      {related.length > 0 && (
+        <div className="mt-20 lg:mt-28">
+          <h2 className="mb-10 text-center text-2xl font-light tracking-widest text-charcoal">
+            משלים את הלוק
+          </h2>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-3 lg:gap-x-10">
+            {related.map((item) => (
+              <Link
+                key={item.id}
+                href={`${breadcrumbHref}/${item.slug}`}
+                className="group block bg-transparent transition-transform duration-300 ease-out md:hover:-translate-y-1"
+              >
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
+                  <Image
+                    src={encodeURI(item.image_url)}
+                    alt={item.name}
+                    fill
+                    sizes="(min-width: 768px) 30vw, 50vw"
+                    className="object-contain object-center p-4 [filter:drop-shadow(0px_4px_8px_rgba(0,0,0,0.08))] transition-transform duration-500 ease-out group-hover:scale-105"
+                  />
+                </div>
+                <div className="px-2 pt-5 text-center">
+                  <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
+                    {item.name}
+                  </h3>
+                  <PriceTag
+                    price={item.price}
+                    compareAt={item.compare_at_price}
+                    className="mt-2"
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
   );
 }

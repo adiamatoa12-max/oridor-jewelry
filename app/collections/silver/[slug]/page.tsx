@@ -88,6 +88,9 @@ export default async function SilverProductPage({
         breadcrumbLabel="קולקציית כסף"
         eyebrow="קולקציית כסף"
         title={product.name}
+        category={product.category}
+        slug={product.slug}
+        allProducts={products}
         images={galleryImages}
         fit="contain"
         fallbackPrice={product.price}

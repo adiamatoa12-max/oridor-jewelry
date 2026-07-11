@@ -74,6 +74,9 @@ export default async function NewArrivalProductPage({
         breadcrumbLabel="קולקציה חדשה"
         eyebrow="קולקציה חדשה"
         title={product.name}
+        category={product.category}
+        slug={product.slug}
+        allProducts={products}
         images={[{ src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` }]}
         fit="cover"
         fallbackPrice={product.price}

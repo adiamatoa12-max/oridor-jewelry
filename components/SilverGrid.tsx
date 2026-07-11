@@ -21,6 +21,7 @@ export interface SilverProduct {
   material: string;
   image_url: string;
   slug: string;
+  category?: string;
   /** Colour/metal variants — renders swatches and swaps the image when >1. */
   variants?: SilverColorVariant[];
 }

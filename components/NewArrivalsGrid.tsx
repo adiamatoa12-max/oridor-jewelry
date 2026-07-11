@@ -14,6 +14,7 @@ export interface NewArrival {
   material: string;
   image_url: string;
   slug: string;
+  category?: string;
 }
 
 

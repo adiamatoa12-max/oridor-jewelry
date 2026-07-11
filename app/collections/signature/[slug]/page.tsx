@@ -81,6 +81,12 @@ export default async function SignatureProductPage({
         breadcrumbLabel="קולקציית החתימה"
         eyebrow="קולקציית החתימה"
         title={product.name}
+        category={product.category}
+        slug={product.slug}
+        allProducts={products.map((p) => ({
+          ...p,
+          image_url: p.variants[0]?.image_url ?? "",
+        }))}
         images={galleryImages}
         fit="contain"
         fallbackPrice={product.price}
