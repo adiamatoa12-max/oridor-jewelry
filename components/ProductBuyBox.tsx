@@ -194,13 +194,6 @@ export default function ProductBuyBox({
         {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
       </button>
 
-      {/* Scarcity nudge — subtle, informative, never aggressive. */}
-      {!soldOut && (
-        <p className="mt-3 text-center text-[11px] font-light text-ash">
-          נותרו פריטים אחרונים במלאי במידה זו
-        </p>
-      )}
-
       {/* Sticky mobile CTA — slides up only once the main button is scrolled
           out of view. Shows a brief title + price and shares the same handler. */}
       <div

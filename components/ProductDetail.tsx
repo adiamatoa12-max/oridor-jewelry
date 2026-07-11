@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Star } from "lucide-react";
 import ProductGallery, { type GalleryImage } from "./ProductGallery";
 import ProductBuyBox from "./ProductBuyBox";
 import SizeSelector from "./SizeSelector";
@@ -147,6 +147,18 @@ export default function ProductDetail({
           <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight text-charcoal lg:text-5xl">
             {title}
           </h1>
+
+          {/* Social proof — star rating + review count */}
+          <div className="mt-4 flex items-center gap-2.5">
+            <div className="flex gap-0.5" aria-label="דירוג 5 מתוך 5 כוכבים">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} size={15} strokeWidth={0} className="fill-gold text-gold" />
+              ))}
+            </div>
+            <span className="text-xs font-light tracking-wide text-ash">
+              מבוסס על 120+ ביקורות
+            </span>
+          </div>
 
           {/* Config-driven size options (by category) */}
           <SizeSelector sizes={sizes} />

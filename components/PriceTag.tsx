@@ -18,17 +18,23 @@ export default function PriceTag({
   size?: "sm" | "lg";
 }) {
   const onSale = typeof compareAt === "number" && compareAt > price;
-  const base = size === "lg" ? "text-xl" : "text-xs sm:text-[13px]";
-  const strike = size === "lg" ? "text-base" : "text-[11px] sm:text-xs";
+  const savePct = onSale ? Math.round(((compareAt! - price) / compareAt!) * 100) : 0;
+  const lg = size === "lg";
+  // Product page: large & bold. Cards: compact.
+  const base = lg ? "text-3xl font-semibold" : "text-xs font-light sm:text-[13px]";
+  const strike = lg ? "text-base" : "text-[11px] sm:text-xs";
 
   return (
-    <span className={`inline-flex items-baseline gap-2 ${className}`}>
-      <span className={`${base} font-light tracking-[0.06em] ${onSale ? "text-gold" : "text-graphite"}`}>
-        {fmt(price)}
-      </span>
+    <span className={`inline-flex flex-wrap items-baseline gap-x-2.5 gap-y-1 ${className}`}>
+      <span className={`${base} tracking-[0.04em] text-charcoal`}>{fmt(price)}</span>
       {onSale && (
         <span className={`${strike} font-light text-ash line-through`}>
           {fmt(compareAt!)}
+        </span>
+      )}
+      {onSale && lg && (
+        <span className="self-center rounded-full bg-gold/15 px-2.5 py-1 text-[11px] font-semibold tracking-wide text-gold">
+          חיסכון {savePct}%
         </span>
       )}
     </span>
