@@ -23,7 +23,7 @@ export default function SilverCollectionPage() {
       <Navbar />
 
       <CollectionHero
-        image="/photo/silver-hero.jpg"
+        image="/photo/silver-hero.webp"
         scrim="bg-gradient-to-b from-black/45 via-black/55 to-black/65"
         eyebrow="כסף 925 טהור"
         title="קולקציית כסף 925"
