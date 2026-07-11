@@ -60,7 +60,7 @@ function Stars({ className = "" }: { className?: string }) {
  */
 export default function CustomerReviews() {
   return (
-    <section className="mx-auto max-w-7xl rounded-[2rem] bg-beige/50 px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+    <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
       {/* Header */}
       <div className="mb-16 flex flex-col items-center text-center">
         <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
@@ -78,7 +78,7 @@ export default function CustomerReviews() {
         {REVIEWS.map((review) => (
           <article
             key={review.name}
-            className="flex w-[85vw] flex-shrink-0 snap-center flex-col border border-platinum/40 bg-canvas p-8 sm:w-[70vw] sm:p-10 md:w-auto"
+            className="flex w-[85vw] flex-shrink-0 snap-center flex-col rounded-sm border border-[#E0E0E0] bg-transparent p-8 sm:w-[70vw] sm:p-10 md:w-auto"
           >
             {/* Top row: verified badge + relative date */}
             <div className="flex items-center justify-between">
@@ -99,10 +99,10 @@ export default function CustomerReviews() {
             </p>
 
             {/* Reviewer identity — minimal initials avatar */}
-            <div className="mt-8 flex items-center gap-3 border-t border-platinum/40 pt-6">
+            <div className="mt-8 flex items-center gap-3 border-t border-[#E0E0E0] pt-6">
               <span
                 aria-hidden="true"
-                className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-canvas text-xs font-medium text-graphite"
+                className="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-charcoal/[0.05] text-xs font-medium text-graphite"
               >
                 {initials(review.name)}
               </span>
