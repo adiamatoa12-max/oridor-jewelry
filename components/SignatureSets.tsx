@@ -32,10 +32,10 @@ const SETS: SignatureSet[] = [
     title: "הסט המושלם לערב",
     caption: "נצנוץ דרמטי לרגעים הגדולים",
     pieces: [
-      { id: "matan-18", name: "שרשרת תליון סוליטר", price: 350, image: "/photo/moissanite-18.jpeg", slug: "matan-18", href: "/collection/moissanite/matan-18" },
-      { id: "matan-3", name: "צמיד עדין סוליטר", price: 300, image: "/photo/moissanite-3.jpeg", slug: "matan-3", href: "/collection/moissanite/matan-3" },
-      { id: "matan-28", name: "עגילי סוליטר עגול", price: 400, image: "/photo/moissanite-28.jpeg", slug: "matan-28", href: "/collection/moissanite/matan-28" },
-      { id: "matan-10", name: "טבעת סוליטר עגולה", price: 410, image: "/photo/moissanite-10.jpeg", slug: "matan-10", href: "/collection/moissanite/matan-10" },
+      { id: "matan-18", name: "שרשרת תליון סוליטר", price: 350, image: "/photo/moissanite-18.png", slug: "matan-18", href: "/collection/moissanite/matan-18" },
+      { id: "matan-3", name: "צמיד עדין סוליטר", price: 300, image: "/photo/moissanite-3.png", slug: "matan-3", href: "/collection/moissanite/matan-3" },
+      { id: "matan-28", name: "עגילי סוליטר עגול", price: 400, image: "/photo/moissanite-28.png", slug: "matan-28", href: "/collection/moissanite/matan-28" },
+      { id: "matan-10", name: "טבעת סוליטר עגולה", price: 410, image: "/photo/moissanite-10.png", slug: "matan-10", href: "/collection/moissanite/matan-10" },
     ],
   },
   {
@@ -44,10 +44,10 @@ const SETS: SignatureSet[] = [
     title: "אלגנטיות לכל יום",
     caption: "עדין, נקי ועל-זמני",
     pieces: [
-      { id: "matan-20", name: "שרשרת סוליטר אובל", price: 340, image: "/photo/moissanite-20.jpeg", slug: "matan-20", href: "/collection/moissanite/matan-20" },
-      { id: "matan-4", name: "צמיד טיפה", price: 320, image: "/photo/moissanite-4.jpeg", slug: "matan-4", href: "/collection/moissanite/matan-4" },
-      { id: "matan-27", name: "עגילי טיפה", price: 370, image: "/photo/moissanite-27.jpeg", slug: "matan-27", href: "/collection/moissanite/matan-27" },
-      { id: "matan-13", name: "טבעת טיפה סוליטר", price: 470, image: "/photo/moissanite-13.jpeg", slug: "matan-13", href: "/collection/moissanite/matan-13" },
+      { id: "matan-20", name: "שרשרת סוליטר אובל", price: 340, image: "/photo/moissanite-20.png", slug: "matan-20", href: "/collection/moissanite/matan-20" },
+      { id: "matan-4", name: "צמיד טיפה", price: 320, image: "/photo/moissanite-4.png", slug: "matan-4", href: "/collection/moissanite/matan-4" },
+      { id: "matan-27", name: "עגילי טיפה", price: 370, image: "/photo/moissanite-27.png", slug: "matan-27", href: "/collection/moissanite/matan-27" },
+      { id: "matan-13", name: "טבעת טיפה סוליטר", price: 470, image: "/photo/moissanite-13.png", slug: "matan-13", href: "/collection/moissanite/matan-13" },
     ],
   },
   {
@@ -56,8 +56,8 @@ const SETS: SignatureSet[] = [
     title: "סט קלאסי לגבר",
     caption: "הצהרת סטייל ללא פשרות",
     pieces: [
-      { id: "matan-17", name: "שרשרת טניס שחורה", price: 690, image: "/photo/moissanite-17.jpeg", slug: "matan-17", href: "/collection/moissanite/matan-17" },
-      { id: "bracelet-1", name: "צמיד טניס אבני חן שחורות", price: 460, image: "/photo/bracelet-1.jpeg", slug: "bracelet-1", href: "/collection/moissanite/bracelet-1" },
+      { id: "matan-17", name: "שרשרת טניס שחורה", price: 690, image: "/photo/moissanite-17.png", slug: "matan-17", href: "/collection/moissanite/matan-17" },
+      { id: "bracelet-1", name: "צמיד טניס אבני חן שחורות", price: 460, image: "/photo/bracelet-1.png", slug: "bracelet-1", href: "/collection/moissanite/bracelet-1" },
     ],
   },
 ];
