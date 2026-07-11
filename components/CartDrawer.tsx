@@ -57,7 +57,7 @@ export default function CartDrawer() {
       {/* Dark backdrop */}
       <div
         onClick={closeCart}
-        className={`absolute inset-0 bg-[#1a1a1a]/40 backdrop-blur-[2px] transition-opacity duration-500 ease-cinematic ${
+        className={`absolute inset-0 bg-charcoal/40 backdrop-blur-[2px] transition-opacity duration-500 ease-cinematic ${
           isOpen ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -168,7 +168,7 @@ export default function CartDrawer() {
                         )}
                         <Icon
                           size={22}
-                          strokeWidth={1.25}
+                          strokeWidth={1.5}
                           className={active ? "text-gold" : "text-charcoal"}
                         />
                         <span className="text-[10px] font-light leading-tight text-graphite">

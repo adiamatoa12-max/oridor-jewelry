@@ -83,7 +83,7 @@ export default function CustomerReviews() {
             {/* Top row: verified badge + relative date */}
             <div className="flex items-center justify-between">
               <span className="inline-flex items-center gap-1.5 text-xs font-medium tracking-wide text-graphite">
-                <BadgeCheck size={15} strokeWidth={1.75} className="text-emerald-500" />
+                <BadgeCheck size={15} strokeWidth={1.5} className="text-emerald-500" />
                 ביקורת מאומתת
               </span>
               <span className="text-xs font-light text-ash">{review.date}</span>

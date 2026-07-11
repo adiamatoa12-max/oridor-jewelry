@@ -54,7 +54,7 @@ export default function RingSizeGuide() {
       <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-sm bg-platinum/50 md:grid-cols-3">
         {STEPS.map((s) => (
           <div key={s.n} className="bg-canvas p-10 text-center">
-            <p className="font-serif text-2xl font-light text-gold">{s.n}</p>
+            <p className="font-display text-2xl font-light text-gold">{s.n}</p>
             <h3 className="mt-5 text-base font-normal tracking-wide text-charcoal">
               {s.title}
             </h3>

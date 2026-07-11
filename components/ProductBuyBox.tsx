@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import type {
@@ -48,6 +48,14 @@ export default function ProductBuyBox({
   hexByValue?: Record<string, string>;
 }) {
   const { addVariant } = useCart();
+
+  // Flag the sticky mobile CTA's presence on <body> so the global floating
+  // widgets (WhatsApp, accessibility) lift above it on phones and never cover
+  // the price or "add to cart" button. Cleaned up on unmount.
+  useEffect(() => {
+    document.body.setAttribute("data-pdp-cta", "");
+    return () => document.body.removeAttribute("data-pdp-cta");
+  }, []);
 
   // Real, selectable option axes only (drop Shopify's synthetic "Title" axis).
   const options = useMemo(

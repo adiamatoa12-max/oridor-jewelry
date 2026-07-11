@@ -36,7 +36,7 @@ export default function MobileMenu({
       {/* Dark, blurred backdrop */}
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-[#1a1a1a]/40 backdrop-blur-sm transition-opacity duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
+        className={`absolute inset-0 bg-charcoal/40 backdrop-blur-sm transition-opacity duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] ${
           open ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -57,7 +57,7 @@ export default function MobileMenu({
             onClick={onClose}
             className="-m-2 inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:text-graphite"
           >
-            <X size={22} strokeWidth={1.25} />
+            <X size={22} strokeWidth={1.5} />
           </button>
         </div>
 

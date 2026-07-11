@@ -66,7 +66,9 @@ export default function ProductDetail({
   ];
 
   return (
-    <section className="mx-auto max-w-6xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+    // Extra mobile bottom padding (pb-28) so the last accordion clears the
+    // sticky Add-to-Cart bar, which is only shown on phones.
+    <section className="mx-auto max-w-6xl px-6 pb-28 pt-16 sm:px-10 sm:pb-16 lg:px-16 lg:pb-24 lg:pt-24">
       {/* Breadcrumb */}
       <nav className="mb-10 text-xs font-light tracking-wide text-ash">
         <Link href={breadcrumbHref} className="transition-colors hover:text-charcoal">

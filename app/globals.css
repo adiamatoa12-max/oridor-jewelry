@@ -120,6 +120,15 @@ body.cursor-none * {
   }
 }
 
+/* On product pages, the sticky mobile Add-to-Cart bar sets [data-pdp-cta] on
+   <body>. Lift the floating action buttons (WhatsApp, accessibility) above it
+   so they never cover the price or CTA. Phones only — the bar is sm:hidden. */
+@media (max-width: 639px) {
+  body[data-pdp-cta] .floating-action {
+    bottom: 5.75rem;
+  }
+}
+
 /* Accessibility widget — global overrides toggled on <html>. */
 html.a11y-links a {
   text-decoration: underline !important;

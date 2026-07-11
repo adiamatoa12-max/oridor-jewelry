@@ -145,7 +145,7 @@ export default function AccessibilityWidget() {
         onClick={() => setOpen((v) => !v)}
         aria-label="פתיחת תפריט נגישות"
         aria-expanded={open}
-        className="fixed bottom-6 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-charcoal text-canvas shadow-[0_8px_24px_rgba(0,0,0,0.22)] transition-all duration-300 ease-cinematic hover:-translate-y-1 hover:bg-[#1a1b1c]"
+        className="floating-action fixed bottom-6 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-charcoal text-canvas shadow-[0_8px_24px_rgba(0,0,0,0.22)] transition-all duration-300 ease-cinematic hover:-translate-y-1 hover:bg-graphite"
       >
         <Accessibility size={26} strokeWidth={1.5} className="text-gold" />
       </button>

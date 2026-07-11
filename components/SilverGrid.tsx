@@ -81,7 +81,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
           type="button"
           onClick={quickAdd}
           aria-label={`הוספת ${p.name} לאוסף`}
-          className="absolute inset-x-3 bottom-3 flex translate-y-3 items-center justify-center gap-2 rounded-sm bg-canvas/90 py-2.5 text-[11px] tracking-[0.15em] text-charcoal opacity-0 backdrop-blur-sm transition-all duration-300 ease-cinematic group-hover:translate-y-0 group-hover:opacity-100 hover:bg-charcoal hover:text-canvas"
+          className="absolute inset-x-4 bottom-4 flex translate-y-2 items-center justify-center gap-2 border border-charcoal/15 bg-canvas/85 py-2.5 text-[11px] tracking-[0.15em] text-charcoal opacity-0 backdrop-blur-sm transition-all duration-300 ease-cinematic group-hover:translate-y-0 group-hover:opacity-100 hover:border-charcoal/40"
         >
           <ShoppingBag size={14} strokeWidth={1.5} />
           הוספה לאוסף

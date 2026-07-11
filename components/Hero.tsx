@@ -21,6 +21,7 @@ export default function Hero() {
         loop
         muted
         playsInline
+        preload="metadata"
         poster={HERO_POSTER}
         aria-hidden="true"
       >

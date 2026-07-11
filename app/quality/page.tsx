@@ -82,7 +82,7 @@ export default function QualityPage() {
             { label: "ליטוש", value: "מושלם" },
           ].map((s) => (
             <div key={s.label} className="px-4 py-8 text-center">
-              <p className="font-serif text-2xl text-charcoal">{s.value}</p>
+              <p className="font-display text-2xl text-charcoal">{s.value}</p>
               <p className="mt-2 text-xs uppercase tracking-[0.2em] text-ash">{s.label}</p>
             </div>
           ))}

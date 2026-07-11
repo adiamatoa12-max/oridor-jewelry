@@ -15,7 +15,7 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="צ׳אט בוואטסאפ עם Oridor"
-      className="group fixed bottom-6 left-5 z-40 flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_24px_rgba(0,0,0,0.22)] transition-all duration-300 ease-cinematic hover:-translate-y-1 hover:scale-105 hover:shadow-[0_14px_32px_rgba(37,211,102,0.4)]"
+      className="floating-action group fixed bottom-6 left-5 z-40 flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_24px_rgba(0,0,0,0.22)] transition-all duration-300 ease-cinematic hover:-translate-y-1 hover:scale-105 hover:shadow-[0_14px_32px_rgba(37,211,102,0.4)]"
     >
       {/* Gentle pulse ring */}
       <span
