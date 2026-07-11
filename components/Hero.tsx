@@ -49,16 +49,16 @@ export default function Hero() {
               gap; the two buttons share the row equally on mobile. */}
           <div className="mt-10 flex animate-fade-up justify-center gap-4 [animation-delay:650ms]">
             <Link
-              href="/shop"
+              href="/collections/moissanite"
               className="inline-flex min-h-[48px] flex-1 items-center justify-center whitespace-nowrap rounded-sm bg-white px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-charcoal transition-all duration-300 ease-cinematic hover:-translate-y-0.5 hover:bg-white/90 sm:flex-none sm:px-9"
             >
-              קולקציית נשים
+              קולקציית מואסניט
             </Link>
             <Link
-              href="/shop"
+              href="/collections/silver"
               className="inline-flex min-h-[48px] flex-1 items-center justify-center whitespace-nowrap rounded-sm border border-white/70 px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition-all duration-300 ease-cinematic hover:-translate-y-0.5 hover:bg-white hover:text-charcoal sm:flex-none sm:px-9"
             >
-              קולקציית גברים
+              קולקציית כסף 925
             </Link>
           </div>
         </div>
