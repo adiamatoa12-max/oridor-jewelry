@@ -18,25 +18,25 @@ const REVIEWS: Review[] = [
     name: "שירן ת.",
     date: "לפני יומיים",
     title: "מושלם מושלם מושלם!",
-    body: "השרשרת אפילו יותר יפה במציאות. הגיעה באריזה מהממת תוך יומיים עד הבית. ממליצה בחום!",
-    product: "שרשרת קריסטל אובלית",
+    body: "וואו, הצמיד פשוט נוצץ בטירוף על היד! יפה הרבה יותר מבתמונות. האריזה הגיעה מהר והיא ממש מושקעת, רואים שחשבו על הכל. בטוח אזמין שוב.",
+    product: "צמיד טניס אובלי",
     photo: "/photo/review-1.webp",
-    photoAlt: "לקוחה עונדת שרשרת קריסטל אובלית מבית Oridor",
+    photoAlt: "לקוחה עונדת צמיד טניס אובלי מבית Oridor",
   },
   {
     name: "דנה ר.",
     date: "לפני שבוע",
-    title: "איכות מטורפת",
-    body: "חיפשתי צמיד טניס שלא נראה זול וזה פשוט קליעה בול. עונדת אותו כל יום במקלחת והוא נשאר נוצץ לגמרי.",
-    product: "צמיד טניס טיפות",
+    title: "איכות מטורפת!",
+    body: "חיפשתי שרשרת שלא נראית זולה וזה פשוט קליעה בול. עונדת אותה כל יום, גם במקלחת, והיא נשארת נוצצת לגמרי!",
+    product: "שרשרת טניס אובלית",
     photo: "/photo/review-2.webp",
-    photoAlt: "לקוחה עונדת צמיד טניס טיפות מבית Oridor",
+    photoAlt: "לקוחה עונדת שרשרת טניס אובלית מבית Oridor",
   },
   {
     name: "נועה א.",
     date: "לפני חודש",
     title: "המתנה הכי טובה שקיבלתי",
-    body: "בעלי קנה לי ליום הנישואין. שירות הלקוחות היה מהמם ועזר לו לבחור. פשוט תכשיטים ברמה גבוהה.",
+    body: "בעלי הפתיע אותי עם העגילים האלו ליום הנישואין. שירות הלקוחות היה מהמם ועזר לו לבחור בדיוק את מה שמתאים לי. פשוט תכשיטים ברמה גבוהה!",
     product: "עגילי הלו צמודים",
     photo: "/photo/review-3.webp",
     photoAlt: "לקוחה עונדת עגילי הלו צמודים מבית Oridor",
@@ -103,7 +103,7 @@ export default function CustomerReviews() {
             {/* Quote */}
             <div className="text-right md:basis-1/2">
               <Stars className="mb-4" />
-              <h3 className="text-lg font-medium leading-snug text-charcoal">
+              <h3 className="text-lg font-bold leading-snug text-charcoal">
                 {review.title}
               </h3>
               <blockquote className="mt-3 text-[15px] font-light leading-[1.85] text-graphite">
