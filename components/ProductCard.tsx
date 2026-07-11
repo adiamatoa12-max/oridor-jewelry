@@ -77,15 +77,15 @@ export default function ProductCard({
       className="group block bg-transparent transition-[transform,opacity] duration-300 ease-out [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
       {/* No container — transparent. The white studio background is knocked out
-          by mix-blend-multiply so the jewelry floats seamlessly on the page;
-          separation comes purely from the grid gap. */}
+          by mix-blend-multiply (with a slight brightness/contrast filter to
+          keep the jewelry crisp) so pieces float seamlessly on the page. */}
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
         <Image
           src={displayImage}
           alt={`${title} — תכשיט כסף מבית Oridor`}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className={`${fitClass} object-center mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105`}
+          className={`${fitClass} object-center mix-blend-multiply [filter:brightness(1.06)_contrast(1.04)] transition-transform duration-500 ease-out group-hover:scale-105`}
         />
 
         {/* On-model lifestyle shot — cross-fades in on hover (desktop) and

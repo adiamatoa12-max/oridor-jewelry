@@ -70,7 +70,7 @@ export default function NewArrivalsGrid({
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 62vw"
-              className="object-cover object-center mix-blend-multiply transition-transform duration-500 ease-out group-hover:scale-105"
+              className="object-cover object-center mix-blend-multiply [filter:brightness(1.06)_contrast(1.04)] transition-transform duration-500 ease-out group-hover:scale-105"
             />
 
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
