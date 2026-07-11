@@ -21,20 +21,17 @@ export default function MoissaniteEducation() {
           <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.3em] text-gold">
             הסטנדרט שלנו
           </p>
-          <h2 className="text-[1.75rem] font-medium leading-snug tracking-wide text-white sm:text-4xl lg:text-[2.5rem] lg:leading-[1.2]">
-            הסטנדרט של ORIDOR: חומרים ללא פשרות
+          <h2 className="text-[1.75rem] font-bold leading-snug tracking-wide text-white sm:text-4xl lg:text-[2.5rem] lg:leading-[1.2]">
+            הסטנדרט של ORIDOR: איכות בלי סימני שאלה
           </h2>
           <p className="mt-8 text-[15px] font-normal leading-loose text-white/70 sm:text-base">
-            כל תכשיט בקולקציה שלנו מיוצר מכסף סטרלינג 925 איכותי ומצופה ברודיום –
-            מתכת נדירה ויוקרתית ממשפחת הפלטינה. ציפוי הרודיום מעניק לתכשיט את הגוון
-            הבוהק של זהב לבן, מגן עליו מפני השחרה לחלוטין ומבטיח שהוא יהיה
-            היפואלרגני ובטוח לעור.
+            אנחנו מאמינים ביוקרה שנועדה לחיי היומיום. לכן, כל תכשיט שלנו מיוצר
+            מכסף 925 טהור עם ציפוי רודיום עמיד – מה שמבטיח שהתכשיט שלך יישאר לבן,
+            מבריק ועמיד לאורך שנים (בלי להשחיר ובלי אלרגיות!).
           </p>
           <p className="mt-6 text-[15px] font-normal leading-loose text-white/70 sm:text-base">
-            במרכז העיצובים שלנו עומדת אבן המויסאניט. עם מדד שבירת אור גבוה אפילו
-            מזה של יהלום, מויסאניט מעניקה נצנוץ אש עוצר נשימה וקשיחות יוצאת דופן
-            שעמידה לשריטות. זוהי בחירה חכמה ויוקרתית שמבטיחה תכשיט שישמור על הברק
-            המטורף שלו לנצח – בלי המחיר המופרז של יהלום כרייה.
+            בלב הקולקציה שלנו? אבן מויסניט שנוצצת יותר מיהלום, אבל במחיר שמרגיש
+            נכון. יופי, עמידות וברק מטורף – בלי לשלם על המותג.
           </p>
         </div>
 
