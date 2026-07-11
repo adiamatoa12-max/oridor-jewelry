@@ -78,16 +78,16 @@ export default function MoissaniteGrid({
           href={`/collection/moissanite/${p.slug}`}
           className={itemClass}
         >
-          {/* No container — transparent. White studio background knocked out by
-              multiply so the piece floats on the page; the image eases up on
-              hover. Separation comes purely from the grid gap. */}
-          <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
+          {/* Intentional white card — soft ring + shadow so the studio-white
+              photo reads as a deliberate framed surface, not a glitch. Padding
+              gives the jewelry room to breathe; text sits below on the cream. */}
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]">
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 62vw"
-              className="object-cover object-center mix-blend-multiply [filter:brightness(1.06)_contrast(1.04)] transition-transform duration-500 ease-out group-hover:scale-105"
+              className="object-contain object-center p-6 transition-transform duration-500 ease-out group-hover:scale-105"
             />
 
             {/* Lifestyle/on-model shot — fades in over the product photo on hover

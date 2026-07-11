@@ -62,15 +62,15 @@ export default function NewArrivalsGrid({
           href={`/collection/new/${p.slug}`}
           className={itemClass}
         >
-          {/* Soft cream surface, gently rounded; white studio background knocked
-              out by multiply. Blurred ambient shadow blooms on hover. */}
-          <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
+          {/* Intentional white card — soft ring + shadow; padded so the piece
+              breathes. Text sits below on the cream page. */}
+          <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]">
             <Image
               src={encodeURI(p.image_url)}
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 62vw"
-              className="object-cover object-center mix-blend-multiply [filter:brightness(1.06)_contrast(1.04)] transition-transform duration-500 ease-out group-hover:scale-105"
+              className="object-contain object-center p-6 transition-transform duration-500 ease-out group-hover:scale-105"
             />
 
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}

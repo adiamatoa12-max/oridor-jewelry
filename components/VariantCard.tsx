@@ -37,7 +37,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
         href={`/collection/signature/${product.slug}`}
         className="block [-webkit-tap-highlight-color:transparent]"
       >
-        <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
+        <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]">
           {/* Crossfade between variant images */}
           {product.variants.map((v, i) => (
             <Image
@@ -46,7 +46,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
               alt={`${product.name} — ${v.color}`}
               fill
               sizes="(min-width: 1024px) 25vw, 50vw"
-              className={`object-contain object-center p-5 mix-blend-multiply [filter:brightness(1.06)_contrast(1.04)] transition-opacity duration-500 ease-cinematic ${
+              className={`object-contain object-center p-6 transition-opacity duration-500 ease-cinematic ${
                 i === active ? "opacity-100" : "opacity-0"
               }`}
             />

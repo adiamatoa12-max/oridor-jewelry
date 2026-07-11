@@ -58,13 +58,13 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
       href={`/collection/silver/${p.slug}`}
       className="group block bg-transparent transition-transform duration-300 ease-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1"
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
+      <div className="relative aspect-[4/5] w-full overflow-hidden rounded-2xl bg-white shadow-card ring-1 ring-charcoal/[0.05]">
         <Image
           src={encodeURI(displayImage)}
           alt={`${p.name} — ${p.material}`}
           fill
           sizes="(min-width: 1024px) 25vw, 50vw"
-          className="object-contain object-center p-5 mix-blend-multiply [filter:brightness(1.06)_contrast(1.04)] transition-transform duration-500 ease-out group-hover:scale-105"
+          className="object-contain object-center p-6 transition-transform duration-500 ease-out group-hover:scale-105"
         />
         <span className="pointer-events-none absolute start-3 top-3 border border-platinum/70 bg-canvas/70 px-2.5 py-1 text-[10px] tracking-[0.2em] text-graphite backdrop-blur-sm">
           כסף 925
