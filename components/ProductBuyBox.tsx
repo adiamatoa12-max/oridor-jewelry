@@ -174,7 +174,7 @@ export default function ProductBuyBox({
         type="button"
         onClick={handleAdd}
         disabled={soldOut || !currentVariant}
-        className="btn-primary mt-10 w-full disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:px-16"
+        className="btn-primary mt-8 w-full py-4 text-xs disabled:cursor-not-allowed disabled:opacity-50"
       >
         {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
       </button>

@@ -8,16 +8,18 @@ const BADGES = [
 ];
 
 /**
- * Trust badges — a clean, reassuring row shown on product pages.
+ * Trust badges — a clean, minimal row of small icons with subtle text below.
+ * No boxes or fills; separated only by thin hairlines so it reads as a quiet,
+ * premium reassurance strip rather than a cluttered grid.
  */
 export default function TrustBadges() {
   return (
-    <div className="grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-platinum/40 bg-platinum/40 sm:grid-cols-4">
+    <div className="mt-8 grid grid-cols-2 gap-y-6 border-y border-platinum/50 py-6 sm:grid-cols-4 sm:divide-x sm:divide-platinum/50 sm:rtl:divide-x-reverse">
       {BADGES.map((b) => (
-        <div key={b.title} className="flex flex-col items-center bg-canvas px-3 py-5 text-center">
-          <b.icon size={22} strokeWidth={1.5} className="text-gold" />
-          <p className="mt-2.5 text-xs font-medium tracking-wide text-charcoal">{b.title}</p>
-          <p className="mt-0.5 text-[11px] font-light text-ash">{b.sub}</p>
+        <div key={b.title} className="flex flex-col items-center px-2 text-center">
+          <b.icon size={20} strokeWidth={1.5} className="text-gold" />
+          <p className="mt-2 text-[11px] font-medium tracking-wide text-charcoal">{b.title}</p>
+          <p className="mt-0.5 text-[10px] font-light leading-tight text-ash">{b.sub}</p>
         </div>
       ))}
     </div>

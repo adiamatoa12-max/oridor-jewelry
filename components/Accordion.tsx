@@ -23,7 +23,7 @@ export default function Accordion({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="divide-y divide-platinum/50 border-y border-platinum/50">
+    <div className="divide-y divide-platinum/50 overflow-hidden rounded-xl border border-platinum/50 bg-cream/30 px-5">
       {items.map((item, i) => {
         const isOpen = open === i;
         return (
@@ -32,7 +32,7 @@ export default function Accordion({
               type="button"
               onClick={() => setOpen(isOpen ? -1 : i)}
               aria-expanded={isOpen}
-              className="flex w-full items-center justify-between py-5 text-start text-sm font-normal tracking-wide text-charcoal transition-colors hover:text-gold"
+              className="flex w-full items-center justify-between py-5 text-start text-sm font-medium tracking-wide text-charcoal transition-colors hover:text-gold"
             >
               {item.title}
               <span

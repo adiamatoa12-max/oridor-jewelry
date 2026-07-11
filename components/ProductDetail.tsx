@@ -70,7 +70,7 @@ export default function ProductDetail({
     // sticky Add-to-Cart bar, which is only shown on phones.
     <section className="mx-auto max-w-6xl px-6 pb-28 pt-16 sm:px-10 sm:pb-16 lg:px-16 lg:pb-24 lg:pt-24">
       {/* Breadcrumb */}
-      <nav className="mb-10 text-xs font-light tracking-wide text-ash">
+      <nav className="mb-8 text-xs font-light tracking-wide text-ash">
         <Link href={breadcrumbHref} className="transition-colors hover:text-charcoal">
           {breadcrumbLabel}
         </Link>
@@ -78,14 +78,17 @@ export default function ProductDetail({
         <span className="text-graphite">{title}</span>
       </nav>
 
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 lg:gap-16">
-        {/* Gallery */}
-        <ProductGallery images={images} fit={fit} />
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-14">
+        {/* Gallery — primary visual anchor: left column on desktop, first on
+            mobile (order utilities keep the RTL info panel on the right). */}
+        <div className="order-1 md:order-2">
+          <ProductGallery images={images} fit={fit} />
+        </div>
 
-        {/* Details */}
-        <div className="flex flex-col justify-center">
+        {/* Info panel — right column on desktop, below the gallery on mobile */}
+        <div className="order-2 flex flex-col md:order-1">
           <p className="mb-3 text-xs tracking-[0.25em] text-gold">{eyebrow}</p>
-          <h1 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal lg:text-4xl">
+          <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight text-charcoal lg:text-5xl">
             {title}
           </h1>
 
@@ -100,7 +103,7 @@ export default function ProductDetail({
 
           <Link
             href="/quality"
-            className="mt-4 inline-flex items-center gap-1.5 text-xs font-light tracking-wide text-graphite underline-offset-4 transition-colors hover:text-gold"
+            className="mt-5 inline-flex items-center gap-1.5 text-xs font-light tracking-wide text-graphite underline-offset-4 transition-colors hover:text-gold"
           >
             <ShieldCheck size={14} strokeWidth={1.5} className="text-gold" />
             {qualityNote}
@@ -111,13 +114,13 @@ export default function ProductDetail({
           {showRingGuide && (
             <Link
               href="/ring-size-guide"
-              className="mt-6 inline-block text-xs font-light tracking-wide text-graphite underline underline-offset-4 transition-colors hover:text-gold"
+              className="mt-5 inline-block text-xs font-light tracking-wide text-graphite underline underline-offset-4 transition-colors hover:text-gold"
             >
               מדריך מידות טבעת — איך למדוד בבית
             </Link>
           )}
 
-          <div className="mt-10">
+          <div className="mt-8">
             <Accordion defaultOpen={0} items={accordionItems} />
           </div>
         </div>
