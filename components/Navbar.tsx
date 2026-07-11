@@ -14,14 +14,14 @@ const LINKS = [
 ];
 
 /**
- * Premium RTL navbar — symmetric, centered-wordmark layout (luxury standard):
- *  · Center: the ORIDOR wordmark, absolutely centered so it stays dead-centre
- *    regardless of how wide the side groups grow.
- *  · Inline-start (right, reading start): hamburger on mobile · category links on desktop.
- *  · Inline-end (left, reading end): utility icons (search · account · cart).
- * Both side groups are flex-1 with generous inner padding so the wordmark
- * never feels cramped. Everything is vertically centered. Mobile keeps it
- * clean: hamburger (start) — logo (center) — cart (end).
+ * Premium RTL navbar — editorial stacked layout:
+ *  · Top row: the ORIDOR wordmark, absolutely centered. Utility icons
+ *    (search · account · cart) on the inline-end (left); mobile hamburger on
+ *    the inline-start (right).
+ *  · Second row (desktop only): the category links, centered below the logo
+ *    and separated by a light hairline — brand identity above, navigation
+ *    below. On mobile the nav row is hidden; the hamburger drawer handles it
+ *    so the screen stays clean.
  */
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -30,66 +30,72 @@ export default function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-platinum/40 bg-canvas/95 backdrop-blur-md transition-shadow duration-300 supports-[backdrop-filter]:bg-canvas/80">
-      <nav className="relative mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:gap-6 sm:px-6 lg:px-10">
-        {/* Absolutely-centered wordmark — true horizontal center of the header,
-            independent of the side groups' widths. */}
-        <Link
-          href="/"
-          aria-label="ORIDOR — לעמוד הבית"
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap text-xl font-light uppercase tracking-brand text-charcoal sm:text-2xl lg:text-3xl"
-        >
-          ORIDOR
-        </Link>
-
-        {/* Inline-start (right): mobile hamburger · desktop category links */}
-        <div className="flex flex-1 items-center justify-start gap-6 lg:gap-8">
-          <button
-            type="button"
-            aria-label="פתיחת תפריט הניווט"
-            onClick={() => setOpen(true)}
-            className="-ms-2 inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:text-graphite md:hidden"
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+        {/* Top row — brand identity */}
+        <div className="relative flex h-16 items-center sm:h-20">
+          {/* Absolutely-centered wordmark — true horizontal center of the row */}
+          <Link
+            href="/"
+            aria-label="ORIDOR — לעמוד הבית"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap text-xl font-light uppercase tracking-brand text-charcoal sm:text-2xl lg:text-3xl"
           >
-            <Menu size={22} strokeWidth={1.5} />
-          </button>
-          <ul className="hidden items-center gap-6 md:flex lg:gap-8">
+            ORIDOR
+          </Link>
+
+          {/* Inline-start (right): mobile hamburger only */}
+          <div className="flex flex-1 items-center justify-start">
+            <button
+              type="button"
+              aria-label="פתיחת תפריט הניווט"
+              onClick={() => setOpen(true)}
+              className="-ms-2 inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:text-graphite md:hidden"
+            >
+              <Menu size={22} strokeWidth={1.5} />
+            </button>
+          </div>
+
+          {/* Inline-end (left): utility icons */}
+          <div className="-me-2 flex flex-1 items-center justify-end gap-0.5 text-charcoal sm:gap-1">
+            <button
+              type="button"
+              aria-label="חיפוש באתר"
+              className="inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-graphite"
+            >
+              <Search size={19} strokeWidth={1.5} />
+            </button>
+            <Link
+              href="/account"
+              aria-label="החשבון שלי"
+              className="hidden h-11 w-11 items-center justify-center transition-colors hover:text-graphite md:inline-flex"
+            >
+              <User size={19} strokeWidth={1.5} />
+            </Link>
+            <button
+              type="button"
+              onClick={openCart}
+              aria-label={`עגלת קניות, ${count} פריטים`}
+              className="relative inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-graphite"
+            >
+              <ShoppingBag size={19} strokeWidth={1.5} />
+              {count > 0 && (
+                <span className="absolute end-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-charcoal px-1 text-[10px] font-medium leading-none text-canvas">
+                  {count}
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Second row — centered navigation, desktop only */}
+        <nav className="hidden justify-center border-t border-platinum/30 md:flex">
+          <ul className="flex items-center gap-7 py-3.5 lg:gap-9">
             {LINKS.map((l) => (
               <NavLink key={l.href} {...l} />
             ))}
             <SaleLink />
           </ul>
-        </div>
-
-        {/* Inline-end (left): utility icons — search + cart on mobile, +account on desktop */}
-        <div className="-me-2 flex flex-1 items-center justify-end gap-0.5 text-charcoal sm:gap-1">
-          <button
-            type="button"
-            aria-label="חיפוש באתר"
-            className="inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-graphite"
-          >
-            <Search size={19} strokeWidth={1.5} />
-          </button>
-          <Link
-            href="/account"
-            aria-label="החשבון שלי"
-            className="hidden h-11 w-11 items-center justify-center transition-colors hover:text-graphite md:inline-flex"
-          >
-            <User size={19} strokeWidth={1.5} />
-          </Link>
-          <button
-            type="button"
-            onClick={openCart}
-            aria-label={`עגלת קניות, ${count} פריטים`}
-            className="relative inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-graphite"
-          >
-            <ShoppingBag size={19} strokeWidth={1.5} />
-            {count > 0 && (
-              <span className="absolute end-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-charcoal px-1 text-[10px] font-medium leading-none text-canvas">
-                {count}
-              </span>
-            )}
-          </button>
-        </div>
-      </nav>
+        </nav>
+      </div>
       </header>
 
       {/* Mobile slide-in menu — rendered outside the blurred <header> so its
