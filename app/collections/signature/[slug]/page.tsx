@@ -29,11 +29,11 @@ export function generateMetadata({
   return {
     title: { absolute: title },
     description,
-    alternates: { canonical: `/collection/signature/${product.slug}` },
+    alternates: { canonical: `/collections/signature/${product.slug}` },
     openGraph: {
       title,
       description,
-      url: `${SITE_URL}/collection/signature/${product.slug}`,
+      url: `${SITE_URL}/collections/signature/${product.slug}`,
       type: "website",
       images: [{ url: image, alt: product.name }],
     },
@@ -62,7 +62,7 @@ export default async function SignatureProductPage({
     images: product.variants.map((v) => `${SITE_URL}${encodeURI(v.image_url)}`),
     description: `${product.name} מכסף סטרלינג 925 טהור — זמין ב-${product.variants.length} גימורים. קולקציית החתימה של Oridor.`,
     sku: product.id,
-    path: `/collection/signature/${product.slug}`,
+    path: `/collections/signature/${product.slug}`,
     price: product.price,
     material: product.material,
   });
@@ -77,7 +77,7 @@ export default async function SignatureProductPage({
       <Navbar />
 
       <ProductDetail
-        breadcrumbHref="/collection/signature"
+        breadcrumbHref="/collections/signature"
         breadcrumbLabel="קולקציית החתימה"
         eyebrow="קולקציית החתימה"
         title={product.name}

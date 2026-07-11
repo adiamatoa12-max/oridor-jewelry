@@ -55,7 +55,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
 
   return (
     <Link
-      href={`/collection/silver/${p.slug}`}
+      href={`/collections/silver/${p.slug}`}
       className="group block bg-transparent transition-transform duration-300 ease-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1"
     >
       <div

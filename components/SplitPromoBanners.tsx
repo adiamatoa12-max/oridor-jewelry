@@ -20,7 +20,7 @@ const BANNERS: PromoBanner[] = [
     title: "קולקציית הטניס",
     subtitle: "מבצע השקה: קני 2, קבלי 15% הנחה",
     // Dedicated tennis collection page — renders only 'טניס'-named pieces.
-    href: "/collection/tennis",
+    href: "/collections/tennis",
     image: "/photo/clara_post_4.jpg",
     alt: "דוגמנית עונדת צמיד טניס עדין מכסף",
     tone: "light",

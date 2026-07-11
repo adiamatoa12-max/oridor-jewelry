@@ -37,7 +37,7 @@ export default async function MoissanitePreview() {
       <MoissaniteGrid products={highlights} />
 
       <div className="mt-14 text-center">
-        <Link href="/collection/moissanite" className="btn-ghost">
+        <Link href="/collections/moissanite" className="btn-ghost">
           לצפייה בכל הקולקציה
         </Link>
       </div>

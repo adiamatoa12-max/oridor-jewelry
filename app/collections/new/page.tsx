@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: { absolute: "חדש באוסף | תכשיטי כסף 925 חדשים | Oridor" },
   description:
     "הפריטים החדשים של Oridor — עגילים, שרשראות וטבעות מכסף סטרלינג 925 טהור בציפוי רודיום. עיצובים נקיים וטריים. משלוח חינם.",
-  alternates: { canonical: "/collection/new" },
+  alternates: { canonical: "/collections/new" },
 };
 
 export default function NewArrivalsPage() {

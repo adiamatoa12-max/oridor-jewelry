@@ -17,7 +17,7 @@ export function buildProductJsonLd(opts: {
   description: string;
   /** SKU / product id. */
   sku: string;
-  /** Path on the site, e.g. /collection/moissanite/matan-10 */
+  /** Path on the site, e.g. /collections/moissanite/matan-10 */
   path: string;
   /** Current (launch) price. */
   price: number;

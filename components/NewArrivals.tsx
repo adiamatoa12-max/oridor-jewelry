@@ -23,7 +23,7 @@ export default function NewArrivals() {
       <NewArrivalsGrid products={highlights} />
 
       <div className="mt-14 text-center">
-        <Link href="/collection/new" className="btn-ghost">
+        <Link href="/collections/new" className="btn-ghost">
           לצפייה בכל הקולקציה
         </Link>
       </div>

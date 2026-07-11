@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: { absolute: "קולקציית כסף 925 | תכשיטים על-זמניים שלא מתכהים | Oridor" },
   description:
     "תכשיטי כסף סטרלינג 925 טהור בציפוי רודיום — עמידים, היפואלרגניים ולנצח מבריקים. עיצוב נקי לכל יום. משלוח חינם ואחריות מלאה.",
-  alternates: { canonical: "/collection/silver" },
+  alternates: { canonical: "/collections/silver" },
 };
 
 export default function SilverCollectionPage() {

@@ -29,11 +29,11 @@ export function generateMetadata({
   return {
     title: { absolute: title },
     description,
-    alternates: { canonical: `/collection/silver/${product.slug}` },
+    alternates: { canonical: `/collections/silver/${product.slug}` },
     openGraph: {
       title,
       description,
-      url: `${SITE_URL}/collection/silver/${product.slug}`,
+      url: `${SITE_URL}/collections/silver/${product.slug}`,
       type: "website",
       images: [{ url: image, alt: product.name }],
     },
@@ -69,7 +69,7 @@ export default async function SilverProductPage({
     images: [`${SITE_URL}${encodeURI(product.image_url)}`],
     description: `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עמיד, היפואלרגני ועל-זמני.`,
     sku: product.id,
-    path: `/collection/silver/${product.slug}`,
+    path: `/collections/silver/${product.slug}`,
     price: product.price,
     material: product.material,
   });
@@ -84,7 +84,7 @@ export default async function SilverProductPage({
       <Navbar />
 
       <ProductDetail
-        breadcrumbHref="/collection/silver"
+        breadcrumbHref="/collections/silver"
         breadcrumbLabel="קולקציית כסף"
         eyebrow="קולקציית כסף"
         title={product.name}

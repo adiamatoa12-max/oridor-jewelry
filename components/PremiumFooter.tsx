@@ -13,8 +13,8 @@ const SERVICE_LINKS = [
 ];
 
 const COLLECTION_LINKS = [
-  { label: "קולקציית מואסניט", href: "/collection/moissanite" },
-  { label: "קולקציית כסף 925", href: "/collection/new" },
+  { label: "קולקציית מואסניט", href: "/collections/moissanite" },
+  { label: "קולקציית כסף 925", href: "/collections/new" },
   { label: "טבעות", href: "/rings" },
   { label: "כל הקולקציה", href: "/shop" },
 ];

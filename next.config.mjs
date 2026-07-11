@@ -55,18 +55,13 @@ const nextConfig = {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
   async redirects() {
-    // The two product-type collections live at singular /collection/* routes;
-    // accept the plural /collections/* URLs used by the hero CTAs too.
+    // Collections now live at plural /collections/* routes. Permanently
+    // redirect any old singular /collection/* links to the new URLs for SEO.
     return [
       {
-        source: "/collections/moissanite",
-        destination: "/collection/moissanite",
-        permanent: false,
-      },
-      {
-        source: "/collections/silver",
-        destination: "/collection/silver",
-        permanent: false,
+        source: "/collection/:path*",
+        destination: "/collections/:path*",
+        permanent: true,
       },
     ];
   },

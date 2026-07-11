@@ -14,11 +14,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
     "/shop",
-    "/collection/moissanite",
-    "/collection/silver",
-    "/collection/signature",
-    "/collection/new",
-    "/collection/tennis",
+    "/collections/moissanite",
+    "/collections/silver",
+    "/collections/signature",
+    "/collections/new",
+    "/collections/tennis",
     "/sets",
     "/quality",
     "/ring-size-guide",
@@ -33,25 +33,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const productRoutes = (products as MoissaniteProduct[]).map((p) => ({
-    url: `${SITE_URL}/collection/moissanite/${p.slug}`,
+    url: `${SITE_URL}/collections/moissanite/${p.slug}`,
     changeFrequency: "weekly" as const,
     priority: 0.6,
   }));
 
   const silverRoutes = (silver as SilverProduct[]).map((p) => ({
-    url: `${SITE_URL}/collection/silver/${p.slug}`,
+    url: `${SITE_URL}/collections/silver/${p.slug}`,
     changeFrequency: "weekly" as const,
     priority: 0.6,
   }));
 
   const signatureRoutes = (signature as VariantProduct[]).map((p) => ({
-    url: `${SITE_URL}/collection/signature/${p.slug}`,
+    url: `${SITE_URL}/collections/signature/${p.slug}`,
     changeFrequency: "weekly" as const,
     priority: 0.6,
   }));
 
   const newArrivalRoutes = (newArrivals as NewArrival[]).map((p) => ({
-    url: `${SITE_URL}/collection/new/${p.slug}`,
+    url: `${SITE_URL}/collections/new/${p.slug}`,
     changeFrequency: "weekly" as const,
     priority: 0.6,
   }));

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: { absolute: "קולקציית מואסניט | ברק שעוצר נשימה בכסף 925 | Oridor" },
   description:
     "אבני מואסניט בדרגת D/VVS1 בעבודת יד, בכסף סטרלינג 925 מצופה רודיום. ברק שמתחרה ביהלום — במחיר הוגן. משלוח חינם ואחריות מלאה.",
-  alternates: { canonical: "/collection/moissanite" },
+  alternates: { canonical: "/collections/moissanite" },
 };
 
 export default function MoissaniteCollectionPage() {

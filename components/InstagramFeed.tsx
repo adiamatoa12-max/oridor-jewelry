@@ -12,7 +12,7 @@ const CATEGORIES = [
   {
     image: "/photo/category-moissanite.jpeg",
     label: "מואסניט",
-    href: "/collection/moissanite",
+    href: "/collections/moissanite",
   },
 ].map((c) => ({ ...c, image: encodeURI(c.image) }));
 

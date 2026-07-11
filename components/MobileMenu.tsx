@@ -5,8 +5,8 @@ import { X } from "lucide-react";
 
 const MAIN_LINKS = [
   { label: "הכל", href: "/shop" },
-  { label: "מואסניט", href: "/collection/moissanite" },
-  { label: "כסף 925", href: "/collection/new" },
+  { label: "מואסניט", href: "/collections/moissanite" },
+  { label: "כסף 925", href: "/collections/silver" },
   { label: "טבעות", href: "/rings" },
 ];
 

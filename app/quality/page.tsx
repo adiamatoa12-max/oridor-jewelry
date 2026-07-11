@@ -101,7 +101,7 @@ export default function QualityPage() {
             לחלוטין, ניתן להחזיר או להחליף את התכשיט תוך 30 יום ממועד הקבלה — ללא
             שאלות. כל הזמנה מגיעה עם אריזת מתנה יוקרתית ותעודת אותנטיות.
           </p>
-          <Link href="/collection/moissanite" className="btn-ghost mt-10">
+          <Link href="/collections/moissanite" className="btn-ghost mt-10">
             לצפייה בקולקציה
           </Link>
         </div>

@@ -59,7 +59,7 @@ export default function NewArrivalsGrid({
       {products.map((p) => (
         <Link
           key={p.id}
-          href={`/collection/new/${p.slug}`}
+          href={`/collections/new/${p.slug}`}
           className={itemClass}
         >
           {/* Flat, transparent card — the product image sits directly on the

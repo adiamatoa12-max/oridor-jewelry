@@ -75,7 +75,7 @@ export default function MoissaniteGrid({
       {uniqueProducts.map((p) => (
         <Link
           key={p.id}
-          href={`/collection/moissanite/${p.slug}`}
+          href={`/collections/moissanite/${p.slug}`}
           className={itemClass}
         >
           {/* Flat, transparent card — the product image sits directly on the page

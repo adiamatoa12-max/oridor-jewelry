@@ -38,11 +38,11 @@ export function generateMetadata({
   return {
     title: { absolute: title },
     description,
-    alternates: { canonical: `/collection/moissanite/${product.slug}` },
+    alternates: { canonical: `/collections/moissanite/${product.slug}` },
     openGraph: {
       title,
       description,
-      url: `${SITE_URL}/collection/moissanite/${product.slug}`,
+      url: `${SITE_URL}/collections/moissanite/${product.slug}`,
       type: "website",
       images: [{ url: image, alt: product.name }],
     },
@@ -66,7 +66,7 @@ export default async function MoissaniteProductPage({
     images: [`${SITE_URL}${encodeURI(product.image_url)}`],
     description: `${product.name} — מואסניט בדרגת D/VVS1 (${product.carat} קראט) בכסף סטרלינג 925 טהור מצופה רודיום.`,
     sku: product.id,
-    path: `/collection/moissanite/${product.slug}`,
+    path: `/collections/moissanite/${product.slug}`,
     price: product.price,
     material: product.material,
   });
@@ -81,7 +81,7 @@ export default async function MoissaniteProductPage({
       <Navbar />
 
       <ProductDetail
-        breadcrumbHref="/collection/moissanite"
+        breadcrumbHref="/collections/moissanite"
         breadcrumbLabel="קולקציית מואסניט"
         eyebrow="מואסניט"
         title={product.name}

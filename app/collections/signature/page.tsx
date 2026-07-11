@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   title: { absolute: "קולקציית החתימה | שלושה גימורים בכסף 925 | Oridor" },
   description:
     "תכשיטי כסף סטרלינג 925 בשלושה גימורים — כסף, זהב וזהב ורוד. עיצוב חתימה על-זמני, בחרי את הצבע שלך. משלוח חינם ואחריות מלאה.",
-  alternates: { canonical: "/collection/signature" },
+  alternates: { canonical: "/collections/signature" },
 };
 
 export default function SignatureCollectionPage() {

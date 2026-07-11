@@ -34,7 +34,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
   return (
     <div className="group block bg-transparent transition-[transform,opacity] duration-300 ease-out has-[a:active]:opacity-90 md:hover:-translate-y-1">
       <Link
-        href={`/collection/signature/${product.slug}`}
+        href={`/collections/signature/${product.slug}`}
         className="block [-webkit-tap-highlight-color:transparent]"
       >
         <div

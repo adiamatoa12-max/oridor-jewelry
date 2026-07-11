@@ -20,7 +20,7 @@ export default function RingSizeGuidePage() {
       <RingSizeGuide />
 
       <div className="pb-20 text-center">
-        <Link href="/collection/moissanite" className="btn-ghost">
+        <Link href="/collections/moissanite" className="btn-ghost">
           חזרה לקולקציה
         </Link>
       </div>

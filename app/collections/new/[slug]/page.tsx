@@ -29,11 +29,11 @@ export function generateMetadata({
   return {
     title: { absolute: title },
     description,
-    alternates: { canonical: `/collection/new/${product.slug}` },
+    alternates: { canonical: `/collections/new/${product.slug}` },
     openGraph: {
       title,
       description,
-      url: `${SITE_URL}/collection/new/${product.slug}`,
+      url: `${SITE_URL}/collections/new/${product.slug}`,
       type: "website",
       images: [{ url: image, alt: product.name }],
     },
@@ -55,7 +55,7 @@ export default async function NewArrivalProductPage({
     images: [`${SITE_URL}${encodeURI(product.image_url)}`],
     description: `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עיצוב חדש, נקי ועל-זמני.`,
     sku: product.id,
-    path: `/collection/new/${product.slug}`,
+    path: `/collections/new/${product.slug}`,
     price: product.price,
     material: product.material,
   });
@@ -70,7 +70,7 @@ export default async function NewArrivalProductPage({
       <Navbar />
 
       <ProductDetail
-        breadcrumbHref="/collection/new"
+        breadcrumbHref="/collections/new"
         breadcrumbLabel="קולקציה חדשה"
         eyebrow="קולקציה חדשה"
         title={product.name}
