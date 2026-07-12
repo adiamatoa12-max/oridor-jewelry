@@ -7,7 +7,7 @@ import ProductDetail from "@/components/ProductDetail";
 import type { NewArrival } from "@/components/NewArrivalsGrid";
 import { getProductWithVariants, getLivePriceMap } from "@/lib/shopify";
 import { overlayLivePrices } from "@/lib/catalog";
-import { buildProductJsonLd } from "@/lib/seo";
+import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/new_arrivals.json";
 
 const products = data as NewArrival[];
@@ -67,7 +67,7 @@ export default async function NewArrivalProductPage({
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(productJsonLd) }}
       />
       <AnnouncementBar />
       <Navbar />

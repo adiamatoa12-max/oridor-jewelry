@@ -7,7 +7,7 @@ import ProductDetail from "@/components/ProductDetail";
 import type { VariantProduct } from "@/components/VariantCard";
 import { getProductWithVariants, getLivePriceMap } from "@/lib/shopify";
 import { overlayLivePrices } from "@/lib/catalog";
-import { buildProductJsonLd } from "@/lib/seo";
+import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/signature_collection.json";
 
 const products = data as VariantProduct[];
@@ -78,7 +78,7 @@ export default async function SignatureProductPage({
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(productJsonLd) }}
       />
       <AnnouncementBar />
       <Navbar />

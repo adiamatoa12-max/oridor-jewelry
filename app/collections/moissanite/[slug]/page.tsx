@@ -7,7 +7,7 @@ import ProductDetail from "@/components/ProductDetail";
 import type { MoissaniteProduct } from "@/components/MoissaniteGrid";
 import { getProductWithVariants, getLivePriceMap } from "@/lib/shopify";
 import { overlayLivePrices } from "@/lib/catalog";
-import { buildProductJsonLd } from "@/lib/seo";
+import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/moissanite_collection.json";
 
 const products = data as MoissaniteProduct[];
@@ -78,7 +78,7 @@ export default async function MoissaniteProductPage({
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(productJsonLd) }}
       />
       <AnnouncementBar />
       <Navbar />

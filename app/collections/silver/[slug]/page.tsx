@@ -7,7 +7,7 @@ import ProductDetail from "@/components/ProductDetail";
 import type { SilverProduct } from "@/components/SilverGrid";
 import { getProductWithVariants, getLivePriceMap } from "@/lib/shopify";
 import { overlayLivePrices } from "@/lib/catalog";
-import { buildProductJsonLd } from "@/lib/seo";
+import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/silver_collection.json";
 
 const products = data as SilverProduct[];
@@ -81,7 +81,7 @@ export default async function SilverProductPage({
     <main>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdHtml(productJsonLd) }}
       />
       <AnnouncementBar />
       <Navbar />
