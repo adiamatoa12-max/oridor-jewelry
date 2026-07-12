@@ -96,9 +96,33 @@ export default function ProductBuyBox({
   const price = currentVariant?.price ?? fallbackPrice;
   const soldOut = currentVariant ? !currentVariant.available : false;
 
+  // Whenever the resolved variant changes, show its image in the gallery.
+  // Prefer the variant's own Shopify image; fall back to the local option→image
+  // map (used by collections whose variant images live in the JSON data).
+  // Do the Shopify variant images actually differ per colour? (If they all
+  // point to the same image, there's nothing to swap.)
+  const variantImagesVary = useMemo(
+    () => new Set(variants.map((v) => v.image).filter(Boolean)).size > 1,
+    [variants],
+  );
+
+  useEffect(() => {
+    if (!imageSync || variants.length <= 1) return;
+    // Prefer the page's curated per-colour image map (distinct local assets);
+    // otherwise use the selected variant's own Shopify image, but only when the
+    // variants genuinely have different images. Single-image variant sets keep
+    // the curated local gallery.
+    const localSrc = currentVariant?.selectedOptions
+      .map((o) => imageByValue[o.value])
+      .find(Boolean);
+    const src = localSrc ?? (variantImagesVary ? currentVariant?.image : undefined);
+    if (src) imageSync.setActiveSrc(src);
+  }, [currentVariant, imageByValue, imageSync, variants.length, variantImagesVary]);
+
   const choose = (optName: string, value: string) => {
     setSelected((s) => ({ ...s, [optName]: value }));
-    // If this option value has a mapped image, swap the main gallery image.
+    // Immediate feedback from the local map (the effect above then reconciles
+    // to the resolved variant's Shopify image when available).
     const src = imageByValue[value];
     if (src) imageSync?.setActiveSrc(src);
   };

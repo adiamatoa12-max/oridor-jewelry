@@ -39,7 +39,16 @@ export default function ProductGallery({
     if (idx >= 0) setActive(idx);
   }, [sync?.activeSrc, gallery]);
 
-  const current = gallery[active] ?? gallery[0];
+  // A synced variant image that isn't one of the local thumbnails (e.g. a live
+  // Shopify variant image) becomes the main image directly.
+  const overrideSrc =
+    sync?.activeSrc && !gallery.some((g) => g.src === sync.activeSrc)
+      ? sync.activeSrc
+      : null;
+
+  const current = overrideSrc
+    ? { src: overrideSrc, alt: gallery[0]?.alt ?? "" }
+    : gallery[active] ?? gallery[0];
   const fitClass =
     fit === "cover"
       ? "object-cover"
@@ -68,7 +77,10 @@ export default function ProductGallery({
               <button
                 key={img.src}
                 type="button"
-                onClick={() => setActive(i)}
+                onClick={() => {
+                  setActive(i);
+                  sync?.setActiveSrc(null); // let the clicked thumbnail win
+                }}
                 aria-label={`תמונה ${i + 1}`}
                 aria-current={on}
                 className={`relative h-20 w-20 flex-none overflow-hidden rounded-lg bg-transparent transition-all duration-300 ease-out hover:scale-105 sm:h-24 sm:w-24 ${

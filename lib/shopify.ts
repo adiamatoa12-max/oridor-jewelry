@@ -207,6 +207,8 @@ export interface ShopifyVariant {
   currencyCode: string;
   available: boolean;
   selectedOptions: ShopifySelectedOption[];
+  /** This variant's own image (Shopify), so selecting it can swap the gallery. */
+  image?: string;
 }
 export interface ShopifyProductOptions {
   handle: string;
@@ -238,6 +240,7 @@ export async function getProductWithVariants(
               availableForSale
               price { amount currencyCode }
               selectedOptions { name value }
+              image { url }
             }
           }
         }
@@ -257,6 +260,7 @@ export async function getProductWithVariants(
               availableForSale: boolean;
               price: MoneyV2;
               selectedOptions: ShopifySelectedOption[];
+              image: { url: string } | null;
             };
           }[];
         };
@@ -274,6 +278,7 @@ export async function getProductWithVariants(
         currencyCode: node.price.currencyCode,
         available: node.availableForSale,
         selectedOptions: node.selectedOptions,
+        image: node.image?.url,
       })),
     };
   } catch {
