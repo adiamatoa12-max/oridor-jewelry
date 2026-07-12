@@ -74,7 +74,7 @@ function Countdown() {
 /**
  * Premium top announcement bar — a sharp black strip that anchors the header
  * against the airy off-white site. White text for high contrast. Shows the
- * launch-sale promo + live countdown. Sits above the sticky header; dismissible.
+ * launch-sale promo + live countdown. Sits above the header; dismissible.
  */
 export default function AnnouncementBar() {
   const [dismissed, setDismissed] = useState(false);

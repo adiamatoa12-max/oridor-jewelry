@@ -32,7 +32,7 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-platinum/40 bg-canvas/95 backdrop-blur-md transition-shadow duration-300 supports-[backdrop-filter]:bg-canvas/80">
+      <header className="relative z-40 border-b border-platinum/40 bg-canvas/95 backdrop-blur-md transition-shadow duration-300 supports-[backdrop-filter]:bg-canvas/80">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         {/* Top row — brand identity */}
         <div className="relative flex h-16 items-center sm:h-20">
