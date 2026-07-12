@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Search, ShoppingBag, Menu } from "lucide-react";
 import { useCart } from "./CartContext";
 import MobileMenu from "./MobileMenu";
+import SearchOverlay from "./SearchOverlay";
 
 const LINKS = [
   { label: "הכל", href: "/shop" },
@@ -25,6 +26,7 @@ const LINKS = [
  */
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { openCart, count } = useCart();
 
   return (
@@ -59,6 +61,7 @@ export default function Navbar() {
             <button
               type="button"
               aria-label="חיפוש באתר"
+              onClick={() => setSearchOpen(true)}
               className="inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-graphite"
             >
               <Search size={19} strokeWidth={1.5} />
@@ -103,6 +106,9 @@ export default function Navbar() {
       {/* Mobile slide-in menu — rendered outside the blurred <header> so its
           fixed positioning is relative to the viewport, not the header box. */}
       <MobileMenu open={open} onClose={() => setOpen(false)} />
+
+      {/* Site search overlay */}
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }
