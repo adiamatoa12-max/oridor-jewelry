@@ -17,12 +17,13 @@ export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
-}): Metadata {
-  const product = products.find((p) => p.slug === params.slug);
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = products.find((p) => p.slug === slug);
   if (!product) return { title: "מוצר לא נמצא" };
   const title = `${product.name} | כסף סטרלינג 925 טהור | Oridor`;
   const description = `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עמיד, היפואלרגני ולנצח מבריק. עיצוב על-זמני, משלוח חינם ואחריות מלאה.`;
@@ -44,11 +45,12 @@ export function generateMetadata({
 export default async function SilverProductPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   const live = await getLivePriceMap();
   const products = overlayLivePrices(data as SilverProduct[], live);
-  const product = products.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const product = products.find((p) => p.slug === slug);
   if (!product) notFound();
 
   // Live Shopify options + variants for the buy box (null → local fallback).

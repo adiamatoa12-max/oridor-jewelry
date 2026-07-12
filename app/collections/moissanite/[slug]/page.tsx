@@ -25,12 +25,13 @@ export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
-}): Metadata {
-  const product = products.find((p) => p.slug === params.slug);
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const product = products.find((p) => p.slug === slug);
   if (!product) return { title: "מוצר לא נמצא" };
   const benefit = BENEFIT[product.category ?? ""] ?? "מואסניט זוהר בכסף 925";
   const title = `${product.name} | ${benefit} | Oridor`;
@@ -53,11 +54,12 @@ export function generateMetadata({
 export default async function MoissaniteProductPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
   const live = await getLivePriceMap();
   const products = overlayLivePrices(data as MoissaniteProduct[], live);
-  const product = products.find((p) => p.slug === params.slug);
+  const { slug } = await params;
+  const product = products.find((p) => p.slug === slug);
   if (!product) notFound();
 
   // Live Shopify options + variants for the buy box (null → local fallback).
