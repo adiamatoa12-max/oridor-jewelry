@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Search, ShoppingBag, Menu } from "lucide-react";
 import { useCart } from "./CartContext";
 import MobileMenu from "./MobileMenu";
@@ -35,13 +36,20 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         {/* Top row — brand identity */}
         <div className="relative flex h-16 items-center sm:h-20">
-          {/* Absolutely-centered wordmark — true horizontal center of the row */}
+          {/* Absolutely-centered logo — true horizontal center of the row */}
           <Link
             href="/"
-            aria-label="ORIDOR — לעמוד הבית"
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none whitespace-nowrap text-xl font-light uppercase tracking-brand text-charcoal sm:text-2xl lg:text-3xl"
+            aria-label="Oridor — לעמוד הבית"
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
           >
-            ORIDOR
+            <Image
+              src="/photo/logo-oridor.png"
+              alt="Oridor Logo"
+              width={1565}
+              height={195}
+              priority
+              className="h-5 w-auto sm:h-6 lg:h-7"
+            />
           </Link>
 
           {/* Inline-start (right): mobile hamburger only */}
