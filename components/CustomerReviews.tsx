@@ -83,10 +83,16 @@ export default function CustomerReviews() {
     return () => window.removeEventListener("resize", compute);
   }, []);
 
-  // RTL-agnostic scroll: let the browser align the target card to the start.
+  // Scroll ONLY the horizontal track — never scrollIntoView, which drags every
+  // scrollable ancestor (including the page) back to this section. Using a
+  // bounding-rect delta keeps it RTL-agnostic and page-safe.
   const scrollToIndex = useCallback((i: number) => {
-    const card = trackRef.current?.children[i] as HTMLElement | undefined;
-    card?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
+    const track = trackRef.current;
+    const card = track?.children[i] as HTMLElement | undefined;
+    if (!track || !card) return;
+    const delta =
+      card.getBoundingClientRect().left - track.getBoundingClientRect().left;
+    track.scrollBy({ left: delta, behavior: "smooth" });
   }, []);
 
   // Track the active card by visibility — robust across RTL scroll conventions.

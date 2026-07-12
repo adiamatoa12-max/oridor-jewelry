@@ -128,8 +128,15 @@ export default function SignatureSets({
   };
 
   const goTo = (i: number) => {
-    const child = scrollRef.current?.children[i] as HTMLElement | undefined;
-    child?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+    const track = scrollRef.current;
+    const child = track?.children[i] as HTMLElement | undefined;
+    if (!track || !child) return;
+    // Centre the card in the track horizontally only — never scrollIntoView,
+    // which would also scroll the page vertically to this section.
+    const cr = child.getBoundingClientRect();
+    const tr = track.getBoundingClientRect();
+    const delta = cr.left + cr.width / 2 - (tr.left + tr.width / 2);
+    track.scrollBy({ left: delta, behavior: "smooth" });
   };
 
   const containerClass = isCarousel
