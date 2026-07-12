@@ -22,7 +22,7 @@ const BANNERS: PromoBanner[] = [
     // Dedicated tennis collection page — renders only 'טניס'-named pieces.
     href: "/collections/tennis",
     image: "/photo/clara_post_4.jpg",
-    alt: "דוגמנית עונדת צמיד טניס עדין מכסף",
+    alt: "דוגמנית עונדת צמיד טניס מכסף",
     tone: "light",
   },
   {
