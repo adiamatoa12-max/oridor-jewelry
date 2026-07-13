@@ -15,9 +15,10 @@
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
 
 /**
- * Site-wide product rating shown on the PDP and mirrored into JSON-LD so the
- * structured data always matches the visible stars/review count. Single source
- * of truth — swap for a real review-app aggregate when available.
+ * Site-wide product rating shown on the PDP. NOT emitted in JSON-LD by default
+ * (see buildProductJsonLd) — these are placeholder figures. Once a real review
+ * app provides genuine aggregates, pass this (or the app's data) as the
+ * `rating` arg to re-enable AggregateRating markup everywhere at once.
  */
 export const PRODUCT_RATING = { value: 4.9, count: 120 };
 
@@ -37,7 +38,11 @@ export function buildProductJsonLd(opts: {
   /** Aggregate rating shown on the page. Defaults to the site-wide figure. */
   rating?: { value: number; count: number } | null;
 }) {
-  const rating = opts.rating === undefined ? PRODUCT_RATING : opts.rating;
+  // Default to no aggregateRating: the on-page 5-star / 120+ figures are
+  // placeholder marketing, and marking up fabricated ratings risks a Google
+  // manual action. Pass an explicit `rating` (e.g. PRODUCT_RATING) only once a
+  // real review app feeds genuine, on-page aggregates.
+  const rating = opts.rating === undefined ? null : opts.rating;
   return {
     "@context": "https://schema.org/",
     "@type": "Product",
