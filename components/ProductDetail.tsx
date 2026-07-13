@@ -4,7 +4,6 @@ import ProductGallery, { type GalleryImage } from "./ProductGallery";
 import ProductBuyBox from "./ProductBuyBox";
 import SizeGuideModal from "./SizeGuideModal";
 import Accordion, { type AccordionItem } from "./Accordion";
-import TrustBadges from "./TrustBadges";
 import QualityTrust from "./QualityTrust";
 import RelatedProducts from "./RelatedProducts";
 import { PdpImageSyncProvider } from "./PdpImageSync";
@@ -205,12 +204,9 @@ export default function ProductDetail({
             sizes={sizes}
           />
 
-          {/* Premium quality assurances — GRA · lifetime warranty · materials —
-              directly under the CTA, where buyers seek confidence before buying. */}
+          {/* Consolidated trust — minimalist text-only assurances (authenticity,
+              warranty, material, shipping/returns) directly under the CTA. */}
           <QualityTrust />
-
-          {/* Logistics reassurance — shipping / returns. */}
-          <TrustBadges />
 
           <Link
             href="/quality-warranty"
