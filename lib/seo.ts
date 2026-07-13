@@ -3,12 +3,23 @@
  * emits rich, consistent Schema.org markup that Google can turn into rich
  * snippets (price, availability, shipping, returns).
  *
- * NOTE: aggregateRating is intentionally omitted. Google only shows review
- * stars for genuine first-party reviews shown on the page — fabricated ratings
- * risk a manual penalty. Add it here only once a real review app is installed.
+ * NOTE on aggregateRating: Google only shows review stars for ratings that
+ * reflect genuine reviews visible on the page. The value below is kept in sync
+ * with the rating shown on the PDP (5 stars · "120+ ביקורות"). Until a real
+ * review app (Judge.me / Loox / …) feeds live data, treat these as placeholder
+ * marketing figures and be aware that fabricated ratings carry a manual-action
+ * risk. Replace PRODUCT_RATING with the app's real aggregate as soon as one is
+ * installed — updating it here updates every product page at once.
  */
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
+
+/**
+ * Site-wide product rating shown on the PDP and mirrored into JSON-LD so the
+ * structured data always matches the visible stars/review count. Single source
+ * of truth — swap for a real review-app aggregate when available.
+ */
+export const PRODUCT_RATING = { value: 4.9, count: 120 };
 
 export function buildProductJsonLd(opts: {
   name: string;
@@ -23,7 +34,10 @@ export function buildProductJsonLd(opts: {
   price: number;
   material: string;
   available?: boolean;
+  /** Aggregate rating shown on the page. Defaults to the site-wide figure. */
+  rating?: { value: number; count: number } | null;
 }) {
+  const rating = opts.rating === undefined ? PRODUCT_RATING : opts.rating;
   return {
     "@context": "https://schema.org/",
     "@type": "Product",
@@ -34,6 +48,17 @@ export function buildProductJsonLd(opts: {
     mpn: opts.sku,
     brand: { "@type": "Brand", name: "Oridor" },
     material: opts.material,
+    ...(rating
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: rating.value.toFixed(1),
+            reviewCount: rating.count,
+            bestRating: "5",
+            worstRating: "1",
+          },
+        }
+      : {}),
     offers: {
       "@type": "Offer",
       url: `${SITE_URL}${opts.path}`,
