@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { jsonLdHtml } from "@/lib/seo";
-import { Assistant, Playfair_Display, Frank_Ruhl_Libre } from "next/font/google";
+import {
+  Assistant,
+  Montserrat,
+  Playfair_Display,
+  Frank_Ruhl_Libre,
+} from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
@@ -8,6 +13,7 @@ import Cursor from "@/components/Cursor";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 
+// Body sans — Hebrew-complete companion behind Montserrat (renders Hebrew copy).
 const assistant = Assistant({
   subsets: ["hebrew", "latin"],
   weight: ["300", "400", "500", "600"],
@@ -15,19 +21,29 @@ const assistant = Assistant({
   display: "swap",
 });
 
-// Classic serif — used strictly for English decorative accents (Latin only).
+// Primary body face (Latin). Renders English/numerals; Assistant covers Hebrew.
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-montserrat",
+  display: "swap",
+});
+
+// Primary heading face (Latin) — Playfair Display. Renders the "Oridor"
+// wordmark, English accents and numerals; Frank Ruhl Libre covers Hebrew.
 const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
   variable: "--font-playfair",
   display: "swap",
 });
 
-// Editorial display serif — Hebrew-complete, used for luxury headings.
+// Editorial display serif — Hebrew-complete, renders Hebrew headings behind
+// Playfair Display in the stack.
 const frankRuhl = Frank_Ruhl_Libre({
   subsets: ["hebrew", "latin"],
-  weight: ["300", "400", "500"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-display",
   display: "swap",
 });
@@ -93,7 +109,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="he" dir="rtl" className={`${assistant.variable} ${playfair.variable} ${frankRuhl.variable}`}>
+    <html lang="he" dir="rtl" className={`${assistant.variable} ${montserrat.variable} ${playfair.variable} ${frankRuhl.variable}`}>
       <body>
         <script
           type="application/ld+json"

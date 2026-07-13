@@ -35,10 +35,23 @@ const config: Config = {
         ash: "#6B6B6B",           // muted / captions
       },
       fontFamily: {
-        sans: ["var(--font-assistant)", "ui-sans-serif", "system-ui", "sans-serif"],
+        // Montserrat renders Latin; Assistant covers Hebrew glyphs behind it.
+        sans: [
+          "var(--font-montserrat)",
+          "var(--font-assistant)",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
         serif: ["var(--font-playfair)", "ui-serif", "Georgia", "serif"],
-        // Editorial display serif (Hebrew-complete) — luxury headings.
-        display: ["var(--font-display)", "ui-serif", "Georgia", "serif"],
+        // Luxury headings — Playfair Display for Latin, Frank Ruhl Libre for Hebrew.
+        display: [
+          "var(--font-playfair)",
+          "var(--font-display)",
+          "ui-serif",
+          "Georgia",
+          "serif",
+        ],
       },
       letterSpacing: {
         brand: "0.35em",

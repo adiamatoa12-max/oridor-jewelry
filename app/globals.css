@@ -36,8 +36,9 @@
     max-width: 100%;
     overflow-x: hidden;
     overflow-x: clip;
-    /* Generous line-height for readability. */
-    line-height: 1.65;
+    /* Montserrat body — 16px minimum for readability, comfortable leading. */
+    font-size: 1rem;
+    line-height: 1.6;
     /* Soft warm off-white base — boutique-luxury, like premium packaging.
        A whisper-subtle gradient keeps it from reading as flat. */
     background-color: #faf9f6;
@@ -50,12 +51,15 @@
 
   /* Body copy — comfortable, readable line-height. */
   p {
-    line-height: 1.65;
+    line-height: 1.6;
   }
 
-  /* Headings — editorial display serif (Frank Ruhl Libre), Hebrew-complete. */
+  /* Headings — Playfair Display (Latin) + Frank Ruhl Libre (Hebrew).
+     Refined luxury settings: semibold weight, 0.05em tracking, tight leading. */
   h1, h2, h3, h4 {
-    @apply font-display text-charcoal font-normal tracking-wide;
+    @apply font-display text-charcoal font-semibold;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
   }
 
   ::selection {
