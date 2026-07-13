@@ -29,7 +29,7 @@ const ITEMS = [
  */
 export default function QualityTrust() {
   return (
-    <div className="mt-7 grid grid-cols-3 gap-x-3 border-t border-platinum/50 pt-6">
+    <div className="mt-9 grid grid-cols-3 gap-x-3 border-t border-platinum/50 pb-1 pt-8">
       {ITEMS.map((item) => (
         <div key={item.title} className="flex flex-col items-center px-1 text-center">
           <item.icon size={22} strokeWidth={1.25} className="text-gold" />

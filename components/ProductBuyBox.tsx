@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "./CartContext";
 import { usePdpImageSync } from "./PdpImageSync";
 import PriceTag from "./PriceTag";
+import SizeSelector from "./SizeSelector";
 import type {
   ShopifyProductOptions,
   ShopifyVariant,
@@ -37,6 +38,7 @@ export default function ProductBuyBox({
   product,
   hexByValue = {},
   imageByValue = {},
+  sizes = [],
 }: {
   title: string;
   image: string;
@@ -50,6 +52,8 @@ export default function ProductBuyBox({
   hexByValue?: Record<string, string>;
   /** Optional map of option value → image src, to swap the gallery on select. */
   imageByValue?: Record<string, string>;
+  /** Local (presentational) size options, rendered between price and CTA. */
+  sizes?: string[];
 }) {
   const { addVariant } = useCart();
   const imageSync = usePdpImageSync();
@@ -217,15 +221,26 @@ export default function ProductBuyBox({
         );
       })}
 
+      {/* Local size options — between the configurator and the CTA. */}
+      {sizes.length > 0 && <SizeSelector sizes={sizes} />}
+
+      {/* Add to cart — elegant boutique profile: a thin charcoal outline that
+          fills solid on hover (transparent → solid black), slimmer than the
+          default filled CTA. */}
       <button
         ref={mainCtaRef}
         type="button"
         onClick={handleAdd}
         disabled={soldOut || !currentVariant}
-        className="btn-primary mt-8 w-full py-4 text-xs disabled:cursor-not-allowed disabled:opacity-50"
+        className="group mt-9 inline-flex min-h-[52px] w-full items-center justify-center border border-charcoal bg-transparent px-10 text-[11px] uppercase tracking-[0.28em] text-charcoal transition-all duration-500 ease-cinematic hover:bg-charcoal hover:text-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-offwhite disabled:cursor-not-allowed disabled:border-platinum disabled:bg-transparent disabled:text-ash disabled:opacity-70"
       >
         {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
       </button>
+
+      {/* Trust micro-copy at the point of conversion. */}
+      <p className="mt-3 text-center text-[11px] font-light tracking-wide text-ash">
+        משלוח חינם והחזרות פשוטות
+      </p>
 
       {/* Sticky mobile CTA — slides up only once the main button is scrolled
           out of view. Shows a brief title + price and shares the same handler. */}

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { ShieldCheck, Star } from "lucide-react";
 import ProductGallery, { type GalleryImage } from "./ProductGallery";
 import ProductBuyBox from "./ProductBuyBox";
-import SizeSelector from "./SizeSelector";
 import SizeGuideModal from "./SizeGuideModal";
 import Accordion, { type AccordionItem } from "./Accordion";
 import TrustBadges from "./TrustBadges";
@@ -175,13 +174,14 @@ export default function ProductDetail({
 
         {/* Info panel — right column on desktop, below the gallery on mobile */}
         <div className="order-2 flex flex-col md:order-1">
-          <p className="mb-3 text-xs tracking-[0.25em] text-gold">{eyebrow}</p>
+          {/* Title · rating · price read as one cohesive, tightly-spaced unit. */}
+          <p className="mb-2.5 text-xs tracking-[0.25em] text-gold">{eyebrow}</p>
           <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight text-charcoal lg:text-5xl">
             {title}
           </h1>
 
           {/* Social proof — star rating + review count */}
-          <div className="mt-4 flex items-center gap-2.5">
+          <div className="mt-2.5 flex items-center gap-2.5">
             <div className="flex gap-0.5" aria-label="דירוג 5 מתוך 5 כוכבים">
               {Array.from({ length: 5 }).map((_, i) => (
                 <Star key={i} size={15} strokeWidth={0} className="fill-gold text-gold" />
@@ -192,9 +192,8 @@ export default function ProductDetail({
             </span>
           </div>
 
-          {/* Config-driven size options (by category) */}
-          <SizeSelector sizes={sizes} />
-
+          {/* Buy box starts with the price (grouped with the title above), then
+              the configurator (colour + size), CTA and trust micro-copy. */}
           <ProductBuyBox
             title={title}
             image={images[0]?.src ?? ""}
@@ -203,6 +202,7 @@ export default function ProductDetail({
             product={shopifyProduct}
             hexByValue={hexByValue}
             imageByValue={imageByValue}
+            sizes={sizes}
           />
 
           {/* Premium quality assurances — GRA · lifetime warranty · materials —

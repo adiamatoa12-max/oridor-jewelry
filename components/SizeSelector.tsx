@@ -11,6 +11,22 @@ export default function SizeSelector({ sizes }: { sizes: string[] }) {
   const [selected, setSelected] = useState(sizes[0]);
   if (!sizes.length) return null;
 
+  // A single option (e.g. "One Size") isn't a real choice — render it as a
+  // quiet outlined chip rather than a heavy filled button, so it reads as
+  // information, not a call to action.
+  const single = sizes.length === 1;
+
+  if (single) {
+    return (
+      <div className="mt-7">
+        <p className="mb-3 text-xs uppercase tracking-[0.2em] text-ash">מידה</p>
+        <span className="inline-flex min-h-[40px] items-center rounded-full border border-platinum/70 bg-transparent px-5 text-xs tracking-wide text-graphite">
+          {sizes[0]}
+        </span>
+      </div>
+    );
+  }
+
   return (
     <div className="mt-7">
       <p className="mb-3 text-xs uppercase tracking-[0.2em] text-ash">
