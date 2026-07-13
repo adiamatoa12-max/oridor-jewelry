@@ -76,22 +76,14 @@ export default function RelatedProducts({
                   <span className="text-graphite">{fmt(item.price)}</span>
                 </p>
 
-                {/* Desktop: text-only link, fades in on hover. */}
+                {/* Ghost add-to-cart — always visible for unmistakable clarity:
+                    a thin 1px outline with elegant padding (8px / 20px) that
+                    softly fills with a light charcoal tint on hover. */}
                 <button
                   type="button"
                   onClick={() => addByHandle(item.slug)}
                   aria-label={`הוספת ${item.name} לסל`}
-                  className="mt-4 hidden text-[10px] uppercase tracking-[0.22em] text-charcoal underline-offset-4 opacity-0 transition-opacity duration-300 ease-in-out hover:text-gold hover:underline group-hover:opacity-100 sm:inline-block"
-                >
-                  הוספה לסל
-                </button>
-
-                {/* Mobile: clean ghost button — thin outline, no heavy fill. */}
-                <button
-                  type="button"
-                  onClick={() => addByHandle(item.slug)}
-                  aria-label={`הוספת ${item.name} לסל`}
-                  className="mt-4 inline-flex w-full items-center justify-center border border-charcoal/25 py-2.5 text-[10px] uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 ease-in-out active:bg-charcoal active:text-canvas sm:hidden"
+                  className="mt-5 inline-flex items-center justify-center border border-charcoal/30 px-5 py-2 text-[10px] uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 ease-in-out hover:border-charcoal/50 hover:bg-charcoal/[0.05] active:bg-charcoal/[0.08]"
                 >
                   הוספה לסל
                 </button>
