@@ -136,18 +136,35 @@ export default function ProductBuyBox({
     addVariant(currentVariant.id, 1);
   };
 
-  // Reveal the sticky mobile bar only once the main CTA scrolls out of view.
+  // Reveal the sticky mobile bar only once the user has scrolled PAST the main
+  // CTA (its bottom edge is above the viewport top) — not while it's still
+  // below the fold. A scroll/resize check is used instead of IntersectionObserver
+  // because the latter only fires on viewport crossings, so moving from above →
+  // below the viewport (jump-to-top, anchor links) wouldn't update the state.
   const mainCtaRef = useRef<HTMLButtonElement>(null);
   const [ctaVisible, setCtaVisible] = useState(true);
   useEffect(() => {
     const el = mainCtaRef.current;
     if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => setCtaVisible(entry.isIntersecting),
-      { rootMargin: "0px 0px -8px 0px" },
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      // ctaVisible === true means "don't show the sticky bar": the main CTA is
+      // in view or still below the fold. Show only once it's fully scrolled off
+      // the top (bottom <= 0).
+      setCtaVisible(el.getBoundingClientRect().bottom > 0);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, []);
 
   return (
@@ -242,12 +259,13 @@ export default function ProductBuyBox({
         משלוח חינם והחזרות פשוטות
       </p>
 
-      {/* Sticky mobile CTA — slides up only once the main button is scrolled
-          out of view. Shows a brief title + price and shares the same handler. */}
+      {/* Sticky mobile CTA — fades in only once the main button is scrolled
+          out of view. Shows a brief (truncated) title + price and shares the
+          same handler. Subtle upward drop shadow lifts it off the page. */}
       <div
-        className={`fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-platinum/50 bg-canvas/95 px-5 py-3 backdrop-blur-md transition-all duration-300 ease-cinematic sm:hidden ${
+        className={`fixed inset-x-0 bottom-0 z-40 flex items-center gap-3 border-t border-platinum/40 bg-canvas/95 px-5 py-3 shadow-[0_-6px_24px_-10px_rgba(26,26,26,0.22)] backdrop-blur-md transition-all duration-500 ease-cinematic sm:hidden ${
           ctaVisible
-            ? "pointer-events-none translate-y-full opacity-0"
+            ? "pointer-events-none translate-y-1 opacity-0"
             : "translate-y-0 opacity-100"
         }`}
       >
