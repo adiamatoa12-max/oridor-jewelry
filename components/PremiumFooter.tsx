@@ -6,7 +6,7 @@ import { Instagram, ArrowLeft, ChevronDown } from "lucide-react";
 
 const SERVICE_LINKS = [
   { label: "צור קשר", href: "/contact" },
-  { label: "איכות ואותנטיות", href: "/quality" },
+  { label: "אחריות ואיכות", href: "/quality-warranty" },
   { label: "משלוחים והחזרות", href: "/shipping" },
   { label: "שאלות נפוצות", href: "/faq" },
   { label: "תקנון האתר", href: "/terms" },

@@ -20,7 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/collections/new",
     "/collections/tennis",
     "/sets",
-    "/quality",
+    "/quality-warranty",
     "/ring-size-guide",
     "/faq",
     "/terms",

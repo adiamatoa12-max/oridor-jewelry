@@ -63,6 +63,13 @@ const nextConfig = {
         destination: "/collections/:path*",
         permanent: true,
       },
+      // The quality page is now the richer /quality-warranty. Redirect the old
+      // URL permanently to preserve any existing links and SEO equity.
+      {
+        source: "/quality",
+        destination: "/quality-warranty",
+        permanent: true,
+      },
     ];
   },
 };

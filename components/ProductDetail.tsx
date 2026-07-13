@@ -6,6 +6,7 @@ import SizeSelector from "./SizeSelector";
 import SizeGuideModal from "./SizeGuideModal";
 import Accordion, { type AccordionItem } from "./Accordion";
 import TrustBadges from "./TrustBadges";
+import QualityTrust from "./QualityTrust";
 import RelatedProducts from "./RelatedProducts";
 import { PdpImageSyncProvider } from "./PdpImageSync";
 import type { ShopifyProductOptions } from "@/lib/shopify";
@@ -60,6 +61,32 @@ const CARE: AccordionItem = {
   title: "הוראות טיפוח",
   content:
     "אחסני את התכשיט במקום יבש והרחיקי אותו ממים, בישום, קרמים וכלור. נקי בעדינות במטלית רכה ויבשה. מומלץ לענוד את התכשיט אחרון ולהסיר אותו ראשון — כך הוא ישמור על הברק לאורך שנים.",
+};
+// Quality-assurance selling points — shared across every product so the same
+// premium promise appears on every page. Bolded Hebrew terminology anchors the
+// key materials and certification.
+const QUALITY: AccordionItem = {
+  title: "אחריות ואיכות",
+  content: (
+    <ul className="space-y-2.5">
+      <li>
+        <strong className="font-semibold text-charcoal">כסף 925 טהור</strong> —
+        כסף סטרלינג אמיתי לכל עומקו, מתכת יקרה שנשארת יפה לאורך שנים.
+      </li>
+      <li>
+        <strong className="font-semibold text-charcoal">ציפוי רודיום</strong> —
+        שכבת הגנה יוקרתית לברק עמיד ולעמידות מרבית בפני שריטות והחלדה.
+      </li>
+      <li>
+        <strong className="font-semibold text-charcoal">מואסניט D / VVS1</strong>{" "}
+        — אבן בדרגת הצבע והניקיון הגבוהה ביותר, בליטוש מושלם (Excellent Cut).
+      </li>
+      <li>
+        <strong className="font-semibold text-charcoal">תעודת אחריות GRA</strong>{" "}
+        — כל פריט מגיע עם תעודת אותנטיות ואחריות לכל החיים.
+      </li>
+    </ul>
+  ),
 };
 
 /**
@@ -117,6 +144,7 @@ export default function ProductDetail({
   const accordionItems: AccordionItem[] = [
     { title: "תיאור", content: description },
     { title: "חומרים ופרטים", content: materials },
+    QUALITY,
     SHIPPING,
     CARE,
   ];
@@ -177,12 +205,15 @@ export default function ProductDetail({
             imageByValue={imageByValue}
           />
 
-          {/* Trust reinforcement — placed directly under the CTA, where buyers
-              seek reassurance right before clicking. */}
+          {/* Premium quality assurances — GRA · lifetime warranty · materials —
+              directly under the CTA, where buyers seek confidence before buying. */}
+          <QualityTrust />
+
+          {/* Logistics reassurance — shipping / returns. */}
           <TrustBadges />
 
           <Link
-            href="/quality"
+            href="/quality-warranty"
             className="mt-5 inline-flex items-center gap-1.5 text-xs font-light tracking-wide text-graphite underline-offset-4 transition-colors hover:text-gold"
           >
             <ShieldCheck size={14} strokeWidth={1.5} className="text-gold" />
