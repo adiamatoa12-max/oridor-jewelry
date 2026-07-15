@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 
@@ -34,7 +33,7 @@ export interface SilverProduct {
  */
 export default function SilverGrid({ products }: { products: SilverProduct[] }) {
   return (
-    <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
+    <div className="grid grid-cols-2 gap-x-6 gap-y-14 sm:gap-x-8 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-12 lg:gap-y-20">
       {products.map((p) => (
         <SilverCard key={p.id} product={p} />
       ))}
@@ -57,43 +56,29 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
   return (
     <Link
       href={`/collections/silver/${p.slug}`}
-      className="group block bg-transparent transition-transform duration-300 ease-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1"
+      className="group block bg-transparent transition-transform duration-300 ease-in-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1"
     >
-      <div
-        className={`relative aspect-[4/5] w-full overflow-hidden bg-transparent`}
-      >
+      {/* Image floats on the page — no box, border, badge or fill; only a soft
+          contact shadow. Gently scales on hover. */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
         <Image
           src={encodeURI(displayImage)}
           alt={`${p.name} — ${p.material}`}
           fill
           sizes="(min-width: 1024px) 25vw, 50vw"
-          className="object-contain object-center p-4 [filter:drop-shadow(0px_4px_8px_rgba(0,0,0,0.08))] transition-transform duration-500 ease-out group-hover:scale-105"
+          className="object-contain object-center p-4 [filter:drop-shadow(0px_8px_18px_rgba(0,0,0,0.06))] transition-transform duration-300 ease-in-out group-hover:scale-105"
         />
-        <span className="pointer-events-none absolute start-3 top-3 border border-platinum/70 bg-canvas/70 px-2.5 py-1 text-[10px] tracking-[0.2em] text-graphite backdrop-blur-sm">
-          כסף 925
-        </span>
-
-        {/* Quick add-to-collection — slides up on hover */}
-        <button
-          type="button"
-          onClick={quickAdd}
-          aria-label={`הוספת ${p.name} לאוסף`}
-          className="absolute inset-x-4 bottom-4 flex translate-y-2 items-center justify-center gap-2 border border-charcoal/15 bg-canvas/85 py-2.5 text-[11px] tracking-[0.15em] text-charcoal opacity-0 backdrop-blur-sm transition-all duration-300 ease-cinematic group-hover:translate-y-0 group-hover:opacity-100 hover:border-charcoal/40"
-        >
-          <ShoppingBag size={14} strokeWidth={1.5} />
-          הוספה לאוסף
-        </button>
       </div>
 
-      <div className="px-2 pt-6 text-center">
-        <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
+      <div className="pt-6 text-center">
+        <h3 className="text-[11px] font-light leading-relaxed tracking-[0.12em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-xs">
           {p.name}
         </h3>
-        <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-2" />
+        <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-2.5" />
 
         {/* Colour swatches — 16px dots in a 44px tap target; preview in place. */}
         {hasSwatches && (
-          <div className="mt-2 flex items-center justify-center gap-0.5">
+          <div className="mt-2.5 flex items-center justify-center gap-0.5">
             {p.variants!.map((v, i) => {
               const on = i === active;
               return (
@@ -123,6 +108,17 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
             })}
           </div>
         )}
+
+        {/* Ghost add-to-cart — always visible for a clear affordance: a thin
+            1px outline with elegant padding that softly fills on hover. */}
+        <button
+          type="button"
+          onClick={quickAdd}
+          aria-label={`הוספת ${p.name} לסל`}
+          className="mt-5 inline-flex items-center justify-center border border-charcoal/30 px-5 py-2 text-[10px] uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 ease-in-out hover:border-charcoal/50 hover:bg-charcoal/[0.05] active:bg-charcoal/[0.08]"
+        >
+          הוספה לסל
+        </button>
       </div>
     </Link>
   );
