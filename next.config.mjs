@@ -70,6 +70,14 @@ const nextConfig = {
         destination: "/quality-warranty",
         permanent: true,
       },
+      // "שרשרת תליון אובל" (silver-2) was merged into the single variant product
+      // "שרשרת אובל סוליטר" (signature/oval-necklace). Redirect the retired
+      // duplicate URL so no link or SEO equity is lost.
+      {
+        source: "/collections/silver/silver-2",
+        destination: "/collections/signature/oval-necklace",
+        permanent: true,
+      },
     ];
   },
 };
