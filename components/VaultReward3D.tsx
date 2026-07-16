@@ -13,6 +13,14 @@ import { motion, AnimatePresence } from "framer-motion";
 const SPLINE_SCENE_URL =
   "https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode";
 
+/**
+ * Load the Spline/WebGL scene? The URL above is still the placeholder demo
+ * scene, which logs a load error and adds WebGL overhead for no product value.
+ * Kept OFF so the vault renders the polished 2D presentation and the site runs
+ * cleanly. Flip to true once SPLINE_SCENE_URL points at a real Oridor model.
+ */
+const ENABLE_SPLINE_3D = false;
+
 /** Give the 3D scene this long to arrive before falling back to 2D. */
 const LOAD_TIMEOUT_MS = 10_000;
 /** Let the drawer's entrance animation finish before booting WebGL. */
@@ -71,6 +79,13 @@ export default function VaultReward3D({
   useEffect(() => {
     if (!show || startedRef.current) return;
     startedRef.current = true;
+    // Placeholder Spline scene disabled → go straight to the 2D presentation
+    // (the "failed" state renders the gift as the centred hero). No WebGL load,
+    // no console load error.
+    if (!ENABLE_SPLINE_3D) {
+      setStatus("failed");
+      return;
+    }
     setStatus("loading");
     let cancelled = false;
 

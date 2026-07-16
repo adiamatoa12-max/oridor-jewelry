@@ -94,6 +94,19 @@ export default function MoissaniteGrid({
               className={gridImageClass(p.category)}
             />
 
+            {/* Hover cross-fade to this product's OWN dedicated hover image.
+                Rendered only when the product has a matching hover file, so a
+                card with none simply keeps its primary image. */}
+            {p.hover_image && (
+              <Image
+                src={encodeURI(p.hover_image)}
+                alt={`${p.name} — תמונה נוספת`}
+                fill
+                sizes="(min-width: 1024px) 25vw, 62vw"
+                className="object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-active:opacity-100"
+              />
+            )}
+
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
             <button
               type="button"
