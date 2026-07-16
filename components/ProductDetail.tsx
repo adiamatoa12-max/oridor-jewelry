@@ -4,7 +4,7 @@ import ProductGallery, { type GalleryImage } from "./ProductGallery";
 import ProductBuyBox from "./ProductBuyBox";
 import SizeGuideModal from "./SizeGuideModal";
 import Accordion, { type AccordionItem } from "./Accordion";
-import QualityTrust from "./QualityTrust";
+import QualityGuarantee from "./QualityGuarantee";
 import RelatedProducts from "./RelatedProducts";
 import { PdpImageSyncProvider } from "./PdpImageSync";
 import type { ShopifyProductOptions } from "@/lib/shopify";
@@ -205,9 +205,9 @@ export default function ProductDetail({
             handle={slug}
           />
 
-          {/* Consolidated trust — minimalist text-only assurances (authenticity,
-              warranty, material, shipping/returns) directly under the CTA. */}
-          <QualityTrust />
+          {/* Quality Guarantee stamp — Oridor's premium promise, directly under
+              the CTA where buyers seek reassurance before purchasing. */}
+          <QualityGuarantee />
 
           <Link
             href="/quality-warranty"
