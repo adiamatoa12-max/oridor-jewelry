@@ -78,6 +78,16 @@ const nextConfig = {
         destination: "/collections/signature/oval-necklace",
         permanent: true,
       },
+      // Four discontinued earring products, removed from the catalog. Redirect
+      // their retired URLs to the Moissanite collection to preserve SEO/links.
+      // matan-23 עגילי לב סוליטר · matan-25 עגילי סוליטר ·
+      // matan-24 עגילי הילה כפולה · matan-22 עגילי טיפה הילה
+      {
+        source:
+          "/collections/moissanite/:slug(matan-22|matan-23|matan-24|matan-25)",
+        destination: "/collections/moissanite",
+        permanent: true,
+      },
     ];
   },
 };
