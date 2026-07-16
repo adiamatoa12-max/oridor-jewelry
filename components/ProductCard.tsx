@@ -126,54 +126,59 @@ export default function ProductCard({
       </div>
 
       <div className="flex flex-1 flex-col items-center px-2 pt-6 text-center">
-        <h3 className="min-h-[2.6rem] w-full text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
+        <h3 className="w-full text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
           {title}
         </h3>
-        <PriceTag price={price} compareAt={compareAt} className="mt-2" />
 
-        {/* Minimalist colour swatches — 16px dots inside a 44px tap target.
-            Clicking previews the finish in place without leaving the grid. */}
-        {hasSwatches && (
-          <div className="mt-1 flex items-center justify-center gap-0.5">
-            {variants!.map((v, i) => {
-              const on = i === activeColor;
-              return (
-                <button
-                  key={v.color}
-                  type="button"
-                  aria-label={`צבע ${v.color}`}
-                  aria-pressed={on}
-                  title={v.color}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setActiveColor(i);
-                  }}
-                  className="inline-flex h-11 w-11 items-center justify-center"
-                >
-                  <span
-                    className={`h-4 w-4 rounded-full border transition-all duration-200 ${
-                      on
-                        ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-1"
-                        : "border-platinum/70"
-                    }`}
-                    style={{ backgroundColor: v.hex }}
-                  />
-                </button>
-              );
-            })}
+        {/* Bottom group — swatches, price and CTA anchored to the card bottom
+            (flex space-between effect via mt-auto), so every card lines up
+            regardless of the title/content above. */}
+        <div className="mt-auto flex w-full flex-col items-center pt-4">
+          {/* Fixed-height swatch slot — always reserves one 44px row, even when
+              a product has no swatches, so the price below stays aligned. */}
+          <div className="flex h-11 items-center justify-center gap-0.5">
+            {hasSwatches &&
+              variants!.map((v, i) => {
+                const on = i === activeColor;
+                return (
+                  <button
+                    key={v.color}
+                    type="button"
+                    aria-label={`צבע ${v.color}`}
+                    aria-pressed={on}
+                    title={v.color}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setActiveColor(i);
+                    }}
+                    className="inline-flex h-11 w-11 items-center justify-center"
+                  >
+                    <span
+                      className={`h-4 w-4 rounded-full border transition-all duration-200 ${
+                        on
+                          ? "scale-110 border-charcoal ring-1 ring-charcoal/30 ring-offset-1"
+                          : "border-platinum/70"
+                      }`}
+                      style={{ backgroundColor: v.hex }}
+                    />
+                  </button>
+                );
+              })}
           </div>
-        )}
 
-        {/* Quick Add — always visible beneath price on mobile */}
-        <button
-          type="button"
-          onClick={handleAdd}
-          aria-label={quickAddLabel}
-          className="btn-primary mt-auto w-full sm:hidden"
-        >
-          הוספה מהירה
-        </button>
+          <PriceTag price={price} compareAt={compareAt} className="mt-1" />
+
+          {/* Quick Add — visible beneath the price on mobile */}
+          <button
+            type="button"
+            onClick={handleAdd}
+            aria-label={quickAddLabel}
+            className="btn-primary mt-3 w-full sm:hidden"
+          >
+            הוספה מהירה
+          </button>
+        </div>
       </div>
     </Link>
   );
