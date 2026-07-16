@@ -12,7 +12,7 @@ const LINKS = [
   { label: "הכל", href: "/shop" },
   { label: "מואסניט", href: "/collections/moissanite" },
   { label: "כסף 925", href: "/collections/silver" },
-  { label: "טבעות", href: "/rings" },
+  { label: "עגילים", href: "/collections/earrings" },
 ];
 
 /**

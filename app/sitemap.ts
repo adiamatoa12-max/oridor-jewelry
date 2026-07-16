@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/shop",
     "/collections/moissanite",
     "/collections/silver",
+    "/collections/earrings",
     "/collections/signature",
     "/collections/new",
     "/collections/tennis",
