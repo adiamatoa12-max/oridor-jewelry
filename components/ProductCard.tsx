@@ -77,7 +77,7 @@ export default function ProductCard({
   return (
     <Link
       href={href}
-      className="group block bg-transparent transition-[transform,opacity] duration-300 ease-out [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
+      className="group flex h-full flex-col bg-transparent transition-[transform,opacity] duration-300 ease-out [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
       {/* Flat, transparent card — the product image sits directly on the page
           background with no box, border, or shadow. */}
@@ -125,8 +125,8 @@ export default function ProductCard({
         </div>
       </div>
 
-      <div className="px-2 pt-6 text-center">
-        <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
+      <div className="flex flex-1 flex-col items-center px-2 pt-6 text-center">
+        <h3 className="min-h-[2.6rem] w-full text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
           {title}
         </h3>
         <PriceTag price={price} compareAt={compareAt} className="mt-2" />
@@ -170,7 +170,7 @@ export default function ProductCard({
           type="button"
           onClick={handleAdd}
           aria-label={quickAddLabel}
-          className="btn-primary mt-4 w-full sm:hidden"
+          className="btn-primary mt-auto w-full sm:hidden"
         >
           הוספה מהירה
         </button>

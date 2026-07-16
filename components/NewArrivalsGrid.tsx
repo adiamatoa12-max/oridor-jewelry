@@ -90,7 +90,7 @@ export default function NewArrivalsGrid({
           </div>
 
           <div className="px-2 pt-6 text-center">
-            <h3 className="text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
+            <h3 className="min-h-[2.6rem] text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
               {p.name}
             </h3>
             <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-2" />

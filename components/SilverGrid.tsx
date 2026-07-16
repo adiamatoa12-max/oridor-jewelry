@@ -57,7 +57,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
   return (
     <Link
       href={`/collections/silver/${p.slug}`}
-      className="group block bg-transparent transition-transform duration-300 ease-in-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1"
+      className="group flex h-full flex-col bg-transparent transition-transform duration-300 ease-in-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1"
     >
       {/* Image floats on the page — no box, border, badge or fill; only a soft
           contact shadow. Gently scales on hover. */}
@@ -71,8 +71,8 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
         />
       </div>
 
-      <div className="pt-6 text-center">
-        <h3 className="text-[11px] font-light leading-relaxed tracking-[0.12em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-xs">
+      <div className="flex flex-1 flex-col items-center pt-6 text-center">
+        <h3 className="min-h-[2.6rem] w-full text-[11px] font-light leading-relaxed tracking-[0.12em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-xs">
           {p.name}
         </h3>
         <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-2.5" />
@@ -116,7 +116,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
           type="button"
           onClick={quickAdd}
           aria-label={`הוספת ${p.name} לסל`}
-          className="mt-5 inline-flex items-center justify-center border border-charcoal/30 px-5 py-2 text-[10px] uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 ease-in-out hover:border-charcoal/50 hover:bg-charcoal/[0.05] active:bg-charcoal/[0.08]"
+          className="mt-auto inline-flex items-center justify-center border border-charcoal/30 px-5 py-2 text-[10px] uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 ease-in-out hover:border-charcoal/50 hover:bg-charcoal/[0.05] active:bg-charcoal/[0.08]"
         >
           הוספה לסל
         </button>

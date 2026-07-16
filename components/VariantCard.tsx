@@ -58,7 +58,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
       </Link>
 
       <div className="px-2 pt-5 text-center">
-        <h3 className="text-xs font-normal leading-snug tracking-[0.06em] text-charcoal sm:text-[13px]">{product.name}</h3>
+        <h3 className="min-h-[2.6rem] text-xs font-normal leading-snug tracking-[0.06em] text-charcoal sm:text-[13px]">{product.name}</h3>
         <PriceTag price={product.price} compareAt={product.compare_at_price} className="mt-1.5" />
 
         {/* Color swatches — 20px dots inside a 44px tap target for touch */}
