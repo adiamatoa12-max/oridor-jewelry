@@ -101,6 +101,12 @@ const nextConfig = {
         destination: "/collections/silver",
         permanent: true,
       },
+      // "צמיד עדין נוצץ" (silver-11) deleted from Shopify. Redirect its URL.
+      {
+        source: "/collections/silver/silver-11",
+        destination: "/collections/silver",
+        permanent: true,
+      },
     ];
   },
 };
