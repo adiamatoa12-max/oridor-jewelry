@@ -88,6 +88,19 @@ const nextConfig = {
         destination: "/collections/moissanite",
         permanent: true,
       },
+      // Three duplicate/retired listings deleted from Shopify. silver-42 was a
+      // duplicate of the marquise ring silver-1 → redirect to its main; the
+      // other two go to the Silver collection.
+      {
+        source: "/collections/silver/silver-42",
+        destination: "/collections/silver/silver-1",
+        permanent: true,
+      },
+      {
+        source: "/collections/silver/:slug(silver-7|silver-12)",
+        destination: "/collections/silver",
+        permanent: true,
+      },
     ];
   },
 };
