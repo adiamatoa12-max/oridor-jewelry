@@ -63,6 +63,12 @@ export default function ProductCard({
   const [activeColor, setActiveColor] = useState(0);
   const displayImage = hasSwatches ? variants![activeColor].image : image;
 
+  // Hover image — the product's OWN second photo (its second colour/finish),
+  // pulled per-product from the variant list. Undefined (→ no hover) when the
+  // product has no genuine second image, so we never show a generic shot.
+  const hoverImage =
+    variants && variants.length > 1 ? variants[1].image : undefined;
+
   // Quick-add: don't navigate the parent link — add the real Shopify variant.
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -90,6 +96,20 @@ export default function ProductCard({
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className={gridImageClass(category)}
         />
+
+        {/* Hover cross-fade to the product's OWN second image (second finish).
+            Only rendered when a genuine second image exists, and only while the
+            shopper hasn't picked a specific colour — so it never shows a wrong
+            or generic item. */}
+        {hoverImage && activeColor === 0 && (
+          <Image
+            src={hoverImage}
+            alt={`${title} — תמונה נוספת`}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            className={`${gridImageClass(category)} opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-active:opacity-100`}
+          />
+        )}
 
         {/* Minimal status tag — top-right (inline-start in RTL) */}
         {tag && (
