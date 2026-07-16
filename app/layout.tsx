@@ -67,6 +67,9 @@ export const metadata: Metadata = {
     "Oridor — תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסניט. מינימליסטי, על-זמני, אלגנטי.",
   keywords: ["תכשיטים", "מואסניט", "כסף 925", "טבעות", "שרשראות", "עגילים", "Oridor"],
   alternates: { canonical: "/" },
+  verification: {
+    google: "Zm3Pn5GM0Dl2U-03H0tCAqK3uOiSEaLdatkLCqy_fXo",
+  },
   openGraph: {
     type: "website",
     locale: "he_IL",
