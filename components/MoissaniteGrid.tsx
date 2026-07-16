@@ -21,6 +21,8 @@ export interface MoissaniteProduct {
   slug: string;
   /** Category key for filtering (Rings/Bracelets/Necklaces/Earrings). */
   category?: string;
+  /** Carat options (stone-weight → price) for the PDP variant selector. */
+  caratVariants?: { carat: string; price: number }[];
 }
 
 

@@ -6,7 +6,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import type { MoissaniteProduct } from "@/components/MoissaniteGrid";
 import { getProductWithVariants, getLivePriceMap } from "@/lib/shopify";
-import { overlayLivePrices } from "@/lib/catalog";
+import { overlayLivePrices, hasCaratOption, localCaratOptions } from "@/lib/catalog";
 import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/moissanite_collection.json";
 
@@ -60,8 +60,18 @@ export default async function MoissaniteProductPage({
   const product = products.find((p) => p.slug === params.slug);
   if (!product) notFound();
 
-  // Live Shopify options + variants for the buy box (null → local fallback).
+  // Live Shopify options + variants for the buy box. When Shopify doesn't yet
+  // expose a carat option, synthesise one from the local caratVariants so the
+  // PDP still renders the carat selector (and switches price) — no Shopify
+  // change required. Add-to-cart routes through the handle for these variants.
   const shopifyProduct = await getProductWithVariants(product.slug);
+  const displayProduct =
+    hasCaratOption(shopifyProduct) || !product.caratVariants
+      ? shopifyProduct
+      : localCaratOptions({
+          handle: product.slug,
+          variants: product.caratVariants,
+        });
 
   // Rich product structured data for Google rich snippets.
   const productJsonLd = buildProductJsonLd({
@@ -100,7 +110,7 @@ export default async function MoissaniteProductPage({
         fit="contain"
         fallbackPrice={product.price}
         compareAtPrice={product.compare_at_price}
-        shopifyProduct={shopifyProduct}
+        shopifyProduct={displayProduct}
         qualityNote="איכות ואותנטיות — כסף 925 ומואסניט D / VVS1"
         showRingGuide={/ring|טבעת/i.test(product.name)}
         description="אבן מואסניט נוצצת בעבודת יד מדויקת, משובצת בכסף 925 טהור מצופה רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אתכן לכל החיים."

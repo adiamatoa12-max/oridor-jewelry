@@ -214,12 +214,41 @@ export const SHOP_CHIPS: Chip[] = [
 ];
 
 const COLOR_OPTION_RE = /צבע|color|מתכת|metal|גימור|finish/i;
+const CARAT_OPTION_RE = /קראט|carat|ct\b/i;
 
 /** True when the Shopify product exposes a real multi-value colour option. */
 export function hasColorOption(p: ShopifyProductOptions | null): boolean {
   return !!p?.options.some(
     (o) => COLOR_OPTION_RE.test(o.name) && o.values.length > 1,
   );
+}
+
+/** True when the Shopify product already exposes a carat option. */
+export function hasCaratOption(p: ShopifyProductOptions | null): boolean {
+  return !!p?.options.some((o) => CARAT_OPTION_RE.test(o.name));
+}
+
+/**
+ * Frontend-only carat options synthesised from local data, so the PDP shows the
+ * carat selector (and switches price) even before the carat variants exist in
+ * Shopify. Synthetic `local:` ids route add-to-cart through the product handle.
+ */
+export function localCaratOptions(opts: {
+  handle: string;
+  variants: { carat: string; price: number }[];
+}): ShopifyProductOptions {
+  return {
+    handle: opts.handle,
+    options: [{ name: "קראט", values: opts.variants.map((v) => v.carat) }],
+    variants: opts.variants.map((v) => ({
+      id: `local:${opts.handle}:${v.carat}`,
+      title: v.carat,
+      price: v.price,
+      currencyCode: "ILS",
+      available: true,
+      selectedOptions: [{ name: "קראט", value: v.carat }],
+    })),
+  };
 }
 
 /**
