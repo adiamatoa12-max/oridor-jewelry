@@ -34,7 +34,7 @@ export function generateMetadata({
   if (!product) return { title: "מוצר לא נמצא" };
   const benefit = BENEFIT[product.category ?? ""] ?? "מואסניט זוהר בכסף 925";
   const title = `${product.name} | ${benefit} | Oridor`;
-  const description = `${product.name} — מואסניט בדרגת D/VVS1 (${product.carat} קראט) בכסף סטרלינג 925 מצופה רודיום. ברק עוצר נשימה, משלוח חינם ואחריות מלאה.`;
+  const description = `${product.name} — מואסניט בדרגת D/VVS1 בכסף סטרלינג 925 מצופה רודיום. ברק עוצר נשימה, משלוח חינם ואחריות מלאה.`;
   const image = `${SITE_URL}${encodeURI(product.image_url)}`;
   return {
     title: { absolute: title },
@@ -77,7 +77,7 @@ export default async function MoissaniteProductPage({
   const productJsonLd = buildProductJsonLd({
     name: product.name,
     images: [`${SITE_URL}${encodeURI(product.image_url)}`],
-    description: `${product.name} — מואסניט בדרגת D/VVS1 (${product.carat} קראט) בכסף סטרלינג 925 טהור מצופה רודיום.`,
+    description: `${product.name} — מואסניט בדרגת D/VVS1 בכסף סטרלינג 925 טהור מצופה רודיום.`,
     sku: product.id,
     path: `/collections/moissanite/${product.slug}`,
     price: product.price,
@@ -123,10 +123,6 @@ export default async function MoissaniteProductPage({
             <div className="flex gap-2">
               <dt className="text-ash">אבן:</dt>
               <dd>מואסניט בדרגת D / VVS1</dd>
-            </div>
-            <div className="flex gap-2">
-              <dt className="text-ash">משקל אבן:</dt>
-              <dd>{product.carat} קראט</dd>
             </div>
             <div className="flex gap-2">
               <dt className="text-ash">מק״ט:</dt>
