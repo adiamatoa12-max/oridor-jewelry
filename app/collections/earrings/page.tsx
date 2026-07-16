@@ -33,11 +33,6 @@ export default async function EarringsPage() {
           <h1 className="text-4xl font-light leading-relaxed tracking-wide text-charcoal">
             עגילים
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-sm font-light leading-relaxed text-graphite">
-            עגילי Oridor – יוקרה שנועדה להישאר. כל העגילים שלנו מיוצרים מכסף 925
-            אמיתי בציפוי רודיום עמיד, ומגיעים עם תעודת איכות לכל תכשיט. מחיר השקה
-            מיוחד: כל העגילים ב-200₪.
-          </p>
         </header>
 
         <Reveal>
