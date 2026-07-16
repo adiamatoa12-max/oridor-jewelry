@@ -11,7 +11,7 @@ import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/moissanite_collection.json";
 
 const products = data as MoissaniteProduct[];
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com";
 
 // Category-specific value phrase for the "[Name] | [Benefit] | Oridor" title.
 const BENEFIT: Record<string, string> = {

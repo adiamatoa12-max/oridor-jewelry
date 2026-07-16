@@ -12,7 +12,7 @@
  * installed — updating it here updates every product page at once.
  */
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com";
 
 /**
  * Site-wide product rating shown on the PDP. NOT emitted in JSON-LD by default

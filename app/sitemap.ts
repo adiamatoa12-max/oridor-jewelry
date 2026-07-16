@@ -8,7 +8,7 @@ import type { SilverProduct } from "@/components/SilverGrid";
 import type { VariantProduct } from "@/components/VariantCard";
 import type { NewArrival } from "@/components/NewArrivalsGrid";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

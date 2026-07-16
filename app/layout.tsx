@@ -48,7 +48,7 @@ const frankRuhl = Frank_Ruhl_Libre({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com";
 
 const OG_IMAGE = {
   url: "/og-image.jpg",

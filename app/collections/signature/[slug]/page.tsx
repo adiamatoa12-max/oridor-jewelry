@@ -11,7 +11,7 @@ import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/signature_collection.json";
 
 const products = data as VariantProduct[];
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridor.co.il";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));
