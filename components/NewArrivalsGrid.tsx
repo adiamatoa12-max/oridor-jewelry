@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
+import { gridImageClass } from "@/lib/gridImage";
 
 export interface NewArrival {
   id: string;
@@ -73,7 +74,7 @@ export default function NewArrivalsGrid({
               alt={`${p.name} — ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 62vw"
-              className="object-contain object-center p-4 [filter:drop-shadow(0px_4px_8px_rgba(0,0,0,0.08))] transition-transform duration-500 ease-out group-hover:scale-105"
+              className={gridImageClass(p.category)}
             />
 
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}

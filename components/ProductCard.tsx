@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
+import { gridImageClass } from "@/lib/gridImage";
 import type { ProductColorVariant } from "@/lib/catalog";
 
 export interface ProductCardProps {
@@ -27,6 +28,8 @@ export interface ProductCardProps {
   currency?: string;
   /** Product-on-white shots look best "contain"; lifestyle crops use "cover". */
   fit?: "cover" | "contain";
+  /** Product category — drives category-aware image framing (e.g. zoom necklaces). */
+  category?: string | null;
   /** Colour variants — renders swatches and swaps the image when >1 present. */
   variants?: ProductColorVariant[];
 }
@@ -51,6 +54,7 @@ export default function ProductCard({
   handle,
   href = "#",
   fit = "cover",
+  category,
   variants,
 }: ProductCardProps) {
   const { addByHandle, openCart } = useCart();
@@ -85,7 +89,7 @@ export default function ProductCard({
           alt={`${title} — תכשיט כסף מבית Oridor`}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className="object-contain object-center p-4 [filter:drop-shadow(0px_4px_8px_rgba(0,0,0,0.08))] transition-transform duration-500 ease-out group-hover:scale-105"
+          className={gridImageClass(category)}
         />
 
         {/* On-model lifestyle shot — cross-fades in on hover (desktop) and

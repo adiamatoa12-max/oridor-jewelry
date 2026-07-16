@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
+import { gridImageClass } from "@/lib/gridImage";
 
 export interface SilverColorVariant {
   color: string;
@@ -66,7 +67,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
           alt={`${p.name} — ${p.material}`}
           fill
           sizes="(min-width: 1024px) 25vw, 50vw"
-          className="object-contain object-center p-4 [filter:drop-shadow(0px_8px_18px_rgba(0,0,0,0.06))] transition-transform duration-300 ease-in-out group-hover:scale-105"
+          className={gridImageClass(p.category)}
         />
       </div>
 
