@@ -39,6 +39,7 @@ export default function ProductBuyBox({
   hexByValue = {},
   imageByValue = {},
   sizes = [],
+  handle,
 }: {
   title: string;
   image: string;
@@ -54,8 +55,11 @@ export default function ProductBuyBox({
   imageByValue?: Record<string, string>;
   /** Local (presentational) size options, rendered between price and CTA. */
   sizes?: string[];
+  /** Product handle — used to add-to-cart when the selected variant is a
+   *  frontend-only (`local:`) colour synthesised from local data. */
+  handle?: string;
 }) {
-  const { addVariant } = useCart();
+  const { addVariant, addByHandle } = useCart();
   const imageSync = usePdpImageSync();
 
   // Flag the sticky mobile CTA's presence on <body> so the global floating
@@ -132,7 +136,13 @@ export default function ProductBuyBox({
   };
 
   const handleAdd = () => {
-    if (!currentVariant) return; // no Shopify variant → nothing to add
+    if (!currentVariant) return; // no variant resolved → nothing to add
+    // Synthetic frontend-only colours (see localColorOptions) have no real
+    // Shopify variant id — add the underlying product by its handle instead.
+    if (currentVariant.id.startsWith("local:")) {
+      if (handle) addByHandle(handle);
+      return;
+    }
     addVariant(currentVariant.id, 1);
   };
 

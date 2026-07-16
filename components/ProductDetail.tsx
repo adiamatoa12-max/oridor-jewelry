@@ -202,6 +202,7 @@ export default function ProductDetail({
             hexByValue={hexByValue}
             imageByValue={imageByValue}
             sizes={sizes}
+            handle={slug}
           />
 
           {/* Consolidated trust — minimalist text-only assurances (authenticity,

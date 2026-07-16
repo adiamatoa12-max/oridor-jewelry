@@ -2,6 +2,7 @@ import moissanite from "@/data/moissanite_collection.json";
 import silver from "@/data/silver_collection.json";
 import signature from "@/data/signature_collection.json";
 import newArrivals from "@/data/new_arrivals.json";
+import type { ShopifyProductOptions } from "./shopify";
 
 /** The two — and only two — main categories. */
 export const COLLECTION_MOISSANITE = "מואסניט";
@@ -211,3 +212,42 @@ export const SHOP_CHIPS: Chip[] = [
   { label: "צמידים", kind: "category", value: "Bracelets" },
   { label: "עגילים", kind: "category", value: "Earrings" },
 ];
+
+const COLOR_OPTION_RE = /צבע|color|מתכת|metal|גימור|finish/i;
+
+/** True when the Shopify product exposes a real multi-value colour option. */
+export function hasColorOption(p: ShopifyProductOptions | null): boolean {
+  return !!p?.options.some(
+    (o) => COLOR_OPTION_RE.test(o.name) && o.values.length > 1,
+  );
+}
+
+/**
+ * Frontend-only colour options synthesised from local variant data. Used when
+ * Shopify doesn't expose a colour option for a product (e.g. the colours are
+ * still separate Shopify products) so the PDP can still render the colour
+ * selector and swap images locally — without any change to Shopify.
+ *
+ * The synthetic variant ids are prefixed `local:` so the buy box knows to add
+ * the product by handle (the real Shopify product) instead of by a variant id
+ * that doesn't exist in Shopify.
+ */
+export function localColorOptions(opts: {
+  handle: string;
+  price: number;
+  variants: { color: string; image_url: string }[];
+}): ShopifyProductOptions {
+  return {
+    handle: opts.handle,
+    options: [{ name: "צבע", values: opts.variants.map((v) => v.color) }],
+    variants: opts.variants.map((v) => ({
+      id: `local:${opts.handle}:${v.color}`,
+      title: v.color,
+      price: opts.price,
+      currencyCode: "ILS",
+      available: true,
+      selectedOptions: [{ name: "צבע", value: v.color }],
+      image: encodeURI(v.image_url),
+    })),
+  };
+}

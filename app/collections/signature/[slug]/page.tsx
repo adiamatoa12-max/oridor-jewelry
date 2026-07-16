@@ -6,7 +6,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import type { VariantProduct } from "@/components/VariantCard";
 import { getProductWithVariants, getLivePriceMap } from "@/lib/shopify";
-import { overlayLivePrices } from "@/lib/catalog";
+import { overlayLivePrices, hasColorOption, localColorOptions } from "@/lib/catalog";
 import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/signature_collection.json";
 
@@ -52,6 +52,19 @@ export default async function SignatureProductPage({
   if (!product) notFound();
 
   const shopifyProduct = await getProductWithVariants(product.slug);
+  // Frontend-only variant consolidation: when Shopify doesn't expose a colour
+  // option (the finishes may still be separate products in Shopify), synthesise
+  // one from the local variant data so the PDP renders the colour selector and
+  // swaps images locally — no Shopify change required. Add-to-cart falls back
+  // to the real product handle for these synthetic (`local:`) variants.
+  const displayProduct = hasColorOption(shopifyProduct)
+    ? shopifyProduct
+    : localColorOptions({
+        handle: product.slug,
+        price: product.price,
+        variants: product.variants,
+      });
+
   const hexByValue: Record<string, string> = Object.fromEntries(
     product.variants.map((v) => [v.color, v.hex]),
   );
@@ -98,7 +111,7 @@ export default async function SignatureProductPage({
         fit="contain"
         fallbackPrice={product.price}
         compareAtPrice={product.compare_at_price}
-        shopifyProduct={shopifyProduct}
+        shopifyProduct={displayProduct}
         hexByValue={hexByValue}
         imageByValue={imageByValue}
         qualityNote="איכות ואותנטיות — כסף 925 טהור"
