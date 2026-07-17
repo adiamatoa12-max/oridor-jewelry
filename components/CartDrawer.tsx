@@ -7,9 +7,6 @@ import {
   X,
   Plus,
   Minus,
-  Package,
-  Gem,
-  Sparkles,
   Check,
   Lock,
   ArrowLeft,
@@ -33,10 +30,27 @@ const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 // "2+1" promotion — add 3 items, the 3rd (a premium gift) is on us. Every
 // third item in the cart unlocks another free gift.
 const PROMO_SIZE = 3;
+// The complimentary gift is a genuine Oridor piece — real product imagery makes
+// the choice feel like a premium boutique gift rather than a generic plugin.
 const GIFTS = [
-  { id: "travel-box", label: "קופסת תכשיטים לנסיעות", Icon: Package },
-  { id: "studs", label: "עגילי צמוד קלאסיים", Icon: Gem },
-  { id: "care-kit", label: "ערכת טיפוח לתכשיטים", Icon: Sparkles },
+  {
+    id: "studs",
+    title: "עגילי סוליטר קלאסיים",
+    subtitle: "נצנוץ יומיומי, כסף 925",
+    image: "/photo/moissanite-28.png",
+  },
+  {
+    id: "bracelet",
+    title: "צמיד סוליטר עדין",
+    subtitle: "עדין, מחמיא לכל יד",
+    image: "/photo/moissanite-3.png",
+  },
+  {
+    id: "necklace",
+    title: "שרשרת תליון סוליטר",
+    subtitle: "קלאסיקה שלא נגמרת",
+    image: "/photo/moissanite-18.png",
+  },
 ] as const;
 
 /**
@@ -122,8 +136,7 @@ export default function CartDrawer() {
                 {unlocked ? (
                   <>
                     <span className="font-medium text-gold">מבצע 2+1 פעיל!</span>{" "}
-                    {freeItems > 1 ? `${freeItems} פריטים` : "הפריט השלישי"} עלינו —
-                    בחרי את מתנת הפרימיום שלך ✨
+                    {freeItems > 1 ? `${freeItems} פריטים` : "הפריט השלישי"} עלינו ✨
                   </>
                 ) : count === 0 ? (
                   <>
@@ -166,17 +179,29 @@ export default function CartDrawer() {
               {/* 3D vault reward — the robot presents the chosen gift */}
               <VaultReward3D show={unlocked && isOpen} selectedGift={selectedGift} />
 
-              {/* Gift options — smooth height + fade reveal once unlocked */}
+              {/* Gift options — smooth height + fade reveal once unlocked.
+                  Premium cards: real product imagery, generous padding, a
+                  standout heading, and a clear gold selection state. */}
               <div
                 className={`grid transition-all duration-700 ease-cinematic ${
                   unlocked
-                    ? "mt-4 grid-rows-[1fr] opacity-100"
+                    ? "mt-5 grid-rows-[1fr] opacity-100"
                     : "grid-rows-[0fr] opacity-0"
                 }`}
               >
-                <div className="overflow-hidden px-1 pt-1">
-                  <div className="grid grid-cols-3 gap-2">
-                    {GIFTS.map(({ id, label, Icon }) => {
+                <div className="overflow-hidden px-0.5 pt-0.5">
+                  {/* Section heading — clear hierarchy so the invitation stands out. */}
+                  <div className="mb-3.5 text-center">
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-gold">
+                      מתנה על הבית
+                    </p>
+                    <h3 className="mt-1.5 text-lg font-medium tracking-wide text-charcoal">
+                      בחרי את המתנה שלך
+                    </h3>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {GIFTS.map(({ id, title, subtitle, image }) => {
                       const active = selectedGift === id;
                       return (
                         <button
@@ -184,39 +209,55 @@ export default function CartDrawer() {
                           type="button"
                           onClick={() => setSelectedGift(active ? null : id)}
                           aria-pressed={active}
-                          className={`group relative flex flex-col items-center gap-2 rounded-sm border px-2 py-3 text-center transition-all duration-300 ease-cinematic ${
+                          className={`group relative flex w-full items-center gap-3.5 rounded-2xl border p-3 text-start transition-all duration-300 ease-cinematic ${
                             active
-                              ? "scale-[1.04] border-gold bg-gold/10 shadow-[0_6px_20px_rgba(197,160,89,0.28)] ring-1 ring-gold/40"
-                              : "border-platinum/60 bg-canvas hover:-translate-y-0.5 hover:border-gold/60"
+                              ? "scale-[1.015] border-gold bg-gold/[0.06] shadow-[0_14px_34px_-14px_rgba(197,160,89,0.55)] ring-1 ring-gold/40"
+                              : "border-platinum/60 bg-canvas shadow-card hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-cardHover"
                           }`}
                         >
-                          {/* Very subtle breathing illumination on the chosen card */}
-                          {active && (
-                            <span
-                              aria-hidden="true"
-                              className="pointer-events-none absolute inset-0 animate-pulse rounded-sm bg-white/35 [animation-duration:2.6s]"
+                          {/* Product image */}
+                          <div className="relative h-[68px] w-[68px] flex-none overflow-hidden rounded-xl bg-cream">
+                            <Image
+                              src={image}
+                              alt={`${title} — מתנת פרימיום מבית Oridor`}
+                              fill
+                              sizes="68px"
+                              className="object-cover transition-transform duration-500 ease-cinematic group-hover:scale-105"
                             />
-                          )}
-                          {active && (
-                            <span className="absolute end-1 top-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-gold text-canvas shadow-sm">
-                              <Check size={10} strokeWidth={2.5} />
-                            </span>
-                          )}
-                          <Icon
-                            size={22}
-                            strokeWidth={1.5}
-                            className={active ? "text-gold" : "text-charcoal"}
-                          />
-                          <span className="text-[10px] font-light leading-tight text-graphite">
-                            {label}
+                          </div>
+
+                          {/* Copy */}
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[13.5px] font-medium leading-snug text-charcoal">
+                              {title}
+                            </p>
+                            <p className="mt-0.5 text-[11px] font-light leading-snug text-ash">
+                              {subtitle}
+                            </p>
+                            <p className="mt-1.5 text-[10px] font-medium tracking-[0.12em] text-gold">
+                              ✦ כלול במתנה
+                            </p>
+                          </div>
+
+                          {/* Selection indicator — empty ring → filled gold check */}
+                          <span
+                            aria-hidden="true"
+                            className={`flex-none inline-flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-300 ${
+                              active
+                                ? "border-gold bg-gold text-canvas shadow-sm"
+                                : "border-platinum/70 bg-transparent text-transparent group-hover:border-gold/50"
+                            }`}
+                          >
+                            <Check size={13} strokeWidth={2.75} />
                           </span>
                         </button>
                       );
                     })}
                   </div>
+
                   {selectedGift && (
-                    <p className="mt-2 text-center text-[10px] font-light tracking-wide text-gold">
-                      מתנת הפרימיום שלך שמורה ✓
+                    <p className="mt-3 text-center text-[11px] font-light tracking-wide text-gold">
+                      המתנה שלך שמורה — נוסיף אותה לחבילה שלך ✓
                     </p>
                   )}
                 </div>
