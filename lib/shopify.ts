@@ -17,6 +17,28 @@ const ENDPOINT = DOMAIN
   ? `https://${DOMAIN}/api/${API_VERSION}/graphql.json`
   : "";
 
+/**
+ * Branded checkout domain (e.g. shop.oridorjewelry.com). Shopify already
+ * returns the cart/checkout URL on the store's primary domain, but this
+ * guarantees the redirect stays on the custom domain regardless of Shopify
+ * config — the shopper never sees a *.myshopify.com URL. Override via env; the
+ * Storefront API itself still runs on DOMAIN (the reliable myshopify endpoint).
+ */
+const CHECKOUT_DOMAIN =
+  process.env.NEXT_PUBLIC_SHOPIFY_CHECKOUT_DOMAIN || "shop.oridorjewelry.com";
+
+/** Rewrite a Shopify cart/checkout URL onto the branded checkout domain. */
+function withCheckoutDomain(url: string): string {
+  if (!CHECKOUT_DOMAIN || !url) return url;
+  try {
+    const u = new URL(url);
+    u.host = CHECKOUT_DOMAIN;
+    return u.toString();
+  } catch {
+    return url;
+  }
+}
+
 /* ------------------------------------------------------------------ */
 /* Types                                                               */
 /* ------------------------------------------------------------------ */
@@ -445,7 +467,7 @@ interface CartNode {
 function normalizeCart(node: CartNode): ShopifyCart {
   return {
     id: node.id,
-    checkoutUrl: node.checkoutUrl,
+    checkoutUrl: withCheckoutDomain(node.checkoutUrl),
     totalQuantity: node.totalQuantity,
     subtotal: parseFloat(node.cost.subtotalAmount.amount),
     currencyCode: node.cost.subtotalAmount.currencyCode,
