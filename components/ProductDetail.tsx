@@ -4,8 +4,6 @@ import ProductGallery, { type GalleryImage } from "./ProductGallery";
 import ProductBuyBox from "./ProductBuyBox";
 import SizeGuideModal from "./SizeGuideModal";
 import Accordion, { type AccordionItem } from "./Accordion";
-import QualityGuarantee from "./QualityGuarantee";
-import TrustBadges from "./TrustBadges";
 import RelatedProducts from "./RelatedProducts";
 import { PdpImageSyncProvider } from "./PdpImageSync";
 import type { ShopifyProductOptions } from "@/lib/shopify";
@@ -216,17 +214,9 @@ export default function ProductDetail({
             handle={slug}
           />
 
-          {/* Trust badges — Fast Shipping · Secure Payment · Warranty, directly
-              below the Add-to-Cart button. */}
-          <TrustBadges />
-
-          {/* Quality Guarantee stamp — Oridor's premium promise, directly under
-              the CTA where buyers seek reassurance before purchasing. */}
-          <QualityGuarantee />
-
           <Link
             href="/quality-warranty"
-            className="mt-5 inline-flex items-center gap-1.5 text-xs font-light tracking-wide text-graphite underline-offset-4 transition-colors hover:text-gold"
+            className="mt-7 inline-flex items-center gap-1.5 text-xs font-light tracking-wide text-graphite underline-offset-4 transition-colors hover:text-gold"
           >
             <ShieldCheck size={14} strokeWidth={1.5} className="text-gold" />
             {qualityNote}
