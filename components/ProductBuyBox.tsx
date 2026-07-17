@@ -251,15 +251,14 @@ export default function ProductBuyBox({
       {/* Local size options — between the configurator and the CTA. */}
       {sizes.length > 0 && <SizeSelector sizes={sizes} />}
 
-      {/* Add to cart — elegant boutique profile: a thin charcoal outline that
-          fills solid on hover (transparent → solid black), slimmer than the
-          default filled CTA. */}
+      {/* Add to cart — high-contrast solid CTA so it stands out as the primary
+          action: solid charcoal on the pale page, shifting to gold on hover. */}
       <button
         ref={mainCtaRef}
         type="button"
         onClick={handleAdd}
         disabled={soldOut || !currentVariant}
-        className="group mt-9 inline-flex min-h-[52px] w-full items-center justify-center border border-charcoal bg-transparent px-10 text-[11px] uppercase tracking-[0.28em] text-charcoal transition-all duration-500 ease-cinematic hover:bg-charcoal hover:text-canvas focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-offwhite disabled:cursor-not-allowed disabled:border-platinum disabled:bg-transparent disabled:text-ash disabled:opacity-70"
+        className="group mt-9 inline-flex min-h-[56px] w-full items-center justify-center border border-charcoal bg-charcoal px-10 text-[11px] font-medium uppercase tracking-[0.28em] text-canvas shadow-[0_10px_30px_-12px_rgba(26,26,26,0.55)] transition-all duration-500 ease-cinematic hover:border-gold hover:bg-gold hover:text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-offwhite disabled:cursor-not-allowed disabled:border-platinum disabled:bg-platinum/40 disabled:text-ash disabled:opacity-70 disabled:shadow-none"
       >
         {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
       </button>

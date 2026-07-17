@@ -5,6 +5,7 @@ import ProductBuyBox from "./ProductBuyBox";
 import SizeGuideModal from "./SizeGuideModal";
 import Accordion, { type AccordionItem } from "./Accordion";
 import QualityGuarantee from "./QualityGuarantee";
+import TrustBadges from "./TrustBadges";
 import RelatedProducts from "./RelatedProducts";
 import { PdpImageSyncProvider } from "./PdpImageSync";
 import type { ShopifyProductOptions } from "@/lib/shopify";
@@ -139,12 +140,22 @@ export default function ProductDetail({
   /** Full collection list — used to find related products. */
   allProducts?: RelatedProduct[];
 }) {
+  // Three collapsible sections (Product Story · Materials & Care ·
+  // Shipping/Returns). Materials & Care folds together the page's materials
+  // copy, the shared quality guarantees, and the care instructions.
   const accordionItems: AccordionItem[] = [
-    { title: "תיאור", content: description },
-    { title: "חומרים ופרטים", content: materials },
-    QUALITY,
-    SHIPPING,
-    CARE,
+    { title: "סיפור המוצר", content: description },
+    {
+      title: "חומרים וטיפוח",
+      content: (
+        <div className="space-y-5">
+          <div>{materials}</div>
+          {QUALITY.content}
+          <p>{CARE.content}</p>
+        </div>
+      ),
+    },
+    { title: "משלוחים והחזרות", content: SHIPPING.content },
   ];
 
   const sizes = sizesForCategory(category);
@@ -175,7 +186,7 @@ export default function ProductDetail({
         <div className="order-2 flex flex-col md:order-1">
           {/* Title · rating · price read as one cohesive, tightly-spaced unit. */}
           <p className="mb-2.5 text-xs tracking-[0.25em] text-gold">{eyebrow}</p>
-          <h1 className="text-4xl font-semibold leading-[1.1] tracking-tight text-charcoal lg:text-5xl">
+          <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight text-charcoal lg:text-6xl">
             {title}
           </h1>
 
@@ -204,6 +215,10 @@ export default function ProductDetail({
             sizes={sizes}
             handle={slug}
           />
+
+          {/* Trust badges — Fast Shipping · Secure Payment · Warranty, directly
+              below the Add-to-Cart button. */}
+          <TrustBadges />
 
           {/* Quality Guarantee stamp — Oridor's premium promise, directly under
               the CTA where buyers seek reassurance before purchasing. */}
