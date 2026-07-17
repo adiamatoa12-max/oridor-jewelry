@@ -18,16 +18,23 @@ const ENDPOINT = DOMAIN
   : "";
 
 /**
- * Branded checkout domain (e.g. shop.oridorjewelry.com). Shopify already
- * returns the cart/checkout URL on the store's primary domain, but this
- * guarantees the redirect stays on the custom domain regardless of Shopify
- * config — the shopper never sees a *.myshopify.com URL. Override via env; the
- * Storefront API itself still runs on DOMAIN (the reliable myshopify endpoint).
+ * Checkout URL handling (headless).
+ *
+ * By default we use Shopify's NATIVE cart `checkoutUrl` verbatim — that URL is
+ * the direct, Shopify-hosted *secure checkout*, not the storefront theme. Which
+ * domain it lands on is decided by the store's PRIMARY DOMAIN in Shopify Admin
+ * (Settings → Domains), NOT by this app: if the primary domain is the shop
+ * subdomain, Shopify 301-redirects any checkout link there regardless of what
+ * host we send. So to keep checkout off a `shop.` subdomain, set the myshopify
+ * domain as primary in Admin — the app then follows automatically.
+ *
+ * NEXT_PUBLIC_SHOPIFY_CHECKOUT_DOMAIN is an OPTIONAL override: set it only if
+ * you later add a dedicated branded checkout domain and want to pin every URL
+ * to it. Left empty (the default), checkout uses Shopify's native domain.
  */
-const CHECKOUT_DOMAIN =
-  process.env.NEXT_PUBLIC_SHOPIFY_CHECKOUT_DOMAIN || "shop.oridorjewelry.com";
+const CHECKOUT_DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_CHECKOUT_DOMAIN || "";
 
-/** Rewrite a Shopify cart/checkout URL onto the branded checkout domain. */
+/** Optionally re-host a Shopify cart/checkout URL; no-op unless overridden. */
 function withCheckoutDomain(url: string): string {
   if (!CHECKOUT_DOMAIN || !url) return url;
   try {
