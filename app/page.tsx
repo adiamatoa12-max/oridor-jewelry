@@ -30,8 +30,11 @@ export default async function Home() {
       <Hero />
 
       {/* Editorial rhythm — consistent 48px → 96px spacing scale between every
-          section so the page breathes evenly on mobile and desktop. */}
-      <div className="space-y-20 py-16 sm:space-y-28 lg:space-y-36 lg:py-28">
+          section so the page breathes evenly on mobile and desktop. Bottom
+          padding only: the first section (הקולקציות שלנו) has its own top
+          padding, so a wrapper top pad here just doubled the hero→collections
+          gap. */}
+      <div className="space-y-20 pb-16 sm:space-y-28 lg:space-y-36 lg:pb-28">
         {/* Rhythmic block structure — Grid → Banner → Grid → Banner so the page
             reads as punchy, finished sections rather than an endless scroll. */}
 
