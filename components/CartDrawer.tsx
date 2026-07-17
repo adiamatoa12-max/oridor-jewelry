@@ -292,6 +292,7 @@ export default function CartDrawer() {
                 : ""
             }`}
           >
+            <Lock size={14} strokeWidth={1.75} />
             מעבר לקופה מאובטחת
             <ArrowLeft
               size={15}
@@ -299,6 +300,12 @@ export default function CartDrawer() {
               className="transition-transform duration-300 group-hover:-translate-x-1"
             />
           </a>
+          {/* Redirect reassurance — sets expectations that payment happens on a
+              secure external page (Shopify's hosted checkout). */}
+          <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] font-light leading-relaxed text-ash">
+            <Lock size={11} strokeWidth={1.75} className="flex-none text-gold" />
+            תועברו לעמוד התשלום המאובטח שלנו להשלמת הרכישה
+          </p>
         </div>
       </aside>
     </div>
