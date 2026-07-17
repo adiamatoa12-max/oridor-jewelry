@@ -407,6 +407,8 @@ export interface ShopifyCartLine {
   /** Variant/option title, e.g. a colour. Empty for single-variant products. */
   variantTitle: string;
   price: number;
+  /** Original ("compare at") unit price when the variant is on sale. */
+  compareAtPrice?: number;
   image: string | null;
 }
 export interface ShopifyCart {
@@ -434,6 +436,7 @@ const CART_FRAGMENT = /* GraphQL */ `
               id
               title
               price { amount }
+              compareAtPrice { amount }
               product { title featuredImage { url } }
             }
           }
@@ -457,6 +460,7 @@ interface CartNode {
           id: string;
           title: string;
           price: { amount: string };
+          compareAtPrice: { amount: string } | null;
           product: { title: string; featuredImage: { url: string } | null };
         };
       };
@@ -480,6 +484,10 @@ function normalizeCart(node: CartNode): ShopifyCart {
       variantTitle:
         l.merchandise.title === "Default Title" ? "" : l.merchandise.title,
       price: parseFloat(l.merchandise.price.amount),
+      compareAtPrice: (() => {
+        const c = parseFloat(l.merchandise.compareAtPrice?.amount ?? "0");
+        return c > parseFloat(l.merchandise.price.amount) ? c : undefined;
+      })(),
       image: l.merchandise.product.featuredImage?.url ?? null,
     })),
   };

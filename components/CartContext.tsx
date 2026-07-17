@@ -29,6 +29,8 @@ export interface CartItem {
   title: string;
   variant?: string;
   price: number;
+  /** Original unit price when on sale (renders as a struck-through discount). */
+  compareAtPrice?: number;
   quantity: number;
   image: string;
 }
@@ -174,6 +176,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       title: l.title,
       variant: l.variantTitle || undefined,
       price: l.price,
+      compareAtPrice: l.compareAtPrice,
       quantity: l.quantity,
       image: l.image ?? "",
     }));
