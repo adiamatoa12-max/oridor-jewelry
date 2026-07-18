@@ -45,6 +45,8 @@ export function generateMetadata({
       description,
       url: `${SITE_URL}/collections/moissanite/${product.slug}`,
       type: "website",
+      locale: "he_IL",
+      siteName: "Oridor",
       images: [{ url: image, alt: product.name }],
     },
   };
