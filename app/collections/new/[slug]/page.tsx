@@ -80,7 +80,13 @@ export default async function NewArrivalProductPage({
         category={product.category}
         slug={product.slug}
         allProducts={products}
-        images={[{ src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` }]}
+        images={[
+          { src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` },
+          ...(product.gallery_images ?? []).map((src) => ({
+            src: encodeURI(src),
+            alt: `${product.name} — תצוגה נוספת`,
+          })),
+        ]}
         fit="cover"
         fallbackPrice={product.price}
         compareAtPrice={product.compare_at_price}

@@ -16,6 +16,8 @@ export interface NewArrival {
   image_url: string;
   slug: string;
   category?: string;
+  /** Extra product-page gallery slides. PDP only — never used by the grid. */
+  gallery_images?: string[];
 }
 
 

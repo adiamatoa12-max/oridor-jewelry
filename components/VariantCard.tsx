@@ -19,6 +19,8 @@ export interface VariantProduct {
   category: string;
   material: string;
   slug: string;
+  /** Extra product-page gallery slides. PDP only — never used by the grid. */
+  gallery_images?: string[];
   variants: Variant[];
 }
 

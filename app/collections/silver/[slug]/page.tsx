@@ -58,14 +58,20 @@ export default async function SilverProductPage({
     (product.variants ?? []).map((v) => [v.color, v.hex]),
   );
 
-  // Gallery: each colour variant image, else the single product shot.
-  const galleryImages =
-    product.variants && product.variants.length > 0
+  // Gallery: each colour variant image, else the single product shot —
+  // followed by any extra product-page-only gallery shots.
+  const galleryImages = [
+    ...(product.variants && product.variants.length > 0
       ? product.variants.map((v) => ({
           src: encodeURI(v.image_url),
           alt: `${product.name} — ${v.color}`,
         }))
-      : [{ src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` }];
+      : [{ src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` }]),
+    ...(product.gallery_images ?? []).map((src) => ({
+      src: encodeURI(src),
+      alt: `${product.name} — תצוגה נוספת`,
+    })),
+  ];
 
   const productJsonLd = buildProductJsonLd({
     name: product.name,

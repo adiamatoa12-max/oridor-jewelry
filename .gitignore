@@ -13,3 +13,7 @@ tsconfig.tsbuildinfo
 
 # Generated Shopify import file
 shopify-products.csv
+
+# Original full-size product-gallery PNGs (~2MB each). Kept locally as the
+# source masters; the optimised .jpg siblings are what ship to the site.
+public/photo/*אווירה*.png

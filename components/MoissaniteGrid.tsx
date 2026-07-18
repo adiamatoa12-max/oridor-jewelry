@@ -18,6 +18,8 @@ export interface MoissaniteProduct {
   image_url: string;
   /** Optional lifestyle/on-model shot that fades in on hover/touch. */
   hover_image?: string;
+  /** Extra product-page gallery slides. PDP only — never used by the grid. */
+  gallery_images?: string[];
   slug: string;
   /** Category key for filtering (Rings/Bracelets/Necklaces/Earrings). */
   category?: string;

@@ -106,6 +106,10 @@ export default async function MoissaniteProductPage({
           ...(product.hover_image
             ? [{ src: encodeURI(product.hover_image), alt: `${product.name} בעיצוב על הדוגמנית` }]
             : []),
+          ...(product.gallery_images ?? []).map((src) => ({
+            src: encodeURI(src),
+            alt: `${product.name} — תצוגה נוספת`,
+          })),
         ]}
         fit="contain"
         fallbackPrice={product.price}

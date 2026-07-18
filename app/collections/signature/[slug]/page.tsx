@@ -72,10 +72,17 @@ export default async function SignatureProductPage({
   const imageByValue: Record<string, string> = Object.fromEntries(
     product.variants.map((v) => [v.color, encodeURI(v.image_url)]),
   );
-  const galleryImages = product.variants.map((v) => ({
-    src: encodeURI(v.image_url),
-    alt: `${product.name} — ${v.color}`,
-  }));
+  // Each finish, followed by any extra product-page-only gallery shots.
+  const galleryImages = [
+    ...product.variants.map((v) => ({
+      src: encodeURI(v.image_url),
+      alt: `${product.name} — ${v.color}`,
+    })),
+    ...(product.gallery_images ?? []).map((src) => ({
+      src: encodeURI(src),
+      alt: `${product.name} — תצוגה נוספת`,
+    })),
+  ];
 
   const productJsonLd = buildProductJsonLd({
     name: product.name,
