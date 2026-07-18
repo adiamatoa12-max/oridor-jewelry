@@ -114,8 +114,14 @@ export default function ProductBuyBox({
     [variants],
   );
 
+  // Depend on the SETTER (referentially stable from useState), never on the
+  // whole sync context: that object's identity changes every time activeSrc
+  // changes, which would re-fire this effect and immediately overwrite a
+  // gallery thumbnail the shopper just clicked.
+  const setActiveSrc = imageSync?.setActiveSrc;
+
   useEffect(() => {
-    if (!imageSync || variants.length <= 1) return;
+    if (!setActiveSrc || variants.length <= 1) return;
     // Prefer the page's curated per-colour image map (distinct local assets);
     // otherwise use the selected variant's own Shopify image, but only when the
     // variants genuinely have different images. Single-image variant sets keep
@@ -124,8 +130,8 @@ export default function ProductBuyBox({
       .map((o) => imageByValue[o.value])
       .find(Boolean);
     const src = localSrc ?? (variantImagesVary ? currentVariant?.image : undefined);
-    if (src) imageSync.setActiveSrc(src);
-  }, [currentVariant, imageByValue, imageSync, variants.length, variantImagesVary]);
+    if (src) setActiveSrc(src);
+  }, [currentVariant, imageByValue, setActiveSrc, variants.length, variantImagesVary]);
 
   const choose = (optName: string, value: string) => {
     setSelected((s) => ({ ...s, [optName]: value }));

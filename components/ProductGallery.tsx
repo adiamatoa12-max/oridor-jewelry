@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Image from "next/image";
 import { usePdpImageSync } from "./PdpImageSync";
 
@@ -27,17 +27,20 @@ export default function ProductGallery({
   const [origin, setOrigin] = useState("50% 50%");
   const frameRef = useRef<HTMLDivElement>(null);
 
-  const gallery = images.filter((i) => i.src);
+  // Memoised: an inline filter would produce a new array every render, making
+  // the sync effect below re-run constantly and fight the clicked thumbnail.
+  const gallery = useMemo(() => images.filter((i) => i.src), [images]);
 
   // Sync with the color swatches: when the buy box picks a variant image,
-  // switch the main view to the matching thumbnail.
+  // switch the main view to the matching thumbnail. Clicking a thumbnail
+  // clears activeSrc, so this stays dormant until a variant is chosen.
   const sync = usePdpImageSync();
+  const syncedSrc = sync?.activeSrc;
   useEffect(() => {
-    const src = sync?.activeSrc;
-    if (!src) return;
-    const idx = gallery.findIndex((g) => g.src === src);
+    if (!syncedSrc) return;
+    const idx = gallery.findIndex((g) => g.src === syncedSrc);
     if (idx >= 0) setActive(idx);
-  }, [sync?.activeSrc, gallery]);
+  }, [syncedSrc, gallery]);
 
   // A synced variant image that isn't one of the local thumbnails (e.g. a live
   // Shopify variant image) becomes the main image directly.

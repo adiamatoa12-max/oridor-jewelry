@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 
 interface PdpImageSync {
   /** Image src the buy box wants the gallery to show (null = gallery default). */
@@ -18,8 +24,12 @@ const PdpImageSyncContext = createContext<PdpImageSync | null>(null);
  */
 export function PdpImageSyncProvider({ children }: { children: ReactNode }) {
   const [activeSrc, setActiveSrc] = useState<string | null>(null);
+  // Memoised so consumers only re-render when activeSrc genuinely changes; an
+  // inline object literal here would hand every consumer a fresh identity on
+  // each render.
+  const value = useMemo(() => ({ activeSrc, setActiveSrc }), [activeSrc]);
   return (
-    <PdpImageSyncContext.Provider value={{ activeSrc, setActiveSrc }}>
+    <PdpImageSyncContext.Provider value={value}>
       {children}
     </PdpImageSyncContext.Provider>
   );
