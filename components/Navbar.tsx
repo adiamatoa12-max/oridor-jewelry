@@ -20,10 +20,10 @@ const LINKS = [
  *  · Top row: the ORIDOR wordmark, absolutely centered. Utility icons
  *    (search · account · cart) on the inline-end (left); mobile hamburger on
  *    the inline-start (right).
- *  · Second row (desktop only): the category links, centered below the logo
- *    and separated by a light hairline — brand identity above, navigation
- *    below. On mobile the nav row is hidden; the hamburger drawer handles it
- *    so the screen stays clean.
+ *  · Second row (desktop only): the category links, centered below the logo —
+ *    brand identity above, navigation below, separated by whitespace rather
+ *    than a rule. On mobile the nav row is hidden; the hamburger drawer
+ *    handles it so the screen stays clean.
  */
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -32,10 +32,13 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="relative z-40 border-b border-platinum/40 bg-canvas/95 backdrop-blur-md transition-shadow duration-300 supports-[backdrop-filter]:bg-canvas/80">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
-        {/* Top row — brand identity */}
-        <div className="relative flex h-16 items-center sm:h-20">
+      {/* A single hairline closes the header. The nav row deliberately carries
+          no top border: paired with this one it boxed the wordmark in, which
+          read as a frame rather than letting the logo stand on its own. */}
+      <header className="relative z-40 border-b border-platinum/25 bg-canvas/95 backdrop-blur-md transition-shadow duration-300 supports-[backdrop-filter]:bg-canvas/80">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-14">
+        {/* Top row — brand identity, generous height so the mark breathes */}
+        <div className="relative flex h-20 items-center sm:h-24">
           {/* Absolutely-centered logo — true horizontal center of the row */}
           <Link
             href="/"
@@ -48,7 +51,7 @@ export default function Navbar() {
               width={1565}
               height={195}
               priority
-              className="h-5 w-auto sm:h-6 lg:h-7"
+              className="h-6 w-auto sm:h-7 lg:h-8"
             />
           </Link>
 
@@ -60,7 +63,7 @@ export default function Navbar() {
               onClick={() => setOpen(true)}
               className="-ms-2 inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:text-graphite md:hidden"
             >
-              <Menu size={22} strokeWidth={1.5} />
+              <Menu size={20} strokeWidth={1.25} />
             </button>
           </div>
 
@@ -72,7 +75,7 @@ export default function Navbar() {
               onClick={() => setSearchOpen(true)}
               className="inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-graphite"
             >
-              <Search size={19} strokeWidth={1.5} />
+              <Search size={18} strokeWidth={1.25} />
             </button>
             {/* Account link — hidden until the user-auth system is built.
                 Re-enable by restoring this block and the `User` import. */}
@@ -89,7 +92,7 @@ export default function Navbar() {
               aria-label={`עגלת קניות, ${count} פריטים`}
               className="relative inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-graphite"
             >
-              <ShoppingBag size={19} strokeWidth={1.5} />
+              <ShoppingBag size={18} strokeWidth={1.25} />
               {count > 0 && (
                 <span className="absolute end-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-charcoal px-1 text-[10px] font-medium leading-none text-canvas">
                   {count}
@@ -100,8 +103,8 @@ export default function Navbar() {
         </div>
 
         {/* Second row — centered navigation, desktop only */}
-        <nav className="hidden justify-center border-t border-platinum/30 md:flex">
-          <ul className="flex items-center gap-7 py-3.5 lg:gap-9">
+        <nav className="hidden justify-center md:flex">
+          <ul className="flex items-center gap-10 pb-6 lg:gap-14">
             {LINKS.map((l) => (
               <NavLink key={l.href} {...l} />
             ))}
@@ -127,7 +130,7 @@ function SaleLink() {
     <li>
       <Link
         href="/shop"
-        className="group relative inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-gold transition-opacity hover:opacity-80"
+        className="group relative inline-flex items-center gap-2 text-[12.5px] font-light tracking-[0.18em] text-gold transition-opacity duration-300 hover:opacity-70"
       >
         <span className="relative flex h-1.5 w-1.5">
           <span className="absolute inline-flex h-full w-full animate-soft-ping rounded-full bg-gold/70" />
@@ -144,10 +147,10 @@ function NavLink({ label, href }: { label: string; href: string }) {
     <li>
       <Link
         href={href}
-        className="group relative text-[13px] font-medium uppercase tracking-wide text-charcoal transition-colors hover:text-gold"
+        className="group relative text-[12.5px] font-light tracking-[0.18em] text-charcoal transition-colors duration-300 hover:text-gold"
       >
         {label}
-        <span className="absolute -bottom-1.5 start-0 h-px w-0 bg-gold transition-all duration-500 ease-cinematic group-hover:w-full" />
+        <span className="absolute -bottom-2 start-0 h-px w-0 bg-gold transition-all duration-500 ease-cinematic group-hover:w-full" />
       </Link>
     </li>
   );

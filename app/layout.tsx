@@ -10,7 +10,6 @@ import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 import Cursor from "@/components/Cursor";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 
 // Body sans — Hebrew-complete companion behind Montserrat (renders Hebrew copy).
@@ -121,7 +120,6 @@ export default function RootLayout({
         <CartProvider>
           {children}
           <CartDrawer />
-          <WhatsAppButton />
           <AccessibilityWidget />
           <Cursor />
         </CartProvider>
