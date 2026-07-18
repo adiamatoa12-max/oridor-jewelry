@@ -240,9 +240,13 @@ export default function CartDrawer() {
                             <h3 className="truncate text-sm font-normal leading-snug text-charcoal">
                               {item.title}
                             </h3>
-                            {item.variant && (
-                              <p className="mt-0.5 text-xs font-light text-ash">
-                                {item.variant}
+                            {/* Material · chosen options, e.g.
+                                "כסף 925 טהור בציפוי רודיום · 2 קראט".
+                                Falls back to the raw variant title if the
+                                product has no description to draw on. */}
+                            {(item.details ?? item.variant) && (
+                              <p className="mt-0.5 truncate text-[11px] font-light leading-snug text-ash">
+                                {item.details ?? item.variant}
                               </p>
                             )}
                           </div>

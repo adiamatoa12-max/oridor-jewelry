@@ -18,6 +18,7 @@ import {
   getFirstVariantId,
   isShopifyConfigured,
   type ShopifyCart,
+  type ShopifyCartLine,
 } from "@/lib/shopify";
 
 const STORAGE_KEY = "oridor_cart_id";
@@ -31,6 +32,12 @@ export interface CartItem {
   price: number;
   /** Original unit price when on sale (renders as a struck-through discount). */
   compareAtPrice?: number;
+  /**
+   * One-line detail shown under the title, e.g.
+   * "כסף 925 טהור בציפוי רודיום · 2 קראט" — material from the product
+   * description, plus whichever options the shopper actually chose.
+   */
+  details?: string;
   quantity: number;
   image: string;
 }
@@ -171,12 +178,32 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   );
 
   const value = useMemo<CartContextValue>(() => {
+    /**
+     * "Material · chosen options" for the cart line, e.g.
+     * "כסף 925 טהור בציפוי רודיום · 2 קראט".
+     *
+     * A bare option VALUE is meaningless on its own — carat variants read as
+     * just "2" — so measurable axes are labelled with their option name, while
+     * descriptive ones (colour/finish) read better as the value alone.
+     */
+    const DESCRIPTIVE = /צבע|color|גימור|finish|מתכת|metal|חומר/i;
+    const buildDetails = (l: ShopifyCartLine): string | undefined => {
+      const parts = [
+        l.material,
+        ...l.options.map((o) =>
+          DESCRIPTIVE.test(o.name) ? o.value : `${o.value} ${o.name}`,
+        ),
+      ].filter(Boolean);
+      return parts.length ? parts.join(" · ") : undefined;
+    };
+
     const items: CartItem[] = (cart?.lines ?? []).map((l) => ({
       id: l.id,
       title: l.title,
       variant: l.variantTitle || undefined,
       price: l.price,
       compareAtPrice: l.compareAtPrice,
+      details: buildDetails(l),
       quantity: l.quantity,
       image: l.image ?? "",
     }));

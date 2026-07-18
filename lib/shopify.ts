@@ -416,6 +416,12 @@ export interface ShopifyCartLine {
   price: number;
   /** Original ("compare at") unit price when the variant is on sale. */
   compareAtPrice?: number;
+  /** Product handle — the join key back to the local catalog. */
+  handle: string;
+  /** Material line from the product description, e.g. "כסף 925 טהור". */
+  material?: string;
+  /** Real chosen options (Shopify's synthetic "Title" axis is dropped). */
+  options: { name: string; value: string }[];
   image: string | null;
 }
 export interface ShopifyCart {
@@ -444,7 +450,8 @@ const CART_FRAGMENT = /* GraphQL */ `
               title
               price { amount }
               compareAtPrice { amount }
-              product { title featuredImage { url } }
+              selectedOptions { name value }
+              product { title handle description featuredImage { url } }
             }
           }
         }
@@ -468,7 +475,13 @@ interface CartNode {
           title: string;
           price: { amount: string };
           compareAtPrice: { amount: string } | null;
-          product: { title: string; featuredImage: { url: string } | null };
+          selectedOptions: { name: string; value: string }[];
+          product: {
+            title: string;
+            handle: string;
+            description: string;
+            featuredImage: { url: string } | null;
+          };
         };
       };
     }[];
@@ -490,6 +503,14 @@ function normalizeCart(node: CartNode): ShopifyCart {
       // Shopify uses "Default Title" for single-variant products — hide it.
       variantTitle:
         l.merchandise.title === "Default Title" ? "" : l.merchandise.title,
+      handle: l.merchandise.product.handle,
+      // First line of the description is the material ("כסף 925 טהור …").
+      material:
+        l.merchandise.product.description?.split("\n")[0].trim() || undefined,
+      // Drop Shopify's synthetic single-variant axis.
+      options: (l.merchandise.selectedOptions ?? []).filter(
+        (o) => o.name !== "Title" && o.value !== "Default Title",
+      ),
       price: parseFloat(l.merchandise.price.amount),
       compareAtPrice: (() => {
         const c = parseFloat(l.merchandise.compareAtPrice?.amount ?? "0");
