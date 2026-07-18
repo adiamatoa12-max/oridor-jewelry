@@ -16,8 +16,8 @@ import { useCart } from "./CartContext";
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
-// "2+1" promotion — add 3 items, the 3rd (a premium gift) is on us. Every
-// third item in the cart unlocks another free gift.
+// "2+1" promotion — reach 3 items and the 3rd (a premium gift) is on us.
+// A single, one-time unlock: once reached it stays unlocked as the cart grows.
 const PROMO_SIZE = 3;
 // The complimentary gift is a genuine Oridor piece — real product imagery makes
 // the choice feel like a premium boutique gift rather than a generic plugin.
@@ -72,12 +72,16 @@ export default function CartDrawer() {
     if (isOpen) bodyRef.current?.scrollTo({ top: 0 });
   }, [isOpen]);
 
-  // Progress within the current 3-item tier (0 → 3). A completed tier reads as
-  // a full bar; the next item starts the following tier.
-  const tierCount = count === 0 ? 0 : count % PROMO_SIZE || PROMO_SIZE;
-  const toGo = PROMO_SIZE - tierCount; // items left to unlock the next gift
+  // One-time unlock at PROMO_SIZE items. `count` is Shopify's totalQuantity —
+  // the sum of line QUANTITIES, not the number of lines — so three separate
+  // products and a single product at quantity three both reach the gift.
+  //
+  // Progress deliberately clamps rather than wrapping (count % PROMO_SIZE):
+  // wrapping sent the bar back to 1/3 at four items while the copy still read
+  // "2+1 active", so the bar contradicted the message.
+  const progress = Math.min(count, PROMO_SIZE); // 0 → 3, never resets
+  const toGo = Math.max(0, PROMO_SIZE - count); // items still needed
   const unlocked = count >= PROMO_SIZE;
-  const freeItems = Math.floor(count / PROMO_SIZE);
 
   return (
     <div
@@ -133,7 +137,7 @@ export default function CartDrawer() {
                 {unlocked ? (
                   <>
                     <span className="font-semibold text-gold">מבצע 2+1 פעיל!</span>{" "}
-                    {freeItems > 1 ? `${freeItems} פריטים` : "הפריט השלישי"} עלינו ✨
+                    הפריט השלישי עלינו ✨
                   </>
                 ) : (
                   <>
@@ -150,7 +154,7 @@ export default function CartDrawer() {
               </p>
               {/* Explicit step counter — reinforces exactly what's left */}
               <span className="flex-none rounded-full border border-gold/40 bg-gold/10 px-2.5 py-1 text-[11px] font-semibold tabular-nums text-gold">
-                {tierCount}/{PROMO_SIZE}
+                {progress}/{PROMO_SIZE}
               </span>
             </div>
 
@@ -160,7 +164,7 @@ export default function CartDrawer() {
               <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-platinum/50">
                 <div
                   className="h-full rounded-full bg-gradient-to-l from-gold via-[#D9BE7E] to-[#E6D2A6] transition-[width] duration-700 ease-cinematic"
-                  style={{ width: `${(tierCount / PROMO_SIZE) * 100}%` }}
+                  style={{ width: `${(progress / PROMO_SIZE) * 100}%` }}
                 />
                 {[1, 2].map((i) => (
                   <span
