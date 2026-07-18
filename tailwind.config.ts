@@ -6,6 +6,11 @@ import type { Config } from "tailwindcss";
  * Typography: deep charcoal / graphite — NEVER pure black, NEVER gold.
  */
 const config: Config = {
+  // Scope `hover:` to devices that genuinely support hovering. On touch and
+  // hybrid devices :hover latches after a tap and only clears when you tap
+  // elsewhere — which left hover-revealed controls (like Quick Add) stuck
+  // on screen, overlapping the card below.
+  future: { hoverOnlyWhenSupported: true },
   content: [
     "./app/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",

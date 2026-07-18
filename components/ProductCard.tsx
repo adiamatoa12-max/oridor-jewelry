@@ -125,12 +125,16 @@ export default function ProductCard({
         )}
 
         {/* Quick Add — hover-reveal over the bottom of the image (desktop only) */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden p-4 opacity-0 transition-opacity duration-500 ease-cinematic group-hover:opacity-100 sm:block">
+        {/* Quick-add is only clickable/hoverable once actually visible. An
+            opacity-0 element still receives pointer events, so an unconditional
+            pointer-events-auto let the invisible button hold :hover — leaving
+            the card looking "stuck" — and even accept phantom clicks. */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 hidden p-4 opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100 sm:block">
           <button
             type="button"
             onClick={handleAdd}
             aria-label={quickAddLabel}
-            className="btn-primary pointer-events-auto w-full"
+            className="btn-primary w-full pointer-events-none group-hover:pointer-events-auto"
           >
             הוספה מהירה
           </button>
