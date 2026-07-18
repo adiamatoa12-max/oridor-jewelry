@@ -390,25 +390,22 @@ export default function CartDrawer() {
           </div>
         </div>
 
-        {/* Footer: subtotal + checkout — pinned (sticky) at the bottom, floating
-            above the scroll region with a soft upward shadow. */}
-        <div className="border-t border-platinum/50 bg-canvas px-6 py-5 shadow-[0_-10px_30px_rgba(31,31,31,0.05)]">
-          <div className="flex items-center justify-between">
-            <span className="text-sm tracking-wide text-graphite">סך הכל הביניים</span>
-            <span className="text-base font-normal text-charcoal">
-              {formatPrice(subtotal)}
-            </span>
-          </div>
-          <p className="mt-2 text-center text-xs font-light text-ash">
-            משלוח חינם עד הבית מתווסף אוטומטית
+        {/* Footer: total + checkout — pinned (sticky) at the bottom, floating
+            above the scroll region with a soft upward shadow. Pared back to the
+            essentials: total figure, CTA, and trust signals. */}
+        <div className="border-t border-platinum/50 bg-canvas px-6 py-6 shadow-[0_-10px_30px_rgba(31,31,31,0.05)]">
+          {/* Total — the price figure only, no label */}
+          <p className="text-center text-2xl font-normal tracking-wide text-charcoal">
+            {formatPrice(subtotal)}
           </p>
+
           <a
             href={checkoutUrl ?? "#"}
             aria-disabled={items.length === 0 || !checkoutUrl || busy}
             onClick={(e) => {
               if (items.length === 0 || !checkoutUrl || busy) e.preventDefault();
             }}
-            className={`group mt-4 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-canvas transition-all duration-300 ease-cinematic hover:bg-gold hover:text-charcoal active:scale-[0.99] ${
+            className={`group mt-5 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-canvas transition-all duration-300 ease-cinematic hover:bg-gold hover:text-charcoal active:scale-[0.99] ${
               items.length === 0 || !checkoutUrl || busy
                 ? "pointer-events-none cursor-not-allowed opacity-40"
                 : ""
@@ -422,16 +419,9 @@ export default function CartDrawer() {
               className="transition-transform duration-300 group-hover:-translate-x-1"
             />
           </a>
-          {/* Redirect reassurance — sets expectations that payment happens on a
-              secure external page (Shopify's hosted checkout). */}
-          <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-[11px] font-light leading-relaxed text-ash">
-            <Lock size={11} strokeWidth={1.75} className="flex-none text-gold" />
-            תועברו לעמוד התשלום המאובטח שלנו להשלמת הרכישה
-          </p>
 
-          {/* Trust signals — honest "secure checkout" badge + accepted payment
-              methods. Boosts conversion confidence at the decision point. */}
-          <div className="mt-4 flex flex-col items-center gap-2 border-t border-platinum/40 pt-4">
+          {/* Trust signals — SSL badge + accepted payment methods */}
+          <div className="mt-5 flex flex-col items-center gap-2.5">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-platinum/60 bg-cream/60 px-3 py-1.5">
               <ShieldCheck size={13} strokeWidth={1.75} className="text-gold" />
               <span className="text-[10px] font-medium tracking-wide text-graphite">
