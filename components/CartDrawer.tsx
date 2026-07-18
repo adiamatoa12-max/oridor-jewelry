@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import {
   X,
   Plus,
@@ -14,16 +13,6 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useCart } from "./CartContext";
-
-// The 3D vault reward is heavy (WebGL) — client-only, code-split, never SSR'd.
-const VaultReward3D = dynamic(() => import("./VaultReward3D"), {
-  ssr: false,
-  loading: () => (
-    <div className="mt-4 flex h-10 items-center justify-center">
-      <span className="h-4 w-4 animate-spin rounded-full border-2 border-gold/20 border-t-gold" />
-    </div>
-  ),
-});
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
@@ -176,16 +165,13 @@ export default function CartDrawer() {
                 />
               </div>
 
-              {/* 3D vault reward — the robot presents the chosen gift */}
-              <VaultReward3D show={unlocked && isOpen} selectedGift={selectedGift} />
-
               {/* Gift options — smooth height + fade reveal once unlocked.
                   Premium cards: real product imagery, generous padding, a
                   standout heading, and a clear gold selection state. */}
               <div
                 className={`grid transition-all duration-700 ease-cinematic ${
                   unlocked
-                    ? "mt-5 grid-rows-[1fr] opacity-100"
+                    ? "mt-6 grid-rows-[1fr] opacity-100"
                     : "grid-rows-[0fr] opacity-0"
                 }`}
               >
