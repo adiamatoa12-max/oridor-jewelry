@@ -84,7 +84,7 @@ export default function AnnouncementBar() {
     <div className="relative bg-black text-white">
       <div className="mx-auto flex min-h-10 max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-10 py-2 text-center sm:px-12">
         <p className="text-[11px] font-light leading-snug tracking-wide sm:text-xs">
-          <span className="font-medium text-white">קולקציית השקה: 2+1 על כל האתר</span>
+          <span className="font-medium text-white">קולקציית השקה: 2+1 על פריטים נבחרים</span>
           <span className="mx-1.5 text-white/40">|</span>
           כסף 925 אמיתי בציפוי רודיום
           <span className="mx-1.5 text-white/40">|</span>

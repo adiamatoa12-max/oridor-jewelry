@@ -37,7 +37,7 @@ export default function Hero() {
               label above it: it read "מבצע השקה", repeating the first two words
               of the headline itself. */}
           <h1 className="animate-fade-up text-4xl font-bold leading-[1.14] tracking-tight text-white [text-wrap:balance] [animation-delay:100ms] sm:text-5xl lg:text-6xl">
-            מבצע השקה מיוחד – 2+1 על כל הקולקציה
+            מבצע השקה מיוחד – 2+1 על פריטים נבחרים
           </h1>
           {/* Supporting line — smaller, lighter, airier */}
           <p className="mx-auto mt-6 max-w-lg animate-fade-up text-sm font-light leading-relaxed tracking-wide text-white/85 [animation-delay:300ms] sm:text-base">
