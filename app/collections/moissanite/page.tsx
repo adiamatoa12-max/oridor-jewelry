@@ -10,9 +10,9 @@ import { overlayLivePrices } from "@/lib/catalog";
 import productsData from "@/data/moissanite_collection.json";
 
 export const metadata: Metadata = {
-  title: { absolute: "קולקציית מואסניט | ברק שעוצר נשימה בכסף 925 | Oridor" },
+  title: { absolute: "קולקציית מואסנייט | ברק שעוצר נשימה בכסף 925 | Oridor" },
   description:
-    "אבני מואסניט בדרגת D/VVS1 בעבודת יד, בכסף סטרלינג 925 מצופה רודיום. ברק שמתחרה ביהלום — במחיר הוגן. משלוח חינם ואחריות מלאה.",
+    "אבני מואסנייט בדרגת D/VVS1 בעבודת יד, בכסף סטרלינג 925 מצופה רודיום. ברק שמתחרה ביהלום — במחיר הוגן. משלוח חינם ואחריות מלאה.",
   alternates: { canonical: "/collections/moissanite" },
 };
 
@@ -35,7 +35,7 @@ export default async function MoissaniteCollectionPage() {
         image="/photo/moissanite-hero.webp"
         scrim="bg-gradient-to-b from-black/30 via-black/25 to-black/50"
         eyebrow="ברק נצחי"
-        title="קולקציית מואסניט"
+        title="קולקציית מואסנייט"
         subtitle="הניצוץ של היהלום, במחיר שמרגיש נכון."
       />
 

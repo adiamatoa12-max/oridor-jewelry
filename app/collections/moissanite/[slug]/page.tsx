@@ -15,10 +15,10 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com"
 
 // Category-specific value phrase for the "[Name] | [Benefit] | Oridor" title.
 const BENEFIT: Record<string, string> = {
-  Rings: "טבעת מואסניט בכסף 925",
-  Necklaces: "שרשרת מואסניט בכסף 925",
-  Bracelets: "צמיד מואסניט בכסף 925",
-  Earrings: "עגילי מואסניט בכסף 925",
+  Rings: "טבעת מואסנייט בכסף 925",
+  Necklaces: "שרשרת מואסנייט בכסף 925",
+  Bracelets: "צמיד מואסנייט בכסף 925",
+  Earrings: "עגילי מואסנייט בכסף 925",
 };
 
 export function generateStaticParams() {
@@ -32,9 +32,9 @@ export function generateMetadata({
 }): Metadata {
   const product = products.find((p) => p.slug === params.slug);
   if (!product) return { title: "מוצר לא נמצא" };
-  const benefit = BENEFIT[product.category ?? ""] ?? "מואסניט זוהר בכסף 925";
+  const benefit = BENEFIT[product.category ?? ""] ?? "מואסנייט זוהר בכסף 925";
   const title = `${product.name} | ${benefit} | Oridor`;
-  const description = `${product.name} — מואסניט בדרגת D/VVS1 בכסף סטרלינג 925 מצופה רודיום. ברק עוצר נשימה, משלוח חינם ואחריות מלאה.`;
+  const description = `${product.name} — מואסנייט בדרגת D/VVS1 בכסף סטרלינג 925 מצופה רודיום. ברק עוצר נשימה, משלוח חינם ואחריות מלאה.`;
   const image = `${SITE_URL}${encodeURI(product.image_url)}`;
   return {
     title: { absolute: title },
@@ -79,7 +79,7 @@ export default async function MoissaniteProductPage({
   const productJsonLd = buildProductJsonLd({
     name: product.name,
     images: [`${SITE_URL}${encodeURI(product.image_url)}`],
-    description: `${product.name} — מואסניט בדרגת D/VVS1 בכסף סטרלינג 925 טהור מצופה רודיום.`,
+    description: `${product.name} — מואסנייט בדרגת D/VVS1 בכסף סטרלינג 925 טהור מצופה רודיום.`,
     sku: product.id,
     path: `/collections/moissanite/${product.slug}`,
     price: product.price,
@@ -97,8 +97,8 @@ export default async function MoissaniteProductPage({
 
       <ProductDetail
         breadcrumbHref="/collections/moissanite"
-        breadcrumbLabel="קולקציית מואסניט"
-        eyebrow="מואסניט"
+        breadcrumbLabel="קולקציית מואסנייט"
+        eyebrow="מואסנייט"
         title={product.name}
         category={product.category}
         slug={product.slug}
@@ -122,9 +122,9 @@ export default async function MoissaniteProductPage({
         fallbackPrice={product.price}
         compareAtPrice={product.compare_at_price}
         shopifyProduct={displayProduct}
-        qualityNote="איכות ואותנטיות — כסף 925 ומואסניט D / VVS1"
+        qualityNote="איכות ואותנטיות — כסף 925 ומואסנייט D / VVS1"
         showRingGuide={/ring|טבעת/i.test(product.name)}
-        description="אבן מואסניט נוצצת בעבודת יד מדויקת, משובצת בכסף 925 טהור מצופה רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אתכן לכל החיים."
+        description="אבן מואסנייט נוצצת בעבודת יד מדויקת, משובצת בכסף 925 טהור מצופה רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אתכן לכל החיים."
         materials={
           <dl className="space-y-2">
             <div className="flex gap-2">
@@ -133,7 +133,7 @@ export default async function MoissaniteProductPage({
             </div>
             <div className="flex gap-2">
               <dt className="text-ash">אבן:</dt>
-              <dd>מואסניט בדרגת D / VVS1</dd>
+              <dd>מואסנייט בדרגת D / VVS1</dd>
             </div>
             <div className="flex gap-2">
               <dt className="text-ash">מק״ט:</dt>

@@ -11,7 +11,7 @@ const CATEGORIES = [
   { image: "/photo/category-6.jpeg", label: "עגילים", href: "/shop?filter=עגילים" },
   {
     image: "/photo/category-moissanite.jpeg",
-    label: "מואסניט",
+    label: "מואסנייט",
     href: "/collections/moissanite",
   },
 ].map((c) => ({ ...c, image: encodeURI(c.image) }));

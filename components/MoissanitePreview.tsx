@@ -4,7 +4,7 @@ import products from "@/data/moissanite_collection.json";
 import { getLivePriceMap } from "@/lib/shopify";
 
 /**
- * Homepage section — "קולקציית מואסניט": strictly Moissanite products only.
+ * Homepage section — "קולקציית מואסנייט": strictly Moissanite products only.
  * Hybrid: local data drives the cards; live Shopify price is overlaid by handle
  * (slug). Safe no-op when Shopify is unconfigured.
  */
@@ -27,10 +27,10 @@ export default async function MoissanitePreview() {
       <div className="mb-12 text-center">
         <p className="mb-3 text-xs tracking-[0.25em] text-gold">ברק נצחי</p>
         <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
-          קולקציית מואסניט
+          קולקציית מואסנייט
         </h2>
         <p className="mx-auto mt-4 max-w-md text-sm font-light text-graphite">
-          אבני מואסניט בדרגת D / VVS1 — ברק שמתחרה ביהלומים.
+          אבני מואסנייט בדרגת D / VVS1 — ברק שמתחרה ביהלומים.
         </p>
       </div>
 

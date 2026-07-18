@@ -53,18 +53,18 @@ const OG_IMAGE = {
   url: "/og-image.jpg",
   width: 1536,
   height: 1024,
-  alt: "קולקציית תכשיטי המויסאניט של Oridor — שרשרת, טבעת, עגילים וצמיד טניס",
+  alt: "קולקציית תכשיטי המואסנייט של Oridor — שרשרת, טבעת, עגילים וצמיד טניס",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Oridor | תכשיטי מויסאניט פרימיום",
+    default: "Oridor | תכשיטי מואסנייט פרימיום",
     template: "%s — Oridor",
   },
   description:
-    "Oridor — תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסניט. מינימליסטי, על-זמני, אלגנטי.",
-  keywords: ["תכשיטים", "מואסניט", "כסף 925", "טבעות", "שרשראות", "עגילים", "Oridor"],
+    "Oridor — תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסנייט. מינימליסטי, על-זמני, אלגנטי.",
+  keywords: ["תכשיטים", "מואסנייט", "כסף 925", "טבעות", "שרשראות", "עגילים", "Oridor"],
   alternates: { canonical: "/" },
   verification: {
     google: "Zm3Pn5GM0Dl2U-03H0tCAqK3uOiSEaLdatkLCqy_fXo",
@@ -73,17 +73,17 @@ export const metadata: Metadata = {
     type: "website",
     locale: "he_IL",
     siteName: "Oridor",
-    title: "Oridor | תכשיטי מויסאניט פרימיום",
+    title: "Oridor | תכשיטי מואסנייט פרימיום",
     description:
-      "תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסניט. מינימליסטי, על-זמני, אלגנטי.",
+      "תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסנייט. מינימליסטי, על-זמני, אלגנטי.",
     url: SITE_URL,
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Oridor | תכשיטי מויסאניט פרימיום",
+    title: "Oridor | תכשיטי מואסנייט פרימיום",
     description:
-      "תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסניט. מינימליסטי, על-זמני, אלגנטי.",
+      "תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסנייט. מינימליסטי, על-זמני, אלגנטי.",
     images: ["/og-image.jpg"],
   },
   robots: { index: true, follow: true },
@@ -95,7 +95,7 @@ const orgJsonLd = {
   "@type": "Organization",
   name: "Oridor",
   url: SITE_URL,
-  description: "תכשיטי יוקרה מכסף 925 ואבני מואסניט.",
+  description: "תכשיטי יוקרה מכסף 925 ואבני מואסנייט.",
   contactPoint: {
     "@type": "ContactPoint",
     telephone: "+972-52-818-1568",

@@ -15,7 +15,7 @@ export default function Hero() {
       {/* Cover background image */}
       <Image
         src="/photo/hero-banner.png"
-        alt="קולקציית ההשקה של Oridor — תכשיטי מויסאניט וכסף 925"
+        alt="קולקציית ההשקה של Oridor — תכשיטי מואסנייט וכסף 925"
         fill
         priority
         sizes="100vw"
@@ -41,7 +41,7 @@ export default function Hero() {
           </h1>
           {/* Supporting line — smaller, lighter, airier */}
           <p className="mx-auto mt-6 max-w-lg animate-fade-up text-sm font-light leading-relaxed tracking-wide text-white/85 [animation-delay:300ms] sm:text-base">
-            תכשיטי מואסניט באיכות פרימיום (D/VVS1) – ברק של יהלום, עד הבית.
+            תכשיטי מואסנייט באיכות פרימיום (D/VVS1) – ברק של יהלום, עד הבית.
           </p>
 
           {/* Dual CTA — high-contrast, near-square corners, side-by-side with a
@@ -51,7 +51,7 @@ export default function Hero() {
               href="/collections/moissanite"
               className="inline-flex min-h-[48px] flex-1 items-center justify-center whitespace-nowrap rounded-sm bg-white px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-charcoal transition-all duration-300 ease-cinematic hover:-translate-y-0.5 hover:bg-white/90 sm:flex-none sm:px-9"
             >
-              קולקציית מואסניט
+              קולקציית מואסנייט
             </Link>
             <Link
               href="/collections/silver"

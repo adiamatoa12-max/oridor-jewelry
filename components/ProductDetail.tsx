@@ -75,7 +75,7 @@ const QUALITY: AccordionItem = {
         שכבת הגנה יוקרתית לברק עמיד ולעמידות מרבית בפני שריטות והחלדה.
       </li>
       <li>
-        <strong className="font-semibold text-charcoal">מואסניט D / VVS1</strong>{" "}
+        <strong className="font-semibold text-charcoal">מואסנייט D / VVS1</strong>{" "}
         — אבן בדרגת הצבע והניקיון הגבוהה ביותר, בליטוש מושלם (Excellent Cut).
       </li>
       <li>

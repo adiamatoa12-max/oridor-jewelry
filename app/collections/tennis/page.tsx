@@ -9,7 +9,7 @@ import products from "@/data/moissanite_collection.json";
 export const metadata: Metadata = {
   title: { absolute: "קולקציית הטניס | צמידים ושרשראות זוהרים | Oridor" },
   description:
-    "שורת אבני מואסניט רציפה בכסף 925 מצופה רודיום — קלאסיקה נוצצת שלא יוצאת מהאופנה. צמידי ושרשראות טניס. משלוח חינם ואחריות מלאה.",
+    "שורת אבני מואסנייט רציפה בכסף 925 מצופה רודיום — קלאסיקה נוצצת שלא יוצאת מהאופנה. צמידי ושרשראות טניס. משלוח חינם ואחריות מלאה.",
   alternates: { canonical: "/collections/tennis" },
 };
 
@@ -31,7 +31,7 @@ export default function TennisCollectionPage() {
             קולקציית הטניס
           </h1>
           <p className="mx-auto mt-4 max-w-md text-sm font-light text-graphite">
-            צמידים ושרשראות טניס — שורה רציפה של אבני מואסניט נוצצות בכסף 925 מצופה
+            צמידים ושרשראות טניס — שורה רציפה של אבני מואסנייט נוצצות בכסף 925 מצופה
             רודיום. קלאסיקה שלא יוצאת מהאופנה.
           </p>
         </header>

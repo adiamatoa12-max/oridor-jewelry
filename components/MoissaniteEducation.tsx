@@ -40,7 +40,7 @@ export default function MoissaniteEducation() {
         <div className="relative mx-auto aspect-[3/2] w-full max-w-lg overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
           <Image
             src={SPARKLE_MEDIA}
-            alt="תקריב של תליון מויסאניט אובל — הסטנדרט של ORIDOR"
+            alt="תקריב של תליון מואסנייט אובל — הסטנדרט של ORIDOR"
             fill
             sizes="(min-width: 768px) 32rem, 100vw"
             className="object-cover object-center"

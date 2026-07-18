@@ -5,7 +5,7 @@ import newArrivals from "@/data/new_arrivals.json";
 import type { ShopifyProductOptions } from "./shopify";
 
 /** The two — and only two — main categories. */
-export const COLLECTION_MOISSANITE = "מואסניט";
+export const COLLECTION_MOISSANITE = "מואסנייט";
 export const COLLECTION_SILVER = "כסף 925";
 
 export type CatalogCategory = "Necklaces" | "Bracelets" | "Earrings" | "Rings";
@@ -205,7 +205,7 @@ export type Chip =
 
 export const SHOP_CHIPS: Chip[] = [
   { label: "הכל", kind: "all" },
-  { label: "מואסניט", kind: "collection", value: COLLECTION_MOISSANITE },
+  { label: "מואסנייט", kind: "collection", value: COLLECTION_MOISSANITE },
   { label: "כסף 925", kind: "collection", value: COLLECTION_SILVER },
   { label: "שרשראות", kind: "category", value: "Necklaces" },
   { label: "טבעות", kind: "category", value: "Rings" },
