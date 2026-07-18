@@ -114,68 +114,80 @@ export default function CartDrawer() {
           </button>
         </div>
 
-        {/* Scrollable body — 2+1 reward on top, cart items right below. Both
-            live in one scroll region so the items are never squeezed out of
-            view by the tall reward block. */}
-        <div className="flex-1 overflow-y-auto">
-          {/* 2+1 promotion — step progress bar + gift selector */}
-          {items.length > 0 && (
-            <div className="border-b border-platinum/50 bg-cream/60 px-6 py-4">
-              <p className="text-xs font-light leading-relaxed tracking-wide text-charcoal">
+        {/* 2+1 progress — pinned directly under the header, OUTSIDE the scroll
+            region, so how far the shopper is from the free gift stays visible
+            no matter how long the cart gets. */}
+        {items.length > 0 && (
+          <div className="flex-none border-b border-platinum/60 bg-cream px-6 py-4 shadow-[0_6px_16px_-12px_rgba(31,31,31,0.4)]">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-[13px] leading-snug text-charcoal">
                 {unlocked ? (
                   <>
-                    <span className="font-medium text-gold">מבצע 2+1 פעיל!</span>{" "}
+                    <span className="font-semibold text-gold">מבצע 2+1 פעיל!</span>{" "}
                     {freeItems > 1 ? `${freeItems} פריטים` : "הפריט השלישי"} עלינו ✨
-                  </>
-                ) : count === 0 ? (
-                  <>
-                    מבצע <span className="font-medium text-charcoal">2+1</span> —
-                    הוסיפי 3 פריטים והשלישי מתנה 🎁
                   </>
                 ) : (
                   <>
                     עוד{" "}
-                    <span className="font-medium text-charcoal">{toGo}</span>{" "}
-                    {toGo === 1 ? "פריט" : "פריטים"} ומבצע ה-2+1 יופעל 🎁
+                    <span className="text-xl font-semibold tabular-nums text-gold">
+                      {toGo}
+                    </span>{" "}
+                    <span className="font-medium">
+                      {toGo === 1 ? "פריט" : "פריטים"}
+                    </span>{" "}
+                    והמתנה שלך אצלך 🎁
                   </>
                 )}
               </p>
+              {/* Explicit step counter — reinforces exactly what's left */}
+              <span className="flex-none rounded-full border border-gold/40 bg-gold/10 px-2.5 py-1 text-[11px] font-semibold tabular-nums text-gold">
+                {tierCount}/{PROMO_SIZE}
+              </span>
+            </div>
 
-              {/* Stepped progress track — 3 segments fill from the start (right
-                  in RTL) toward the gift at the inline-end. */}
-              <div className="mt-3 flex items-center gap-2.5">
-                <div className="flex flex-1 gap-1.5">
-                  {[0, 1, 2].map((i) => (
-                    <span
-                      key={i}
-                      className={`h-1.5 flex-1 rounded-full transition-all duration-700 ease-cinematic ${
-                        tierCount > i
-                          ? "bg-gradient-to-r from-gold to-[#E6D2A6]"
-                          : "bg-platinum/40"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <Gift
-                  size={16}
-                  strokeWidth={1.5}
-                  className={`flex-none transition-colors duration-500 ${
-                    unlocked ? "text-gold" : "text-ash"
-                  }`}
+            {/* Chunky track: fills from the start (right in RTL) toward the
+                gift at the end, with notches marking each of the 3 steps. */}
+            <div className="mt-3 flex items-center gap-3">
+              <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-platinum/50">
+                <div
+                  className="h-full rounded-full bg-gradient-to-l from-gold via-[#D9BE7E] to-[#E6D2A6] transition-[width] duration-700 ease-cinematic"
+                  style={{ width: `${(tierCount / PROMO_SIZE) * 100}%` }}
                 />
+                {[1, 2].map((i) => (
+                  <span
+                    key={i}
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-y-0 w-px bg-canvas/80"
+                    style={{ insetInlineStart: `${(i / PROMO_SIZE) * 100}%` }}
+                  />
+                ))}
               </div>
-
-              {/* Gift options — smooth height + fade reveal once unlocked.
-                  Premium cards: real product imagery, generous padding, a
-                  standout heading, and a clear gold selection state. */}
-              <div
-                className={`grid transition-all duration-700 ease-cinematic ${
-                  unlocked
-                    ? "mt-6 grid-rows-[1fr] opacity-100"
-                    : "grid-rows-[0fr] opacity-0"
+              <Gift
+                size={19}
+                strokeWidth={1.5}
+                className={`flex-none transition-all duration-500 ${
+                  unlocked ? "scale-110 text-gold" : "text-ash/70"
                 }`}
-              >
-                <div className="overflow-hidden px-0.5 pt-0.5">
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Scrollable body — gift selection, then the cart items. */}
+        <div className="flex-1 overflow-y-auto">
+          {/* Gift options — collapses to zero height until the tier is reached.
+              Premium cards: real product imagery, generous padding, a
+              standout heading, and a clear gold selection state. */}
+          {items.length > 0 && (
+            <div
+              className={`grid bg-cream/60 transition-all duration-700 ease-cinematic ${
+                unlocked
+                  ? "grid-rows-[1fr] border-b border-platinum/50 opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="px-6 py-5">
                   {/* Section heading — clear hierarchy so the invitation stands out. */}
                   <div className="mb-3.5 text-center">
                     <p className="text-[10px] uppercase tracking-[0.3em] text-gold">
