@@ -4,7 +4,11 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
-import { buildUnifiedCatalog, applyLiveStatus } from "@/lib/catalog";
+import {
+  buildUnifiedCatalog,
+  applyLiveStatus,
+  COLLECTION_MOISSANITE,
+} from "@/lib/catalog";
 import { getLivePriceMap } from "@/lib/shopify";
 
 export const metadata: Metadata = {
@@ -51,6 +55,7 @@ export default async function EarringsPage() {
                 priceLabel={`₪${p.price.toLocaleString("he-IL")}`}
                 compareAt={p.compareAtPrice}
                 variants={p.variants}
+                isMoissanite={p.collection === COLLECTION_MOISSANITE}
               />
             ))}
           </div>

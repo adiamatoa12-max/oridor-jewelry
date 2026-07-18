@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
+import MoissaniteLabel from "./MoissaniteLabel";
 import { gridImageClass } from "@/lib/gridImage";
 import type { ProductColorVariant } from "@/lib/catalog";
 
@@ -32,6 +33,8 @@ export interface ProductCardProps {
   category?: string | null;
   /** Colour variants — renders swatches and swaps the image when >1 present. */
   variants?: ProductColorVariant[];
+  /** Shows the "משובץ מואסנייט" stone callout beneath the title. */
+  isMoissanite?: boolean;
 }
 
 /**
@@ -56,6 +59,7 @@ export default function ProductCard({
   category,
   variants,
   secondaryImage,
+  isMoissanite = false,
 }: ProductCardProps) {
   const { addByHandle, openCart } = useCart();
 
@@ -145,6 +149,9 @@ export default function ProductCard({
         <h3 className="w-full text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
           {title}
         </h3>
+        {/* Stone callout. Safe for grid alignment: price and CTA below are
+            bottom-anchored with mt-auto, so cards without it still line up. */}
+        {isMoissanite && <MoissaniteLabel className="mt-1.5" />}
 
         {/* Bottom group — swatches, price and CTA anchored to the card bottom
             (flex space-between effect via mt-auto), so every card lines up

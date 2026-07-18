@@ -6,6 +6,7 @@ import Reveal from "./Reveal";
 import {
   buildUnifiedCatalog,
   SHOP_CHIPS,
+  COLLECTION_MOISSANITE,
   type Chip,
   type CatalogProduct,
 } from "@/lib/catalog";
@@ -88,6 +89,7 @@ export default function ShopCatalog({
               priceLabel={`₪${p.price.toLocaleString("he-IL")}`}
               compareAt={p.compareAtPrice}
               variants={p.variants}
+              isMoissanite={p.collection === COLLECTION_MOISSANITE}
             />
           ))}
         </div>

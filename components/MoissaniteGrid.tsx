@@ -6,6 +6,7 @@ import { ShoppingBag } from "lucide-react";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import { gridImageClass } from "@/lib/gridImage";
+import MoissaniteLabel from "./MoissaniteLabel";
 
 export interface MoissaniteProduct {
   id: string;
@@ -123,6 +124,8 @@ export default function MoissaniteGrid({
 
           <div className="px-2 pt-6 text-center">
             <h3 className="min-h-[2.6rem] text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">{p.name}</h3>
+            {/* Every piece in this grid is set with moissanite by definition. */}
+            <MoissaniteLabel className="mt-1.5" />
             <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-2" />
           </div>
         </Link>
