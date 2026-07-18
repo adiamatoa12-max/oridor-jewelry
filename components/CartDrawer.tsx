@@ -17,8 +17,10 @@ import { useCart } from "./CartContext";
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
 // "2+1" promotion — reach 3 items and the 3rd (a premium gift) is on us.
-// A single, one-time unlock: once reached it stays unlocked as the cart grows.
-const PROMO_SIZE = 3;
+// "2+1": buy 2, the 3rd is on us. The picker therefore unlocks at TWO items —
+// the third is the gift itself, so requiring three to unlock it would be
+// circular. One-time: once reached it stays unlocked as the cart grows.
+const GIFT_THRESHOLD = 2;
 /**
  * A gift the shopper may claim. Resolved at runtime from the store's own
  * Buy X Get Y rule via /api/gift-options — never hardcoded, so the picker can
@@ -48,6 +50,7 @@ export default function CartDrawer() {
     count,
     updateQuantity,
     removeItem,
+    addVariant,
     checkoutUrl,
     busy,
   } = useCart();
@@ -70,16 +73,16 @@ export default function CartDrawer() {
     if (isOpen) bodyRef.current?.scrollTo({ top: 0 });
   }, [isOpen]);
 
-  // One-time unlock at PROMO_SIZE items. `count` is Shopify's totalQuantity —
+  // One-time unlock at GIFT_THRESHOLD items. `count` is Shopify's totalQuantity —
   // the sum of line QUANTITIES, not the number of lines — so three separate
   // products and a single product at quantity three both reach the gift.
   //
-  // Progress deliberately clamps rather than wrapping (count % PROMO_SIZE):
-  // wrapping sent the bar back to 1/3 at four items while the copy still read
-  // "2+1 active", so the bar contradicted the message.
-  const progress = Math.min(count, PROMO_SIZE); // 0 → 3, never resets
-  const toGo = Math.max(0, PROMO_SIZE - count); // items still needed
-  const unlocked = count >= PROMO_SIZE;
+  // Progress deliberately clamps rather than wrapping: wrapping sent the bar
+  // backwards once the cart grew past the threshold while the copy still read
+  // "unlocked", so the bar contradicted the message.
+  const progress = Math.min(count, GIFT_THRESHOLD); // 0 → 2, never resets
+  const toGo = Math.max(0, GIFT_THRESHOLD - count); // items still needed
+  const unlocked = count >= GIFT_THRESHOLD;
 
   useEffect(() => {
     if (!unlocked || giftsState !== "idle") return;
@@ -90,6 +93,19 @@ export default function CartDrawer() {
       .catch(() => setGifts([]))
       .finally(() => setGiftsState("done"));
   }, [unlocked, giftsState]);
+
+  /**
+   * Claim a gift: add the real Shopify variant to the cart so the Buy X Get Y
+   * rule can discount it at checkout. Selecting alone would have been cosmetic
+   * — the item has to actually be in the cart to be given away.
+   * Guarded so a double-tap, or a click while the cart is mutating, can't add
+   * the item twice.
+   */
+  const claimGift = (gift: GiftOption) => {
+    if (busy || selectedGift || !gift.variantId) return;
+    setSelectedGift(gift.handle);
+    addVariant(gift.variantId, 1);
+  };
 
   return (
     <div
@@ -144,8 +160,10 @@ export default function CartDrawer() {
               <p className="text-[13px] leading-snug text-charcoal">
                 {unlocked ? (
                   <>
-                    <span className="font-semibold text-gold">מבצע 2+1 פעיל!</span>{" "}
-                    הפריט השלישי עלינו ✨
+                    <span className="font-semibold text-gold">
+                      פתחת את המתנה שלך!
+                    </span>{" "}
+                    בחרי את הפריט החינמי שלך למטה 🎁
                   </>
                 ) : (
                   <>
@@ -156,32 +174,37 @@ export default function CartDrawer() {
                     <span className="font-medium">
                       {toGo === 1 ? "פריט" : "פריטים"}
                     </span>{" "}
-                    והמתנה שלך אצלך 🎁
+                    ותוכלי לבחור מתנה 🎁
                   </>
                 )}
               </p>
               {/* Explicit step counter — reinforces exactly what's left */}
               <span className="flex-none rounded-full border border-gold/40 bg-gold/10 px-2.5 py-1 text-[11px] font-semibold tabular-nums text-gold">
-                {progress}/{PROMO_SIZE}
+                {progress}/{GIFT_THRESHOLD}
               </span>
             </div>
 
             {/* Chunky track: fills from the start (right in RTL) toward the
-                gift at the end, with notches marking each of the 3 steps. */}
+                gift at the end, with a notch marking each step to the
+                threshold. */}
             <div className="mt-3 flex items-center gap-3">
               <div className="relative h-2.5 flex-1 overflow-hidden rounded-full bg-platinum/50">
                 <div
                   className="h-full rounded-full bg-gradient-to-l from-gold via-[#D9BE7E] to-[#E6D2A6] transition-[width] duration-700 ease-cinematic"
-                  style={{ width: `${(progress / PROMO_SIZE) * 100}%` }}
+                  style={{ width: `${(progress / GIFT_THRESHOLD) * 100}%` }}
                 />
-                {[1, 2].map((i) => (
-                  <span
-                    key={i}
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-y-0 w-px bg-canvas/80"
-                    style={{ insetInlineStart: `${(i / PROMO_SIZE) * 100}%` }}
-                  />
-                ))}
+                {Array.from({ length: GIFT_THRESHOLD - 1 }, (_, i) => i + 1).map(
+                  (i) => (
+                    <span
+                      key={i}
+                      aria-hidden="true"
+                      className="pointer-events-none absolute inset-y-0 w-px bg-canvas/80"
+                      style={{
+                        insetInlineStart: `${(i / GIFT_THRESHOLD) * 100}%`,
+                      }}
+                    />
+                  ),
+                )}
               </div>
               <Gift
                 size={19}
@@ -362,18 +385,25 @@ export default function CartDrawer() {
                   )}
 
                   <div className="space-y-2.5">
-                    {gifts.map(({ handle, title, image, price }) => {
+                    {gifts.map((gift) => {
+                      const { handle, title, image, price } = gift;
                       const active = selectedGift === handle;
+                      // Once one gift is claimed the others are locked: the
+                      // promotion grants a single free item.
+                      const locked = selectedGift !== null && !active;
                       return (
                         <button
                           key={handle}
                           type="button"
-                          onClick={() => setSelectedGift(active ? null : handle)}
+                          onClick={() => claimGift(gift)}
+                          disabled={locked || busy}
                           aria-pressed={active}
                           className={`group relative flex w-full items-center gap-3.5 rounded-2xl border p-3 text-start transition-all duration-300 ease-cinematic ${
                             active
                               ? "scale-[1.015] border-gold bg-gold/[0.06] shadow-[0_14px_34px_-14px_rgba(197,160,89,0.55)] ring-1 ring-gold/40"
-                              : "border-platinum/60 bg-canvas shadow-card hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-cardHover"
+                              : locked
+                                ? "cursor-not-allowed border-platinum/40 bg-canvas opacity-45"
+                                : "border-platinum/60 bg-canvas shadow-card hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-cardHover"
                           }`}
                         >
                           {/* Product image — live from Shopify */}
@@ -398,7 +428,7 @@ export default function CartDrawer() {
                               שווי {formatPrice(price)}
                             </p>
                             <p className="mt-1.5 text-[10px] font-medium tracking-[0.12em] text-gold">
-                              ✦ כלול במתנה
+                              {active ? "✓ נוסף לסל" : "✦ לחצי לקבלת המתנה"}
                             </p>
                           </div>
 
@@ -420,7 +450,7 @@ export default function CartDrawer() {
 
                   {selectedGift && (
                     <p className="mt-3 text-center text-[11px] font-light tracking-wide text-gold">
-                      המתנה שלך שמורה — נוסיף אותה לחבילה שלך ✓
+                      המתנה נוספה לסל שלך ✓
                     </p>
                   )}
                 </div>
