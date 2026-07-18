@@ -104,11 +104,16 @@ export default async function MoissaniteProductPage({
         images={[
           { src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` },
           ...(product.hover_image
-            ? [{ src: encodeURI(product.hover_image), alt: `${product.name} בעיצוב על הדוגמנית` }]
+            ? [{
+                src: encodeURI(product.hover_image),
+                alt: `${product.name} בעיצוב על הדוגמנית`,
+                fit: "cover" as const,
+              }]
             : []),
           ...(product.gallery_images ?? []).map((src) => ({
             src: encodeURI(src),
             alt: `${product.name} — תצוגה נוספת`,
+            fit: "cover" as const,
           })),
         ]}
         fit="contain"

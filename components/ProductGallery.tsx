@@ -7,6 +7,12 @@ import { usePdpImageSync } from "./PdpImageSync";
 export interface GalleryImage {
   src: string;
   alt: string;
+  /**
+   * Per-image override of the gallery's default fit. Styled/lifestyle shots
+   * carry their own background, so they fill the frame ("cover"); transparent
+   * product cut-outs sit contained on the frame's own surface.
+   */
+  fit?: "cover" | "contain";
 }
 
 /**
@@ -49,13 +55,22 @@ export default function ProductGallery({
       ? sync.activeSrc
       : null;
 
-  const current = overrideSrc
+  const current: GalleryImage | undefined = overrideSrc
     ? { src: overrideSrc, alt: gallery[0]?.alt ?? "" }
     : gallery[active] ?? gallery[0];
-  const fitClass =
-    fit === "cover"
+
+  /** Per-image fit, falling back to the collection default. */
+  const fitOf = (img?: GalleryImage) => img?.fit ?? fit;
+
+  // Contained cut-outs get tighter padding (so the piece fills more of the
+  // frame instead of floating in whitespace) plus a soft shadow to lift them
+  // off the surface. Full-bleed shots simply cover the frame.
+  const imageClass = (f: "cover" | "contain") =>
+    f === "cover"
       ? "object-cover"
-      : "object-contain p-6 [filter:drop-shadow(0px_8px_20px_rgba(0,0,0,0.10))]";
+      : "object-contain p-4 [filter:drop-shadow(0px_10px_22px_rgba(0,0,0,0.13))]";
+
+  const currentFit = fitOf(current);
 
   const onMove = (e: React.MouseEvent) => {
     const el = frameRef.current;
@@ -86,8 +101,10 @@ export default function ProductGallery({
                 }}
                 aria-label={`תמונה ${i + 1}`}
                 aria-current={on}
-                className={`relative h-20 w-20 flex-none overflow-hidden rounded-lg bg-transparent transition-all duration-300 ease-out hover:scale-105 sm:h-24 sm:w-24 ${
-                  on ? "opacity-100" : "opacity-45 hover:opacity-100"
+                className={`relative h-20 w-20 flex-none overflow-hidden rounded-lg bg-cream ring-1 transition-all duration-300 ease-out hover:scale-105 sm:h-24 sm:w-24 ${
+                  on
+                    ? "opacity-100 ring-gold/50"
+                    : "opacity-70 ring-platinum/40 hover:opacity-100"
                 }`}
               >
                 <Image
@@ -95,7 +112,9 @@ export default function ProductGallery({
                   alt={img.alt}
                   fill
                   sizes="96px"
-                  className={fit === "cover" ? "object-cover" : "object-contain p-1"}
+                  className={
+                    fitOf(img) === "cover" ? "object-cover" : "object-contain p-1.5"
+                  }
                 />
               </button>
             );
@@ -110,7 +129,7 @@ export default function ProductGallery({
         onMouseEnter={() => setZoom(true)}
         onMouseLeave={() => setZoom(false)}
         onMouseMove={onMove}
-        className="relative aspect-[4/5] w-full flex-1 cursor-zoom-in overflow-hidden bg-transparent"
+        className="relative aspect-[4/5] w-full flex-1 cursor-zoom-in overflow-hidden rounded-2xl bg-cream ring-1 ring-platinum/40"
       >
         <Image
           key={current.src}
@@ -120,8 +139,12 @@ export default function ProductGallery({
           priority
           sizes="(min-width: 768px) 45vw, 100vw"
           style={{ transformOrigin: origin }}
-          className={`${fitClass} object-center transition-transform duration-300 ease-out ${
-            zoom ? "scale-[1.7]" : "scale-100"
+          className={`${imageClass(currentFit)} object-center transition-transform duration-300 ease-out ${
+            zoom
+              ? "scale-[1.7]"
+              : currentFit === "contain"
+                ? "scale-[1.08]"
+                : "scale-100"
           }`}
         />
       </div>

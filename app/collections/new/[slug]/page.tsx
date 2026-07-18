@@ -85,6 +85,7 @@ export default async function NewArrivalProductPage({
           ...(product.gallery_images ?? []).map((src) => ({
             src: encodeURI(src),
             alt: `${product.name} — תצוגה נוספת`,
+            fit: "cover" as const,
           })),
         ]}
         fit="cover"

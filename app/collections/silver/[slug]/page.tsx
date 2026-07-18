@@ -70,6 +70,7 @@ export default async function SilverProductPage({
     ...(product.gallery_images ?? []).map((src) => ({
       src: encodeURI(src),
       alt: `${product.name} — תצוגה נוספת`,
+      fit: "cover" as const,
     })),
   ];
 
