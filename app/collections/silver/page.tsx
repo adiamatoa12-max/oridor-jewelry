@@ -35,6 +35,13 @@ export default async function SilverCollectionPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
+        {/* Collection positioning — the material story lives here once, rather
+            than being repeated across every category page. */}
+        <p className="mx-auto mb-12 max-w-2xl text-center text-sm font-light leading-relaxed text-graphite">
+          כסף סטרלינג 925 אמיתי בציפוי רודיום יוקרתי – איכות ללא פשרות, בניגוד
+          לחומרים פשוטים, כדי להבטיח שהתכשיט שלך יישאר נוצץ לאורך שנים.
+        </p>
+
         <Reveal><SilverGrid products={products} /></Reveal>
       </section>
 
