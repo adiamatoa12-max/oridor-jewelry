@@ -19,28 +19,18 @@ const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 // "2+1" promotion — reach 3 items and the 3rd (a premium gift) is on us.
 // A single, one-time unlock: once reached it stays unlocked as the cart grows.
 const PROMO_SIZE = 3;
-// The complimentary gift is a genuine Oridor piece — real product imagery makes
-// the choice feel like a premium boutique gift rather than a generic plugin.
-const GIFTS = [
-  {
-    id: "studs",
-    title: "עגילי סוליטר קלאסיים",
-    subtitle: "נצנוץ יומיומי, כסף 925",
-    image: "/photo/moissanite-28.png",
-  },
-  {
-    id: "bracelet",
-    title: "צמיד סוליטר עדין",
-    subtitle: "עדין, מחמיא לכל יד",
-    image: "/photo/moissanite-3.png",
-  },
-  {
-    id: "necklace",
-    title: "שרשרת תליון סוליטר",
-    subtitle: "קלאסיקה שלא נגמרת",
-    image: "/photo/moissanite-18.png",
-  },
-] as const;
+/**
+ * A gift the shopper may claim. Resolved at runtime from the store's own
+ * Buy X Get Y rule via /api/gift-options — never hardcoded, so the picker can
+ * only ever offer products that genuinely qualify for the free item.
+ */
+interface GiftOption {
+  variantId: string | null;
+  handle: string;
+  title: string;
+  image: string | null;
+  price: number;
+}
 
 /**
  * Slide-out mini cart (RTL) — high-end boutique experience.
@@ -63,6 +53,14 @@ export default function CartDrawer() {
   } = useCart();
   const [selectedGift, setSelectedGift] = useState<string | null>(null);
 
+  // Eligible gifts come from the live Shopify discount rule, fetched lazily the
+  // first time the shopper actually reaches the tier — so the request only
+  // happens when the picker is about to be shown.
+  const [gifts, setGifts] = useState<GiftOption[]>([]);
+  const [giftsState, setGiftsState] = useState<"idle" | "loading" | "done">(
+    "idle",
+  );
+
   // The drawer stays mounted, so its scroll position would otherwise persist
   // between openings — reopening after browsing the gifts would land the
   // shopper mid-list. Reset to the top so the cart items are always what they
@@ -82,6 +80,16 @@ export default function CartDrawer() {
   const progress = Math.min(count, PROMO_SIZE); // 0 → 3, never resets
   const toGo = Math.max(0, PROMO_SIZE - count); // items still needed
   const unlocked = count >= PROMO_SIZE;
+
+  useEffect(() => {
+    if (!unlocked || giftsState !== "idle") return;
+    setGiftsState("loading");
+    fetch("/api/gift-options")
+      .then((r) => r.json())
+      .then((d: { gifts?: GiftOption[] }) => setGifts(d.gifts ?? []))
+      .catch(() => setGifts([]))
+      .finally(() => setGiftsState("done"));
+  }, [unlocked, giftsState]);
 
   return (
     <div
@@ -337,14 +345,26 @@ export default function CartDrawer() {
                     </h3>
                   </div>
 
+                  {giftsState === "loading" && (
+                    <div className="flex justify-center py-8">
+                      <span className="h-5 w-5 animate-spin rounded-full border-2 border-gold/20 border-t-gold" />
+                    </div>
+                  )}
+
+                  {giftsState === "done" && gifts.length === 0 && (
+                    <p className="py-6 text-center text-[11px] font-light leading-relaxed text-ash">
+                      המתנות יתעדכנו כאן בקרוב — נצרף אותן להזמנה שלך.
+                    </p>
+                  )}
+
                   <div className="space-y-2.5">
-                    {GIFTS.map(({ id, title, subtitle, image }) => {
-                      const active = selectedGift === id;
+                    {gifts.map(({ handle, title, image, price }) => {
+                      const active = selectedGift === handle;
                       return (
                         <button
-                          key={id}
+                          key={handle}
                           type="button"
-                          onClick={() => setSelectedGift(active ? null : id)}
+                          onClick={() => setSelectedGift(active ? null : handle)}
                           aria-pressed={active}
                           className={`group relative flex w-full items-center gap-3.5 rounded-2xl border p-3 text-start transition-all duration-300 ease-cinematic ${
                             active
@@ -352,15 +372,17 @@ export default function CartDrawer() {
                               : "border-platinum/60 bg-canvas shadow-card hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-cardHover"
                           }`}
                         >
-                          {/* Product image */}
+                          {/* Product image — live from Shopify */}
                           <div className="relative h-[68px] w-[68px] flex-none overflow-hidden rounded-xl bg-cream">
-                            <Image
-                              src={image}
-                              alt={`${title} — מתנת פרימיום מבית Oridor`}
-                              fill
-                              sizes="68px"
-                              className="object-cover transition-transform duration-500 ease-cinematic group-hover:scale-105"
-                            />
+                            {image && (
+                              <Image
+                                src={image}
+                                alt={`${title} — מתנת פרימיום מבית Oridor`}
+                                fill
+                                sizes="68px"
+                                className="object-cover transition-transform duration-500 ease-cinematic group-hover:scale-105"
+                              />
+                            )}
                           </div>
 
                           {/* Copy */}
@@ -369,7 +391,7 @@ export default function CartDrawer() {
                               {title}
                             </p>
                             <p className="mt-0.5 text-[11px] font-light leading-snug text-ash">
-                              {subtitle}
+                              שווי {formatPrice(price)}
                             </p>
                             <p className="mt-1.5 text-[10px] font-medium tracking-[0.12em] text-gold">
                               ✦ כלול במתנה
