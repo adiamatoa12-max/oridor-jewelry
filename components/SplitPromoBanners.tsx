@@ -21,7 +21,7 @@ const BANNERS: PromoBanner[] = [
     subtitle: "מבצע השקה: קני 2, קבלי 15% הנחה",
     // Dedicated tennis collection page — renders only 'טניס'-named pieces.
     href: "/collections/tennis",
-    image: "/photo/clara_post_4.jpg",
+    image: "/photo/שמירה תצוגה אורידור.jpeg",
     alt: "דוגמנית עונדת צמיד טניס מכסף",
     tone: "light",
   },
@@ -55,7 +55,9 @@ export default function SplitPromoBanners() {
           >
             {/* Background image */}
             <Image
-              src={banner.image}
+              // encodeURI so filenames containing Hebrew characters or spaces
+              // resolve — an unencoded space breaks the image request.
+              src={encodeURI(banner.image)}
               alt={banner.alt}
               fill
               sizes="(min-width: 768px) 50vw, 100vw"
