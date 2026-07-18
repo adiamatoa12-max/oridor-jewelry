@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   X,
@@ -62,6 +62,15 @@ export default function CartDrawer() {
     busy,
   } = useCart();
   const [selectedGift, setSelectedGift] = useState<string | null>(null);
+
+  // The drawer stays mounted, so its scroll position would otherwise persist
+  // between openings — reopening after browsing the gifts would land the
+  // shopper mid-list. Reset to the top so the cart items are always what they
+  // see first.
+  const bodyRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (isOpen) bodyRef.current?.scrollTo({ top: 0 });
+  }, [isOpen]);
 
   // Progress within the current 3-item tier (0 → 3). A completed tier reads as
   // a full bar; the next item starts the following tier.
@@ -173,96 +182,10 @@ export default function CartDrawer() {
           </div>
         )}
 
-        {/* Scrollable body — gift selection, then the cart items. */}
-        <div className="flex-1 overflow-y-auto">
-          {/* Gift options — collapses to zero height until the tier is reached.
-              Premium cards: real product imagery, generous padding, a
-              standout heading, and a clear gold selection state. */}
-          {items.length > 0 && (
-            <div
-              className={`grid bg-cream/60 transition-all duration-700 ease-cinematic ${
-                unlocked
-                  ? "grid-rows-[1fr] border-b border-platinum/50 opacity-100"
-                  : "grid-rows-[0fr] opacity-0"
-              }`}
-            >
-              <div className="overflow-hidden">
-                <div className="px-6 py-5">
-                  {/* Section heading — clear hierarchy so the invitation stands out. */}
-                  <div className="mb-3.5 text-center">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-gold">
-                      מתנה על הבית
-                    </p>
-                    <h3 className="mt-1.5 text-lg font-medium tracking-wide text-charcoal">
-                      בחרי את המתנה שלך
-                    </h3>
-                  </div>
-
-                  <div className="space-y-2.5">
-                    {GIFTS.map(({ id, title, subtitle, image }) => {
-                      const active = selectedGift === id;
-                      return (
-                        <button
-                          key={id}
-                          type="button"
-                          onClick={() => setSelectedGift(active ? null : id)}
-                          aria-pressed={active}
-                          className={`group relative flex w-full items-center gap-3.5 rounded-2xl border p-3 text-start transition-all duration-300 ease-cinematic ${
-                            active
-                              ? "scale-[1.015] border-gold bg-gold/[0.06] shadow-[0_14px_34px_-14px_rgba(197,160,89,0.55)] ring-1 ring-gold/40"
-                              : "border-platinum/60 bg-canvas shadow-card hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-cardHover"
-                          }`}
-                        >
-                          {/* Product image */}
-                          <div className="relative h-[68px] w-[68px] flex-none overflow-hidden rounded-xl bg-cream">
-                            <Image
-                              src={image}
-                              alt={`${title} — מתנת פרימיום מבית Oridor`}
-                              fill
-                              sizes="68px"
-                              className="object-cover transition-transform duration-500 ease-cinematic group-hover:scale-105"
-                            />
-                          </div>
-
-                          {/* Copy */}
-                          <div className="min-w-0 flex-1">
-                            <p className="text-[13.5px] font-medium leading-snug text-charcoal">
-                              {title}
-                            </p>
-                            <p className="mt-0.5 text-[11px] font-light leading-snug text-ash">
-                              {subtitle}
-                            </p>
-                            <p className="mt-1.5 text-[10px] font-medium tracking-[0.12em] text-gold">
-                              ✦ כלול במתנה
-                            </p>
-                          </div>
-
-                          {/* Selection indicator — empty ring → filled gold check */}
-                          <span
-                            aria-hidden="true"
-                            className={`flex-none inline-flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-300 ${
-                              active
-                                ? "border-gold bg-gold text-canvas shadow-sm"
-                                : "border-platinum/70 bg-transparent text-transparent group-hover:border-gold/50"
-                            }`}
-                          >
-                            <Check size={13} strokeWidth={2.75} />
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {selectedGift && (
-                    <p className="mt-3 text-center text-[11px] font-light tracking-wide text-gold">
-                      המתנה שלך שמורה — נוסיף אותה לחבילה שלך ✓
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
+        {/* Scrollable body — the shopper's own items come FIRST so they're
+            visible the moment the drawer opens; the gift selection sits below
+            them. */}
+        <div ref={bodyRef} className="flex-1 overflow-y-auto">
           {/* Items — clean cards: image on the right, details + price on the
               left, compact quantity stepper. */}
           <div className="px-6">
@@ -386,6 +309,94 @@ export default function CartDrawer() {
               </ul>
             )}
           </div>
+
+          {/* Gift options — collapses to zero height until the tier is reached.
+              Premium cards: real product imagery, generous padding, a
+              standout heading, and a clear gold selection state. */}
+          {items.length > 0 && (
+            <div
+              className={`grid bg-cream/60 transition-all duration-700 ease-cinematic ${
+                unlocked
+                  ? "mt-2 grid-rows-[1fr] border-t border-platinum/50 opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="px-6 py-5">
+                  {/* Section heading — clear hierarchy so the invitation stands out. */}
+                  <div className="mb-3.5 text-center">
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-gold">
+                      מתנה על הבית
+                    </p>
+                    <h3 className="mt-1.5 text-lg font-medium tracking-wide text-charcoal">
+                      בחרי את המתנה שלך
+                    </h3>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {GIFTS.map(({ id, title, subtitle, image }) => {
+                      const active = selectedGift === id;
+                      return (
+                        <button
+                          key={id}
+                          type="button"
+                          onClick={() => setSelectedGift(active ? null : id)}
+                          aria-pressed={active}
+                          className={`group relative flex w-full items-center gap-3.5 rounded-2xl border p-3 text-start transition-all duration-300 ease-cinematic ${
+                            active
+                              ? "scale-[1.015] border-gold bg-gold/[0.06] shadow-[0_14px_34px_-14px_rgba(197,160,89,0.55)] ring-1 ring-gold/40"
+                              : "border-platinum/60 bg-canvas shadow-card hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-cardHover"
+                          }`}
+                        >
+                          {/* Product image */}
+                          <div className="relative h-[68px] w-[68px] flex-none overflow-hidden rounded-xl bg-cream">
+                            <Image
+                              src={image}
+                              alt={`${title} — מתנת פרימיום מבית Oridor`}
+                              fill
+                              sizes="68px"
+                              className="object-cover transition-transform duration-500 ease-cinematic group-hover:scale-105"
+                            />
+                          </div>
+
+                          {/* Copy */}
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[13.5px] font-medium leading-snug text-charcoal">
+                              {title}
+                            </p>
+                            <p className="mt-0.5 text-[11px] font-light leading-snug text-ash">
+                              {subtitle}
+                            </p>
+                            <p className="mt-1.5 text-[10px] font-medium tracking-[0.12em] text-gold">
+                              ✦ כלול במתנה
+                            </p>
+                          </div>
+
+                          {/* Selection indicator — empty ring → filled gold check */}
+                          <span
+                            aria-hidden="true"
+                            className={`flex-none inline-flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-300 ${
+                              active
+                                ? "border-gold bg-gold text-canvas shadow-sm"
+                                : "border-platinum/70 bg-transparent text-transparent group-hover:border-gold/50"
+                            }`}
+                          >
+                            <Check size={13} strokeWidth={2.75} />
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {selectedGift && (
+                    <p className="mt-3 text-center text-[11px] font-light tracking-wide text-gold">
+                      המתנה שלך שמורה — נוסיף אותה לחבילה שלך ✓
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Footer: total + checkout — pinned (sticky) at the bottom, floating
