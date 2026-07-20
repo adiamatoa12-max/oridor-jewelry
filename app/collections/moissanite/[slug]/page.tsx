@@ -103,6 +103,15 @@ export default async function MoissaniteProductPage({
         category={product.category}
         slug={product.slug}
         allProducts={products}
+        // Every moissanite piece ships with a GRA certificate — the claim is
+        // already made in the "חומרים וטיפוח" accordion, this shows it.
+        authenticity={{
+          src: "/photo/הצגה מואסנייט.jpeg",
+          alt: "תעודות אותנטיות GRA המצורפות לכל תכשיט מואסנייט של Oridor",
+          heading: "כל תכשיט מגיע עם תעודת GRA",
+          body:
+            "כל אבן מואסנייט שלנו מלווה בתעודת אותנטיות רשמית של GRA — המאשרת את דרגת הצבע, הניקיון והליטוש של האבן. התעודה מגיעה אליך יחד עם התכשיט, באריזת המותג.",
+        }}
         images={[
           { src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` },
           ...(product.hover_image

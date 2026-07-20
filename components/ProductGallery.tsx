@@ -32,6 +32,11 @@ export default function ProductGallery({
   const [zoom, setZoom] = useState(false);
   const [origin, setOrigin] = useState("50% 50%");
   const frameRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  // True while the user is physically swiping. Scroll events during a
+  // programmatic scrollTo would otherwise fight the state we just set.
+  const swiping = useRef(false);
+  const scrollEnd = useRef<number | undefined>(undefined);
 
   // Memoised: an inline filter would produce a new array every render, making
   // the sync effect below re-run constantly and fight the clicked thumbnail.
@@ -72,6 +77,45 @@ export default function ProductGallery({
 
   const currentFit = fitOf(current);
 
+  // Swipe → state. Derived from scroll position rather than touch deltas, so
+  // it stays correct through momentum and interrupted flicks.
+  //
+  // scrollLeft is direction-dependent in RTL (negative in WebKit/Firefox,
+  // reversed in Chrome), so we measure against the slide's own offsetLeft
+  // instead of assuming a sign — the one bit of RTL maths worth doing by hand.
+  const onTrackScroll = () => {
+    const el = trackRef.current;
+    if (!el) return;
+    swiping.current = true;
+    const mid = Math.abs(el.scrollLeft) + el.clientWidth / 2;
+    let nearest = 0;
+    let best = Infinity;
+    Array.from(el.children).forEach((child, i) => {
+      const c = child as HTMLElement;
+      const d = Math.abs(Math.abs(c.offsetLeft) + c.clientWidth / 2 - mid);
+      if (d < best) {
+        best = d;
+        nearest = i;
+      }
+    });
+    setActive(nearest);
+    window.clearTimeout(scrollEnd.current);
+    scrollEnd.current = window.setTimeout(() => {
+      swiping.current = false;
+    }, 120);
+  };
+
+  // State → track, so a thumbnail tap or a variant swatch moves the carousel.
+  // Skipped mid-swipe: scrolling the track while the user's finger is driving
+  // it would yank the image out from under them.
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el || swiping.current) return;
+    const slide = el.children[active] as HTMLElement | undefined;
+    if (!slide) return;
+    el.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
+  }, [active]);
+
   const onMove = (e: React.MouseEvent) => {
     const el = frameRef.current;
     if (!el) return;
@@ -86,9 +130,12 @@ export default function ProductGallery({
   return (
     <div className="flex flex-col-reverse gap-4 sm:flex-row sm:gap-5">
       {/* Thumbnail rail — borderless; the active thumb reads full-strength
-          while the rest sit gently dimmed, with a soft scale on hover. */}
+          while the rest sit gently dimmed, with a soft scale on hover.
+          Hidden on mobile: the swipe track and its dots are the control there,
+          so a second rail below them is redundant. Desktop keeps the rail,
+          since a mouse has no swipe affordance. */}
       {gallery.length > 1 && (
-        <div className="flex gap-3.5 sm:flex-col">
+        <div className="hidden gap-3.5 sm:flex sm:flex-col">
           {gallery.map((img, i) => {
             const on = i === active;
             return (
@@ -122,14 +169,58 @@ export default function ProductGallery({
         </div>
       )}
 
-      {/* Main image with hover-to-zoom — seamless, no box: the piece floats on
-          the page background. */}
+      {/* MOBILE — a real swipe carousel. Native scroll-snap rather than a JS
+          drag library: it inherits the platform's own momentum, rubber-banding
+          and RTL handling, which hand-rolled touch maths never quite matches.
+          Hidden at sm+, where the hover-zoom frame below takes over. */}
+      <div className="w-full flex-1 sm:hidden">
+        <div
+          ref={trackRef}
+          onScroll={onTrackScroll}
+          className="hide-scrollbar flex w-full snap-x snap-mandatory overflow-x-auto overscroll-x-contain rounded-2xl"
+        >
+          {gallery.map((img) => (
+            <div
+              key={img.src}
+              className="relative aspect-[4/5] w-full flex-none snap-center bg-cream ring-1 ring-platinum/40"
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                fill
+                priority={img.src === gallery[0]?.src}
+                sizes="100vw"
+                className={`${imageClass(fitOf(img))} object-center ${
+                  fitOf(img) === "contain" ? "scale-[1.08]" : ""
+                }`}
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Dot indicators — the affordance that tells a shopper more images
+            exist. Presentational only; the track above is the control. */}
+        {gallery.length > 1 && (
+          <div className="mt-4 flex justify-center gap-2" aria-hidden="true">
+            {gallery.map((img, i) => (
+              <span
+                key={img.src}
+                className={`h-1.5 rounded-full transition-all duration-300 ease-out ${
+                  i === active ? "w-5 bg-charcoal" : "w-1.5 bg-platinum"
+                }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* DESKTOP — main image with hover-to-zoom. */}
       <div
         ref={frameRef}
         onMouseEnter={() => setZoom(true)}
         onMouseLeave={() => setZoom(false)}
         onMouseMove={onMove}
-        className="relative aspect-[4/5] w-full flex-1 cursor-zoom-in overflow-hidden rounded-2xl bg-cream ring-1 ring-platinum/40"
+        className="relative hidden aspect-[4/5] w-full flex-1 cursor-zoom-in overflow-hidden rounded-2xl bg-cream ring-1 ring-platinum/40 sm:block"
       >
         <Image
           key={current.src}
@@ -137,7 +228,7 @@ export default function ProductGallery({
           alt={current.alt}
           fill
           priority
-          sizes="(min-width: 768px) 45vw, 100vw"
+          sizes="45vw"
           style={{ transformOrigin: origin }}
           className={`${imageClass(currentFit)} object-center transition-transform duration-300 ease-out ${
             zoom

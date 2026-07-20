@@ -20,8 +20,11 @@ export default function PriceTag({
   const onSale = typeof compareAt === "number" && compareAt > price;
   const savePct = onSale ? Math.round(((compareAt! - price) / compareAt!) * 100) : 0;
   const lg = size === "lg";
-  // Product page: large & bold. Cards: compact.
-  const base = lg ? "text-3xl font-semibold" : "text-xs font-light sm:text-[13px]";
+  // Product page: 20px/bold on mobile (premium-mobile standard), scaling up to
+  // the editorial display size on desktop. Cards: compact.
+  const base = lg
+    ? "text-xl font-medium sm:text-3xl sm:font-semibold"
+    : "text-xs font-light sm:text-[13px]";
   const strike = lg ? "text-base" : "text-[11px] sm:text-xs";
 
   return (

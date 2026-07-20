@@ -11,6 +11,10 @@ export default function SizeSelector({ sizes }: { sizes: string[] }) {
   const [selected, setSelected] = useState(sizes[0]);
   if (!sizes.length) return null;
 
+  // Any descriptive option in the set switches the whole group to stacked rows,
+  // so the choices stay visually parallel rather than mixing pills and blocks.
+  const longLabels = sizes.some((s) => s.length > 8);
+
   // A single option (e.g. "One Size") isn't a real choice — render it as a
   // quiet outlined chip rather than a heavy filled button, so it reads as
   // information, not a call to action.
@@ -33,7 +37,7 @@ export default function SizeSelector({ sizes }: { sizes: string[] }) {
         מידה
         <span className="ms-2 tracking-normal text-charcoal">{selected}</span>
       </p>
-      <div className="flex flex-wrap gap-2.5">
+      <div className={longLabels ? "flex flex-col gap-2.5" : "flex flex-wrap gap-2.5"}>
         {sizes.map((size) => {
           const on = selected === size;
           return (
@@ -42,7 +46,14 @@ export default function SizeSelector({ sizes }: { sizes: string[] }) {
               type="button"
               aria-pressed={on}
               onClick={() => setSelected(size)}
-              className={`min-h-[42px] min-w-[46px] rounded-full border px-4 text-xs tracking-wide transition-all duration-300 ease-out ${
+              className={`min-h-[42px] border text-xs tracking-wide transition-all duration-300 ease-out ${
+                // Descriptive options ("40 ס״מ + 5 ס״מ הארכה") are sentences, not
+                // tokens: as pills they'd wrap mid-phrase on a 375px screen. They
+                // get full-width rows instead; short tokens keep the compact pills.
+                longLabels
+                  ? "w-full rounded-xl px-5 py-3 text-start leading-relaxed"
+                  : "min-w-[46px] rounded-full px-4"
+              } ${
                 on
                   ? "border-charcoal bg-charcoal text-canvas"
                   : "border-platinum/70 bg-canvas text-graphite hover:border-charcoal/50 hover:text-charcoal"

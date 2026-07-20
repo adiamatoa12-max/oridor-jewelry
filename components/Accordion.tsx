@@ -50,7 +50,7 @@ export default function Accordion({
               }`}
             >
               <div className="overflow-hidden">
-                <div className="pb-6 text-sm font-light leading-relaxed text-graphite">
+                <div className="pb-6 text-base font-light leading-relaxed text-graphite sm:text-sm">
                   {item.content}
                 </div>
               </div>
