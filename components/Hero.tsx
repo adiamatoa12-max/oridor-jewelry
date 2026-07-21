@@ -37,11 +37,14 @@ export default function Hero() {
               label above it: it read "מבצע השקה", repeating the first two words
               of the headline itself. */}
           <h1 className="animate-fade-up text-4xl font-bold leading-[1.14] tracking-tight text-white [text-wrap:balance] [animation-delay:100ms] sm:text-5xl lg:text-6xl">
-            מבצע השקה מיוחד – 2+1 על פריטים נבחרים
+            יוקרה ללא פשרות
           </h1>
-          {/* Supporting line — smaller, lighter, airier */}
+          {/* Supporting line — smaller, lighter, airier. Carries the material
+              credentials; the promo now lives in the announcement bar alone,
+              so the hero reads as a brand statement rather than an ad. */}
           <p className="mx-auto mt-6 max-w-lg animate-fade-up text-sm font-light leading-relaxed tracking-wide text-white/85 [animation-delay:300ms] sm:text-base">
-            תכשיטי מואסנייט באיכות פרימיום (D/VVS1) – ברק של יהלום, עד הבית.
+            מואסנייט בדרגת D/VVS1, משובץ בכסף סטרלינג 925 בציפוי רודיום — ברק
+            שנשאר, יום אחרי יום.
           </p>
 
           {/* Dual CTA — high-contrast, near-square corners, side-by-side with a
