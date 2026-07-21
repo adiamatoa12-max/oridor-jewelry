@@ -17,8 +17,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/collections/moissanite",
     "/collections/silver",
     "/collections/earrings",
-    "/collections/signature",
-    "/collections/new",
+    // /collections/signature and /collections/new were merged into the silver
+    // collection and now 301 there, so they're intentionally absent: a sitemap
+    // should only list canonical 200s. Their /[slug] product URLs below stay.
     "/collections/tennis",
     "/sets",
     "/quality-warranty",

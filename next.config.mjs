@@ -107,6 +107,23 @@ const nextConfig = {
         destination: "/collections/silver",
         permanent: true,
       },
+      // The signature and new-arrival listings were folded into the single
+      // silver collection, since every piece in them is solid 925 and showing
+      // them twice split the listing across duplicate URLs.
+      //
+      // These match the collection INDEX only. The /[slug] product routes below
+      // them still exist and must keep resolving — a signature piece lives at
+      // /collections/signature/<slug> and is merely listed on the silver page.
+      {
+        source: "/collections/signature",
+        destination: "/collections/silver",
+        permanent: true,
+      },
+      {
+        source: "/collections/new",
+        destination: "/collections/silver",
+        permanent: true,
+      },
     ];
   },
 };

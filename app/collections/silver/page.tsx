@@ -2,26 +2,41 @@ import type { Metadata } from "next";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
-import SilverGrid, { type SilverProduct } from "@/components/SilverGrid";
+import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
 import CollectionTrustBar from "@/components/CollectionTrustBar";
 import CollectionHero from "@/components/CollectionHero";
+import {
+  buildUnifiedCatalog,
+  applyLiveStatus,
+  COLLECTION_SILVER,
+} from "@/lib/catalog";
 import { getLivePriceMap } from "@/lib/shopify";
-import { overlayLivePrices } from "@/lib/catalog";
-import data from "@/data/silver_collection.json";
 
 export const revalidate = 120;
 
 export const metadata: Metadata = {
   title: { absolute: "קולקציית כסף 925 | תכשיטים על-זמניים שלא מתכהים | Oridor" },
   description:
-    "תכשיטי כסף סטרלינג 925 טהור בציפוי רודיום — עמידים, היפואלרגניים ולנצח מבריקים. עיצוב נקי לכל יום. משלוח חינם ואחריות מלאה.",
+    "תכשיטי כסף סטרלינג 925 טהור בציפוי רודיום: עמידים, היפואלרגניים ומבריקים לתמיד. עיצוב נקי לכל יום, עם משלוח חינם ואחריות מלאה.",
   alternates: { canonical: "/collections/silver" },
 };
 
+/**
+ * The single home for every solid-silver piece.
+ *
+ * Sourced from the unified catalog rather than one JSON file, so the silver,
+ * signature and new-arrival sets all surface here. Each product keeps the href
+ * the catalog assigns it, which means a signature piece still resolves to
+ * /collections/signature/<slug> — the collection index pages were merged, the
+ * product routes were not.
+ */
 export default async function SilverCollectionPage() {
   const live = await getLivePriceMap();
-  const products = overlayLivePrices(data as SilverProduct[], live);
+  const products = applyLiveStatus(buildUnifiedCatalog(), live).filter(
+    (p) => p.collection === COLLECTION_SILVER,
+  );
+
   return (
     <main>
       <AnnouncementBar />
@@ -32,19 +47,42 @@ export default async function SilverCollectionPage() {
         scrim="bg-gradient-to-b from-black/45 via-black/55 to-black/65"
         eyebrow="כסף 925 טהור"
         title="קולקציית כסף 925"
-        subtitle="עיצוב נקי, על-זמני ומלוטש — לכל רגע."
+        subtitle="עיצוב נקי, על-זמני ומלוטש, לכל רגע."
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
         {/* Collection positioning — the material story lives here once, rather
             than being repeated across every category page. */}
         <p className="mx-auto mb-8 max-w-2xl text-center text-base font-light leading-relaxed text-graphite sm:text-sm">
-          עשויים כסף 925 אמיתי בציפוי רודיום יוקרתי – לא פלדת אל-חלד.
+          עשויים כסף 925 אמיתי בציפוי רודיום יוקרתי, ולא פלדת אל-חלד.
         </p>
 
         <CollectionTrustBar className="mb-12" />
 
-        <Reveal><SilverGrid products={products} /></Reveal>
+        <Reveal>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
+            {products.map((p) => (
+              <ProductCard
+                key={p.id}
+                image={p.image}
+                secondaryImage={p.secondaryImage}
+                handle={p.handle}
+                href={p.href}
+                fit={p.fit}
+                category={p.category}
+                title={p.title}
+                price={p.price}
+                priceLabel={`₪${p.price.toLocaleString("he-IL")}`}
+                compareAt={p.compareAtPrice}
+                variants={p.variants}
+              />
+            ))}
+          </div>
+        </Reveal>
+
+        <p className="mt-14 text-center text-xs font-light tracking-wide text-ash">
+          {products.length} {products.length === 1 ? "פריט" : "פריטים"}
+        </p>
       </section>
 
       <PremiumFooter />

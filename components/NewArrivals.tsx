@@ -20,14 +20,14 @@ export default async function NewArrivals() {
           קולקציית כסף 925
         </h2>
         <p className="mx-auto mt-4 max-w-md text-sm font-light text-graphite">
-          כסף סטרלינג 925 טהור, מוצק (לא ציפוי) — נצנוץ על-זמני שנשאר לתמיד.
+          כסף סטרלינג 925 טהור ומוצק, לא ציפוי. נצנוץ על-זמני שנשאר לתמיד.
         </p>
       </div>
 
       <NewArrivalsGrid products={highlights} />
 
       <div className="mt-14 text-center">
-        <Link href="/collections/new" className="btn-ghost">
+        <Link href="/collections/silver" className="btn-ghost">
           לצפייה בכל הקולקציה
         </Link>
       </div>

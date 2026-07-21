@@ -14,7 +14,7 @@ const SERVICE_LINKS = [
 
 const COLLECTION_LINKS = [
   { label: "קולקציית מואסנייט", href: "/collections/moissanite" },
-  { label: "קולקציית כסף 925", href: "/collections/new" },
+  { label: "קולקציית כסף 925", href: "/collections/silver" },
   { label: "עגילים", href: "/collections/earrings" },
   { label: "כל הקולקציה", href: "/shop" },
 ];
@@ -84,10 +84,10 @@ export default function PremiumFooter() {
         {/* Newsletter */}
         <div>
           <h3 className="text-[13px] font-semibold uppercase tracking-[0.12em] text-charcoal">
-            הצטרפו למועדון
+            הצטרפי למועדון
           </h3>
           <p className="mt-4 text-sm font-light leading-relaxed text-ash">
-            קבלו 10% הנחה על ההזמנה הראשונה.
+            קבלי 10% הנחה על ההזמנה הראשונה.
           </p>
           <form
             className="group mt-6 flex items-center gap-3 border-b border-platinum pb-2 transition-colors focus-within:border-black"
