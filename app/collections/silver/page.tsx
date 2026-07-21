@@ -51,14 +51,6 @@ export default async function SilverCollectionPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
-        {/* Collection positioning — the material story lives here once, rather
-            than being repeated across every category page. */}
-        <p className="mx-auto mb-8 max-w-2xl text-center text-base font-light leading-relaxed text-graphite sm:text-sm">
-          עשויים כסף 925 אמיתי בציפוי רודיום יוקרתי, ולא פלדת אל-חלד.
-        </p>
-
-        <CollectionTrustBar className="mb-12" />
-
         <Reveal>
           <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
             {products.map((p) => (
@@ -83,6 +75,16 @@ export default async function SilverCollectionPage() {
         <p className="mt-14 text-center text-xs font-light tracking-wide text-ash">
           {products.length} {products.length === 1 ? "פריט" : "פריטים"}
         </p>
+
+        {/* Collection positioning — the material story lives here once, rather
+            than being repeated across every category page. Placed below the
+            grid so the pieces themselves are the first thing a shopper meets;
+            the brand claims read as a closing note rather than a preamble. */}
+        <p className="mx-auto mt-20 max-w-2xl text-center text-base font-light leading-relaxed text-graphite sm:text-sm lg:mt-24">
+          עשויים כסף 925 אמיתי בציפוי רודיום יוקרתי, ולא פלדת אל-חלד.
+        </p>
+
+        <CollectionTrustBar className="mt-12" />
       </section>
 
       <PremiumFooter />

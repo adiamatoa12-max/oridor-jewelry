@@ -41,15 +41,16 @@ export default async function MoissaniteCollectionPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
+        <MoissaniteCollection products={products} />
+
         {/* Material positioning — states what the piece is made of, so the
-            shopper isn't left to assume it's plated costume jewellery. */}
-        <p className="mx-auto mb-8 max-w-2xl text-center text-base font-light leading-relaxed text-graphite sm:text-sm">
+            shopper isn't left to assume it's plated costume jewellery. Placed
+            below the grid so the pieces lead and the brand claims close. */}
+        <p className="mx-auto mt-20 max-w-2xl text-center text-base font-light leading-relaxed text-graphite sm:text-sm lg:mt-24">
           עשויים כסף 925 אמיתי בציפוי רודיום יוקרתי, ולא פלדת אל-חלד.
         </p>
 
-        <CollectionTrustBar variant="moissanite" className="mb-12" />
-
-        <MoissaniteCollection products={products} />
+        <CollectionTrustBar variant="moissanite" className="mt-12" />
       </section>
 
       <PremiumFooter />
