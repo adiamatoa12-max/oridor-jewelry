@@ -9,7 +9,6 @@ import {
 import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
-import Cursor from "@/components/Cursor";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 
 // Body sans — Hebrew-complete companion behind Montserrat (renders Hebrew copy).
@@ -121,7 +120,6 @@ export default function RootLayout({
           {children}
           <CartDrawer />
           <AccessibilityWidget />
-          <Cursor />
         </CartProvider>
       </body>
     </html>
