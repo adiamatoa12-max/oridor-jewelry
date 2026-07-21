@@ -45,7 +45,7 @@ export default function PremiumFooter() {
           {/* Socials */}
           <div className="mt-6 flex items-center gap-3">
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/oridor.jewelry"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="אינסטגרם"
@@ -54,7 +54,7 @@ export default function PremiumFooter() {
               <Instagram size={16} strokeWidth={1.5} />
             </a>
             <a
-              href="https://tiktok.com"
+              href="https://www.tiktok.com/@oridor_"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="טיקטוק"

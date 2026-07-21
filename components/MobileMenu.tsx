@@ -14,7 +14,7 @@ const UTILITY_LINKS = [
   // Account link hidden until the user-auth system is built:
   // { label: "התחברות / הרשמה", href: "/account" },
   { label: "שירות לקוחות", href: "/contact" },
-  { label: "האינסטגרם שלנו", href: "https://instagram.com" },
+  { label: "האינסטגרם שלנו", href: "https://www.instagram.com/oridor.jewelry" },
 ];
 
 /**
@@ -90,16 +90,25 @@ export default function MobileMenu({
 
           {/* Footer utility links */}
           <div className="mt-6 space-y-4 border-t border-platinum/40 pt-6 text-right">
-            {UTILITY_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={onClose}
-                className="block min-h-[44px] text-sm text-ash transition-colors duration-300 hover:text-charcoal"
-              >
-                {link.label}
-              </Link>
-            ))}
+            {UTILITY_LINKS.map((link) => {
+              // Social profiles live off-site and open in a new tab, so the
+              // shopper doesn't lose the store. Internal links (customer
+              // service) keep navigating in place.
+              const external = link.href.startsWith("http");
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={onClose}
+                  {...(external
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
+                  className="block min-h-[44px] text-sm text-ash transition-colors duration-300 hover:text-charcoal"
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </div>
         </nav>
       </aside>
