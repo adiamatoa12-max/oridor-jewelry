@@ -6,7 +6,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 export const metadata: Metadata = {
   title: "משלוחים והחזרות",
   description:
-    "מדיניות המשלוחים וההחזרות של Oridor — משלוח מהיר עד הבית בחינם לכל ההזמנות, עם מעקב מלא.",
+    "מדיניות המשלוחים וההחזרות של Oridor: משלוח מהיר עד הבית, חינם לכל ההזמנות, עם מספר מעקב מלא והחזרה תוך 14 ימים מיום הקבלה.",
 };
 
 const RETURNS = [
@@ -16,7 +16,7 @@ const RETURNS = [
   },
   {
     title: "החלפות",
-    body: "מעוניינים להחליף למידה אחרת או לתכשיט שונה? צרו איתנו קשר ונשמח לעזור.",
+    body: "מעוניינת להחליף למידה אחרת או לתכשיט אחר? צרי איתנו קשר ונשמח לעזור.",
   },
   {
     title: "החזר כספי",
@@ -49,8 +49,7 @@ export default function ShippingPage() {
         className="mx-auto max-w-3xl space-y-14 px-6 py-16 text-right sm:px-10 lg:py-20"
       >
         <p className="text-lg font-light leading-relaxed text-graphite">
-          אנו יודעים כמה את מחכה לתכשיט החדש שלך, ולכן אנו עושים הכל כדי שיגיע
-          אלייך במהירות ובבטחה.
+          אנחנו יודעים כמה את מחכה לתכשיט החדש שלך, ולכן עושים הכל כדי שיגיע אלייך במהירות ובבטחה.
         </p>
 
         {/* Processing & tracking */}
@@ -59,9 +58,7 @@ export default function ShippingPage() {
             זמן עיבוד ומעקב
           </h2>
           <p className="mt-4 text-base leading-relaxed text-graphite">
-            זמן עיבוד והכנת ההזמנה אורך בדרך כלל בין יום ליומיים עסקים. ברגע
-            שהחבילה שלך תצא לדרך, נשלח אליך מספר מעקב במייל או ב-SMS כדי שתוכלו
-            לעקוב אחריה.
+            עיבוד ההזמנה והכנתה אורכים בדרך כלל יום עד יומיים עסקים. ברגע שהחבילה שלך יוצאת לדרך, נשלח אלייך מספר מעקב במייל או ב-SMS כדי שתוכלי לעקוב אחריה.
           </p>
         </section>
 
@@ -86,8 +83,7 @@ export default function ShippingPage() {
             מדיניות החזרות והחלפות
           </h2>
           <p className="mt-4 text-base leading-relaxed text-graphite">
-            אנו מאמינים באיכות התכשיטים שלנו ורוצים שתהיו שלמים 100% עם הרכישה
-            שלכם.
+            אנחנו מאמינים באיכות התכשיטים שלנו, ורוצים שתהיי שלמה לגמרי עם הרכישה שלך.
           </p>
 
           <div className="mt-8 space-y-6">

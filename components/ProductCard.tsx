@@ -87,7 +87,7 @@ export default function ProductCard({
     else openCart();
   };
 
-  const quickAddLabel = `הוספה מהירה — ${title}`;
+  const quickAddLabel = `הוספה מהירה: ${title}`;
 
   return (
     <Link
@@ -101,7 +101,7 @@ export default function ProductCard({
       >
         <Image
           src={displayImage}
-          alt={`${title} — תכשיט כסף מבית Oridor`}
+          alt={`${title}, תכשיט כסף מבית Oridor`}
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           className={gridImageClass(category)}
@@ -114,7 +114,7 @@ export default function ProductCard({
         {hoverImage && activeColor === 0 && (
           <Image
             src={hoverImage}
-            alt={`${title} — תמונה נוספת`}
+            alt={`${title}, תמונה נוספת`}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className={`${hoverIsCover ? "object-cover object-center" : gridImageClass(category)} opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-active:opacity-100`}

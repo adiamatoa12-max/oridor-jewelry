@@ -66,7 +66,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
       <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
         <Image
           src={encodeURI(displayImage)}
-          alt={`${p.name} — ${p.material}`}
+          alt={`${p.name}, ${p.material}`}
           fill
           sizes="(min-width: 1024px) 25vw, 50vw"
           className={gridImageClass(p.category)}

@@ -42,7 +42,7 @@ export default function Navbar() {
           {/* Absolutely-centered logo — true horizontal center of the row */}
           <Link
             href="/"
-            aria-label="Oridor — לעמוד הבית"
+            aria-label="Oridor, לעמוד הבית"
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
           >
             <Image

@@ -25,14 +25,10 @@ export default function MoissaniteEducation() {
             הסטנדרט של ORIDOR: איכות בלי סימני שאלה
           </h2>
           <p className="mt-8 text-[15px] font-normal leading-loose text-white/70 sm:text-base">
-            רוב התכשיטים בשוק עשויים פלדת אל-חלד — מתכת תעשייתית זולה לייצור.
-            אצלנו תמצאי כסף סטרלינג 925 אמיתי לכל עומקו, לא ציפוי דק על מתכת
-            אחרת, ומעליו שכבת רודיום — אותה מתכת יקרה שבה מצפים תכשיטי יהלומים.
+            רוב התכשיטים בשוק עשויים פלדת אל-חלד, מתכת תעשייתית זולה לייצור. אצלנו תמצאי כסף סטרלינג 925 אמיתי לכל עומקו, לא ציפוי דק על מתכת אחרת, ומעליו שכבת רודיום: אותה מתכת יקרה שבה מצפים תכשיטי יהלומים.
           </p>
           <p className="mt-6 text-[15px] font-normal leading-loose text-white/70 sm:text-base">
-            התוצאה: גימור לבן שנשאר מבריק ולא משחיר, נטול ניקל ועדין על העור גם
-            בענידה יומיומית. בלב הקולקציה — מואסנייט בדרגת D/VVS1, אבן בדרגת
-            הצבע והניקיון הגבוהה ביותר, בליטוש Excellent Cut.
+            התוצאה: גימור לבן שנשאר מבריק ולא משחיר, נטול ניקל ועדין על העור גם בענידה יומיומית. בלב הקולקציה עומד מואסנייט בדרגת D/VVS1, אבן בדרגת הצבע והניקיון הגבוהה ביותר, בליטוש Excellent Cut.
           </p>
         </div>
 
@@ -41,7 +37,7 @@ export default function MoissaniteEducation() {
         <div className="relative mx-auto aspect-[3/2] w-full max-w-lg overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10">
           <Image
             src={SPARKLE_MEDIA}
-            alt="תקריב של תליון מואסנייט אובל — הסטנדרט של ORIDOR"
+            alt="תקריב של תליון מואסנייט אובל, הסטנדרט של ORIDOR"
             fill
             sizes="(min-width: 768px) 32rem, 100vw"
             className="object-cover object-center"

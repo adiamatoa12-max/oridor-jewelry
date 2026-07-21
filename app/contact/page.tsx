@@ -6,7 +6,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 
 export const metadata: Metadata = {
   title: "צור קשר",
-  description: "נשמח לעמוד לרשותך — צרי קשר עם צוות Oridor בכל שאלה או בקשה.",
+  description: "נשמח לעמוד לרשותך. צרי קשר עם צוות Oridor בכל שאלה על פריט, על הזמנה קיימת או על התאמה אישית, ונחזור אלייך בהקדם האפשרי.",
 };
 
 const DETAILS = [
@@ -37,8 +37,7 @@ export default function ContactPage() {
         </h1>
         <span className="mx-auto my-8 block h-px w-16 bg-gold" />
         <p className="mx-auto max-w-xl text-sm font-light leading-relaxed text-graphite">
-          יש לך שאלה על פריט, הזמנה או התאמה אישית? צוות Oridor כאן בשבילך. מלאי
-          את הפרטים ונחזור אלייך בהקדם.
+          יש לך שאלה על פריט, על הזמנה קיימת או על התאמה אישית? צוות Oridor כאן בשבילך. מלאי את הפרטים ונחזור אלייך בהקדם.
         </p>
       </section>
 

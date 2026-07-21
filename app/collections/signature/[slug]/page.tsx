@@ -25,7 +25,7 @@ export function generateMetadata({
   const product = products.find((p) => p.slug === params.slug);
   if (!product) return { title: "מוצר לא נמצא" };
   const title = `${product.name} | קולקציית החתימה בכסף 925 | Oridor`;
-  const description = `${product.name} מכסף סטרלינג 925 טהור, זמין ב-${product.variants.length} גימורים (כסף, זהב, זהב ורוד). עיצוב חתימה על-זמני, משלוח חינם ואחריות מלאה.`;
+  const description = `${product.name} מכסף סטרלינג 925 טהור, זמין ב-${product.variants.length} גימורים: כסף, זהב וזהב ורוד. עיצוב חתימה על-זמני, משלוח חינם ואחריות מלאה על כל פריט.`;
   const image = `${SITE_URL}${encodeURI(product.variants[0].image_url)}`;
   return {
     title: { absolute: title },
@@ -78,11 +78,11 @@ export default async function SignatureProductPage({
   const galleryImages = [
     ...product.variants.map((v) => ({
       src: encodeURI(v.image_url),
-      alt: `${product.name} — ${v.color}`,
+      alt: `${product.name}, ${v.color}`,
     })),
     ...(product.gallery_images ?? []).map((src) => ({
       src: encodeURI(src),
-      alt: `${product.name} — תצוגה נוספת`,
+      alt: `${product.name}, תצוגה נוספת`,
       fit: "cover" as const,
     })),
   ];
@@ -90,7 +90,7 @@ export default async function SignatureProductPage({
   const productJsonLd = buildProductJsonLd({
     name: product.name,
     images: product.variants.map((v) => `${SITE_URL}${encodeURI(v.image_url)}`),
-    description: `${product.name} מכסף סטרלינג 925 טהור — זמין ב-${product.variants.length} גימורים. קולקציית החתימה של Oridor.`,
+    description: `${product.name} מכסף סטרלינג 925 טהור, זמין ב-${product.variants.length} גימורים. קולקציית החתימה של Oridor.`,
     sku: product.id,
     path: `/collections/signature/${product.slug}`,
     price: product.price,
@@ -124,9 +124,9 @@ export default async function SignatureProductPage({
         shopifyProduct={displayProduct}
         hexByValue={hexByValue}
         imageByValue={imageByValue}
-        qualityNote="איכות ואותנטיות — כסף 925 טהור"
+        qualityNote="איכות ואותנטיות: כסף 925 טהור"
         showRingGuide={/טבעת/.test(product.name)}
-        description={`${product.name} — מקולקציית החתימה של Oridor, זמין ב-${product.variants.length} גימורים. עבודת יד מדויקת בכסף 925 טהור, לגימור נקי ועל-זמני.`}
+        description={`${product.name} מקולקציית החתימה של Oridor, זמין ב-${product.variants.length} גימורים. עבודת יד מדויקת בכסף 925 טהור, לגימור נקי ועל-זמני.`}
         materials={
           <dl className="space-y-2">
             <div className="flex gap-2">

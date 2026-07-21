@@ -30,7 +30,7 @@ export default async function MoissanitePreview() {
           קולקציית מואסנייט
         </h2>
         <p className="mx-auto mt-4 max-w-md text-sm font-light text-graphite">
-          אבני מואסנייט בדרגת D / VVS1 — ברק שמתחרה ביהלומים.
+          אבני מואסנייט בדרגת D / VVS1, ברק שמתחרה ביהלומים.
         </p>
       </div>
 

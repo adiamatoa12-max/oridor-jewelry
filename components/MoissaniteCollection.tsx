@@ -115,7 +115,7 @@ export default function MoissaniteCollection({
           <MoissaniteGrid products={visible} layout="grid" />
         ) : (
           <p className="py-16 text-center text-sm font-light text-ash">
-            לא נמצאו פריטים התואמים את הסינון.
+            לא נמצאו פריטים שתואמים את הסינון.
           </p>
         )}
       </Reveal>

@@ -161,9 +161,9 @@ export default function CartDrawer() {
                 {unlocked ? (
                   <>
                     <span className="font-semibold text-gold">
-                      פתחת את המתנה שלך!
+                      המתנה שלך נפתחה.
                     </span>{" "}
-                    בחרי את הפריט החינמי שלך למטה 🎁
+                    בחרי את הפריט שעל הבית למטה 🎁
                   </>
                 ) : (
                   <>
@@ -174,7 +174,7 @@ export default function CartDrawer() {
                     <span className="font-medium">
                       {toGo === 1 ? "פריט" : "פריטים"}
                     </span>{" "}
-                    ותוכלי לבחור מתנה 🎁
+                    והמתנה שלך תיפתח 🎁
                   </>
                 )}
               </p>
@@ -231,7 +231,7 @@ export default function CartDrawer() {
                 </div>
               ) : (
                 <p className="py-16 text-center text-sm font-light leading-relaxed text-ash">
-                  הכספת שלך ריקה כרגע —<br />הוסיפי פריטים לאוסף שלך.
+                  הכספת שלך ריקה כרגע. הוסיפי פריטים לאוסף שלך.
                 </p>
               )
             ) : (
@@ -249,7 +249,7 @@ export default function CartDrawer() {
                       <div className="relative aspect-square w-[88px] flex-none overflow-hidden rounded-lg bg-canvas">
                         <Image
                           src={item.image}
-                          alt={`${item.title} — תכשיט מבית Oridor`}
+                          alt={`${item.title}, תכשיט מבית Oridor`}
                           fill
                           sizes="88px"
                           className="object-cover"
@@ -380,7 +380,7 @@ export default function CartDrawer() {
 
                   {giftsState === "done" && gifts.length === 0 && (
                     <p className="py-6 text-center text-[11px] font-light leading-relaxed text-ash">
-                      המתנות יתעדכנו כאן בקרוב — נצרף אותן להזמנה שלך.
+                      המתנות יתעדכנו כאן בקרוב, ונצרף אותן להזמנה שלך.
                     </p>
                   )}
 
@@ -411,7 +411,7 @@ export default function CartDrawer() {
                             {image && (
                               <Image
                                 src={image}
-                                alt={`${title} — מתנת פרימיום מבית Oridor`}
+                                alt={`${title}, מתנת פרימיום מבית Oridor`}
                                 fill
                                 sizes="68px"
                                 className="object-cover transition-transform duration-500 ease-cinematic group-hover:scale-105"
@@ -428,7 +428,7 @@ export default function CartDrawer() {
                               שווי {formatPrice(price)}
                             </p>
                             <p className="mt-1.5 text-[10px] font-medium tracking-[0.12em] text-gold">
-                              {active ? "✓ נוסף לסל" : "✦ לחצי לקבלת המתנה"}
+                              {active ? "✓ נוסף לסל" : "✦ לבחירת המתנה"}
                             </p>
                           </div>
 

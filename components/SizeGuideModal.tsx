@@ -42,7 +42,7 @@ export default function SizeGuideModal() {
         onClick={() => setOpen(true)}
         className="mt-5 inline-block text-start text-xs font-light tracking-wide text-graphite underline underline-offset-4 transition-colors hover:text-gold"
       >
-        מדריך מידות טבעת — איך למדוד בבית
+        מדריך מידות טבעת: איך למדוד בבית
       </button>
 
       {mounted &&
@@ -75,8 +75,7 @@ export default function SizeGuideModal() {
                 מדריך מידות טבעת
               </h3>
               <p className="mt-3 text-sm font-light leading-relaxed text-graphite">
-                כרכי חוט דק סביב בסיס האצבע ומדדי את האורך במילימטרים — המספר
-                שקיבלת הוא המידה שלך. אם את בין שתי מידות, בחרי את הגדולה יותר.
+                כרכי חוט דק סביב בסיס האצבע ומדדי את האורך במילימטרים. המספר שקיבלת הוא המידה שלך. אם את בין שתי מידות, בחרי את הגדולה יותר.
               </p>
 
               <div className="mt-6 overflow-hidden rounded-lg border border-platinum/50">

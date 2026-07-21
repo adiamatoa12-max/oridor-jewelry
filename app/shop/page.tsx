@@ -8,7 +8,7 @@ import { getLivePriceMap } from "@/lib/shopify";
 export const metadata: Metadata = {
   title: { absolute: "כל הקולקציה | תכשיטי מואסנייט וכסף 925 | Oridor" },
   description:
-    "כל תכשיטי Oridor במקום אחד — מואסנייט זוהר וכסף סטרלינג 925 טהור. טבעות, שרשראות, צמידים ועגילים. סינון מהיר לפי קטגוריה. משלוח חינם.",
+    "כל תכשיטי Oridor במקום אחד: מואסנייט זוהר וכסף סטרלינג 925 טהור. טבעות, שרשראות, צמידים ועגילים, עם סינון מהיר לפי קטגוריה. משלוח חינם.",
   alternates: { canonical: "/shop" },
 };
 
@@ -29,7 +29,7 @@ export default async function ShopPage() {
             הקולקציה המלאה
           </h1>
           <p className="mt-3 text-sm font-light text-graphite sm:mt-4">
-            כל הקולקציות שלנו במקום אחד — בחרי קטגוריה וגלי.
+            כל הקולקציות שלנו במקום אחד. בחרי קטגוריה וגלי.
           </p>
         </header>
 

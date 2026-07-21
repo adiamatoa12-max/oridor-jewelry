@@ -53,17 +53,17 @@ const OG_IMAGE = {
   url: "/og-image.jpg",
   width: 1536,
   height: 1024,
-  alt: "קולקציית תכשיטי המואסנייט של Oridor — שרשרת, טבעת, עגילים וצמיד טניס",
+  alt: "קולקציית תכשיטי המואסנייט של Oridor: שרשרת, טבעת, עגילים וצמיד טניס",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: "Oridor | תכשיטי מואסנייט פרימיום",
-    template: "%s — Oridor",
+    template: "%s | Oridor",
   },
   description:
-    "Oridor — תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסנייט. מינימליסטי, על-זמני, אלגנטי.",
+    "Oridor מציעה תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסנייט, בעיצוב מינימליסטי, על-זמני ואלגנטי שנועד ללוות אותך יום יום.",
   keywords: ["תכשיטים", "מואסנייט", "כסף 925", "טבעות", "שרשראות", "עגילים", "Oridor"],
   alternates: { canonical: "/" },
   verification: {
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     siteName: "Oridor",
     title: "Oridor | תכשיטי מואסנייט פרימיום",
     description:
-      "תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסנייט. מינימליסטי, על-זמני, אלגנטי.",
+      "תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסנייט, בעיצוב מינימליסטי, על-זמני ואלגנטי שנועד ללוות אותך יום יום.",
     url: SITE_URL,
     images: [OG_IMAGE],
   },
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Oridor | תכשיטי מואסנייט פרימיום",
     description:
-      "תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסנייט. מינימליסטי, על-זמני, אלגנטי.",
+      "תכשיטים עדינים ומודרניים מכסף 925 ואבני מואסנייט, בעיצוב מינימליסטי, על-זמני ואלגנטי שנועד ללוות אותך יום יום.",
     images: ["/og-image.jpg"],
   },
   robots: { index: true, follow: true },

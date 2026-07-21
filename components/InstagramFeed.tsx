@@ -31,7 +31,7 @@ export default function InstagramFeed() {
           הקולקציות שלנו
         </h2>
         <p className="mt-3 text-sm font-light tracking-wide text-ash">
-          קנו לפי קטגוריה
+          לבחירה לפי קטגוריה
         </p>
       </div>
 
@@ -48,7 +48,7 @@ export default function InstagramFeed() {
           >
             <Image
               src={cat.image}
-              alt={`קטגוריית ${cat.label} — Oridor`}
+              alt={`קטגוריית ${cat.label}, Oridor`}
               fill
               sizes="(min-width: 768px) 20vw, (min-width: 640px) 33vw, 50vw"
               // Serve the raw file directly (skip the Next image optimizer) so

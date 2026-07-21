@@ -91,7 +91,7 @@ export default function MoissaniteGrid({
           >
             <Image
               src={encodeURI(p.image_url)}
-              alt={`${p.name} — ${p.material}`}
+              alt={`${p.name}, ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 62vw"
               className={gridImageClass(p.category)}
@@ -103,7 +103,7 @@ export default function MoissaniteGrid({
             {p.hover_image && (
               <Image
                 src={encodeURI(p.hover_image)}
-                alt={`${p.name} — תמונה נוספת`}
+                alt={`${p.name}, תמונה נוספת`}
                 fill
                 sizes="(min-width: 1024px) 25vw, 62vw"
                 className="object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-active:opacity-100"

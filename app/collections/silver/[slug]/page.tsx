@@ -25,7 +25,7 @@ export function generateMetadata({
   const product = products.find((p) => p.slug === params.slug);
   if (!product) return { title: "מוצר לא נמצא" };
   const title = `${product.name} | כסף סטרלינג 925 טהור | Oridor`;
-  const description = `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עמיד, היפואלרגני ולנצח מבריק. עיצוב על-זמני, משלוח חינם ואחריות מלאה.`;
+  const description = `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום: עמיד, היפואלרגני ושומר על ברקו. עיצוב על-זמני, משלוח חינם ואחריות מלאה על כל פריט.`;
   const image = `${SITE_URL}${encodeURI(product.image_url)}`;
   return {
     title: { absolute: title },
@@ -66,12 +66,12 @@ export default async function SilverProductPage({
     ...(product.variants && product.variants.length > 0
       ? product.variants.map((v) => ({
           src: encodeURI(v.image_url),
-          alt: `${product.name} — ${v.color}`,
+          alt: `${product.name}, ${v.color}`,
         }))
-      : [{ src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` }]),
+      : [{ src: encodeURI(product.image_url), alt: `${product.name}, ${product.material}` }]),
     ...(product.gallery_images ?? []).map((src) => ({
       src: encodeURI(src),
-      alt: `${product.name} — תצוגה נוספת`,
+      alt: `${product.name}, תצוגה נוספת`,
       fit: "cover" as const,
     })),
   ];
@@ -79,7 +79,7 @@ export default async function SilverProductPage({
   const productJsonLd = buildProductJsonLd({
     name: product.name,
     images: [`${SITE_URL}${encodeURI(product.image_url)}`],
-    description: `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עמיד, היפואלרגני ועל-זמני.`,
+    description: `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום: עמיד, היפואלרגני ועל-זמני.`,
     sku: product.id,
     path: `/collections/silver/${product.slug}`,
     price: product.price,
@@ -109,9 +109,9 @@ export default async function SilverProductPage({
         compareAtPrice={product.compare_at_price}
         shopifyProduct={shopifyProduct}
         hexByValue={hexByValue}
-        qualityNote="איכות ואותנטיות — כסף 925 טהור"
+        qualityNote="איכות ואותנטיות: כסף 925 טהור"
         showRingGuide={/טבעת/.test(product.name)}
-        description="פריט מכסף 925 טהור בעבודת יד מדויקת, מלוטש בקפידה לגימור נקי ועל-זמני. עיצוב שנועד ללוות אתכן יום-יום, לשנים רבות."
+        description="פריט מכסף 925 טהור בעבודת יד מדויקת, מלוטש בקפידה לגימור נקי ועל-זמני. עיצוב שנועד ללוות אותך יום-יום, לשנים רבות."
         materials={
           <dl className="space-y-2">
             <div className="flex gap-2">

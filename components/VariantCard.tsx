@@ -48,7 +48,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
             <Image
               key={v.image_url}
               src={encodeURI(v.image_url)}
-              alt={`${product.name} — ${v.color}`}
+              alt={`${product.name}, ${v.color}`}
               fill
               sizes="(min-width: 1024px) 25vw, 50vw"
               className={`${gridImageClass(product.category, { transition: "transition-[opacity,transform] duration-500 ease-cinematic" })} ${

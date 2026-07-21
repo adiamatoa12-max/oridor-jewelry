@@ -34,7 +34,7 @@ export function generateMetadata({
   if (!product) return { title: "מוצר לא נמצא" };
   const benefit = BENEFIT[product.category ?? ""] ?? "מואסנייט זוהר בכסף 925";
   const title = `${product.name} | ${benefit} | Oridor`;
-  const description = `${product.name} — מואסנייט בדרגת D/VVS1 בכסף סטרלינג 925 מצופה רודיום. ברק עוצר נשימה, משלוח חינם ואחריות מלאה.`;
+  const description = `${product.name}: מואסנייט בדרגת D/VVS1 בכסף סטרלינג 925 מצופה רודיום. זוהר נקי ומדויק לכל יום, עם משלוח חינם ואחריות מלאה על כל פריט.`;
   const image = `${SITE_URL}${encodeURI(product.image_url)}`;
   return {
     title: { absolute: title },
@@ -79,7 +79,7 @@ export default async function MoissaniteProductPage({
   const productJsonLd = buildProductJsonLd({
     name: product.name,
     images: [`${SITE_URL}${encodeURI(product.image_url)}`],
-    description: `${product.name} — מואסנייט בדרגת D/VVS1 בכסף סטרלינג 925 טהור מצופה רודיום.`,
+    description: `${product.name}: מואסנייט בדרגת D/VVS1 בכסף סטרלינג 925 טהור מצופה רודיום.`,
     sku: product.id,
     path: `/collections/moissanite/${product.slug}`,
     price: product.price,
@@ -110,10 +110,10 @@ export default async function MoissaniteProductPage({
           alt: "תעודות אותנטיות GRA המצורפות לכל תכשיט מואסנייט של Oridor",
           heading: "כל תכשיט מגיע עם תעודת GRA",
           body:
-            "כל אבן מואסנייט שלנו מלווה בתעודת אותנטיות רשמית של GRA — המאשרת את דרגת הצבע, הניקיון והליטוש של האבן. התעודה מגיעה אליך יחד עם התכשיט, באריזת המותג.",
+            "כל אבן מואסנייט שלנו מלווה בתעודת אותנטיות רשמית של GRA, המאשרת את דרגת הצבע, הניקיון והליטוש של האבן. התעודה מגיעה אליך יחד עם התכשיט, באריזת המותג.",
         }}
         images={[
-          { src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` },
+          { src: encodeURI(product.image_url), alt: `${product.name}, ${product.material}` },
           ...(product.hover_image
             ? [{
                 src: encodeURI(product.hover_image),
@@ -123,7 +123,7 @@ export default async function MoissaniteProductPage({
             : []),
           ...(product.gallery_images ?? []).map((src) => ({
             src: encodeURI(src),
-            alt: `${product.name} — תצוגה נוספת`,
+            alt: `${product.name}, תצוגה נוספת`,
             fit: "cover" as const,
           })),
         ]}
@@ -131,9 +131,9 @@ export default async function MoissaniteProductPage({
         fallbackPrice={product.price}
         compareAtPrice={product.compare_at_price}
         shopifyProduct={displayProduct}
-        qualityNote="איכות ואותנטיות — כסף 925 ומואסנייט D / VVS1"
+        qualityNote="איכות ואותנטיות: כסף 925 ומואסנייט D / VVS1"
         showRingGuide={/ring|טבעת/i.test(product.name)}
-        description="אבן מואסנייט נוצצת בעבודת יד מדויקת, משובצת בכסף 925 טהור מצופה רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אתכן לכל החיים."
+        description="אבן מואסנייט נוצצת בעבודת יד מדויקת, משובצת בכסף 925 טהור מצופה רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אותך לכל החיים."
         materials={
           <dl className="space-y-2">
             <div className="flex gap-2">

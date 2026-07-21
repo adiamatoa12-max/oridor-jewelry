@@ -14,7 +14,7 @@ import { getLivePriceMap } from "@/lib/shopify";
 export const metadata: Metadata = {
   title: { absolute: "עגילים | כסף 925 אמיתי בציפוי רודיום | Oridor" },
   description:
-    "עגילי Oridor — כסף 925 אמיתי בציפוי רודיום עמיד, עם תעודת איכות לכל תכשיט. מחיר השקה מיוחד: כל העגילים ב-200₪. משלוח חינם ואחריות מלאה.",
+    "עגילי Oridor מכסף 925 אמיתי בציפוי רודיום עמיד, עם תעודת איכות לכל תכשיט. מחיר השקה: עגילים החל מ-200₪. משלוח חינם ואחריות מלאה.",
   alternates: { canonical: "/collections/earrings" },
 };
 

@@ -55,12 +55,12 @@ function getRelatedProducts(
 const SHIPPING: AccordionItem = {
   title: "משלוחים והחזרות",
   content:
-    "משלוח חינם עד הבית לכל ההזמנות, בזמן אספקה של 3–7 ימי עסקים. ניתן להחזיר או להחליף תוך 14 יום ממועד הקבלה — ללא שאלות. כל פריט מגיע עם תעודת אותנטיות ואחריות מלאה.",
+    "משלוח חינם עד הבית לכל ההזמנות, בזמן אספקה של 3–7 ימי עסקים. ניתן להחזיר או להחליף תוך 14 יום ממועד הקבלה, ללא שאלות. כל פריט מגיע עם תעודת אותנטיות ואחריות מלאה.",
 };
 const CARE: AccordionItem = {
   title: "הוראות טיפוח",
   content:
-    "אחסני את התכשיט במקום יבש והרחיקי אותו ממים, בישום, קרמים וכלור. נקי בעדינות במטלית רכה ויבשה. מומלץ לענוד את התכשיט אחרון ולהסיר אותו ראשון — כך הוא ישמור על הברק לאורך שנים.",
+    "אחסני את התכשיט במקום יבש והרחיקי אותו ממים, מבישום, מקרמים ומכלור. נקי אותו בעדינות במטלית רכה ויבשה. מומלץ לענוד אותו אחרון ולהסיר אותו ראשון, כך הוא ישמור על הברק לאורך שנים.",
 };
 // Quality-assurance selling points — shared across every product so the same
 // premium promise appears on every page. Bolded Hebrew terminology anchors the
@@ -70,20 +70,20 @@ const QUALITY: AccordionItem = {
   content: (
     <ul className="space-y-2.5">
       <li>
-        <strong className="font-semibold text-charcoal">כסף 925 טהור</strong> —
+        <strong className="font-semibold text-charcoal">כסף 925 טהור</strong>:
         כסף סטרלינג אמיתי לכל עומקו, מתכת יקרה שנשארת יפה לאורך שנים.
       </li>
       <li>
-        <strong className="font-semibold text-charcoal">ציפוי רודיום</strong> —
+        <strong className="font-semibold text-charcoal">ציפוי רודיום</strong>:
         שכבת הגנה יוקרתית לברק עמיד ולעמידות מרבית בפני שריטות והחלדה.
       </li>
       <li>
-        <strong className="font-semibold text-charcoal">מואסנייט D / VVS1</strong>{" "}
-        — אבן בדרגת הצבע והניקיון הגבוהה ביותר, בליטוש מושלם (Excellent Cut).
+        <strong className="font-semibold text-charcoal">מואסנייט D / VVS1</strong>:{" "}
+        אבן בדרגת הצבע והניקיון הגבוהה ביותר, בליטוש מושלם (Excellent Cut).
       </li>
       <li>
-        <strong className="font-semibold text-charcoal">תעודת אחריות GRA</strong>{" "}
-        — כל פריט מגיע עם תעודת אותנטיות ואחריות לכל החיים.
+        <strong className="font-semibold text-charcoal">תעודת אחריות GRA</strong>:{" "}
+        כל פריט מגיע עם תעודת אותנטיות ואחריות לכל החיים.
       </li>
     </ul>
   ),

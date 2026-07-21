@@ -25,7 +25,7 @@ export function generateMetadata({
   const product = products.find((p) => p.slug === params.slug);
   if (!product) return { title: "מוצר לא נמצא" };
   const title = `${product.name} | חדש בכסף 925 | Oridor`;
-  const description = `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עיצוב חדש, נקי ועל-זמני. משלוח חינם ואחריות מלאה על כל פריט.`;
+  const description = `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום: עיצוב חדש, נקי ועל-זמני, מלוטש בקפידה. משלוח חינם ואחריות מלאה על כל פריט.`;
   const image = `${SITE_URL}${encodeURI(product.image_url)}`;
   return {
     title: { absolute: title },
@@ -58,7 +58,7 @@ export default async function NewArrivalProductPage({
   const productJsonLd = buildProductJsonLd({
     name: product.name,
     images: [`${SITE_URL}${encodeURI(product.image_url)}`],
-    description: `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום — עיצוב חדש, נקי ועל-זמני.`,
+    description: `${product.name} מכסף סטרלינג 925 טהור בציפוי רודיום: עיצוב חדש, נקי ועל-זמני.`,
     sku: product.id,
     path: `/collections/new/${product.slug}`,
     price: product.price,
@@ -83,10 +83,10 @@ export default async function NewArrivalProductPage({
         slug={product.slug}
         allProducts={products}
         images={[
-          { src: encodeURI(product.image_url), alt: `${product.name} — ${product.material}` },
+          { src: encodeURI(product.image_url), alt: `${product.name}, ${product.material}` },
           ...(product.gallery_images ?? []).map((src) => ({
             src: encodeURI(src),
-            alt: `${product.name} — תצוגה נוספת`,
+            alt: `${product.name}, תצוגה נוספת`,
             fit: "cover" as const,
           })),
         ]}
@@ -94,7 +94,7 @@ export default async function NewArrivalProductPage({
         fallbackPrice={product.price}
         compareAtPrice={product.compare_at_price}
         shopifyProduct={shopifyProduct}
-        qualityNote="איכות ואותנטיות — כסף 925 טהור"
+        qualityNote="איכות ואותנטיות: כסף 925 טהור"
         showRingGuide={/טבעת/.test(product.name)}
         description="פריט מכסף 925 טהור בעבודת יד מדויקת, מלוטש בקפידה לגימור נקי ועל-זמני."
         materials={

@@ -88,7 +88,7 @@ export default function AnnouncementBar() {
           <span className="mx-1.5 text-white/40">|</span>
           משלוח חינם
           <span className="mx-1.5 text-white/40">|</span>
-          כסף 925 בציפוי רודיום — לא משחיר
+          כסף 925 בציפוי רודיום, לא משחיר
         </p>
         <Countdown />
       </div>

@@ -15,7 +15,7 @@ export default function Hero() {
       {/* Cover background image */}
       <Image
         src="/photo/hero-banner.png"
-        alt="קולקציית ההשקה של Oridor — תכשיטי מואסנייט וכסף 925"
+        alt="קולקציית ההשקה של Oridor: תכשיטי מואסנייט וכסף 925"
         fill
         priority
         sizes="100vw"
@@ -37,14 +37,12 @@ export default function Hero() {
               label above it: it read "מבצע השקה", repeating the first two words
               of the headline itself. */}
           <h1 className="animate-fade-up text-4xl font-bold leading-[1.14] tracking-tight text-white [text-wrap:balance] [animation-delay:100ms] sm:text-5xl lg:text-6xl">
-            יוקרה ללא פשרות
+            מבצע השקה מיוחד – 2+1 על פריטים נבחרים
           </h1>
           {/* Supporting line — smaller, lighter, airier. Carries the material
-              credentials; the promo now lives in the announcement bar alone,
-              so the hero reads as a brand statement rather than an ad. */}
+              credentials, so the headline can stay on the offer. */}
           <p className="mx-auto mt-6 max-w-lg animate-fade-up text-sm font-light leading-relaxed tracking-wide text-white/85 [animation-delay:300ms] sm:text-base">
-            מואסנייט בדרגת D/VVS1, משובץ בכסף סטרלינג 925 בציפוי רודיום — ברק
-            שנשאר, יום אחרי יום.
+            מואסנייט בדרגת D/VVS1, משובץ בכסף סטרלינג 925 בציפוי רודיום. ברק שנשאר, יום אחרי יום.
           </p>
 
           {/* Dual CTA — high-contrast, near-square corners, side-by-side with a

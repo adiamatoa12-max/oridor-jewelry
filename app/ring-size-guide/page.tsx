@@ -8,7 +8,7 @@ import RingSizeGuide from "@/components/RingSizeGuide";
 export const metadata: Metadata = {
   title: "מדריך מידות טבעת",
   description:
-    "מדריך פשוט למדידת היקף האצבע בבית ומציאת מידת הטבעת המדויקת שלך.",
+    "מדריך פשוט למדידת היקף האצבע בבית, עם טבלת מידות מלאה, כדי שתמצאי את מידת הטבעת המדויקת שלך לפני ההזמנה ותוכלי להזמין בביטחון.",
 };
 
 export default function RingSizeGuidePage() {

@@ -73,7 +73,7 @@ export default function NewArrivalsGrid({
           >
             <Image
               src={encodeURI(p.image_url)}
-              alt={`${p.name} — ${p.material}`}
+              alt={`${p.name}, ${p.material}`}
               fill
               sizes="(min-width: 1024px) 25vw, 62vw"
               className={gridImageClass(p.category)}
