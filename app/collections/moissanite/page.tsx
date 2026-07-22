@@ -40,12 +40,6 @@ export default async function MoissaniteCollectionPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
-        {/* Single material line, centered directly under the collection title.
-            Intentionally the only sub-header here — no trust bar, no boxes. */}
-        <p className="mx-auto mb-14 max-w-2xl text-center text-base font-light leading-relaxed text-graphite sm:text-sm lg:mb-16">
-          עשויים כסף 925 אמיתי בציפוי רודיום יוקרתי, ולא פלדת אל-חלד.
-        </p>
-
         <MoissaniteCollection products={products} />
       </section>
 
