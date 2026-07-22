@@ -127,6 +127,14 @@ const nextConfig = {
         destination: "/collections/silver",
         permanent: true,
       },
+      // The gold/rose "marquise-ring" listing was merged into silver-1, which
+      // now carries all three finishes as colour variants. Redirect its old URL
+      // to the combined product.
+      {
+        source: "/collections/signature/marquise-ring",
+        destination: "/collections/silver/silver-1",
+        permanent: true,
+      },
     ];
   },
 };

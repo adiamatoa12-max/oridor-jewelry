@@ -178,8 +178,13 @@ export default function ProductBuyBox({
     });
     // Synthetic frontend-only colours (see localColorOptions) have no real
     // Shopify variant id — add the underlying product by its handle instead.
+    // The id encodes the target handle (`local:<handle>:<color>`) so a merged
+    // product routes each finish to its OWN Shopify product; fall back to the
+    // page handle when the id carries none.
     if (currentVariant.id.startsWith("local:")) {
-      if (handle) addByHandle(handle);
+      const rest = currentVariant.id.slice("local:".length);
+      const targetHandle = rest.slice(0, rest.indexOf(":")) || handle;
+      if (targetHandle) addByHandle(targetHandle);
       return;
     }
     addVariant(currentVariant.id, 1);

@@ -15,6 +15,15 @@ export interface ProductColorVariant {
   color: string;
   hex: string;
   image: string;
+  /**
+   * Per-finish overrides for merged products whose finishes live on DIFFERENT
+   * Shopify products (e.g. a ring sold as separate silver and gold listings,
+   * combined into one page). `price` shows the finish's own price; `handle`
+   * routes add-to-cart to that finish's real Shopify product. Both fall back to
+   * the parent product when absent, so single-listing products are unaffected.
+   */
+  price?: number;
+  handle?: string;
 }
 
 export interface CatalogProduct {
@@ -264,19 +273,26 @@ export function localCaratOptions(opts: {
 export function localColorOptions(opts: {
   handle: string;
   price: number;
-  variants: { color: string; image_url: string }[];
+  variants: { color: string; image_url: string; price?: number; handle?: string }[];
 }): ShopifyProductOptions {
   return {
     handle: opts.handle,
     options: [{ name: "צבע", values: opts.variants.map((v) => v.color) }],
-    variants: opts.variants.map((v) => ({
-      id: `local:${opts.handle}:${v.color}`,
-      title: v.color,
-      price: opts.price,
-      currencyCode: "ILS",
-      available: true,
-      selectedOptions: [{ name: "צבע", value: v.color }],
-      image: encodeURI(v.image_url),
-    })),
+    variants: opts.variants.map((v) => {
+      // A finish may live on its own Shopify product (merged listings); route
+      // add-to-cart to that product's handle by encoding it in the synthetic id.
+      // The id shape is `local:<target-handle>:<color>`, which the buy box parses
+      // to add the correct product. Falls back to the parent handle/price.
+      const targetHandle = v.handle ?? opts.handle;
+      return {
+        id: `local:${targetHandle}:${v.color}`,
+        title: v.color,
+        price: v.price ?? opts.price,
+        currencyCode: "ILS",
+        available: true,
+        selectedOptions: [{ name: "צבע", value: v.color }],
+        image: encodeURI(v.image_url),
+      };
+    }),
   };
 }

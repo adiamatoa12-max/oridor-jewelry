@@ -6,7 +6,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import type { SilverProduct } from "@/components/SilverGrid";
 import { getProductWithVariants, getLivePriceMap } from "@/lib/shopify";
-import { overlayLivePrices } from "@/lib/catalog";
+import { overlayLivePrices, hasColorOption, localColorOptions } from "@/lib/catalog";
 import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/silver_collection.json";
 
@@ -55,9 +55,28 @@ export default async function SilverProductPage({
 
   // Live Shopify options + variants for the buy box (null → local fallback).
   const shopifyProduct = await getProductWithVariants(product.slug);
-  // Map colour value → hex from local variants so swatches keep their tint.
+
+  // Merged multi-finish products (a ring sold as separate silver + gold/rose
+  // Shopify listings, combined here) carry local colour variants with their own
+  // price and handle. Synthesise a colour selector from them, so each finish
+  // shows its own price and adds its own Shopify product. Single-finish products
+  // keep the live Shopify variants untouched.
+  const displayProduct =
+    !hasColorOption(shopifyProduct) && product.variants && product.variants.length > 1
+      ? localColorOptions({
+          handle: product.slug,
+          price: product.price,
+          variants: product.variants,
+        })
+      : shopifyProduct;
+
+  // Map colour value → hex / image so swatches keep their tint and swap the
+  // gallery to the chosen finish.
   const hexByValue: Record<string, string> = Object.fromEntries(
     (product.variants ?? []).map((v) => [v.color, v.hex]),
+  );
+  const imageByValue: Record<string, string> = Object.fromEntries(
+    (product.variants ?? []).map((v) => [v.color, encodeURI(v.image_url)]),
   );
 
   // Gallery: each colour variant image, else the single product shot —
@@ -107,8 +126,9 @@ export default async function SilverProductPage({
         fit="contain"
         fallbackPrice={product.price}
         compareAtPrice={product.compare_at_price}
-        shopifyProduct={shopifyProduct}
+        shopifyProduct={displayProduct}
         hexByValue={hexByValue}
+        imageByValue={imageByValue}
         qualityNote="איכות ואותנטיות: כסף 925 טהור"
         showRingGuide={/טבעת/.test(product.name)}
         description="פריט מכסף 925 טהור בעבודת יד מדויקת, מלוטש בקפידה לגימור נקי ועל-זמני. עיצוב שנועד ללוות אותך יום-יום, לשנים רבות."

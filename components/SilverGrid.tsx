@@ -11,6 +11,10 @@ export interface SilverColorVariant {
   color: string;
   hex: string;
   image_url: string;
+  /** Per-finish price/handle for finishes that live on their own Shopify
+   *  listing (merged products). Fall back to the parent product when absent. */
+  price?: number;
+  handle?: string;
 }
 
 export interface SilverProduct {
