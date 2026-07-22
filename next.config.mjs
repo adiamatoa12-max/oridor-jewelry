@@ -8,14 +8,17 @@ const isDev = process.env.NODE_ENV === "development";
 // restricts external origins, framing, and object/base URIs.
 const csp = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
+  // connect.facebook.net serves the Meta Pixel loader (fbevents.js).
+  `script-src 'self' 'unsafe-inline' https://connect.facebook.net${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  // cdn.shopify.com serves the live cart line-item images.
-  "img-src 'self' data: blob: https://images.unsplash.com https://cdn.shopify.com",
+  // cdn.shopify.com serves the live cart line-item images; facebook.com serves
+  // the Meta Pixel's <noscript> tracking image.
+  "img-src 'self' data: blob: https://images.unsplash.com https://cdn.shopify.com https://www.facebook.com",
   "font-src 'self' data:",
   // *.myshopify.com — the Storefront GraphQL API (client-side cart mutations);
-  // prod.spline.design serves the 3D vault-reward scene (.splinecode).
-  `connect-src 'self' https://*.myshopify.com https://prod.spline.design https://unpkg.com${isDev ? " ws:" : ""}`,
+  // prod.spline.design serves the 3D vault-reward scene (.splinecode);
+  // facebook.com / connect.facebook.net receive the Meta Pixel's event beacons.
+  `connect-src 'self' https://*.myshopify.com https://prod.spline.design https://unpkg.com https://www.facebook.com https://connect.facebook.net${isDev ? " ws:" : ""}`,
   "worker-src 'self' blob:",
   "media-src 'self'",
   "frame-ancestors 'none'",

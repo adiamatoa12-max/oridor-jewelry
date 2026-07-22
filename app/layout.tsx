@@ -10,6 +10,7 @@ import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
+import MetaPixel from "@/components/MetaPixel";
 
 // Body sans — Hebrew-complete companion behind Montserrat (renders Hebrew copy).
 const assistant = Assistant({
@@ -112,6 +113,7 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl" className={`${assistant.variable} ${montserrat.variable} ${playfair.variable} ${frankRuhl.variable}`}>
       <body>
+        <MetaPixel />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: jsonLdHtml(orgJsonLd) }}
