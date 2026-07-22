@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import MoissaniteLabel from "./MoissaniteLabel";
+import SilverLabel from "./SilverLabel";
 import { gridImageClass } from "@/lib/gridImage";
 import { trackProductEvent } from "@/lib/metaPixel";
 import type { ProductColorVariant } from "@/lib/catalog";
@@ -157,9 +158,14 @@ export default function ProductCard({
         <h3 className="w-full text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
           {title}
         </h3>
-        {/* Stone callout. Safe for grid alignment: price and CTA below are
-            bottom-anchored with mt-auto, so cards without it still line up. */}
-        {isMoissanite && <MoissaniteLabel className="mt-1.5" />}
+        {/* Material callout: moissanite pieces state the stone, everything else
+            states the 925 + rhodium make. Safe for grid alignment: price and CTA
+            below are bottom-anchored with mt-auto, so the row always lines up. */}
+        {isMoissanite ? (
+          <MoissaniteLabel className="mt-1.5" />
+        ) : (
+          <SilverLabel className="mt-1.5" />
+        )}
 
         {/* Bottom group — swatches, price and CTA anchored to the card bottom
             (flex space-between effect via mt-auto), so every card lines up
