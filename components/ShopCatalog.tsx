@@ -45,8 +45,9 @@ export default function ShopCatalog({
 
   return (
     <div>
-      {/* Sticky horizontal category filter — sits just below the navbar */}
-      <div className="sticky top-20 z-30 -mx-4 mb-12 border-b border-platinum/40 bg-canvas/85 px-4 py-3 backdrop-blur-md sm:-mx-10 sm:px-10 lg:-mx-16 lg:px-16">
+      {/* Horizontal category filter — sits at the top of the content and
+          scrolls away normally with the page (not sticky/fixed). */}
+      <div className="-mx-4 mb-12 border-b border-platinum/40 px-4 py-3 sm:-mx-10 sm:px-10 lg:-mx-16 lg:px-16">
         <div className="hide-scrollbar -mb-1 flex gap-2.5 overflow-x-auto pb-1">
           {SHOP_CHIPS.map((chip, i) => {
             const on = i === activeChip;
@@ -72,7 +73,7 @@ export default function ShopCatalog({
       {/* Product grid — strictly 2 on mobile (tight gap → larger images),
           scaling smoothly to 4 on desktop. Wrapped in a single Reveal that
           mounts once, so filtering swaps the cards WITHOUT re-animating (and
-          it sits below the sticky filter bar, never breaking its stickiness). */}
+          it sits below the filter bar). */}
       <Reveal>
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
           {visible.map((p) => (
