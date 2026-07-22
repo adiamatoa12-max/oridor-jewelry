@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 
-// EU ring sizing: the size number equals the inner circumference in mm.
+// US ring sizing. Unlike EU (where the size IS the mm circumference), the US
+// size is a scale number, so the shopper must match their measured mm to the
+// table rather than read the size off the ruler directly.
 const RING_SIZES = [
-  { size: "50", circumference: "50.0", diameter: "15.9" },
-  { size: "52", circumference: "52.0", diameter: "16.6" },
-  { size: "54", circumference: "54.0", diameter: "17.2" },
-  { size: "56", circumference: "56.0", diameter: "17.8" },
-  { size: "58", circumference: "58.0", diameter: "18.5" },
+  { size: "6", circumference: "51.9", diameter: "16.5" },
+  { size: "7", circumference: "54.4", diameter: "17.3" },
+  { size: "8", circumference: "57.0", diameter: "18.1" },
+  { size: "9", circumference: "59.5", diameter: "18.9" },
 ];
 
 /**
@@ -75,7 +76,7 @@ export default function SizeGuideModal() {
                 מדריך מידות טבעת
               </h3>
               <p className="mt-3 text-sm font-light leading-relaxed text-graphite">
-                כרכי חוט דק סביב בסיס האצבע ומדדי את האורך במילימטרים. המספר שקיבלת הוא המידה שלך. אם את בין שתי מידות, בחרי את הגדולה יותר.
+                כרכי חוט דק סביב בסיס האצבע ומדדי את ההיקף במילימטרים. השווי את המספר לטבלה שלמטה ובחרי את המידה המתאימה. אם את בין שתי מידות, בחרי את הגדולה יותר.
               </p>
 
               <div className="mt-6 overflow-hidden rounded-lg border border-platinum/50">
