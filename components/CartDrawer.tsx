@@ -103,7 +103,19 @@ export default function CartDrawer() {
    * the item twice.
    */
   const claimGift = (gift: GiftOption) => {
-    if (busy || selectedGift || !gift.variantId) return;
+    if (busy || !gift.variantId) return;
+    // Re-clicking the current gift is a no-op — it stays selected.
+    if (selectedGift === gift.handle) return;
+    // Swapping: remove the previously-chosen gift line before adding the new
+    // one, so the shopper never ends up with two free items. Cart mutations run
+    // on a serialized queue (CartContext.run), so the remove fully settles
+    // before the add — no race. The old gift's line is matched by title, since
+    // the gift products are distinct pieces.
+    if (selectedGift) {
+      const prev = gifts.find((g) => g.handle === selectedGift);
+      const prevLine = prev && items.find((it) => it.title === prev.title);
+      if (prevLine) removeItem(prevLine.id);
+    }
     setSelectedGift(gift.handle);
     addVariant(gift.variantId, 1);
   };
@@ -164,7 +176,7 @@ export default function CartDrawer() {
                     <span className="font-semibold text-gold">
                       המתנה שלך נפתחה.
                     </span>{" "}
-                    בחרי את הפריט שעל הבית למטה 🎁
+                    בחרי את הפריט שתקבלי במתנה מאיתנו, למטה 🎁
                   </>
                 ) : (
                   <>
@@ -366,7 +378,7 @@ export default function CartDrawer() {
                   {/* Section heading — clear hierarchy so the invitation stands out. */}
                   <div className="mb-3.5 text-center">
                     <p className="text-[10px] uppercase tracking-[0.3em] text-gold">
-                      מתנה על הבית
+                      מתנה מאיתנו
                     </p>
                     <h3 className="mt-1.5 text-lg font-medium tracking-wide text-charcoal">
                       בחרי את המתנה שלך
@@ -389,22 +401,20 @@ export default function CartDrawer() {
                     {gifts.map((gift) => {
                       const { handle, title, image, price } = gift;
                       const active = selectedGift === handle;
-                      // Once one gift is claimed the others are locked: the
-                      // promotion grants a single free item.
-                      const locked = selectedGift !== null && !active;
+                      // Every gift stays selectable so the shopper can freely
+                      // swap. Only `busy` (a mutation in flight) disables the
+                      // buttons, which prevents double-taps mid-swap.
                       return (
                         <button
                           key={handle}
                           type="button"
                           onClick={() => claimGift(gift)}
-                          disabled={locked || busy}
+                          disabled={busy}
                           aria-pressed={active}
-                          className={`group relative flex w-full items-center gap-3.5 rounded-2xl border p-3 text-start transition-all duration-300 ease-cinematic ${
+                          className={`group relative flex w-full items-center gap-3.5 rounded-2xl border p-3 text-start transition-all duration-300 ease-cinematic disabled:cursor-wait ${
                             active
                               ? "scale-[1.015] border-gold bg-gold/[0.06] shadow-[0_14px_34px_-14px_rgba(197,160,89,0.55)] ring-1 ring-gold/40"
-                              : locked
-                                ? "cursor-not-allowed border-platinum/40 bg-canvas opacity-45"
-                                : "border-platinum/60 bg-canvas shadow-card hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-cardHover"
+                              : "border-platinum/60 bg-canvas shadow-card hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-cardHover"
                           }`}
                         >
                           {/* Product image — live from Shopify */}
