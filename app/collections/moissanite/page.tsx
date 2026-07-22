@@ -5,7 +5,6 @@ import PremiumFooter from "@/components/PremiumFooter";
 import MoissaniteCollection from "@/components/MoissaniteCollection";
 import { type MoissaniteProduct } from "@/components/MoissaniteGrid";
 import CollectionHero from "@/components/CollectionHero";
-import CollectionTrustBar from "@/components/CollectionTrustBar";
 import { getLivePriceMap } from "@/lib/shopify";
 import { overlayLivePrices } from "@/lib/catalog";
 import productsData from "@/data/moissanite_collection.json";
@@ -41,16 +40,13 @@ export default async function MoissaniteCollectionPage() {
       />
 
       <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
-        <MoissaniteCollection products={products} />
-
-        {/* Material positioning — states what the piece is made of, so the
-            shopper isn't left to assume it's plated costume jewellery. Placed
-            below the grid so the pieces lead and the brand claims close. */}
-        <p className="mx-auto mt-20 max-w-2xl text-center text-base font-light leading-relaxed text-graphite sm:text-sm lg:mt-24">
+        {/* Single material line, centered directly under the collection title.
+            Intentionally the only sub-header here — no trust bar, no boxes. */}
+        <p className="mx-auto mb-14 max-w-2xl text-center text-base font-light leading-relaxed text-graphite sm:text-sm lg:mb-16">
           עשויים כסף 925 אמיתי בציפוי רודיום יוקרתי, ולא פלדת אל-חלד.
         </p>
 
-        <CollectionTrustBar variant="moissanite" className="mt-12" />
+        <MoissaniteCollection products={products} />
       </section>
 
       <PremiumFooter />
