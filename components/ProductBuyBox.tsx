@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "./CartContext";
 import { usePdpImageSync } from "./PdpImageSync";
+import { trackPixel, trackProductEvent } from "@/lib/metaPixel";
 import PriceTag from "./PriceTag";
 import SizeSelector from "./SizeSelector";
 import type {
@@ -61,6 +62,26 @@ export default function ProductBuyBox({
 }) {
   const { addVariant, addByHandle } = useCart();
   const imageSync = usePdpImageSync();
+
+  // ViewContent — fire once when the product page mounts. handle/title/price are
+  // the identity Meta uses for dynamic-ads matching. fallbackPrice is the local
+  // price; the resolved variant price is used for AddToCart below where a
+  // specific variant is known.
+  //
+  // The ref guards against a duplicate fire: React StrictMode double-invokes
+  // effects in dev, and without it Meta would receive two ViewContents per view.
+  const viewTracked = useRef(false);
+  useEffect(() => {
+    if (viewTracked.current) return;
+    viewTracked.current = true;
+    trackProductEvent("ViewContent", {
+      value: fallbackPrice,
+      contentId: handle,
+      contentName: title,
+    });
+    // Product identity is stable for the life of the page; fire exactly once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Flag the sticky mobile CTA's presence on <body> so the global floating
   // widgets (WhatsApp, accessibility) lift above it on phones and never cover
@@ -135,6 +156,11 @@ export default function ProductBuyBox({
 
   const choose = (optName: string, value: string) => {
     setSelected((s) => ({ ...s, [optName]: value }));
+    // CustomizeProduct — the shopper configured an option (colour/carat/finish).
+    trackPixel("CustomizeProduct", {
+      content_ids: handle ? [handle] : undefined,
+      content_name: title,
+    });
     // Immediate feedback from the local map (the effect above then reconciles
     // to the resolved variant's Shopify image when available).
     const src = imageByValue[value];
@@ -143,6 +169,13 @@ export default function ProductBuyBox({
 
   const handleAdd = () => {
     if (!currentVariant) return; // no variant resolved → nothing to add
+    // AddToCart — fire with the RESOLVED variant price, so value reflects the
+    // actual selection rather than the fallback.
+    trackProductEvent("AddToCart", {
+      value: price,
+      contentId: handle,
+      contentName: title,
+    });
     // Synthetic frontend-only colours (see localColorOptions) have no real
     // Shopify variant id — add the underlying product by its handle instead.
     if (currentVariant.id.startsWith("local:")) {

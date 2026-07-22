@@ -7,6 +7,7 @@ import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import MoissaniteLabel from "./MoissaniteLabel";
 import { gridImageClass } from "@/lib/gridImage";
+import { trackProductEvent } from "@/lib/metaPixel";
 import type { ProductColorVariant } from "@/lib/catalog";
 
 export interface ProductCardProps {
@@ -83,8 +84,15 @@ export default function ProductCard({
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (handle) addByHandle(handle);
-    else openCart();
+    if (handle) {
+      // AddToCart — the card carries price/title/handle, so value is exact.
+      trackProductEvent("AddToCart", {
+        value: price,
+        contentId: handle,
+        contentName: title,
+      });
+      addByHandle(handle);
+    } else openCart();
   };
 
   const quickAddLabel = `הוספה מהירה: ${title}`;

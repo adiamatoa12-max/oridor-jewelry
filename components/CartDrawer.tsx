@@ -13,6 +13,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useCart } from "./CartContext";
+import { trackInitiateCheckout } from "@/lib/metaPixel";
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
@@ -472,7 +473,16 @@ export default function CartDrawer() {
             href={checkoutUrl ?? "#"}
             aria-disabled={items.length === 0 || !checkoutUrl || busy}
             onClick={(e) => {
-              if (items.length === 0 || !checkoutUrl || busy) e.preventDefault();
+              if (items.length === 0 || !checkoutUrl || busy) {
+                e.preventDefault();
+                return;
+              }
+              // InitiateCheckout — the last event we own. Everything past this
+              // link (payment, purchase) happens on Shopify's hosted checkout,
+              // off our domain, and must be tracked Shopify-side. CartItem
+              // carries no handle, so content_ids is omitted; value + num_items
+              // are what Meta needs for checkout-abandonment audiences.
+              trackInitiateCheckout({ value: subtotal, numItems: count });
             }}
             className={`group mt-5 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-canvas transition-all duration-300 ease-cinematic hover:bg-gold hover:text-charcoal active:scale-[0.99] ${
               items.length === 0 || !checkoutUrl || busy

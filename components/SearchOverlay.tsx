@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
 import { buildUnifiedCatalog } from "@/lib/catalog";
+import { trackSearch } from "@/lib/metaPixel";
 import PriceTag from "./PriceTag";
 
 const MAX_RESULTS = 8;
@@ -50,6 +51,16 @@ export default function SearchOverlay({
   }, [open, onClose]);
 
   const q = query.trim().toLowerCase();
+
+  // Search — the overlay filters live per keystroke, so fire the pixel event
+  // only once the query settles (700ms idle) and is at least 2 chars, to avoid
+  // one event per letter.
+  useEffect(() => {
+    if (q.length < 2) return;
+    const t = window.setTimeout(() => trackSearch(q), 700);
+    return () => window.clearTimeout(t);
+  }, [q]);
+
   const results = useMemo(
     () =>
       q

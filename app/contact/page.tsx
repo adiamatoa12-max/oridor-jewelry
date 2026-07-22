@@ -1,25 +1,13 @@
 import type { Metadata } from "next";
-import { Mail, Phone, MessageCircle, Clock } from "lucide-react";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
+import ContactDetails from "@/components/ContactDetails";
 
 export const metadata: Metadata = {
   title: "צור קשר",
   description: "נשמח לעמוד לרשותך. צרי קשר עם צוות Oridor בכל שאלה על פריט, על הזמנה קיימת או על התאמה אישית, ונחזור אלייך בהקדם האפשרי.",
 };
-
-const DETAILS = [
-  { icon: Mail, label: "אימייל", value: "hello@oridor.co.il", href: "mailto:hello@oridor.co.il" },
-  { icon: Phone, label: "טלפון", value: "052-818-1568", href: "tel:0528181568" },
-  {
-    icon: MessageCircle,
-    label: "וואטסאפ",
-    value: "שלחי לנו הודעה",
-    href: "https://wa.me/972528181568",
-  },
-  { icon: Clock, label: "שעות פעילות", value: "א׳–ה׳, 09:00–18:00" },
-];
 
 const inputClass =
   "w-full border border-platinum/60 bg-canvas px-4 py-3 text-sm font-light text-charcoal transition-colors placeholder:text-ash focus:border-gold focus:outline-none";
@@ -44,26 +32,7 @@ export default function ContactPage() {
       <section className="mx-auto max-w-5xl px-6 pb-24 sm:px-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
           {/* Contact details */}
-          <div className="space-y-8">
-            {DETAILS.map((d) => {
-              const content = (
-                <div className="flex items-start gap-4">
-                  <d.icon size={20} strokeWidth={1.25} className="mt-0.5 flex-none text-gold" />
-                  <div>
-                    <p className="text-xs tracking-[0.2em] text-ash">{d.label}</p>
-                    <p className="mt-1 text-sm font-light text-charcoal">{d.value}</p>
-                  </div>
-                </div>
-              );
-              return d.href ? (
-                <a key={d.label} href={d.href} className="block transition-opacity hover:opacity-70">
-                  {content}
-                </a>
-              ) : (
-                <div key={d.label}>{content}</div>
-              );
-            })}
-          </div>
+          <ContactDetails />
 
           {/* Contact form (presentational placeholder) */}
           <form className="space-y-4">
