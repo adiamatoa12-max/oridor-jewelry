@@ -19,6 +19,21 @@ const COLLECTION_LINKS = [
   { label: "כל הקולקציה", href: "/shop" },
 ];
 
+// Legal / policy links, shown as a slim row in the bottom bar.
+// - Privacy: the store's real, merchant-authored Shopify policy (hosted on
+//   Shopify, so it opens externally).
+// - Terms & Refund: the site's own Hebrew pages (/terms carries the terms and
+//   the cancellation/refund clause; /shipping carries the returns process).
+const LEGAL_LINKS: { label: string; href: string; external?: boolean }[] = [
+  {
+    label: "מדיניות פרטיות",
+    href: "https://checkout.shopify.com/72303968298/policies/39484653610.html?locale=en",
+    external: true,
+  },
+  { label: "תנאי שימוש", href: "/terms" },
+  { label: "מדיניות החזרות", href: "/shipping" },
+];
+
 /**
  * Premium site footer — strict RTL four-column grid, refined typography,
  * minimalist newsletter, social + payment trust signals.
@@ -111,13 +126,46 @@ export default function PremiumFooter() {
         </div>
       </div>
 
-      {/* Bottom bar — copyright + accepted payment methods */}
+      {/* Bottom bar — legal links, then copyright + accepted payment methods */}
       <div className="border-t border-platinum/60">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 sm:flex-row sm:px-10 lg:px-16">
-          <p className="text-xs font-light text-ash">
-            © 2026 Oridor. כל הזכויות שמורות.
-          </p>
-          <PaymentIcons />
+        <div className="mx-auto max-w-7xl px-6 py-6 sm:px-10 lg:px-16">
+          {/* Legal row — slim, centered, middot-separated. Wraps cleanly on
+              narrow screens; each link keeps a comfortable tap target. */}
+          <ul className="mb-5 flex flex-wrap items-center justify-center gap-x-1.5 gap-y-1">
+            {LEGAL_LINKS.map((link, i) => (
+              <li key={link.href} className="flex items-center gap-x-1.5">
+                {i > 0 && (
+                  <span aria-hidden="true" className="text-platinum/70">
+                    ·
+                  </span>
+                )}
+                {link.external ? (
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex min-h-[32px] items-center px-1 text-xs font-light text-ash transition-colors duration-300 hover:text-charcoal"
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    href={link.href}
+                    className="inline-flex min-h-[32px] items-center px-1 text-xs font-light text-ash transition-colors duration-300 hover:text-charcoal"
+                  >
+                    {link.label}
+                  </Link>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <p className="text-xs font-light text-ash">
+              © 2026 Oridor. כל הזכויות שמורות.
+            </p>
+            <PaymentIcons />
+          </div>
         </div>
       </div>
     </footer>
