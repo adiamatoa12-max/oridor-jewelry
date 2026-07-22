@@ -1,6 +1,6 @@
-// Israeli number 052-818-1568 → international wa.me format (972 + drop leading 0).
+// Israeli number 051-5518689 → international wa.me format (972 + drop leading 0).
 const WHATSAPP_URL =
-  "https://wa.me/972528181568?text=" +
+  "https://wa.me/972515518689?text=" +
   encodeURIComponent("היי, אשמח להתייעץ לגבי תכשיט מ-ORIDOR");
 
 /**

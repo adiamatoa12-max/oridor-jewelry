@@ -98,7 +98,7 @@ const orgJsonLd = {
   description: "תכשיטי יוקרה מכסף 925 ואבני מואסנייט.",
   contactPoint: {
     "@type": "ContactPoint",
-    telephone: "+972-52-818-1568",
+    telephone: "+972-51-551-8689",
     contactType: "customer service",
     areaServed: "IL",
     availableLanguage: ["Hebrew"],

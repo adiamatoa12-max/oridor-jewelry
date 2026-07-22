@@ -4,13 +4,13 @@ import { Mail, Phone, MessageCircle, Clock } from "lucide-react";
 import { trackPixel } from "@/lib/metaPixel";
 
 const DETAILS = [
-  { icon: Mail, label: "אימייל", value: "hello@oridor.co.il", href: "mailto:hello@oridor.co.il" },
-  { icon: Phone, label: "טלפון", value: "052-818-1568", href: "tel:0528181568" },
+  { icon: Mail, label: "אימייל", value: "Oridorjewelry4@gmail.com", href: "mailto:Oridorjewelry4@gmail.com" },
+  { icon: Phone, label: "טלפון", value: "051-5518689", href: "tel:0515518689" },
   {
     icon: MessageCircle,
     label: "וואטסאפ",
     value: "שלחי לנו הודעה",
-    href: "https://wa.me/972528181568",
+    href: "https://wa.me/972515518689",
   },
   { icon: Clock, label: "שעות פעילות", value: "א׳–ה׳, 09:00–18:00", href: undefined },
 ];
