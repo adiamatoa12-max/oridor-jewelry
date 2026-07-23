@@ -190,7 +190,14 @@ export default function ProductGallery({
         <div
           ref={trackRef}
           onScroll={onTrackScroll}
-          className="hide-scrollbar flex w-full snap-x snap-mandatory overflow-x-auto overscroll-x-contain rounded-2xl"
+          // Movement is locked to one axis:
+          //  - overflow-y-hidden: `overflow-x-auto` alone leaves the Y axis
+          //    computing to `auto`, so the track was draggable vertically too.
+          //  - touch-pan-x: tells the browser this element only pans
+          //    horizontally, so a diagonal drag can't smear both ways.
+          //  - select-none: stops the long-press text/image selection that
+          //    makes a drag feel like it "grabbed" the photo.
+          className="hide-scrollbar flex w-full select-none snap-x snap-mandatory touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain rounded-2xl"
         >
           {gallery.map((img) => (
             <div
@@ -202,6 +209,10 @@ export default function ProductGallery({
                 alt={img.alt}
                 fill
                 priority={img.src === gallery[0]?.src}
+                // Without this the browser starts its own image-drag on
+                // press-and-move, which fights the scroller and is what makes
+                // the swipe feel loose rather than locked to the track.
+                draggable={false}
                 // Deliberately over-stated vs the slide's own width. The frame
                 // is 4:5 portrait, so a LANDSCAPE shot under object-cover is
                 // scaled up until it fills the height, rendering ~1.5x wider
