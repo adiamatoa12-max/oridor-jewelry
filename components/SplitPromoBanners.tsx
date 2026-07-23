@@ -29,10 +29,11 @@ const BANNERS: PromoBanner[] = [
     // Left banner — darker, complex background.
     title: "אלגנטיות לערב",
     subtitle: "פריטים מובחרים לאירועים בלתי נשכחים",
-    // Was the /sets page (Evening Elegance), removed along with the curated
-    // sets. The banner itself stays — dropping one of the two would leave a
-    // half-empty split row — so it points at the moissanite collection.
-    href: "/collections/moissanite",
+    // Necklaces. There's no /collections/necklaces route: necklaces are a
+    // CATEGORY that spans the moissanite and silver collections, so the site
+    // reaches them through the shop's category chip. The label must match
+    // SHOP_CHIPS exactly — ShopCatalog looks the chip up by label.
+    href: "/shop?filter=שרשראות",
     image: "/photo/clara_post_5.jpg",
     alt: "דוגמנית עונדת תכשיטי כסף משובחים לערב",
     tone: "dark",
