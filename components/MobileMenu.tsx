@@ -62,13 +62,18 @@ export default function MobileMenu({
           </button>
         </div>
 
-        {/* Main navigation — large, airy, right-aligned */}
-        <nav className="flex flex-1 flex-col overflow-y-auto px-8 pt-4 text-right">
+        {/*
+          Main navigation. Everything is start-aligned, which in RTL means the
+          right edge — the natural reading origin. This previously used
+          `justify-end`, which resolves to the LEFT in RTL, so the categories
+          sat on the opposite side from the utility links below them.
+        */}
+        <nav className="flex flex-1 flex-col overflow-y-auto px-8 pt-2">
           {/* Eye-catching sale link */}
           <Link
             href="/shop"
             onClick={onClose}
-            className="mb-6 flex min-h-[44px] items-center justify-end gap-2 text-2xl font-normal tracking-wide text-gold transition-opacity duration-300 hover:opacity-80"
+            className="mb-1 flex min-h-[48px] items-center justify-start gap-2.5 text-[22px] font-normal tracking-wide text-gold transition-opacity duration-300 hover:opacity-80"
           >
             מבצעים
             <span className="relative flex h-2 w-2">
@@ -82,14 +87,16 @@ export default function MobileMenu({
               key={link.href}
               href={link.href}
               onClick={onClose}
-              className="mb-6 flex min-h-[44px] items-center justify-end text-2xl font-light tracking-wide text-charcoal transition-colors duration-300 hover:text-graphite"
+              className="flex min-h-[48px] items-center justify-start text-[22px] font-light tracking-wide text-charcoal transition-colors duration-300 hover:text-graphite"
             >
               {link.label}
             </Link>
           ))}
 
-          {/* Footer utility links */}
-          <div className="mt-6 space-y-4 border-t border-platinum/40 pt-6 text-right">
+          {/* Footer utility links — secondary tier: much smaller, lighter and
+              wider-tracked than the categories above, so the hierarchy reads at
+              a glance. */}
+          <div className="mt-5 border-t border-platinum/40 pt-4">
             {UTILITY_LINKS.map((link) => {
               // Social profiles live off-site and open in a new tab, so the
               // shopper doesn't lose the store. Internal links (customer
@@ -103,7 +110,7 @@ export default function MobileMenu({
                   {...(external
                     ? { target: "_blank", rel: "noopener noreferrer" }
                     : {})}
-                  className="block min-h-[44px] text-sm text-ash transition-colors duration-300 hover:text-charcoal"
+                  className="flex min-h-[40px] items-center justify-start text-[13px] font-light tracking-[0.05em] text-ash transition-colors duration-300 hover:text-charcoal"
                 >
                   {link.label}
                 </Link>
