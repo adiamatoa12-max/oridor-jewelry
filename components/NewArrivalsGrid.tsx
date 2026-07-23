@@ -18,6 +18,8 @@ export interface NewArrival {
   category?: string;
   /** Extra product-page gallery slides. PDP only — never used by the grid. */
   gallery_images?: string[];
+  /** Colour/metal finishes — renders swatches and swaps the image when >1. */
+  variants?: { color: string; hex: string; image_url: string }[];
 }
 
 

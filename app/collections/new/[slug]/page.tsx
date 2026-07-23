@@ -6,7 +6,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import type { NewArrival } from "@/components/NewArrivalsGrid";
 import { getProductWithVariants, getLivePriceMap } from "@/lib/shopify";
-import { overlayLivePrices } from "@/lib/catalog";
+import { overlayLivePrices, hasColorOption, localColorOptions } from "@/lib/catalog";
 import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/new_arrivals.json";
 
@@ -55,6 +55,25 @@ export default async function NewArrivalProductPage({
 
   const shopifyProduct = await getProductWithVariants(product.slug);
 
+  // Multi-finish pieces carry local colour variants. Synthesise a colour
+  // selector from them when Shopify exposes no colour option, so the swatches
+  // render and the gallery swaps to the chosen finish.
+  const displayProduct =
+    !hasColorOption(shopifyProduct) && product.variants && product.variants.length > 1
+      ? localColorOptions({
+          handle: product.slug,
+          price: product.price,
+          variants: product.variants,
+        })
+      : shopifyProduct;
+
+  const hexByValue: Record<string, string> = Object.fromEntries(
+    (product.variants ?? []).map((v) => [v.color, v.hex]),
+  );
+  const imageByValue: Record<string, string> = Object.fromEntries(
+    (product.variants ?? []).map((v) => [v.color, encodeURI(v.image_url)]),
+  );
+
   const productJsonLd = buildProductJsonLd({
     name: product.name,
     images: [`${SITE_URL}${encodeURI(product.image_url)}`],
@@ -83,7 +102,12 @@ export default async function NewArrivalProductPage({
         slug={product.slug}
         allProducts={products}
         images={[
-          { src: encodeURI(product.image_url), alt: `${product.name}, ${product.material}` },
+          ...(product.variants && product.variants.length > 1
+            ? product.variants.map((v) => ({
+                src: encodeURI(v.image_url),
+                alt: `${product.name}, ${v.color}`,
+              }))
+            : [{ src: encodeURI(product.image_url), alt: `${product.name}, ${product.material}` }]),
           ...(product.gallery_images ?? []).map((src) => ({
             src: encodeURI(src),
             alt: `${product.name}, תצוגה נוספת`,
@@ -93,7 +117,9 @@ export default async function NewArrivalProductPage({
         fit="cover"
         fallbackPrice={product.price}
         compareAtPrice={product.compare_at_price}
-        shopifyProduct={shopifyProduct}
+        shopifyProduct={displayProduct}
+        hexByValue={hexByValue}
+        imageByValue={imageByValue}
         qualityNote="איכות ואותנטיות: כסף 925 טהור"
         showRingGuide={/טבעת/.test(product.name)}
         description="פריט מכסף 925 טהור בעבודת יד מדויקת, מלוטש בקפידה לגימור נקי ועל-זמני."
