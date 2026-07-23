@@ -36,7 +36,7 @@ interface SignatureSet {
 const SETS: SignatureSet[] = [
   {
     id: "set-evening",
-    image: "/photo/set-1.jpeg",
+    image: "/photo/set-evening-round.png",
     title: "הסט המושלם לערב",
     caption: "נצנוץ דרמטי לרגעים הגדולים",
     pieces: [
@@ -48,7 +48,7 @@ const SETS: SignatureSet[] = [
   },
   {
     id: "set-daily",
-    image: "/photo/set-2.jpeg",
+    image: "/photo/set-everyday-pear.png",
     title: "אלגנטיות לכל יום",
     caption: "עדין, נקי ועל-זמני",
     pieces: [
@@ -178,7 +178,12 @@ export default function SignatureSets({
                 src={encodeURI(set.image)}
                 alt={set.title}
                 fill
-                sizes="(min-width: 768px) 350px, 85vw"
+                // Over-stated vs the card's own width on purpose: the frame is
+                // 4:5 portrait, so a LANDSCAPE set photo under object-cover is
+                // scaled up until it fills the height and renders ~1.6x wider
+                // than the card. At a plain 85vw Next serves a source that then
+                // gets upscaled and looks soft.
+                sizes="(min-width: 768px) 580px, 155vw"
                 className="h-full w-full object-cover object-center transition-transform duration-[1200ms] ease-cinematic group-hover:scale-[1.03]"
               />
             </div>
