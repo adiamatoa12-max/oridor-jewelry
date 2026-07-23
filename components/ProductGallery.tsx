@@ -189,7 +189,12 @@ export default function ProductGallery({
                 alt={img.alt}
                 fill
                 priority={img.src === gallery[0]?.src}
-                sizes="100vw"
+                // Deliberately over-stated vs the slide's own width. The frame
+                // is 4:5 portrait, so a LANDSCAPE shot under object-cover is
+                // scaled up until it fills the height, rendering ~1.5x wider
+                // than the slide. At a plain 100vw Next would serve a source
+                // that then gets upscaled and looks soft.
+                sizes="150vw"
                 className={`${imageClass(fitOf(img))} object-center ${
                   fitOf(img) === "contain" ? "scale-[1.08]" : ""
                 }`}
@@ -228,7 +233,10 @@ export default function ProductGallery({
           alt={current.alt}
           fill
           priority
-          sizes="45vw"
+          // Over-stated like the mobile slide: the 4:5 portrait frame crops a
+          // landscape shot under object-cover, and hovering zooms to 1.7x, so
+          // the rendered pixels far exceed the frame's 45vw width.
+          sizes="70vw"
           style={{ transformOrigin: origin }}
           className={`${imageClass(currentFit)} object-center transition-transform duration-300 ease-out ${
             zoom

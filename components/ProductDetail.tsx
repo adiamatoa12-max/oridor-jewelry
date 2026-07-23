@@ -51,6 +51,20 @@ function getRelatedProducts(
     .slice(0, 3);
 }
 
+/**
+ * Every order ships in the branded box, so the packaging shot closes each
+ * product gallery. Appended here rather than in the four collection pages, so
+ * it stays consistent everywhere and any future collection inherits it.
+ *
+ * "cover" fit: it's a styled shot that carries its own background, unlike the
+ * cut-out product stills that sit contained on the frame's surface.
+ */
+const PACKAGING_SLIDE: GalleryImage = {
+  src: "/photo/packaging-oridor.jpg",
+  alt: "אריזת המותג של Oridor שבה מגיע כל תכשיט",
+  fit: "cover",
+};
+
 // Shared accordion sections — identical across every collection.
 const SHIPPING: AccordionItem = {
   title: "משלוחים והחזרות",
@@ -169,6 +183,14 @@ export default function ProductDetail({
   const sizes = sizesForCategory(category);
   const related = getRelatedProducts(allProducts, slug, category);
 
+  // Packaging shot always closes the gallery. Guarded so a page that already
+  // supplies it can't end up with the slide twice.
+  const galleryImages: GalleryImage[] = images.some(
+    (i) => i.src === PACKAGING_SLIDE.src,
+  )
+    ? images
+    : [...images, PACKAGING_SLIDE];
+
   return (
     // Extra mobile bottom padding (pb-28) so the last accordion clears the
     // sticky Add-to-Cart bar, which is only shown on phones.
@@ -187,7 +209,7 @@ export default function ProductDetail({
         {/* Gallery — primary visual anchor: left column on desktop, first on
             mobile (order utilities keep the RTL info panel on the right). */}
         <div className="order-1 md:order-2">
-          <ProductGallery images={images} fit={fit} />
+          <ProductGallery images={galleryImages} fit={fit} />
         </div>
 
         {/* Info panel — right column on desktop, below the gallery on mobile */}
