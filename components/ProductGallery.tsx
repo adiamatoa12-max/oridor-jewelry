@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { usePdpImageSync } from "./PdpImageSync";
 
 export interface GalleryImage {
@@ -18,7 +19,8 @@ export interface GalleryImage {
 /**
  * Premium PDP image gallery.
  * - Large main image with a smooth hover-to-zoom (follows the cursor).
- * - A slim thumbnail rail (side on desktop, row on mobile) to switch views.
+ * - Prev/next arrows over the main image, and a clickable thumbnail row beneath
+ *   it, with the active thumbnail ringed in gold.
  * - `contain` fit on a soft white surface so studio shots sit cleanly.
  */
 export default function ProductGallery({
@@ -33,6 +35,7 @@ export default function ProductGallery({
   const [origin, setOrigin] = useState("50% 50%");
   const frameRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const thumbsRef = useRef<HTMLDivElement>(null);
   // True while the user is physically swiping. Scroll events during a
   // programmatic scrollTo would otherwise fight the state we just set.
   const swiping = useRef(false);
@@ -77,14 +80,14 @@ export default function ProductGallery({
 
   const currentFit = fitOf(current);
 
-  /** Centre of the track in viewport coordinates. */
-  const trackCentre = (el: HTMLElement) =>
+  /** Centre of an element in viewport coordinates. */
+  const centreOf = (el: HTMLElement) =>
     el.getBoundingClientRect().left + el.clientWidth / 2;
 
-  /** How far a slide's centre is from the track's centre, in px. */
-  const slideOffset = (el: HTMLElement, slide: Element) => {
-    const r = slide.getBoundingClientRect();
-    return r.left + r.width / 2 - trackCentre(el);
+  /** How far a child's centre is from its scroller's centre, in px. */
+  const offsetIn = (el: HTMLElement, child: Element) => {
+    const r = child.getBoundingClientRect();
+    return r.left + r.width / 2 - centreOf(el);
   };
 
   // Swipe → state. Measured from rendered geometry (getBoundingClientRect),
@@ -99,7 +102,7 @@ export default function ProductGallery({
     let nearest = 0;
     let best = Infinity;
     Array.from(el.children).forEach((child, i) => {
-      const d = Math.abs(slideOffset(el, child));
+      const d = Math.abs(offsetIn(el, child));
       if (d < best) {
         best = d;
         nearest = i;
@@ -112,9 +115,9 @@ export default function ProductGallery({
     }, 120);
   };
 
-  // State → track, so a thumbnail tap or a variant swatch moves the carousel.
-  // Skipped mid-swipe: scrolling the track while the user's finger is driving
-  // it would yank the image out from under them.
+  // State → track, so a thumbnail tap, an arrow or a variant swatch moves the
+  // carousel. Skipped mid-swipe: scrolling the track while the user's finger is
+  // driving it would yank the image out from under them.
   useEffect(() => {
     const el = trackRef.current;
     if (!el || swiping.current) return;
@@ -122,12 +125,33 @@ export default function ProductGallery({
     if (!slide) return;
     // Scroll by the DELTA between the slide's centre and the track's centre.
     // A relative scrollBy lands exactly on the snap point in both directions;
-    // the previous absolute scrollTo(offsetLeft) was off by the track's own
-    // page offset, which left a sliver of the neighbouring image showing.
-    const delta = slideOffset(el, slide);
+    // an absolute scrollTo(offsetLeft) is off by the track's own page offset,
+    // which leaves a sliver of the neighbouring image showing.
+    const delta = offsetIn(el, slide);
     if (Math.abs(delta) < 1) return;
     el.scrollBy({ left: delta, behavior: "smooth" });
   }, [active]);
+
+  // Keep the active thumbnail in view when the main image changes by swipe,
+  // arrow or swatch. Deliberately NOT scrollIntoView: that also scrolls the
+  // page vertically, jumping the shopper away from the gallery.
+  useEffect(() => {
+    const el = thumbsRef.current;
+    const thumb = el?.children[active];
+    if (!el || !thumb) return;
+    const delta = offsetIn(el, thumb);
+    if (Math.abs(delta) < 1) return;
+    el.scrollBy({ left: delta, behavior: "smooth" });
+  }, [active]);
+
+  /** Show image i, letting an explicit choice win over the swatch sync. */
+  const show = useCallback(
+    (i: number) => {
+      setActive(i);
+      sync?.setActiveSrc(null);
+    },
+    [sync],
+  );
 
   const onMove = (e: React.MouseEvent) => {
     const el = frameRef.current;
@@ -140,53 +164,26 @@ export default function ProductGallery({
 
   if (!current) return null;
 
-  return (
-    <div className="flex flex-col-reverse gap-4 sm:flex-row sm:gap-5">
-      {/* Thumbnail rail — borderless; the active thumb reads full-strength
-          while the rest sit gently dimmed, with a soft scale on hover.
-          Hidden on mobile: the swipe track and its dots are the control there,
-          so a second rail below them is redundant. Desktop keeps the rail,
-          since a mouse has no swipe affordance. */}
-      {gallery.length > 1 && (
-        <div className="hidden gap-3.5 sm:flex sm:flex-col">
-          {gallery.map((img, i) => {
-            const on = i === active;
-            return (
-              <button
-                key={img.src}
-                type="button"
-                onClick={() => {
-                  setActive(i);
-                  sync?.setActiveSrc(null); // let the clicked thumbnail win
-                }}
-                aria-label={`תמונה ${i + 1}`}
-                aria-current={on}
-                className={`relative h-20 w-20 flex-none overflow-hidden rounded-lg bg-cream ring-1 transition-all duration-300 ease-out hover:scale-105 sm:h-24 sm:w-24 ${
-                  on
-                    ? "opacity-100 ring-gold/50"
-                    : "opacity-70 ring-platinum/40 hover:opacity-100"
-                }`}
-              >
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="96px"
-                  className={
-                    fitOf(img) === "cover" ? "object-cover" : "object-contain p-1.5"
-                  }
-                />
-              </button>
-            );
-          })}
-        </div>
-      )}
+  const many = gallery.length > 1;
+  const atStart = active <= 0;
+  const atEnd = active >= gallery.length - 1;
 
-      {/* MOBILE — a real swipe carousel. Native scroll-snap rather than a JS
-          drag library: it inherits the platform's own momentum, rubber-banding
-          and RTL handling, which hand-rolled touch maths never quite matches.
-          Hidden at sm+, where the hover-zoom frame below takes over. */}
-      <div className="w-full flex-1 sm:hidden">
+  // Arrow chrome. `left`/`right` are physical in Tailwind, not logical, so
+  // these stay put under dir="rtl" — which is what we want: the gallery reads
+  // right-to-left, so the NEXT image sits to the LEFT.
+  const arrowClass =
+    "absolute top-1/2 z-10 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-charcoal/10 bg-canvas/80 text-charcoal shadow-sm backdrop-blur-sm transition-all duration-300 ease-out hover:bg-canvas hover:shadow-md disabled:pointer-events-none disabled:opacity-0 sm:h-11 sm:w-11";
+
+  return (
+    <div className="flex flex-col gap-4 sm:gap-5">
+      {/* MAIN IMAGE — the mobile swipe track and the desktop zoom frame are
+          siblings here; only one is ever visible, so the arrows overlaying this
+          wrapper sit correctly over whichever is showing. */}
+      <div className="relative">
+        {/* MOBILE — a real swipe carousel. Native scroll-snap rather than a JS
+            drag library: it inherits the platform's own momentum, rubber-banding
+            and RTL handling, which hand-rolled touch maths never quite matches.
+            Hidden at sm+, where the hover-zoom frame takes over. */}
         <div
           ref={trackRef}
           onScroll={onTrackScroll}
@@ -197,7 +194,7 @@ export default function ProductGallery({
           //    horizontally, so a diagonal drag can't smear both ways.
           //  - select-none: stops the long-press text/image selection that
           //    makes a drag feel like it "grabbed" the photo.
-          className="hide-scrollbar flex w-full select-none snap-x snap-mandatory touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain rounded-2xl"
+          className="hide-scrollbar flex w-full select-none snap-x snap-mandatory touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain rounded-2xl sm:hidden"
         >
           {gallery.map((img) => (
             <div
@@ -227,50 +224,101 @@ export default function ProductGallery({
           ))}
         </div>
 
-        {/* Dot indicators — the affordance that tells a shopper more images
-            exist. Presentational only; the track above is the control. */}
-        {gallery.length > 1 && (
-          <div className="mt-4 flex justify-center gap-2" aria-hidden="true">
-            {gallery.map((img, i) => (
-              <span
-                key={img.src}
-                className={`h-1.5 rounded-full transition-all duration-300 ease-out ${
-                  i === active ? "w-5 bg-charcoal" : "w-1.5 bg-platinum"
-                }`}
-              />
-            ))}
-          </div>
+        {/* DESKTOP — main image with hover-to-zoom. */}
+        <div
+          ref={frameRef}
+          onMouseEnter={() => setZoom(true)}
+          onMouseLeave={() => setZoom(false)}
+          onMouseMove={onMove}
+          className="relative hidden aspect-[4/5] w-full cursor-zoom-in overflow-hidden rounded-2xl bg-cream ring-1 ring-platinum/40 sm:block"
+        >
+          <Image
+            key={current.src}
+            src={current.src}
+            alt={current.alt}
+            fill
+            priority
+            // Over-stated like the mobile slide: the 4:5 portrait frame crops a
+            // landscape shot under object-cover, and hovering zooms to 1.7x, so
+            // the rendered pixels far exceed the frame's own width.
+            sizes="70vw"
+            style={{ transformOrigin: origin }}
+            className={`${imageClass(currentFit)} object-center transition-transform duration-300 ease-out ${
+              zoom
+                ? "scale-[1.7]"
+                : currentFit === "contain"
+                  ? "scale-[1.08]"
+                  : "scale-100"
+            }`}
+          />
+        </div>
+
+        {/* PREV / NEXT — the gallery reads right-to-left, so the arrow on the
+            RIGHT steps back and the one on the LEFT advances. They fade out
+            rather than vanish at the ends, so the frame doesn't reflow. */}
+        {many && (
+          <>
+            <button
+              type="button"
+              onClick={() => show(active - 1)}
+              disabled={atStart}
+              aria-label="התמונה הקודמת"
+              className={`${arrowClass} right-3 sm:right-4`}
+            >
+              <ChevronRight size={18} strokeWidth={1.5} />
+            </button>
+            <button
+              type="button"
+              onClick={() => show(active + 1)}
+              disabled={atEnd}
+              aria-label="התמונה הבאה"
+              className={`${arrowClass} left-3 sm:left-4`}
+            >
+              <ChevronLeft size={18} strokeWidth={1.5} />
+            </button>
+          </>
         )}
       </div>
 
-      {/* DESKTOP — main image with hover-to-zoom. */}
-      <div
-        ref={frameRef}
-        onMouseEnter={() => setZoom(true)}
-        onMouseLeave={() => setZoom(false)}
-        onMouseMove={onMove}
-        className="relative hidden aspect-[4/5] w-full flex-1 cursor-zoom-in overflow-hidden rounded-2xl bg-cream ring-1 ring-platinum/40 sm:block"
-      >
-        <Image
-          key={current.src}
-          src={current.src}
-          alt={current.alt}
-          fill
-          priority
-          // Over-stated like the mobile slide: the 4:5 portrait frame crops a
-          // landscape shot under object-cover, and hovering zooms to 1.7x, so
-          // the rendered pixels far exceed the frame's 45vw width.
-          sizes="70vw"
-          style={{ transformOrigin: origin }}
-          className={`${imageClass(currentFit)} object-center transition-transform duration-300 ease-out ${
-            zoom
-              ? "scale-[1.7]"
-              : currentFit === "contain"
-                ? "scale-[1.08]"
-                : "scale-100"
-          }`}
-        />
-      </div>
+      {/* THUMBNAILS — a scrollable row directly under the main image. The
+          active thumb is ringed in gold and full-strength; the rest sit gently
+          dimmed. Scrolls horizontally when a product has more shots than fit,
+          so the row never wraps and pushes the buy box down. */}
+      {many && (
+        <div
+          ref={thumbsRef}
+          className="hide-scrollbar flex gap-2.5 overflow-x-auto overflow-y-hidden overscroll-x-contain sm:gap-3"
+        >
+          {gallery.map((img, i) => {
+            const on = i === active;
+            return (
+              <button
+                key={img.src}
+                type="button"
+                onClick={() => show(i)}
+                aria-label={`תמונה ${i + 1}`}
+                aria-current={on}
+                className={`relative h-16 w-16 flex-none overflow-hidden rounded-lg bg-cream ring-1 transition-all duration-300 ease-out hover:opacity-100 sm:h-20 sm:w-20 ${
+                  on
+                    ? "opacity-100 ring-2 ring-gold"
+                    : "opacity-60 ring-platinum/40"
+                }`}
+              >
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  fill
+                  sizes="80px"
+                  draggable={false}
+                  className={
+                    fitOf(img) === "cover" ? "object-cover" : "object-contain p-1.5"
+                  }
+                />
+              </button>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
