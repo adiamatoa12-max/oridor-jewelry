@@ -77,22 +77,29 @@ export default function ProductGallery({
 
   const currentFit = fitOf(current);
 
-  // Swipe → state. Derived from scroll position rather than touch deltas, so
-  // it stays correct through momentum and interrupted flicks.
-  //
-  // scrollLeft is direction-dependent in RTL (negative in WebKit/Firefox,
-  // reversed in Chrome), so we measure against the slide's own offsetLeft
-  // instead of assuming a sign — the one bit of RTL maths worth doing by hand.
+  /** Centre of the track in viewport coordinates. */
+  const trackCentre = (el: HTMLElement) =>
+    el.getBoundingClientRect().left + el.clientWidth / 2;
+
+  /** How far a slide's centre is from the track's centre, in px. */
+  const slideOffset = (el: HTMLElement, slide: Element) => {
+    const r = slide.getBoundingClientRect();
+    return r.left + r.width / 2 - trackCentre(el);
+  };
+
+  // Swipe → state. Measured from rendered geometry (getBoundingClientRect),
+  // NOT offsetLeft: offsetLeft is relative to the offsetParent, so it carries
+  // the track's own page offset and every calculation lands short of the snap
+  // point. Rects are also sign-agnostic, which matters because scrollLeft goes
+  // negative in RTL.
   const onTrackScroll = () => {
     const el = trackRef.current;
     if (!el) return;
     swiping.current = true;
-    const mid = Math.abs(el.scrollLeft) + el.clientWidth / 2;
     let nearest = 0;
     let best = Infinity;
     Array.from(el.children).forEach((child, i) => {
-      const c = child as HTMLElement;
-      const d = Math.abs(Math.abs(c.offsetLeft) + c.clientWidth / 2 - mid);
+      const d = Math.abs(slideOffset(el, child));
       if (d < best) {
         best = d;
         nearest = i;
@@ -111,9 +118,15 @@ export default function ProductGallery({
   useEffect(() => {
     const el = trackRef.current;
     if (!el || swiping.current) return;
-    const slide = el.children[active] as HTMLElement | undefined;
+    const slide = el.children[active];
     if (!slide) return;
-    el.scrollTo({ left: slide.offsetLeft, behavior: "smooth" });
+    // Scroll by the DELTA between the slide's centre and the track's centre.
+    // A relative scrollBy lands exactly on the snap point in both directions;
+    // the previous absolute scrollTo(offsetLeft) was off by the track's own
+    // page offset, which left a sliver of the neighbouring image showing.
+    const delta = slideOffset(el, slide);
+    if (Math.abs(delta) < 1) return;
+    el.scrollBy({ left: delta, behavior: "smooth" });
   }, [active]);
 
   const onMove = (e: React.MouseEvent) => {
