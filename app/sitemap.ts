@@ -21,7 +21,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // collection and now 301 there, so they're intentionally absent: a sitemap
     // should only list canonical 200s. Their /[slug] product URLs below stay.
     "/collections/tennis",
-    "/sets",
+    // /sets (curated sets) was removed and now 301s to the moissanite
+    // collection, so it's intentionally absent: a sitemap should only list
+    // canonical 200s.
     "/quality-warranty",
     "/ring-size-guide",
     "/faq",

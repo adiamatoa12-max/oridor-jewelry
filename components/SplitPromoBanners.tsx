@@ -29,8 +29,10 @@ const BANNERS: PromoBanner[] = [
     // Left banner — darker, complex background.
     title: "אלגנטיות לערב",
     subtitle: "פריטים מובחרים לאירועים בלתי נשכחים",
-    // Dedicated evening-sets page (Evening Elegance).
-    href: "/sets",
+    // Was the /sets page (Evening Elegance), removed along with the curated
+    // sets. The banner itself stays — dropping one of the two would leave a
+    // half-empty split row — so it points at the moissanite collection.
+    href: "/collections/moissanite",
     image: "/photo/clara_post_5.jpg",
     alt: "דוגמנית עונדת תכשיטי כסף משובחים לערב",
     tone: "dark",

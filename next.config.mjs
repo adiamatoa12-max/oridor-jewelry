@@ -66,6 +66,14 @@ const nextConfig = {
         destination: "/collections/:path*",
         permanent: true,
       },
+      // The curated-sets page was removed pending real product photography.
+      // It was indexed and linked from a homepage banner, so send it to the
+      // moissanite collection rather than leaving it to 404.
+      {
+        source: "/sets",
+        destination: "/collections/moissanite",
+        permanent: false,
+      },
       // The quality page is now the richer /quality-warranty. Redirect the old
       // URL permanently to preserve any existing links and SEO equity.
       {
