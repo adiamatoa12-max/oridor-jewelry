@@ -29,9 +29,18 @@ export default function Hero() {
         className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/75"
       />
 
-      {/* Content — centred both axes, clear of the subject's face and the
-          bottom-anchored floating widgets, with generous breathing room. */}
-      <div className="relative z-10 flex h-full items-center justify-center px-6 py-24">
+      {/* Content — horizontally centred, anchored to the LOWER portion of the
+          frame rather than the middle, so it never sits over the model's face.
+          The bottom padding keeps it clear of the frame edge and the fixed
+          floating widgets, and it scales up with the viewport. */}
+      {/*
+        The bottom padding is large on purpose. The hero is 100svh tall but it
+        starts BELOW the announcement bar and navbar (~165px), so its bottom
+        edge falls off-screen. Anchoring the copy flush to the hero's bottom
+        would push the CTAs under the fold, so the padding pulls them back into
+        the visible lower third.
+      */}
+      <div className="relative z-10 flex h-full items-end justify-center px-6 pb-56 pt-24 sm:pb-44">
         <div className="mx-auto max-w-2xl text-center [filter:drop-shadow(0_2px_12px_rgba(0,0,0,0.6))]">
           {/* Sales headline — extremely bold, compact tracking. No eyebrow
               label above it: it read "מבצע השקה", repeating the first two words
