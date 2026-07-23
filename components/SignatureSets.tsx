@@ -170,7 +170,10 @@ export default function SignatureSets({
                 (white on most, BLACK on the tennis pieces), which produced hard
                 white/black rectangles. A full-bleed photo has none of that. The
                 container is transparent — no hardcoded background. */}
-            <div className="relative aspect-square w-full overflow-hidden bg-transparent md:aspect-[4/5]">
+            {/* 4:5 at every breakpoint. It was square below md, so these cards
+                changed shape across breakpoints AND didn't match the product
+                frames elsewhere on mobile. */}
+            <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
               <Image
                 src={encodeURI(set.image)}
                 alt={set.title}

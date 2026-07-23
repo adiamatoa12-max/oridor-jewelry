@@ -54,7 +54,11 @@ export default function RelatedProducts({
                 aria-label={item.name}
                 className="block touch-manipulation [-webkit-tap-highlight-color:transparent]"
               >
-                <div className="relative aspect-square w-full overflow-hidden bg-transparent">
+                {/* 4:5 like every other product frame on the site. This was
+                    aspect-square, so the same piece appeared in a different
+                    shape here than on the collection grids — and the shared
+                    gridImageClass scaling is tuned for a 4:5 frame. */}
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
                   <Image
                     src={encodeURI(item.image_url)}
                     alt={item.name}
