@@ -57,7 +57,7 @@ export default async function SilverCollectionPage() {
         </p>
 
         <Reveal>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-10">
             {products.map((p) => (
               <ProductCard
                 key={p.id}

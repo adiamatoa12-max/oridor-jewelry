@@ -40,7 +40,7 @@ export default async function EarringsPage() {
         </header>
 
         <Reveal>
-          <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-10">
             {earrings.map((p) => (
               <ProductCard
                 key={p.id}

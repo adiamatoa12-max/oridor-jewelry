@@ -50,11 +50,11 @@ export default function MoissaniteGrid({
 
   const containerClass =
     layout === "grid"
-      ? "grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-14"
+      ? "grid grid-cols-2 gap-x-4 gap-y-7 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-10"
       : "hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-1 sm:-mx-10 sm:px-10 lg:mx-0 lg:grid lg:grid-cols-4 lg:gap-8 lg:overflow-visible lg:px-0";
   // Seamless card — gentle lift on hover; no tap-highlight flash on touch.
   const hoverClass =
-    "bg-transparent transition-transform duration-300 ease-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1";
+    "bg-transparent transition-transform duration-300 ease-out touch-manipulation [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1";
   const itemClass =
     layout === "grid"
       ? `group block ${hoverClass}`
@@ -106,7 +106,9 @@ export default function MoissaniteGrid({
                 alt={`${p.name}, תמונה נוספת`}
                 fill
                 sizes="(min-width: 1024px) 25vw, 62vw"
-                className="object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-active:opacity-100"
+                // Hover-swap only — deliberately NOT group-active, so a tap on
+                // touch navigates instead of cross-fading to a different shot.
+                className="object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
               />
             )}
 
@@ -122,11 +124,11 @@ export default function MoissaniteGrid({
             </button>
           </div>
 
-          <div className="px-2 pt-6 text-center">
-            <h3 className="min-h-[2.6rem] text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">{p.name}</h3>
+          <div className="px-2 pt-4 text-center">
+            <h3 className="min-h-[2.25rem] text-xs font-normal leading-snug tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">{p.name}</h3>
             {/* Every piece in this grid is set with moissanite by definition. */}
-            <MoissaniteLabel className="mt-1.5" />
-            <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-2" />
+            <MoissaniteLabel className="mt-1" />
+            <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-1.5" />
           </div>
         </Link>
       ))}

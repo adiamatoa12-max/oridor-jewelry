@@ -46,9 +46,14 @@ export default function RelatedProducts({
               key={item.id}
               className="group flex flex-col text-center transition-transform duration-300 ease-in-out md:hover:-translate-y-1"
             >
-              {/* Image floats directly on the page — no box, border or fill;
-                  only a soft contact shadow. Gently scales on hover. */}
-              <Link href={href} aria-label={item.name} className="block">
+              {/* One link wraps image, title AND price, so tapping anywhere on
+                  the card opens the product — previously the image and title
+                  were separate links and the price area wasn't clickable. */}
+              <Link
+                href={href}
+                aria-label={item.name}
+                className="block touch-manipulation [-webkit-tap-highlight-color:transparent]"
+              >
                 <div className="relative aspect-square w-full overflow-hidden bg-transparent">
                   <Image
                     src={encodeURI(item.image_url)}
@@ -58,37 +63,34 @@ export default function RelatedProducts({
                     className={gridImageClass(item.category)}
                   />
                 </div>
-              </Link>
 
-              {/* Generous, consistent space between image and title. */}
-              <div className="pt-6">
-                <Link href={href}>
+                {/* Generous, consistent space between image and title. */}
+                <div className="pt-6">
                   <h3 className="min-h-[2.6rem] w-full text-[11px] font-light leading-relaxed tracking-[0.12em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-xs">
                     {item.name}
                   </h3>
-                </Link>
 
-                <p className="mt-2.5 text-[11px] font-light tracking-[0.04em] sm:text-xs">
-                  {onSale && (
-                    <span className="me-2 text-ash line-through">
-                      {fmt(item.compare_at_price!)}
-                    </span>
-                  )}
-                  <span className="text-graphite">{fmt(item.price)}</span>
-                </p>
+                  <p className="mt-2.5 text-[11px] font-light tracking-[0.04em] sm:text-xs">
+                    {onSale && (
+                      <span className="me-2 text-ash line-through">
+                        {fmt(item.compare_at_price!)}
+                      </span>
+                    )}
+                    <span className="text-graphite">{fmt(item.price)}</span>
+                  </p>
+                </div>
+              </Link>
 
-                {/* Ghost add-to-cart — always visible for unmistakable clarity:
-                    a thin 1px outline with elegant padding (8px / 20px) that
-                    softly fills with a light charcoal tint on hover. */}
-                <button
-                  type="button"
-                  onClick={() => addByHandle(item.slug)}
-                  aria-label={`הוספת ${item.name} לסל`}
-                  className="mt-5 inline-flex items-center justify-center border border-charcoal/30 px-5 py-2 text-[10px] uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 ease-in-out hover:border-charcoal/50 hover:bg-charcoal/[0.05] active:bg-charcoal/[0.08]"
-                >
-                  הוספה לסל
-                </button>
-              </div>
+              {/* Ghost add-to-cart — a sibling of the link, never nested inside
+                  it, so adding to cart can't trigger navigation. */}
+              <button
+                type="button"
+                onClick={() => addByHandle(item.slug)}
+                aria-label={`הוספת ${item.name} לסל`}
+                className="mt-5 inline-flex self-center items-center justify-center border border-charcoal/30 px-5 py-2 text-[10px] uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 ease-in-out hover:border-charcoal/50 hover:bg-charcoal/[0.05] active:bg-charcoal/[0.08]"
+              >
+                הוספה לסל
+              </button>
             </div>
           );
         })}

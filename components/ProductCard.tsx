@@ -101,7 +101,7 @@ export default function ProductCard({
   return (
     <Link
       href={href}
-      className="group flex h-full flex-col bg-transparent transition-[transform,opacity] duration-300 ease-out [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
+      className="group flex h-full flex-col bg-transparent transition-[transform,opacity] duration-300 ease-out touch-manipulation [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
       {/* Flat, transparent card — the product image sits directly on the page
           background with no box, border, or shadow. */}
@@ -126,7 +126,11 @@ export default function ProductCard({
             alt={`${title}, תמונה נוספת`}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className={`${hoverIsCover ? "object-cover object-center" : gridImageClass(category)} opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-active:opacity-100`}
+            // Hover-swap only — deliberately NOT group-active. On touch,
+            // :active fires while tapping, so the photo would cross-fade to a
+            // different shot mid-tap, making the tap read as "changed the
+            // image" rather than "opened the product".
+            className={`${hoverIsCover ? "object-cover object-center" : gridImageClass(category)} opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100`}
           />
         )}
 
@@ -154,28 +158,31 @@ export default function ProductCard({
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col items-center px-2 pt-6 text-center">
-        <h3 className="w-full text-xs font-normal leading-relaxed tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
+      <div className="flex flex-1 flex-col items-center px-2 pt-4 text-center">
+        <h3 className="w-full text-xs font-normal leading-snug tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
           {title}
         </h3>
         {/* Material callout: moissanite pieces state the stone, everything else
             states the 925 + rhodium make. Safe for grid alignment: price and CTA
             below are bottom-anchored with mt-auto, so the row always lines up. */}
         {isMoissanite ? (
-          <MoissaniteLabel className="mt-1.5" />
+          <MoissaniteLabel className="mt-1" />
         ) : (
-          <SilverLabel className="mt-1.5" />
+          <SilverLabel className="mt-1" />
         )}
 
         {/* Bottom group — swatches, price and CTA anchored to the card bottom
             (flex space-between effect via mt-auto), so every card lines up
             regardless of the title/content above. */}
-        <div className="mt-auto flex w-full flex-col items-center pt-4">
-          {/* Fixed-height swatch slot — always reserves one 44px row, even when
-              a product has no swatches, so the price below stays aligned. */}
-          <div className="flex h-11 items-center justify-center gap-0.5">
-            {hasSwatches &&
-              variants!.map((v, i) => {
+        <div className="mt-auto flex w-full flex-col items-center pt-3">
+          {/* Swatch row is rendered ONLY when a product actually has finishes.
+              It used to reserve a fixed 44px row on every card to keep prices
+              aligned, but most pieces have no swatches, so that left a dead
+              band under the subtitle on the majority of the grid. The bottom
+              group is still mt-auto anchored, so cards stay tidy. */}
+          {hasSwatches && (
+            <div className="flex items-center justify-center gap-0.5">
+              {variants!.map((v, i) => {
                 const on = i === activeColor;
                 return (
                   <button
@@ -202,16 +209,24 @@ export default function ProductCard({
                   </button>
                 );
               })}
-          </div>
+            </div>
+          )}
 
-          <PriceTag price={price} compareAt={compareAt} className="mt-1" />
+          <PriceTag
+            price={price}
+            compareAt={compareAt}
+            className={hasSwatches ? "mt-0.5" : "mt-1.5"}
+          />
 
           {/* Quick Add — visible beneath the price on mobile */}
           <button
             type="button"
             onClick={handleAdd}
             aria-label={quickAddLabel}
-            className="btn-primary mt-3 w-full sm:hidden"
+            // Narrow 2-up mobile cards can't take btn-primary's px-10 + wide
+            // tracking — the label wrapped onto a second line and made every
+            // card taller. Tighten padding/tracking so it stays one line.
+            className="btn-primary mt-2.5 w-full whitespace-nowrap px-3 tracking-[0.14em] sm:hidden"
           >
             הוספה מהירה
           </button>
