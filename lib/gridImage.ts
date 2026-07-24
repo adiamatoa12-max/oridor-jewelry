@@ -11,17 +11,28 @@
  * The base scale + `group-hover` scale share one element; the hover value is
  * always larger than the base, so hovering zooms in (never out).
  */
-const SHADOW = "[filter:drop-shadow(0px_6px_14px_rgba(0,0,0,0.07))]";
+// The jewellery's own contact shadow. Two chained drop-shadows — a tight, dark
+// one for the grounding contact edge and a wider, softer one for ambient depth
+// — so a cut-out piece reads as resting ON the tile with real dimension rather
+// than pasted flat onto it. Contained shots only; cover crops fill the frame.
+const SHADOW =
+  "[filter:drop-shadow(0px_3px_5px_rgba(0,0,0,0.07))_drop-shadow(0px_14px_20px_rgba(0,0,0,0.12))]";
 
 /**
  * The product-image CARD surface, shared by every grid so cards look identical
- * across collections. A crisp white (canvas) tile lifted off the warm off-white
- * page by a hairline platinum ring and a soft shadow, so the jewellery reads as
- * a distinct object instead of blending into the background. Rounded to match
- * the PDP frame. Pair with `relative aspect-[4/5] w-full overflow-hidden`.
+ * across collections. A crisp white tile, softly top-lit (white→cream gradient),
+ * lifted off the warm page by a hairline ring and a layered, elegant shadow —
+ * an ambient core, a soft key, and a wide diffuse cast — the way a high-end
+ * jewellery card sits on the page. The shadow blooms on hover (paired with the
+ * card's own lift on the parent link) for a gentle 3D pop. Rounded to match the
+ * PDP frame. Pair with `relative aspect-[4/5] w-full overflow-hidden`, on a card
+ * whose outer element carries `group`.
  */
 export const GRID_CARD =
-  "rounded-xl bg-canvas ring-1 ring-platinum/50 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_12px_28px_-14px_rgba(0,0,0,0.16)]";
+  "rounded-xl bg-gradient-to-b from-canvas to-cream ring-1 ring-platinum/40 " +
+  "shadow-[0_2px_4px_rgba(20,20,20,0.03),0_8px_16px_-6px_rgba(20,20,20,0.08),0_26px_44px_-22px_rgba(20,20,20,0.17)] " +
+  "transition-shadow duration-500 ease-out " +
+  "group-hover:shadow-[0_4px_8px_rgba(20,20,20,0.05),0_18px_32px_-10px_rgba(20,20,20,0.13),0_44px_66px_-30px_rgba(20,20,20,0.26)]";
 
 export function gridImageClass(
   category?: string | null,
