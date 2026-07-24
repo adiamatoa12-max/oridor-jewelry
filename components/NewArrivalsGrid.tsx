@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
-import { gridImageClass } from "@/lib/gridImage";
+import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 
 export interface NewArrival {
   id: string;
@@ -71,7 +71,7 @@ export default function NewArrivalsGrid({
           {/* Flat, transparent card — the product image sits directly on the
               page background with no box, border, or shadow. */}
           <div
-            className={`relative aspect-[4/5] w-full overflow-hidden bg-transparent`}
+            className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
           >
             <Image
               src={encodeURI(p.image_url)}

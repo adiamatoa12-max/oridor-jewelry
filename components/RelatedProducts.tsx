@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "./CartContext";
 import type { RelatedProduct } from "./ProductDetail";
-import { gridImageClass } from "@/lib/gridImage";
+import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 
 const fmt = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
@@ -58,7 +58,7 @@ export default function RelatedProducts({
                     aspect-square, so the same piece appeared in a different
                     shape here than on the collection grids — and the shared
                     gridImageClass scaling is tuned for a 4:5 frame. */}
-                <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
+                <div className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}>
                   <Image
                     src={encodeURI(item.image_url)}
                     alt={item.name}

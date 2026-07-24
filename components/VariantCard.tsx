@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import PriceTag from "./PriceTag";
-import { gridImageClass } from "@/lib/gridImage";
+import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 
 export interface Variant {
   color: string;
@@ -41,7 +41,7 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
         className="block [-webkit-tap-highlight-color:transparent]"
       >
         <div
-          className={`relative aspect-[4/5] w-full overflow-hidden bg-transparent`}
+          className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
         >
           {/* Crossfade between variant images */}
           {product.variants.map((v, i) => (

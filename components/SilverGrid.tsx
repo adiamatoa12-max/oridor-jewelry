@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
-import { gridImageClass } from "@/lib/gridImage";
+import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 
 export interface SilverColorVariant {
   color: string;
@@ -67,7 +67,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
     >
       {/* Image floats on the page — no box, border, badge or fill; only a soft
           contact shadow. Gently scales on hover. */}
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
+      <div className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}>
         <Image
           src={encodeURI(displayImage)}
           alt={`${p.name}, ${p.material}`}

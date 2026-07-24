@@ -8,7 +8,7 @@ import PriceTag from "./PriceTag";
 import MoissaniteLabel from "./MoissaniteLabel";
 import SilverLabel from "./SilverLabel";
 import MobileImageDots from "./MobileImageDots";
-import { gridImageClass } from "@/lib/gridImage";
+import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 import { trackProductEvent } from "@/lib/metaPixel";
 import type { ProductColorVariant } from "@/lib/catalog";
 
@@ -112,10 +112,10 @@ export default function ProductCard({
       href={href}
       className="group flex h-full flex-col bg-transparent transition-[transform,opacity] duration-300 ease-out touch-manipulation [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
-      {/* Flat, transparent card — the product image sits directly on the page
-          background with no box, border, or shadow. */}
+      {/* White product-image card — lifts the piece off the warm page so it
+          doesn't blend into the background (shared GRID_CARD surface). */}
       <div
-        className={`relative aspect-[4/5] w-full overflow-hidden bg-transparent`}
+        className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
       >
         <Image
           src={displayImage}
