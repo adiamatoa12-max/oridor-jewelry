@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
@@ -8,7 +7,6 @@ import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 import MoissaniteLabel from "./MoissaniteLabel";
-import MobileImageDots from "./MobileImageDots";
 
 export interface MoissaniteProduct {
   id: string;
@@ -92,11 +90,8 @@ export default function MoissaniteGrid({
   );
 }
 
-/**
- * A single moissanite card. Its own component so each can hold `peek` state —
- * the mobile toggle between the primary shot and the on-model hover image,
- * driven by the dots (desktop still uses hover).
- */
+/** A single moissanite card: primary shot with an on-model image that
+ *  cross-fades in on hover. */
 function MoissaniteCard({
   p,
   itemClass,
@@ -106,8 +101,6 @@ function MoissaniteCard({
   itemClass: string;
   onQuickAdd: (e: React.MouseEvent, p: MoissaniteProduct) => void;
 }) {
-  const [peek, setPeek] = useState(false);
-
   return (
     <Link href={`/collections/moissanite/${p.slug}`} className={itemClass}>
       {/* White product-image card — lifts the piece off the warm page so it
@@ -121,20 +114,18 @@ function MoissaniteCard({
           className={gridImageClass(p.category)}
         />
 
-        {/* Cross-fade to this product's OWN dedicated hover image. Rendered
-            only when the product has a matching hover file, so a card with none
-            simply keeps its primary image. Desktop reveals it on hover; mobile
-            reveals it via `peek`, toggled by the dots below — deliberately NOT
-            group-active, which would cross-fade the photo mid-tap. */}
+        {/* Cross-fade to this product's OWN dedicated hover image on hover.
+            Rendered only when the product has a matching hover file, so a card
+            with none simply keeps its primary image. Deliberately NOT
+            group-active: on touch :active fires while tapping and would swap the
+            photo mid-tap instead of opening the product. */}
         {p.hover_image && (
           <Image
             src={encodeURI(p.hover_image)}
             alt={`${p.name}, תמונה נוספת`}
             fill
             sizes="(min-width: 1024px) 25vw, 62vw"
-            className={`object-cover object-center transition-opacity duration-500 ease-out group-hover:opacity-100 ${
-              peek ? "opacity-100" : "opacity-0"
-            }`}
+            className="object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
           />
         )}
 
@@ -148,11 +139,6 @@ function MoissaniteCard({
           <ShoppingBag size={14} strokeWidth={1.5} />
           הוספה לאוסף
         </button>
-
-        {/* Mobile image dots — the touch equivalent of the desktop hover swap. */}
-        {p.hover_image && (
-          <MobileImageDots peek={peek} onChange={setPeek} title={p.name} />
-        )}
       </div>
 
       <div className="px-2 pt-4 text-center">
