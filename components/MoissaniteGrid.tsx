@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
@@ -7,6 +8,7 @@ import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import { gridImageClass } from "@/lib/gridImage";
 import MoissaniteLabel from "./MoissaniteLabel";
+import MobileImageDots from "./MobileImageDots";
 
 export interface MoissaniteProduct {
   id: string;
@@ -79,59 +81,88 @@ export default function MoissaniteGrid({
   return (
     <div className={containerClass}>
       {uniqueProducts.map((p) => (
-        <Link
+        <MoissaniteCard
           key={p.id}
-          href={`/collections/moissanite/${p.slug}`}
-          className={itemClass}
-        >
-          {/* Flat, transparent card — the product image sits directly on the page
-          background with no box, border, or shadow. */}
-          <div
-            className={`relative aspect-[4/5] w-full overflow-hidden bg-transparent`}
-          >
-            <Image
-              src={encodeURI(p.image_url)}
-              alt={`${p.name}, ${p.material}`}
-              fill
-              sizes="(min-width: 1024px) 25vw, 62vw"
-              className={gridImageClass(p.category)}
-            />
-
-            {/* Hover cross-fade to this product's OWN dedicated hover image.
-                Rendered only when the product has a matching hover file, so a
-                card with none simply keeps its primary image. */}
-            {p.hover_image && (
-              <Image
-                src={encodeURI(p.hover_image)}
-                alt={`${p.name}, תמונה נוספת`}
-                fill
-                sizes="(min-width: 1024px) 25vw, 62vw"
-                // Hover-swap only — deliberately NOT group-active, so a tap on
-                // touch navigates instead of cross-fading to a different shot.
-                className="object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
-              />
-            )}
-
-            {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
-            <button
-              type="button"
-              onClick={(e) => quickAdd(e, p)}
-              aria-label={`הוספת ${p.name} לאוסף`}
-              className="pointer-events-none absolute inset-x-4 bottom-4 flex translate-y-2 items-center justify-center gap-2 border border-charcoal/15 bg-canvas/85 py-2.5 text-[11px] tracking-[0.15em] text-charcoal opacity-0 backdrop-blur-sm transition-[opacity,transform] duration-200 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 hover:border-charcoal/40"
-            >
-              <ShoppingBag size={14} strokeWidth={1.5} />
-              הוספה לאוסף
-            </button>
-          </div>
-
-          <div className="px-2 pt-4 text-center">
-            <h3 className="min-h-[2.25rem] text-xs font-normal leading-snug tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">{p.name}</h3>
-            {/* Every piece in this grid is set with moissanite by definition. */}
-            <MoissaniteLabel className="mt-1" />
-            <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-1.5" />
-          </div>
-        </Link>
+          p={p}
+          itemClass={itemClass}
+          onQuickAdd={quickAdd}
+        />
       ))}
     </div>
+  );
+}
+
+/**
+ * A single moissanite card. Its own component so each can hold `peek` state —
+ * the mobile toggle between the primary shot and the on-model hover image,
+ * driven by the dots (desktop still uses hover).
+ */
+function MoissaniteCard({
+  p,
+  itemClass,
+  onQuickAdd,
+}: {
+  p: MoissaniteProduct;
+  itemClass: string;
+  onQuickAdd: (e: React.MouseEvent, p: MoissaniteProduct) => void;
+}) {
+  const [peek, setPeek] = useState(false);
+
+  return (
+    <Link href={`/collections/moissanite/${p.slug}`} className={itemClass}>
+      {/* Flat, transparent card — the product image sits directly on the page
+          background with no box, border, or shadow. */}
+      <div className="relative aspect-[4/5] w-full overflow-hidden bg-transparent">
+        <Image
+          src={encodeURI(p.image_url)}
+          alt={`${p.name}, ${p.material}`}
+          fill
+          sizes="(min-width: 1024px) 25vw, 62vw"
+          className={gridImageClass(p.category)}
+        />
+
+        {/* Cross-fade to this product's OWN dedicated hover image. Rendered
+            only when the product has a matching hover file, so a card with none
+            simply keeps its primary image. Desktop reveals it on hover; mobile
+            reveals it via `peek`, toggled by the dots below — deliberately NOT
+            group-active, which would cross-fade the photo mid-tap. */}
+        {p.hover_image && (
+          <Image
+            src={encodeURI(p.hover_image)}
+            alt={`${p.name}, תמונה נוספת`}
+            fill
+            sizes="(min-width: 1024px) 25vw, 62vw"
+            className={`object-cover object-center transition-opacity duration-500 ease-out group-hover:opacity-100 ${
+              peek ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        )}
+
+        {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
+        <button
+          type="button"
+          onClick={(e) => onQuickAdd(e, p)}
+          aria-label={`הוספת ${p.name} לאוסף`}
+          className="pointer-events-none absolute inset-x-4 bottom-4 flex translate-y-2 items-center justify-center gap-2 border border-charcoal/15 bg-canvas/85 py-2.5 text-[11px] tracking-[0.15em] text-charcoal opacity-0 backdrop-blur-sm transition-[opacity,transform] duration-200 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100 hover:border-charcoal/40"
+        >
+          <ShoppingBag size={14} strokeWidth={1.5} />
+          הוספה לאוסף
+        </button>
+
+        {/* Mobile image dots — the touch equivalent of the desktop hover swap. */}
+        {p.hover_image && (
+          <MobileImageDots peek={peek} onChange={setPeek} title={p.name} />
+        )}
+      </div>
+
+      <div className="px-2 pt-4 text-center">
+        <h3 className="min-h-[2.25rem] text-xs font-normal leading-snug tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
+          {p.name}
+        </h3>
+        {/* Every piece in this grid is set with moissanite by definition. */}
+        <MoissaniteLabel className="mt-1" />
+        <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-1.5" />
+      </div>
+    </Link>
   );
 }

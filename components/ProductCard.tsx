@@ -7,6 +7,7 @@ import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import MoissaniteLabel from "./MoissaniteLabel";
 import SilverLabel from "./SilverLabel";
+import MobileImageDots from "./MobileImageDots";
 import { gridImageClass } from "@/lib/gridImage";
 import { trackProductEvent } from "@/lib/metaPixel";
 import type { ProductColorVariant } from "@/lib/catalog";
@@ -77,6 +78,14 @@ export default function ProductCard({
   const hoverImage =
     secondaryImage ??
     (variants && variants.length > 1 ? variants[1].image : undefined);
+
+  // Mobile has no hover, so the secondary shot needs an explicit tap control.
+  // Swatch pieces already get that from the swatches themselves; this is only
+  // for lifestyle cards (a secondaryImage but no finishes), which otherwise
+  // had no way to reach their second photo on touch. `peek` forces the
+  // secondary image visible; the dots below toggle it.
+  const [peek, setPeek] = useState(false);
+  const showMobileDots = !hasSwatches && !!hoverImage;
   // Dedicated hover files are full-bleed lifestyle shots (cover); a second
   // finish is a studio product shot (contain, matching the primary framing).
   const hoverIsCover = fit === "cover";
@@ -126,11 +135,11 @@ export default function ProductCard({
             alt={`${title}, תמונה נוספת`}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            // Hover-swap only — deliberately NOT group-active. On touch,
-            // :active fires while tapping, so the photo would cross-fade to a
-            // different shot mid-tap, making the tap read as "changed the
-            // image" rather than "opened the product".
-            className={`${hoverIsCover ? "object-cover object-center" : gridImageClass(category)} opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100`}
+            // Desktop reveals this on hover. Mobile reveals it via `peek`,
+            // toggled by the dots below — deliberately NOT group-active, which
+            // fires while tapping and would cross-fade the photo mid-tap,
+            // making the tap read as "changed the image" not "opened it".
+            className={`${hoverIsCover ? "object-cover object-center" : gridImageClass(category)} transition-opacity duration-500 ease-out group-hover:opacity-100 ${peek ? "opacity-100" : "opacity-0"}`}
           />
         )}
 
@@ -156,6 +165,11 @@ export default function ProductCard({
             הוספה מהירה
           </button>
         </div>
+
+        {/* Mobile image dots — the touch equivalent of the desktop hover swap. */}
+        {showMobileDots && (
+          <MobileImageDots peek={peek} onChange={setPeek} title={title} />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col items-center px-2 pt-4 text-center">
