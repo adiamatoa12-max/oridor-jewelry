@@ -3,24 +3,14 @@
  * emits rich, consistent Schema.org markup that Google can turn into rich
  * snippets (price, availability, shipping, returns).
  *
- * NOTE on aggregateRating: Google only shows review stars for ratings that
- * reflect genuine reviews visible on the page. The value below is kept in sync
- * with the rating shown on the PDP (5 stars · "120+ ביקורות"). Until a real
- * review app (Judge.me / Loox / …) feeds live data, treat these as placeholder
- * marketing figures and be aware that fabricated ratings carry a manual-action
- * risk. Replace PRODUCT_RATING with the app's real aggregate as soon as one is
- * installed — updating it here updates every product page at once.
+ * NOTE on aggregateRating: Google only shows review stars for genuine reviews
+ * visible on the page. The store has none yet, so no rating is emitted (the
+ * fabricated on-page figures were removed). Once a real review app (Judge.me /
+ * Loox / …) feeds live data, pass its aggregate as the `rating` arg to enable
+ * AggregateRating markup everywhere at once.
  */
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com";
-
-/**
- * Site-wide product rating shown on the PDP. NOT emitted in JSON-LD by default
- * (see buildProductJsonLd) — these are placeholder figures. Once a real review
- * app provides genuine aggregates, pass this (or the app's data) as the
- * `rating` arg to re-enable AggregateRating markup everywhere at once.
- */
-export const PRODUCT_RATING = { value: 4.9, count: 120 };
 
 export function buildProductJsonLd(opts: {
   name: string;
@@ -35,13 +25,18 @@ export function buildProductJsonLd(opts: {
   price: number;
   material: string;
   available?: boolean;
-  /** Aggregate rating shown on the page. Defaults to the site-wide figure. */
+  /** Aggregate rating — omit until a real review app provides genuine data. */
   rating?: { value: number; count: number } | null;
+  /**
+   * Whether this product can be returned. Earrings are excluded for hygiene
+   * (see the /shipping policy), so pass false for them to keep the return
+   * markup consistent with the visible policy. Defaults to true.
+   */
+  returnable?: boolean;
 }) {
-  // Default to no aggregateRating: the on-page 5-star / 120+ figures are
-  // placeholder marketing, and marking up fabricated ratings risks a Google
-  // manual action. Pass an explicit `rating` (e.g. PRODUCT_RATING) only once a
-  // real review app feeds genuine, on-page aggregates.
+  // Default to no aggregateRating: the store has no genuine reviews yet, and
+  // marking up fabricated ratings risks a Google manual action. Pass an
+  // explicit `rating` only once a real review app feeds genuine, on-page data.
   const rating = opts.rating === undefined ? null : opts.rating;
   return {
     "@context": "https://schema.org/",
@@ -87,15 +82,26 @@ export function buildProductJsonLd(opts: {
           addressCountry: "IL",
         },
       },
-      hasMerchantReturnPolicy: {
-        "@type": "MerchantReturnPolicy",
-        applicableCountry: "IL",
-        returnPolicyCategory:
-          "https://schema.org/MerchantReturnFiniteReturnWindow",
-        merchantReturnDays: 14,
-        returnMethod: "https://schema.org/ReturnByMail",
-        returnFees: "https://schema.org/FreeReturn",
-      },
+      // Earrings are non-returnable (hygiene), so they emit a "not permitted"
+      // policy instead of the 14-day window — matching the /shipping page and
+      // the on-page copy.
+      hasMerchantReturnPolicy:
+        opts.returnable === false
+          ? {
+              "@type": "MerchantReturnPolicy",
+              applicableCountry: "IL",
+              returnPolicyCategory:
+                "https://schema.org/MerchantReturnNotPermitted",
+            }
+          : {
+              "@type": "MerchantReturnPolicy",
+              applicableCountry: "IL",
+              returnPolicyCategory:
+                "https://schema.org/MerchantReturnFiniteReturnWindow",
+              merchantReturnDays: 14,
+              returnMethod: "https://schema.org/ReturnByMail",
+              returnFees: "https://schema.org/FreeReturn",
+            },
     },
   };
 }

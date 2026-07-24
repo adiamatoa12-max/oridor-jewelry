@@ -103,6 +103,7 @@ export default async function SilverProductPage({
     path: `/collections/silver/${product.slug}`,
     price: product.price,
     material: product.material,
+    returnable: product.category !== "Earrings",
   });
 
   return (

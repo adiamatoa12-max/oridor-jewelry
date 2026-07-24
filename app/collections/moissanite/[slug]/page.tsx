@@ -84,6 +84,7 @@ export default async function MoissaniteProductPage({
     path: `/collections/moissanite/${product.slug}`,
     price: product.price,
     material: product.material,
+    returnable: product.category !== "Earrings",
   });
 
   return (

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ShieldCheck, Star } from "lucide-react";
+import { ShieldCheck } from "lucide-react";
 import ProductGallery, { type GalleryImage } from "./ProductGallery";
 import ProductBuyBox from "./ProductBuyBox";
 import SizeGuideModal from "./SizeGuideModal";
@@ -66,10 +66,14 @@ const PACKAGING_SLIDE: GalleryImage = {
 };
 
 // Shared accordion sections — identical across every collection.
+// Return terms here must match the /shipping policy page and the JSON-LD in
+// lib/seo.ts exactly: 14 days, original packaging & unused, earrings excluded
+// for hygiene. The old copy promised returns "ללא שאלות" (no questions) for
+// every item, which contradicted both.
 const SHIPPING: AccordionItem = {
   title: "משלוחים והחזרות",
   content:
-    "משלוח חינם עד הבית לכל ההזמנות, בזמן אספקה של 3–7 ימי עסקים. ניתן להחזיר או להחליף תוך 14 יום ממועד הקבלה, ללא שאלות. כל פריט מגיע עם תעודת אותנטיות ואחריות מלאה.",
+    "משלוח חינם עד הבית לכל ההזמנות, בזמן אספקה של 3–7 ימי עסקים. ניתן להחזיר או להחליף תוך 14 יום ממועד הקבלה, כשהפריט באריזתו המקורית וללא שימוש, בהתאם למדיניות ההחזרות. מטעמי היגיינה, עגילים אינם ניתנים להחזרה או להחלפה. כל פריט מגיע עם תעודת אותנטיות ואחריות מלאה.",
 };
 const CARE: AccordionItem = {
   title: "הוראות טיפוח",
@@ -225,17 +229,12 @@ export default function ProductDetail({
             {title}
           </h1>
 
-          {/* Social proof — star rating + review count */}
-          <div className="mt-2.5 flex items-center gap-2.5">
-            <div className="flex gap-0.5" aria-label="דירוג 5 מתוך 5 כוכבים">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} size={15} strokeWidth={0} className="fill-gold text-gold" />
-              ))}
-            </div>
-            <span className="text-xs font-light tracking-wide text-ash">
-              מבוסס על 120+ ביקורות
-            </span>
-          </div>
+          {/* Honest trust line in place of the old fabricated star rating +
+              "120+ ביקורות": the guarantees the brand can actually stand behind
+              until real customer reviews exist. */}
+          <p className="mt-2.5 text-xs font-light tracking-wide text-ash">
+            משלוח חינם · אחריות מלאה · תעודת אותנטיות
+          </p>
 
           {/* Buy box starts with the price (grouped with the title above), then
               the configurator (colour + size), CTA and trust micro-copy. */}

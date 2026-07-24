@@ -95,6 +95,7 @@ export default async function SignatureProductPage({
     path: `/collections/signature/${product.slug}`,
     price: product.price,
     material: product.material,
+    returnable: product.category !== "Earrings",
   });
 
   return (

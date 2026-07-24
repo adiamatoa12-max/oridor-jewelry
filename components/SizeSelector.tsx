@@ -64,11 +64,6 @@ export default function SizeSelector({ sizes }: { sizes: string[] }) {
           );
         })}
       </div>
-
-      {/* Scarcity nudge — subtle, informative, never aggressive */}
-      <p className="mt-3 text-[11px] font-light text-ash">
-        נותרו פריטים אחרונים במלאי למידה זו
-      </p>
     </div>
   );
 }

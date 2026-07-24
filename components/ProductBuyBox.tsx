@@ -307,9 +307,11 @@ export default function ProductBuyBox({
         {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
       </button>
 
-      {/* Trust micro-copy at the point of conversion. */}
+      {/* Trust micro-copy at the point of conversion. Kept to claims that hold
+          for every product — returns carry conditions (earrings excluded), so
+          they're stated in full in the shipping/returns accordion, not here. */}
       <p className="mt-3 text-center text-[11px] font-light tracking-wide text-ash">
-        משלוח חינם והחזרות פשוטות
+        משלוח חינם · אחריות מלאה
       </p>
 
       {/* Sticky mobile CTA — fades in only once the main button is scrolled

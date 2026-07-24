@@ -82,6 +82,7 @@ export default async function NewArrivalProductPage({
     path: `/collections/new/${product.slug}`,
     price: product.price,
     material: product.material,
+    returnable: product.category !== "Earrings",
   });
 
   return (
