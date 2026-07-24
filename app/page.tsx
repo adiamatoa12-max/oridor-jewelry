@@ -1,7 +1,7 @@
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import SplitPromoBanners from "@/components/SplitPromoBanners";
-import BrandPromise from "@/components/BrandPromise";
+import CustomerReviews from "@/components/CustomerReviews";
 import InstagramFeed from "@/components/InstagramFeed";
 import PremiumFooter from "@/components/PremiumFooter";
 import Hero from "@/components/Hero";
@@ -52,9 +52,8 @@ export default function Home() {
             reads as one unbroken white wall. */}
         <Reveal className="bg-sand/70"><MoissaniteEducation /></Reveal>
 
-        {/* Brand promise, just above the footer. Honest material/service trust
-            in place of the old fabricated testimonials + "150+ ביקורות". */}
-        <Reveal><BrandPromise /></Reveal>
+        {/* Social proof, just above the footer */}
+        <Reveal><CustomerReviews /></Reveal>
       </div>
 
       <PremiumFooter />
