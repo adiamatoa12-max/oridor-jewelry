@@ -104,7 +104,7 @@ export default function Navbar() {
 
         {/* Second row — centered navigation, desktop only */}
         <nav className="hidden justify-center md:flex">
-          <ul className="flex items-center gap-10 pb-6 lg:gap-14">
+          <ul className="flex items-center gap-12 pb-6 lg:gap-[4.5rem]">
             {LINKS.map((l) => (
               <NavLink key={l.href} {...l} />
             ))}
@@ -130,7 +130,7 @@ function SaleLink() {
     <li>
       <Link
         href="/shop"
-        className="group relative inline-flex items-center gap-2 text-[12.5px] font-light tracking-[0.18em] text-gold transition-opacity duration-300 hover:opacity-70"
+        className="group relative inline-flex items-center gap-2 text-[12.5px] font-light tracking-[0.22em] text-gold transition-opacity duration-300 hover:opacity-70"
       >
         <span className="relative flex h-1.5 w-1.5">
           <span className="absolute inline-flex h-full w-full animate-soft-ping rounded-full bg-gold/70" />
@@ -147,7 +147,7 @@ function NavLink({ label, href }: { label: string; href: string }) {
     <li>
       <Link
         href={href}
-        className="group relative text-[12.5px] font-light tracking-[0.18em] text-charcoal transition-colors duration-300 hover:text-gold"
+        className="group relative text-[12.5px] font-light tracking-[0.22em] text-graphite transition-colors duration-300 hover:text-gold"
       >
         {label}
         <span className="absolute -bottom-2 start-0 h-px w-0 bg-gold transition-all duration-500 ease-cinematic group-hover:w-full" />
