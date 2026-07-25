@@ -50,7 +50,10 @@ export default function Hero() {
           both clears the fold and lifts the block off the frame edge + the
           floating widgets. */}
       <div className="relative z-10 flex h-full items-end justify-center px-6 pb-56 pt-24 sm:px-8 sm:pb-48">
-        <div className="mx-auto max-w-2xl text-center [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.55))]">
+        {/* Narrow, centred column — capped well short of the full width so the
+            headline wraps into a tight, tidy block instead of one long line
+            (Magnolia-style), leaving the video and model clear around it. */}
+        <div className="mx-auto max-w-xl text-center [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.55))]">
           {/* Sales headline — bold, compact tracking. No eyebrow label above it:
               it read "מבצע השקה", repeating the first two words of the headline.
               Scales smoothly from mobile to desktop. */}
@@ -79,7 +82,7 @@ export default function Hero() {
               block (below the CTAs) rather than under the headline, so it sits in
               the lower band and never crosses the model's face. Smaller, lighter
               and airier than the offer above it. */}
-          <p className="mx-auto mt-7 max-w-lg animate-fade-up text-[13px] font-light leading-relaxed tracking-wide text-white/85 [animation-delay:500ms] sm:mt-8 sm:text-sm">
+          <p className="mx-auto mt-7 max-w-md animate-fade-up text-[13px] font-light leading-relaxed tracking-wide text-white/85 [animation-delay:500ms] sm:mt-8 sm:text-sm">
             מואסנייט בדרגת D/VVS1, משובץ בכסף סטרלינג 925 בציפוי רודיום. ברק שנשאר, יום אחרי יום.
           </p>
         </div>
