@@ -141,7 +141,7 @@ export default function CustomerReviews() {
   };
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+    <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
       {/* Header */}
       <div className="mb-10 flex flex-col items-center text-center lg:mb-14">
         <p className="mb-3 text-[11px] uppercase tracking-[0.3em] text-gold">

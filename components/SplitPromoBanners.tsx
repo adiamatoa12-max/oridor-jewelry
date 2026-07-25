@@ -47,7 +47,7 @@ const BANNERS: PromoBanner[] = [
  */
 export default function SplitPromoBanners() {
   return (
-    <section className="my-14 grid w-full grid-cols-1 gap-px md:grid-cols-2 lg:my-20">
+    <section className="my-10 grid w-full grid-cols-1 gap-px md:grid-cols-2 lg:my-14">
       {BANNERS.map((banner) => {
         const isLight = banner.tone === "light";
         return (

@@ -27,7 +27,7 @@ export default function Home() {
           padding only: the first section (הקולקציות שלנו) has its own top
           padding, so a wrapper top pad here just doubled the hero→collections
           gap. */}
-      <div className="space-y-20 pb-16 sm:space-y-28 lg:space-y-36 lg:pb-28">
+      <div className="space-y-14 pb-12 sm:space-y-20 lg:space-y-24 lg:pb-20">
         {/* Rhythmic block structure — Grid → Banner → Grid → Banner so the page
             reads as punchy, finished sections rather than an endless scroll. */}
 

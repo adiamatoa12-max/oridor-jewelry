@@ -14,7 +14,7 @@ export default function MoissaniteEducation() {
   return (
     // Dark highlight block — a full-width #0A0A0A band that punctuates the
     // bright boutique layout, like a special editorial spread.
-    <section className="w-full bg-ink py-20 sm:py-24 lg:py-32">
+    <section className="w-full bg-ink py-16 sm:py-20 lg:py-24">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 sm:px-10 md:grid-cols-2 lg:gap-20 lg:px-16">
         {/* Right column (RTL start): text — clean, whitespace-driven, no dividers */}
         <div className="text-right">

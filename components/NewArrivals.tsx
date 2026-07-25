@@ -13,7 +13,7 @@ export default async function NewArrivals() {
   const highlights = overlayLivePrices((data as NewArrival[]).slice(0, 8), live);
 
   return (
-    <section className="mx-auto max-w-7xl px-6 py-16 sm:px-10 lg:px-16 lg:py-24">
+    <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
       <div className="mb-12 text-center">
         <p className="mb-3 text-xs tracking-[0.25em] text-gold">כסף 925 טהור</p>
         <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
