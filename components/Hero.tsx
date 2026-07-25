@@ -11,13 +11,17 @@ import Link from "next/link";
  */
 export default function Hero() {
   return (
-    <section className="relative h-[68svh] min-h-[460px] w-full overflow-hidden bg-mist sm:h-[70vh] lg:h-[74vh]">
+    <section className="relative h-[68svh] min-h-[460px] w-full overflow-hidden bg-ink sm:h-[70vh] lg:h-[74vh]">
       {/* Cover background video — muted + playsInline + autoPlay so it loops
           silently on every platform (iOS refuses to autoplay without muted AND
           playsInline). object-position lifted to 60% so the subject/jewellery
           sits a touch higher, leaving the plainer lower area behind the copy.
-          Poster avoids a black first paint and stands in if autoplay is blocked.
-          Decorative → aria-hidden + untabbable. */}
+          No poster on purpose: a poster image flashed for a split second before
+          playback. Instead the section's dark (bg-ink) surface shows through
+          until the first frame paints — a clean dark skeleton that the dimmed
+          video transitions straight out of, with no old still ever appearing.
+          preload="auto" fetches the clip immediately. Decorative → aria-hidden
+          + untabbable. */}
       <video
         className="absolute inset-0 h-full w-full object-cover object-[center_60%]"
         autoPlay
@@ -25,7 +29,6 @@ export default function Hero() {
         muted
         playsInline
         preload="auto"
-        poster="/photo/hero-banner.png"
         aria-hidden="true"
         tabIndex={-1}
       >
