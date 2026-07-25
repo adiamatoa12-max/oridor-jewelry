@@ -8,6 +8,7 @@ import PriceTag from "./PriceTag";
 import MoissaniteLabel from "./MoissaniteLabel";
 import SilverLabel from "./SilverLabel";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
+import CardImageCarousel, { type CardSlide } from "./CardImageCarousel";
 import { trackProductEvent } from "@/lib/metaPixel";
 import type { ProductColorVariant } from "@/lib/catalog";
 
@@ -82,6 +83,24 @@ export default function ProductCard({
   // finish is a studio product shot (contain, matching the primary framing).
   const hoverIsCover = fit === "cover";
 
+  // Mobile has no hover, so a second image is unreachable on touch. Show a
+  // swipeable dot carousel there instead — but only for lifestyle cards with a
+  // real second image and no swatches; swatch pieces already switch their image
+  // from the swatches. The desktop hover cross-fade is unchanged.
+  const cardImageSizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw";
+  const showMobileCarousel = !hasSwatches && !!hoverImage;
+  const mobileSlides: CardSlide[] | null = showMobileCarousel
+    ? [
+        { src: displayImage, className: gridImageClass(category) },
+        {
+          src: hoverImage!,
+          className: hoverIsCover
+            ? "object-cover object-center"
+            : gridImageClass(category),
+        },
+      ]
+    : null;
+
   // Quick-add: don't navigate the parent link — add the real Shopify variant.
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -109,29 +128,32 @@ export default function ProductCard({
       <div
         className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
       >
+        {/* Static base image. Hidden on mobile when the swipe carousel takes
+            over, so the two don't stack. */}
         <Image
           src={displayImage}
           alt={`${title}, תכשיט כסף מבית Oridor`}
           fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-          className={gridImageClass(category)}
+          sizes={cardImageSizes}
+          className={`${gridImageClass(category)} ${showMobileCarousel ? "hidden sm:block" : ""}`}
         />
 
-        {/* Hover cross-fade to the product's OWN second image (second finish).
-            Only rendered when a genuine second image exists, and only while the
-            shopper hasn't picked a specific colour — so it never shows a wrong
-            or generic item. */}
+        {/* Desktop hover cross-fade to the product's OWN second image. Only
+            while the shopper hasn't picked a specific colour, so it never shows
+            a wrong item. Hidden on mobile — the carousel handles touch there. */}
         {hoverImage && activeColor === 0 && (
           <Image
             src={hoverImage}
             alt={`${title}, תמונה נוספת`}
             fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            // Cross-fades in on hover. Deliberately NOT group-active: on touch
-            // :active fires while tapping, so the photo would swap mid-tap and
-            // the tap would read as "changed the image" rather than "opened it".
-            className={`${hoverIsCover ? "object-cover object-center" : gridImageClass(category)} opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100`}
+            sizes={cardImageSizes}
+            className={`${hoverIsCover ? "object-cover object-center" : gridImageClass(category)} hidden opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 sm:block`}
           />
+        )}
+
+        {/* Mobile swipe carousel + dots (touch alternative to hover). */}
+        {mobileSlides && activeColor === 0 && (
+          <CardImageCarousel slides={mobileSlides} alt={title} sizes={cardImageSizes} />
         )}
 
         {/* Minimal status tag — top-right (inline-start in RTL) */}

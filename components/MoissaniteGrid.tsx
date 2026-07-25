@@ -7,6 +7,10 @@ import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 import MoissaniteLabel from "./MoissaniteLabel";
+import CardImageCarousel from "./CardImageCarousel";
+
+/** Shared responsive sizes for the card image and its carousel slides. */
+const CARD_SIZES = "(min-width: 1024px) 25vw, 62vw";
 
 export interface MoissaniteProduct {
   id: string;
@@ -106,17 +110,18 @@ function MoissaniteCard({
       {/* White product-image card — lifts the piece off the warm page so it
           doesn't blend into the background (shared GRID_CARD surface). */}
       <div className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}>
+        {/* Static base image. Hidden on mobile when the swipe carousel takes
+            over (a card with a hover image), so the two don't stack. */}
         <Image
           src={encodeURI(p.image_url)}
           alt={`${p.name}, ${p.material}`}
           fill
-          sizes="(min-width: 1024px) 25vw, 62vw"
-          className={gridImageClass(p.category)}
+          sizes={CARD_SIZES}
+          className={`${gridImageClass(p.category)} ${p.hover_image ? "hidden sm:block" : ""}`}
         />
 
-        {/* Cross-fade to this product's OWN dedicated hover image on hover.
-            Rendered only when the product has a matching hover file, so a card
-            with none simply keeps its primary image. Deliberately NOT
+        {/* Desktop hover cross-fade to this product's OWN dedicated hover image.
+            Hidden on mobile — the carousel handles touch there. Deliberately NOT
             group-active: on touch :active fires while tapping and would swap the
             photo mid-tap instead of opening the product. */}
         {p.hover_image && (
@@ -124,8 +129,20 @@ function MoissaniteCard({
             src={encodeURI(p.hover_image)}
             alt={`${p.name}, תמונה נוספת`}
             fill
-            sizes="(min-width: 1024px) 25vw, 62vw"
-            className="object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
+            sizes={CARD_SIZES}
+            className="hidden object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 sm:block"
+          />
+        )}
+
+        {/* Mobile swipe carousel + dots (touch alternative to hover). */}
+        {p.hover_image && (
+          <CardImageCarousel
+            slides={[
+              { src: encodeURI(p.image_url), className: gridImageClass(p.category) },
+              { src: encodeURI(p.hover_image), className: "object-cover object-center" },
+            ]}
+            alt={p.name}
+            sizes={CARD_SIZES}
           />
         )}
 
