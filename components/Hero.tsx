@@ -43,12 +43,13 @@ export default function Hero() {
         className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/45"
       />
 
-      {/* Content — centred over the video, both axes. The hero sits BELOW the
-          in-flow announcement bar + navbar, so its own mid-point lands a little
-          low on screen; a slightly smaller bottom padding than top pulls the
-          block up to the visible optical centre. Symmetric horizontal padding
-          keeps clean margins on every width. */}
-      <div className="relative z-10 flex h-full items-center justify-center px-6 pt-16 pb-56 sm:px-8 sm:pb-44">
+      {/* Content — anchored to the LOWER third of the hero, not centred, so the
+          model's face (upper-centre of the frame) stays completely clear. The
+          hero also runs BELOW the fold (it starts under the in-flow announcement
+          bar + navbar and is a full viewport tall), so the large bottom padding
+          both clears the fold and lifts the block off the frame edge + the
+          floating widgets. */}
+      <div className="relative z-10 flex h-full items-end justify-center px-6 pb-56 pt-24 sm:px-8 sm:pb-48">
         <div className="mx-auto max-w-2xl text-center [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.55))]">
           {/* Sales headline — bold, compact tracking. No eyebrow label above it:
               it read "מבצע השקה", repeating the first two words of the headline.
@@ -57,10 +58,9 @@ export default function Hero() {
             מבצע השקה מיוחד – 2+1 על פריטים נבחרים
           </h1>
 
-          {/* Dual CTA — headline + buttons only (the material subtitle was
-              removed so nothing overlaps the model's face). Generous space below
-              the headline; the two buttons share the row equally on mobile. */}
-          <div className="mt-8 flex animate-fade-up justify-center gap-3 [animation-delay:300ms] sm:mt-11 sm:gap-4">
+          {/* Dual CTA — generous space below the headline; the two buttons share
+              the row equally on mobile. */}
+          <div className="mt-8 flex animate-fade-up justify-center gap-3 [animation-delay:300ms] sm:mt-10 sm:gap-4">
             <Link
               href="/collections/moissanite"
               className="inline-flex min-h-[48px] flex-1 items-center justify-center whitespace-nowrap rounded-sm bg-white px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-charcoal transition-all duration-300 ease-cinematic hover:-translate-y-0.5 hover:bg-white/90 sm:flex-none sm:px-9"
@@ -74,6 +74,14 @@ export default function Hero() {
               קולקציית כסף 925
             </Link>
           </div>
+
+          {/* Material credentials — restored, but placed at the FOOT of the hero
+              block (below the CTAs) rather than under the headline, so it sits in
+              the lower band and never crosses the model's face. Smaller, lighter
+              and airier than the offer above it. */}
+          <p className="mx-auto mt-7 max-w-lg animate-fade-up text-[13px] font-light leading-relaxed tracking-wide text-white/85 [animation-delay:500ms] sm:mt-8 sm:text-sm">
+            מואסנייט בדרגת D/VVS1, משובץ בכסף סטרלינג 925 בציפוי רודיום. ברק שנשאר, יום אחרי יום.
+          </p>
         </div>
       </div>
     </section>
