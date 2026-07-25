@@ -40,6 +40,8 @@ export default function CardImageCarousel({
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
+  // Touch start point, for detecting a horizontal swipe on touchend.
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   // Nearest-to-centre tracking, measured from rendered geometry so it stays
   // correct under RTL (where scrollLeft goes negative).
@@ -60,10 +62,7 @@ export default function CardImageCarousel({
     setActive(best);
   };
 
-  const goTo = (i: number, e: React.MouseEvent) => {
-    // Inside a <Link>: switch the image, never navigate.
-    e.preventDefault();
-    e.stopPropagation();
+  const scrollToIndex = (i: number) => {
     const el = trackRef.current;
     const slide = el?.children[i] as HTMLElement | undefined;
     if (!el || !slide) return;
@@ -78,9 +77,42 @@ export default function CardImageCarousel({
     // reach the left-hand slide. A direct assignment honours the full range.
     el.scrollLeft += delta;
     // Update the indicator here too: a programmatic scrollLeft change doesn't
-    // reliably fire the scroll event, so the dot wouldn't otherwise track a tap.
-    // (A real swipe fires scroll natively, which onScroll handles.)
+    // reliably fire the scroll event, so the dot wouldn't otherwise track it.
     setActive(i);
+  };
+
+  const goTo = (i: number, e: React.MouseEvent) => {
+    // Inside a <Link>: switch the image, never navigate.
+    e.preventDefault();
+    e.stopPropagation();
+    scrollToIndex(i);
+  };
+
+  // Horizontal-swipe detection. The track's touch-action is pan-y, so the
+  // browser always keeps VERTICAL panning for the page (a downward drag over a
+  // card scrolls the page instantly and is never trapped). Horizontal gestures
+  // are ignored by the browser here, so we read them ourselves on touchend —
+  // and crucially we never call preventDefault, so page scrolling stays fully
+  // native. A moved touch isn't a click, so a swipe won't open the product; a
+  // still tap falls through to the card's <Link>.
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    // Only a clearly-horizontal gesture switches the image; anything with a
+    // meaningful vertical component was a scroll and is left alone.
+    if (Math.abs(dx) < 40 || Math.abs(dx) <= Math.abs(dy)) return;
+    // dx > 0 (finger dragged right) advances toward the next slide, which sits
+    // to the LEFT under RTL; dx < 0 goes back. Clamped to the slide range.
+    const next = Math.min(Math.max(active + (dx > 0 ? 1 : -1), 0), slides.length - 1);
+    if (next !== active) scrollToIndex(next);
   };
 
   return (
@@ -88,7 +120,13 @@ export default function CardImageCarousel({
       <div
         ref={trackRef}
         onScroll={onScroll}
-        className="hide-scrollbar flex h-full w-full snap-x snap-mandatory touch-pan-x select-none overflow-x-auto overflow-y-hidden overscroll-x-contain"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        // touch-pan-y: the page always gets vertical scrolling, so a downward
+        // drag over a card never gets trapped by the carousel. Horizontal swipes
+        // are handled in JS (onTouchEnd) instead of native pan-x, which is what
+        // used to capture diagonal gestures and stall the scroll.
+        className="hide-scrollbar flex h-full w-full snap-x snap-mandatory touch-pan-y select-none overflow-x-auto overflow-y-hidden overscroll-x-contain"
       >
         {slides.map((s, i) => (
           <div key={i} className="relative h-full w-full flex-none snap-center">
