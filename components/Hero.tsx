@@ -19,7 +19,12 @@ export default function Hero() {
           while the video buffers, and it stands in if a browser blocks
           autoplay. Decorative, so aria-hidden and untabbable. */}
       <video
-        className="absolute inset-0 h-full w-full object-cover object-center"
+        // object-position pulled down to 62% (from centre): the portrait clip
+        // is cropped hard in the wide desktop frame, so showing a slightly lower
+        // band lifts the subject/jewellery up and leaves the plainer lower area
+        // (neck/collar) at the bottom, where the copy sits. Barely changes the
+        // near-full mobile crop.
+        className="absolute inset-0 h-full w-full object-cover object-[center_62%]"
         autoPlay
         loop
         muted
