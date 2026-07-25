@@ -56,15 +56,11 @@ export default function Hero() {
           <h1 className="animate-fade-up text-[32px] font-bold leading-[1.15] tracking-tight text-white [text-wrap:balance] [animation-delay:100ms] sm:text-5xl lg:text-6xl">
             מבצע השקה מיוחד – 2+1 על פריטים נבחרים
           </h1>
-          {/* Supporting line — smaller, lighter, airier. Carries the material
-              credentials, so the headline can stay on the offer. */}
-          <p className="mx-auto mt-2.5 max-w-lg animate-fade-up text-[13px] font-light leading-relaxed tracking-wide text-white/85 [animation-delay:300ms] sm:mt-6 sm:text-base">
-            מואסנייט בדרגת D/VVS1, משובץ בכסף סטרלינג 925 בציפוי רודיום. ברק שנשאר, יום אחרי יום.
-          </p>
 
-          {/* Dual CTA — high-contrast, near-square corners, side-by-side with a
-              gap; the two buttons share the row equally on mobile. */}
-          <div className="mt-5 flex animate-fade-up justify-center gap-3 [animation-delay:500ms] sm:mt-10 sm:gap-4">
+          {/* Dual CTA — headline + buttons only (the material subtitle was
+              removed so nothing overlaps the model's face). Generous space below
+              the headline; the two buttons share the row equally on mobile. */}
+          <div className="mt-8 flex animate-fade-up justify-center gap-3 [animation-delay:300ms] sm:mt-11 sm:gap-4">
             <Link
               href="/collections/moissanite"
               className="inline-flex min-h-[48px] flex-1 items-center justify-center whitespace-nowrap rounded-sm bg-white px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-charcoal transition-all duration-300 ease-cinematic hover:-translate-y-0.5 hover:bg-white/90 sm:flex-none sm:px-9"
