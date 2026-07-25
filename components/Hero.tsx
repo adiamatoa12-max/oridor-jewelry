@@ -1,26 +1,36 @@
-import Image from "next/image";
 import Link from "next/link";
 
 /**
  * Full-screen cinematic hero.
  * A single full-bleed container — full viewport height on mobile, 90vh on
- * desktop — with the campaign image as its cover background. A top-to-bottom
- * black gradient guarantees legibility over any image. The content sits low
- * and centred (below the subject's face) with generous padding, so image and
+ * desktop — with a campaign VIDEO as its cover background. A top-to-bottom
+ * black gradient guarantees legibility over any frame. The content sits low
+ * and centred (below the subject's face) with generous padding, so video and
  * copy read as one deliberate, high-end frame.
  */
 export default function Hero() {
   return (
     <section className="relative h-[100svh] min-h-[560px] w-full overflow-hidden bg-mist md:h-[90vh]">
-      {/* Cover background image */}
-      <Image
-        src="/photo/hero-banner.png"
-        alt="קולקציית ההשקה של Oridor: תכשיטי מואסנייט וכסף 925"
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-      />
+      {/* Cover background video — muted + playsInline + autoPlay so it loops
+          silently in the background on every platform (iOS refuses to autoplay
+          without muted AND playsInline). object-cover fills the frame at any
+          viewport; object-center keeps the subject centred as it crops. The
+          poster is the previous hero still, so the first paint is never black
+          while the video buffers, and it stands in if a browser blocks
+          autoplay. Decorative, so aria-hidden and untabbable. */}
+      <video
+        className="absolute inset-0 h-full w-full object-cover object-center"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+        poster="/photo/hero-banner.png"
+        aria-hidden="true"
+        tabIndex={-1}
+      >
+        <source src="/video/post_33.mp4" type="video/mp4" />
+      </video>
 
       {/* Full dark gradient — light at top, heavy at the bottom where the copy
           sits — so the Hebrew stays sharp against any part of the image. */}
