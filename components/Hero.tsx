@@ -49,7 +49,7 @@ export default function Hero() {
           bar + navbar and is a full viewport tall), so the large bottom padding
           both clears the fold and lifts the block off the frame edge + the
           floating widgets. */}
-      <div className="relative z-10 flex h-full items-end justify-center px-6 pb-56 pt-24 sm:px-8 sm:pb-48">
+      <div className="relative z-10 flex h-full items-end justify-center px-6 pb-44 pt-24 sm:px-8 sm:pb-32">
         {/* Narrow, centred column — capped well short of the full width so the
             headline wraps into a tight, tidy block instead of one long line
             (Magnolia-style), leaving the video and model clear around it. */}
