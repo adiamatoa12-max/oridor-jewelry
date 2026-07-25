@@ -32,34 +32,28 @@ export default function Hero() {
         <source src="/video/post_33.mp4" type="video/mp4" />
       </video>
 
-      {/* Full dark gradient — light at top, heavy at the bottom where the copy
-          sits — so the Hebrew stays sharp against any part of the image. */}
+      {/* Overlay — two layers for a clean, professional dim (Magnolia-style):
+          an even black wash that guarantees consistent contrast for the centred
+          white copy wherever the footage is bright, plus a soft top→bottom
+          gradient for cinematic depth at the frame edges. Together the video
+          still reads clearly while the text stays sharp. */}
+      <div aria-hidden="true" className="absolute inset-0 bg-black/40" />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/40 to-black/75"
+        className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/45"
       />
 
-      {/* Content — horizontally centred, anchored to the LOWER portion of the
-          frame rather than the middle, so it never sits over the model's face.
-          The bottom padding keeps it clear of the frame edge and the fixed
-          floating widgets, and it scales up with the viewport. */}
-      {/*
-        The bottom padding is large on purpose. The hero is 100svh tall but it
-        starts BELOW the announcement bar and navbar (~165px), so its bottom
-        edge falls off-screen. Anchoring the copy flush to the hero's bottom
-        would push the CTAs under the fold, so the padding pulls them back into
-        the visible lower third.
-      */}
-      <div className="relative z-10 flex h-full items-end justify-center px-6 pb-56 pt-24 sm:pb-44">
-        <div className="mx-auto max-w-2xl text-center [filter:drop-shadow(0_2px_12px_rgba(0,0,0,0.6))]">
-          {/* Sales headline — extremely bold, compact tracking. No eyebrow
-              label above it: it read "מבצע השקה", repeating the first two words
-              of the headline itself. */}
-          {/* Mobile type is a step smaller than desktop on purpose. The model's
-              face occupies roughly the top 45% of the frame on a portrait
-              viewport, so the copy has to fit between her jaw and the fold; a
-              shorter block is what lets it sit low enough to clear her. */}
-          <h1 className="animate-fade-up text-[28px] font-bold leading-[1.15] tracking-tight text-white [text-wrap:balance] [animation-delay:100ms] sm:text-5xl lg:text-6xl">
+      {/* Content — centred over the video, both axes. The hero sits BELOW the
+          in-flow announcement bar + navbar, so its own mid-point lands a little
+          low on screen; a slightly smaller bottom padding than top pulls the
+          block up to the visible optical centre. Symmetric horizontal padding
+          keeps clean margins on every width. */}
+      <div className="relative z-10 flex h-full items-center justify-center px-6 pt-16 pb-56 sm:px-8 sm:pb-44">
+        <div className="mx-auto max-w-2xl text-center [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.55))]">
+          {/* Sales headline — bold, compact tracking. No eyebrow label above it:
+              it read "מבצע השקה", repeating the first two words of the headline.
+              Scales smoothly from mobile to desktop. */}
+          <h1 className="animate-fade-up text-[32px] font-bold leading-[1.15] tracking-tight text-white [text-wrap:balance] [animation-delay:100ms] sm:text-5xl lg:text-6xl">
             מבצע השקה מיוחד – 2+1 על פריטים נבחרים
           </h1>
           {/* Supporting line — smaller, lighter, airier. Carries the material
