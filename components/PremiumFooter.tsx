@@ -35,8 +35,10 @@ const LEGAL_LINKS: { label: string; href: string; external?: boolean }[] = [
 ];
 
 /**
- * Premium site footer — strict RTL four-column grid, refined typography,
- * minimalist newsletter, social + payment trust signals.
+ * Premium site footer — a deep near-black surface (bg-ink) with light, airy
+ * typography and gold accents, for a clean, high-end break at the foot of the
+ * page. Strict RTL four-column grid; the link columns collapse to accordions on
+ * mobile. Social + payment trust signals sit in the bottom bar.
  */
 export default function PremiumFooter() {
   // Which link column is expanded on mobile (accordion). Only one open at a
@@ -46,25 +48,25 @@ export default function PremiumFooter() {
     setOpenSection((cur) => (cur === title ? null : title));
 
   return (
-    <footer dir="rtl" className="bg-canvas text-charcoal">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-12 px-6 py-16 text-right sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-16">
+    <footer dir="rtl" className="bg-ink text-platinum/70">
+      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 gap-y-10 px-6 py-16 text-right sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-16 lg:py-20">
         {/* Brand — first visual column on the right */}
         <div>
-          <span className="text-2xl font-light uppercase tracking-brand text-charcoal">
+          <span className="text-2xl font-light uppercase tracking-brand text-cream">
             Oridor
           </span>
-          <p className="mt-5 max-w-xs text-sm font-light leading-relaxed text-ash">
+          <p className="mt-5 max-w-xs text-sm font-light leading-relaxed text-platinum/55">
             תכשיטים על-זמניים המעוצבים מתוך אהבה לאסתטיקה נקייה ויוקרה יומיומית.
           </p>
 
           {/* Socials */}
-          <div className="mt-6 flex items-center gap-3">
+          <div className="mt-7 flex items-center gap-3">
             <a
               href="https://www.instagram.com/oridor.jewelry"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="אינסטגרם"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-platinum/70 text-ash transition-colors duration-300 hover:border-black hover:text-black"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-platinum/70 transition-colors duration-300 hover:border-gold hover:text-gold"
             >
               <Instagram size={16} strokeWidth={1.5} />
             </a>
@@ -73,7 +75,7 @@ export default function PremiumFooter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="טיקטוק"
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-platinum/70 text-ash transition-colors duration-300 hover:border-black hover:text-black"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-platinum/70 transition-colors duration-300 hover:border-gold hover:text-gold"
             >
               <TikTokIcon />
             </a>
@@ -98,36 +100,37 @@ export default function PremiumFooter() {
 
         {/* Newsletter */}
         <div>
-          <h3 className="text-[13px] font-semibold uppercase tracking-[0.12em] text-charcoal">
+          <h3 className="text-[12px] font-medium uppercase tracking-[0.2em] text-cream">
             הצטרפי למועדון
           </h3>
-          <p className="mt-4 text-sm font-light leading-relaxed text-ash">
+          <p className="mt-4 text-sm font-light leading-relaxed text-platinum/55">
             קבלי 10% הנחה על ההזמנה הראשונה.
           </p>
-          <form
-            className="group mt-6 flex items-center gap-3 border-b border-platinum pb-2 transition-colors focus-within:border-black"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="email"
-              required
-              placeholder="כתובת אימייל"
-              aria-label="כתובת אימייל"
-              className="w-full bg-transparent text-sm font-light text-charcoal placeholder:text-ash focus:outline-none"
-            />
-            <button
-              type="submit"
-              aria-label="הרשמה לניוזלטר"
-              className="-me-2 inline-flex h-11 w-11 shrink-0 items-center justify-center text-ash transition-colors duration-300 hover:text-black"
-            >
-              <ArrowLeft size={18} strokeWidth={1.5} />
-            </button>
+          <form className="mt-6" onSubmit={(e) => e.preventDefault()}>
+            {/* Underline field with a distinct gold submit button — the line
+                lifts to gold on focus, the button fills gold on hover. */}
+            <div className="group flex items-center gap-2 border-b border-white/20 pb-2.5 transition-colors focus-within:border-gold">
+              <input
+                type="email"
+                required
+                placeholder="כתובת אימייל"
+                aria-label="כתובת אימייל"
+                className="w-full bg-transparent text-sm font-light text-cream placeholder:text-platinum/40 focus:outline-none"
+              />
+              <button
+                type="submit"
+                aria-label="הרשמה לניוזלטר"
+                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/50 text-gold transition-all duration-300 hover:bg-gold hover:text-ink"
+              >
+                <ArrowLeft size={16} strokeWidth={1.5} />
+              </button>
+            </div>
           </form>
         </div>
       </div>
 
       {/* Bottom bar — legal links, then copyright + accepted payment methods */}
-      <div className="border-t border-platinum/60">
+      <div className="border-t border-white/10">
         <div className="mx-auto max-w-7xl px-6 py-6 sm:px-10 lg:px-16">
           {/* Legal row — slim, centered, middot-separated. Wraps cleanly on
               narrow screens; each link keeps a comfortable tap target. */}
@@ -135,7 +138,7 @@ export default function PremiumFooter() {
             {LEGAL_LINKS.map((link, i) => (
               <li key={link.href} className="flex items-center gap-x-1.5">
                 {i > 0 && (
-                  <span aria-hidden="true" className="text-platinum/70">
+                  <span aria-hidden="true" className="text-white/20">
                     ·
                   </span>
                 )}
@@ -144,14 +147,14 @@ export default function PremiumFooter() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex min-h-[32px] items-center px-1 text-xs font-light text-ash transition-colors duration-300 hover:text-charcoal"
+                    className="inline-flex min-h-[32px] items-center px-1 text-xs font-light text-platinum/50 transition-colors duration-300 hover:text-cream"
                   >
                     {link.label}
                   </a>
                 ) : (
                   <Link
                     href={link.href}
-                    className="inline-flex min-h-[32px] items-center px-1 text-xs font-light text-ash transition-colors duration-300 hover:text-charcoal"
+                    className="inline-flex min-h-[32px] items-center px-1 text-xs font-light text-platinum/50 transition-colors duration-300 hover:text-cream"
                   >
                     {link.label}
                   </Link>
@@ -160,8 +163,8 @@ export default function PremiumFooter() {
             ))}
           </ul>
 
-          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
-            <p className="text-xs font-light text-ash">
+          <div className="flex flex-col items-center justify-between gap-5 sm:flex-row">
+            <p className="text-xs font-light text-platinum/45">
               © 2026 Oridor. כל הזכויות שמורות.
             </p>
             <PaymentIcons />
@@ -185,7 +188,7 @@ function FooterColumn({
 }) {
   return (
     // A hairline divider separates sections on mobile only; desktop is borderless.
-    <div className="border-b border-platinum/50 sm:border-b-0">
+    <div className="border-b border-white/10 sm:border-b-0">
       {/*
         Title row. On mobile it's a real toggle button with a flipping chevron.
         From sm: up it's a static, non-interactive heading (pointer-events-none,
@@ -197,14 +200,14 @@ function FooterColumn({
         aria-expanded={isOpen}
         className="flex min-h-[52px] w-full items-center justify-between text-start sm:pointer-events-none sm:min-h-0 sm:cursor-default"
       >
-        <h3 className="text-[13px] font-semibold uppercase tracking-[0.12em] text-charcoal">
+        <h3 className="text-[12px] font-medium uppercase tracking-[0.2em] text-cream">
           {title}
         </h3>
         <ChevronDown
           size={18}
           strokeWidth={1.5}
           aria-hidden="true"
-          className={`text-graphite transition-transform duration-300 sm:hidden ${
+          className={`text-platinum/50 transition-transform duration-300 sm:hidden ${
             isOpen ? "rotate-180" : ""
           }`}
         />
@@ -212,10 +215,10 @@ function FooterColumn({
 
       {/*
         Sub-links. Hidden on mobile unless this section is open; always visible
-        from sm: up (with the original mt-4 spacing) so desktop is unchanged.
+        from sm: up (with generous spacing) so desktop is unchanged.
       */}
       <ul
-        className={`space-y-1 pb-4 sm:mt-4 sm:block sm:pb-0 ${
+        className={`space-y-1 pb-4 sm:mt-5 sm:block sm:pb-0 ${
           isOpen ? "block" : "hidden"
         }`}
       >
@@ -223,7 +226,7 @@ function FooterColumn({
           <li key={link.href}>
             <Link
               href={link.href}
-              className="inline-flex min-h-[44px] items-center text-sm font-light text-ash transition-colors duration-300 hover:text-black"
+              className="inline-flex min-h-[44px] items-center text-sm font-light text-platinum/60 transition-colors duration-300 hover:text-cream"
             >
               {link.label}
             </Link>
@@ -243,24 +246,40 @@ function TikTokIcon() {
   );
 }
 
-/** Subtle, monochrome accepted-payment badges. */
+/**
+ * Accepted-payment badges — crisp, uniform light-on-dark tiles. Kept monochrome
+ * (not brand colours) so the row reads calm and premium against the dark footer
+ * rather than busy. Visa · Mastercard · Apple Pay · Bit.
+ */
 function PaymentIcons() {
-  const box =
-    "inline-flex h-6 w-9 items-center justify-center rounded border border-platinum/70 bg-canvas text-ash";
+  const tile =
+    "inline-flex h-7 w-[46px] items-center justify-center rounded-md border border-white/10 bg-white/[0.05] text-cream";
   return (
     <div className="flex items-center gap-2" aria-label="אמצעי תשלום מקובלים">
-      <span className={`${box} text-[8px] font-bold italic tracking-tight`}>VISA</span>
-      <span className={box} aria-label="Mastercard">
+      {/* Visa */}
+      <span className={`${tile} text-[10px] font-bold italic tracking-tight`} aria-label="Visa">
+        VISA
+      </span>
+
+      {/* Mastercard — two overlapping discs */}
+      <span className={tile} aria-label="Mastercard">
         <span className="flex">
-          <span className="h-2.5 w-2.5 rounded-full bg-platinum" />
-          <span className="-ms-1 h-2.5 w-2.5 rounded-full bg-platinum" />
+          <span className="h-3 w-3 rounded-full bg-platinum/90" />
+          <span className="-ms-1.5 h-3 w-3 rounded-full bg-platinum/45" />
         </span>
       </span>
-      <span className={`${box} gap-0.5 text-[8px] font-semibold`}>
-        <svg width="7" height="8" viewBox="0 0 14 17" fill="currentColor" aria-hidden="true">
+
+      {/* Apple Pay */}
+      <span className={`${tile} gap-[3px] text-[10px] font-medium`} aria-label="Apple Pay">
+        <svg width="8" height="9" viewBox="0 0 14 17" fill="currentColor" aria-hidden="true">
           <path d="M11.2 9c0-1.6 1.3-2.4 1.4-2.4-.8-1.1-2-1.3-2.4-1.3-1-.1-2 .6-2.5.6s-1.3-.6-2.2-.6C4 5.3 3 6 2.4 7.1c-1.2 2.1-.3 5.2.9 6.9.6.8 1.3 1.8 2.2 1.8.9 0 1.2-.6 2.3-.6s1.4.6 2.3.6c1 0 1.6-.9 2.2-1.7.7-1 1-2 1-2-.1 0-1.9-.8-1.9-2.1zM9.6 3.9c.5-.6.8-1.4.7-2.3-.7 0-1.6.5-2.1 1.1-.5.5-.9 1.4-.8 2.2.8.1 1.6-.4 2.2-1z" />
         </svg>
         Pay
+      </span>
+
+      {/* Bit (Israeli payment app) */}
+      <span className={`${tile} text-[11px] font-bold lowercase tracking-tight`} aria-label="Bit">
+        bit
       </span>
     </div>
   );
