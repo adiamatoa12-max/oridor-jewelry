@@ -144,30 +144,29 @@ export default function CartDrawer() {
         }`}
       />
 
-      {/* Drawer panel — anchored to the left (inline-end in RTL) */}
+      {/* Drawer panel — anchored to the RIGHT (inline-start in RTL) and sliding
+          in from the right, the standard side for Hebrew storefronts. */}
       <aside
         role="dialog"
         aria-modal="true"
-        aria-label="עגלת קניות"
-        className={`absolute end-0 top-0 flex h-full w-full max-w-md flex-col bg-canvas shadow-cardHover transition-transform duration-500 ease-cinematic ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
+        aria-label="סל הקניות"
+        className={`absolute start-0 top-0 flex h-full w-full max-w-md flex-col bg-canvas shadow-cardHover transition-transform duration-500 ease-cinematic ${
+          isOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Header — exclusive "VIP Vault" identity */}
+        {/* Header — clean, classic title + item count */}
         <div className="flex items-center justify-between border-b border-platinum/50 px-6 py-5">
-          <div className="flex items-center gap-2.5">
-            <Lock size={15} strokeWidth={1.5} className="text-gold" />
-            <h2 className="text-base font-medium tracking-wide text-charcoal">
-              הכספת שלך
+          <div className="flex items-baseline gap-2">
+            <h2 className="text-lg font-medium tracking-wide text-charcoal">
+              סל הקניות
             </h2>
-            <span className="rounded-full border border-gold/50 bg-gold/10 px-2 py-0.5 text-[9px] font-semibold tracking-[0.15em] text-gold">
-              VIP
+            <span className="text-sm font-light tabular-nums text-ash">
+              ({count})
             </span>
-            <span className="text-sm font-light text-ash">({count})</span>
           </div>
           <button
             type="button"
-            aria-label="סגירת עגלת הקניות"
+            aria-label="סגירת סל הקניות"
             onClick={closeCart}
             className="-me-2 inline-flex h-11 w-11 items-center justify-center text-charcoal transition-colors hover:text-graphite"
           >
@@ -181,24 +180,16 @@ export default function CartDrawer() {
         {items.length > 0 && (
           <div className="flex-none border-b border-platinum/60 bg-cream px-6 py-4 shadow-[0_6px_16px_-12px_rgba(31,31,31,0.4)]">
             <div className="flex items-center justify-between gap-3">
-              <p className="text-[13px] leading-snug text-charcoal">
+              {/* One tidy line — concise copy so it never wraps awkwardly */}
+              <p className="min-w-0 flex-1 text-[13px] font-medium leading-snug text-charcoal">
                 {unlocked ? (
                   <>
-                    <span className="font-semibold text-gold">
-                      המתנה שלך נפתחה.
-                    </span>{" "}
-                    בחרי את הפריט שתקבלי במתנה מאיתנו, למטה 🎁
+                    <span className="font-semibold text-gold">המתנה נפתחה!</span>{" "}
+                    בחרי אותה למטה 🎁
                   </>
                 ) : (
                   <>
-                    עוד{" "}
-                    <span className="text-xl font-semibold tabular-nums text-gold">
-                      {toGo}
-                    </span>{" "}
-                    <span className="font-medium">
-                      {toGo === 1 ? "פריט" : "פריטים"}
-                    </span>{" "}
-                    והמתנה שלך תיפתח 🎁
+                    עוד {toGo} {toGo === 1 ? "פריט" : "פריטים"} והמתנה שלך תיפתח 🎁
                   </>
                 )}
               </p>
@@ -255,7 +246,7 @@ export default function CartDrawer() {
                 </div>
               ) : (
                 <p className="py-16 text-center text-sm font-light leading-relaxed text-ash">
-                  הכספת שלך ריקה כרגע. הוסיפי פריטים לאוסף שלך.
+                  סל הקניות שלך ריק כרגע. הוסיפי פריטים לאוסף שלך.
                 </p>
               )
             ) : (
@@ -270,12 +261,12 @@ export default function CartDrawer() {
                   return (
                     <li key={item.id} className="flex gap-4 py-5">
                       {/* Product image (right in RTL) */}
-                      <div className="relative aspect-square w-[88px] flex-none overflow-hidden rounded-lg bg-canvas">
+                      <div className="relative aspect-square w-[84px] flex-none overflow-hidden rounded-xl bg-cream ring-1 ring-platinum/40">
                         <Image
                           src={item.image}
                           alt={`${item.title}, תכשיט מבית Oridor`}
                           fill
-                          sizes="88px"
+                          sizes="84px"
                           className="object-cover"
                         />
                       </div>
@@ -284,7 +275,7 @@ export default function CartDrawer() {
                       <div className="flex flex-1 flex-col">
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <h3 className="truncate text-sm font-normal leading-snug text-charcoal">
+                            <h3 className="truncate text-sm font-medium leading-snug text-charcoal">
                               {item.title}
                             </h3>
                             {/* Material · chosen options, e.g.
