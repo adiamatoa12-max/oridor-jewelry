@@ -34,6 +34,14 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
   const [active, setActive] = useState(0);
   const variant = product.variants[active];
 
+  // Any variant image that failed to load. A failed <Image> renders the
+  // browser's broken-image placeholder (the blue question mark on a rose-gold
+  // swatch); instead we fall back to the main product image — the first finish.
+  const [brokenSrcs, setBrokenSrcs] = useState<Set<string>>(() => new Set());
+  const markBroken = (src: string) =>
+    setBrokenSrcs((prev) => (prev.has(src) ? prev : new Set(prev).add(src)));
+  const mainSrc = encodeURI(product.variants[0]?.image_url ?? "");
+
   return (
     <div className="group block bg-transparent transition-[transform,opacity] duration-300 ease-out has-[a:active]:opacity-90 md:hover:-translate-y-1">
       <Link
@@ -44,18 +52,24 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
           className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
         >
           {/* Crossfade between variant images */}
-          {product.variants.map((v, i) => (
-            <Image
-              key={v.image_url}
-              src={encodeURI(v.image_url)}
-              alt={`${product.name}, ${v.color}`}
-              fill
-              sizes="(min-width: 1024px) 25vw, 50vw"
-              className={`${gridImageClass(product.category, { transition: "transition-[opacity,transform] duration-500 ease-cinematic" })} ${
-                i === active ? "opacity-100" : "opacity-0"
-              }`}
-            />
-          ))}
+          {product.variants.map((v, i) => {
+            const raw = encodeURI(v.image_url);
+            // Fall back to the main product image if this finish's file fails.
+            const src = brokenSrcs.has(raw) ? mainSrc : raw;
+            return (
+              <Image
+                key={v.image_url}
+                src={src}
+                alt={`${product.name}, ${v.color}`}
+                fill
+                sizes="(min-width: 1024px) 25vw, 50vw"
+                onError={() => markBroken(raw)}
+                className={`${gridImageClass(product.category, { transition: "transition-[opacity,transform] duration-500 ease-cinematic" })} ${
+                  i === active ? "opacity-100" : "opacity-0"
+                }`}
+              />
+            );
+          })}
         </div>
       </Link>
 

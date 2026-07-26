@@ -42,6 +42,11 @@ export default function CardImageCarousel({
   const [active, setActive] = useState(0);
   // Touch start point, for detecting a horizontal swipe on touchend.
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  // Slides whose image failed to load — shown as the first (main) slide's image
+  // instead of a broken-image placeholder.
+  const [brokenSrcs, setBrokenSrcs] = useState<Set<string>>(() => new Set());
+  const markBroken = (src: string) =>
+    setBrokenSrcs((prev) => (prev.has(src) ? prev : new Set(prev).add(src)));
 
   // Nearest-to-centre tracking, measured from rendered geometry so it stays
   // correct under RTL (where scrollLeft goes negative).
@@ -128,18 +133,22 @@ export default function CardImageCarousel({
         // used to capture diagonal gestures and stall the scroll.
         className="hide-scrollbar flex h-full w-full snap-x snap-mandatory touch-pan-y select-none overflow-x-auto overflow-y-hidden overscroll-x-contain"
       >
-        {slides.map((s, i) => (
-          <div key={i} className="relative h-full w-full flex-none snap-center">
-            <Image
-              src={s.src}
-              alt={alt}
-              fill
-              sizes={sizes}
-              draggable={false}
-              className={s.className}
-            />
-          </div>
-        ))}
+        {slides.map((s, i) => {
+          const src = brokenSrcs.has(s.src) ? slides[0]?.src ?? s.src : s.src;
+          return (
+            <div key={i} className="relative h-full w-full flex-none snap-center">
+              <Image
+                src={src}
+                alt={alt}
+                fill
+                sizes={sizes}
+                draggable={false}
+                onError={() => markBroken(s.src)}
+                className={s.className}
+              />
+            </div>
+          );
+        })}
       </div>
 
       {/* Dot indicators — signal that more images exist, and tap to switch.

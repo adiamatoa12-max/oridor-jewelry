@@ -69,15 +69,30 @@ export default function ProductCard({
   // Multi-colour pieces let the shopper preview each finish in place.
   const hasSwatches = !!variants && variants.length > 1;
   const [activeColor, setActiveColor] = useState(0);
-  const displayImage = hasSwatches ? variants![activeColor].image : image;
+
+  // Any image src that failed to load (missing file, blocked host). A failed
+  // <Image> otherwise renders the browser's broken-image placeholder (the blue
+  // question mark seen on the rose-gold swatch); instead we fall back to the
+  // main product image so a card never shows a broken box.
+  const [brokenSrcs, setBrokenSrcs] = useState<Set<string>>(() => new Set());
+  const markBroken = (src: string) =>
+    setBrokenSrcs((prev) => (prev.has(src) ? prev : new Set(prev).add(src)));
+
+  const selectedImage = hasSwatches ? variants![activeColor].image : image;
+  // Fall back to the main product image if the selected finish's file fails.
+  const displayImage = brokenSrcs.has(selectedImage) ? image : selectedImage;
 
   // Hover image — mapped PER-PRODUCT: the product's own dedicated hover file
   // (secondaryImage) if it has one, otherwise its second colour/finish. When a
   // product has neither, hoverImage is undefined → no hover, so a card defaults
   // to its primary image and never shows a generic/incorrect shot.
-  const hoverImage =
+  const rawHoverImage =
     secondaryImage ??
     (variants && variants.length > 1 ? variants[1].image : undefined);
+  // Drop the hover image if it failed to load — better no cross-fade than a
+  // broken frame flashing in on hover.
+  const hoverImage =
+    rawHoverImage && !brokenSrcs.has(rawHoverImage) ? rawHoverImage : undefined;
 
   // Dedicated hover files are full-bleed lifestyle shots (cover); a second
   // finish is a studio product shot (contain, matching the primary framing).
@@ -135,6 +150,7 @@ export default function ProductCard({
           alt={`${title}, תכשיט כסף מבית Oridor`}
           fill
           sizes={cardImageSizes}
+          onError={() => markBroken(selectedImage)}
           className={`${gridImageClass(category)} ${showMobileCarousel ? "hidden sm:block" : ""}`}
         />
 
@@ -147,6 +163,7 @@ export default function ProductCard({
             alt={`${title}, תמונה נוספת`}
             fill
             sizes={cardImageSizes}
+            onError={() => markBroken(hoverImage)}
             className={`${hoverIsCover ? "object-cover object-center" : gridImageClass(category)} hidden opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 sm:block`}
           />
         )}
