@@ -125,7 +125,7 @@ export default function PromoPopup() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-xs text-sm font-light leading-relaxed text-platinum/70">
-            2+1 על פריטים נבחרים — לזמן מוגבל בלבד.
+            קנה 2 פריטים וקבל תכשיט שלישי במתנה — לזמן מוגבל בלבד.
           </p>
 
           <div className="mt-9 flex flex-col items-center gap-4">
