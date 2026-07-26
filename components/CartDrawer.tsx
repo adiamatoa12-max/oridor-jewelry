@@ -12,17 +12,24 @@ import {
   ShieldCheck,
   Star,
   Tag,
+  Sparkles,
 } from "lucide-react";
 import { useCart } from "./CartContext";
 import { trackInitiateCheckout } from "@/lib/metaPixel";
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
-// "קני 2 פריטים, תכשיט שלישי במתנה" — with 3+ jewellery items in the cart the
-// cheapest one is free (a 100% discount applied by Shopify's automatic
-// "buy 2, get 1 free" rule). The progress bar counts toward 3 items; the free
-// line is detected from the cart's real discount, never hardcoded.
-const GIFT_THRESHOLD = 3;
+// Mystery gift promo: add 2+ jewellery items and a free "מתנה בהפתעה" (mystery
+// gift) is included in the package. A placeholder card is shown in the cart and
+// a fulfillment flag is written to the Shopify cart so the order carries the
+// instruction to pack the gift.
+const GIFT_THRESHOLD = 2;
+
+// Fulfillment flag written to the Shopify cart's custom attributes. It flows to
+// the order (visible under the order's Additional details in Admin), so the
+// store owner knows to include the free mystery gift in the package.
+const MYSTERY_ATTR_KEY = "מתנה בהפתעה";
+const MYSTERY_ATTR_VALUE = "יש לצרף מתנת הפתעה חינם לחבילה 🎁";
 
 /**
  * Slide-out mini cart (RTL) — high-end boutique experience.
@@ -42,6 +49,8 @@ export default function CartDrawer() {
     removeItem,
     checkoutUrl,
     busy,
+    attributes,
+    setAttributes,
   } = useCart();
   // The drawer stays mounted, so reset its scroll to the top each time it opens.
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -49,19 +58,33 @@ export default function CartDrawer() {
     if (isOpen) bodyRef.current?.scrollTo({ top: 0 });
   }, [isOpen]);
 
-  // The free promo item(s): whichever line Shopify has discounted to ₪0 under
-  // the active "buy 2, 3rd (cheapest) free" rule. Read from the cart's own
-  // discount data, so the drawer always matches what checkout will charge —
-  // nothing is added or hardcoded here.
-  const hasFreeItem = items.some((it) => it.isFree);
-
-  // Progress toward the promo. "Buy 2, get the 3rd free" unlocks at 3 items;
-  // `count` is Shopify's total quantity (sum of line quantities). The unlocked
-  // celebration follows the REAL discount (a free line actually present), so the
-  // copy never promises a gift the cart hasn't been given.
+  // Mystery gift unlocks at 2+ items: a placeholder card is shown and the
+  // fulfillment flag is written to the cart. `count` is Shopify's total quantity.
   const progress = Math.min(count, GIFT_THRESHOLD);
   const toGo = Math.max(1, GIFT_THRESHOLD - count);
-  const unlocked = hasFreeItem;
+  const unlocked = count >= GIFT_THRESHOLD;
+
+  // Keep the Shopify cart's fulfillment flag in sync with eligibility: set it
+  // once the shopper reaches the tier, clear it if the cart drops below. The ref
+  // guards against firing twice before the mutation settles (mutations queue).
+  const attrHasMystery = attributes.some((a) => a.key === MYSTERY_ATTR_KEY);
+  const attrActionRef = useRef(false);
+  useEffect(() => {
+    if (busy || attrActionRef.current || !checkoutUrl) return;
+    if (unlocked && !attrHasMystery) {
+      attrActionRef.current = true;
+      setAttributes([
+        ...attributes.filter((a) => a.key !== MYSTERY_ATTR_KEY),
+        { key: MYSTERY_ATTR_KEY, value: MYSTERY_ATTR_VALUE },
+      ]);
+    } else if (!unlocked && attrHasMystery) {
+      attrActionRef.current = true;
+      setAttributes(attributes.filter((a) => a.key !== MYSTERY_ATTR_KEY));
+    }
+  }, [unlocked, attrHasMystery, attributes, busy, checkoutUrl, setAttributes]);
+  useEffect(() => {
+    if (!busy) attrActionRef.current = false;
+  }, [busy]);
 
   // Footer savings callout: the promo discount (the free item's value) plus any
   // per-line sale discounts.
@@ -78,10 +101,11 @@ export default function CartDrawer() {
   // automatic discount — the free item is ₪0 in this total, so no manual math.
   const displaySubtotal = subtotal;
 
-  // Paid items first, any free promo item pinned last so it reads as a bonus.
-  const orderedItems = hasFreeItem
-    ? [...items.filter((it) => !it.isFree), ...items.filter((it) => it.isFree)]
-    : items;
+  // Paid items first; any Shopify-discounted free line pinned last as a bonus.
+  const orderedItems = [
+    ...items.filter((it) => !it.isFree),
+    ...items.filter((it) => it.isFree),
+  ];
 
   return (
     <div
@@ -137,12 +161,12 @@ export default function CartDrawer() {
                 {unlocked ? (
                   <>
                     <span className="font-semibold text-gold">יש!</span>{" "}
-                    הפריט הזול בסל שלך עכשיו במתנה 🎁
+                    מתנת ההפתעה שלך מצורפת לחבילה 🎁
                   </>
                 ) : (
                   <>
-                    עוד {toGo} {toGo === 1 ? "פריט" : "פריטים"} וקבלי תכשיט שלישי
-                    במתנה 🎁
+                    עוד {toGo} {toGo === 1 ? "פריט" : "פריטים"} וקבלי מתנה בהפתעה
+                    🎁
                   </>
                 )}
               </p>
@@ -351,6 +375,47 @@ export default function CartDrawer() {
                     </li>
                   );
                 })}
+
+                {/* Mystery gift — a placeholder promo card (not a Shopify line):
+                    shown once the shopper reaches the tier. The real fulfillment
+                    signal is the cart attribute written above; this card is the
+                    shopper-facing "you've earned a free surprise" cue. */}
+                {unlocked && (
+                  <li className="flex gap-4 py-5">
+                    {/* Wrapped-gift tile with a "?" to signal a surprise */}
+                    <div className="relative flex aspect-square w-[84px] flex-none items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-gold/25 via-gold/10 to-transparent ring-1 ring-gold/30">
+                      <Gift size={30} strokeWidth={1.5} className="text-gold" />
+                      <span className="absolute end-1.5 top-1.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full bg-gold text-[11px] font-bold text-[#0a0a0a]">
+                        ?
+                      </span>
+                    </div>
+
+                    <div className="flex flex-1 flex-col">
+                      <div className="min-w-0">
+                        <h3 className="text-sm font-medium leading-snug text-charcoal">
+                          מתנה בהפתעה 🎁
+                        </h3>
+                        <p className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium text-gold">
+                          <Sparkles size={12} strokeWidth={2} />
+                          הפתעה מאיתנו, נבחרת במיוחד עבורך
+                        </p>
+                      </div>
+
+                      <div className="mt-1.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+                        <span className="text-sm font-semibold text-emerald-600">
+                          {formatPrice(0)}
+                        </span>
+                        <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">
+                          חינם
+                        </span>
+                      </div>
+
+                      <p className="mt-auto pt-3 text-[11px] font-light text-ash">
+                        תצורף לחבילה שלך — הפתעה 🤍
+                      </p>
+                    </div>
+                  </li>
+                )}
               </ul>
             )}
           </div>

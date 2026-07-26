@@ -436,6 +436,9 @@ export interface ShopifyCart {
   subtotal: number;
   currencyCode: string;
   lines: ShopifyCartLine[];
+  /** Custom cart attributes — flow through to the order (visible in Admin), used
+   *  e.g. to flag that a free mystery gift must be packed. */
+  attributes: { key: string; value: string }[];
 }
 
 const CART_FRAGMENT = /* GraphQL */ `
@@ -443,6 +446,7 @@ const CART_FRAGMENT = /* GraphQL */ `
     id
     checkoutUrl
     totalQuantity
+    attributes { key value }
     cost { subtotalAmount { amount currencyCode } }
     lines(first: 100) {
       edges {
@@ -473,6 +477,7 @@ interface CartNode {
   id: string;
   checkoutUrl: string;
   totalQuantity: number;
+  attributes: { key: string; value: string }[];
   cost: { subtotalAmount: MoneyV2 };
   lines: {
     edges: {
@@ -506,6 +511,7 @@ function normalizeCart(node: CartNode): ShopifyCart {
     totalQuantity: node.totalQuantity,
     subtotal: parseFloat(node.cost.subtotalAmount.amount),
     currencyCode: node.cost.subtotalAmount.currencyCode,
+    attributes: node.attributes ?? [],
     lines: node.lines.edges.map(({ node: l }) => ({
       id: l.id,
       quantity: l.quantity,
@@ -634,6 +640,31 @@ export async function removeCartLine(
     { cache: "no-store" },
   );
   return normalizeCart(data.cartLinesRemove.cart);
+}
+
+/**
+ * Replace the cart's custom attributes. Used to flag fulfillment instructions
+ * (e.g. "include a free mystery gift") that flow through to the Shopify order,
+ * where the store owner can see them under the order's Additional details.
+ */
+export async function updateCartAttributes(
+  cartId: string,
+  attributes: { key: string; value: string }[],
+): Promise<ShopifyCart> {
+  const data = await shopifyFetch<{ cartAttributesUpdate: { cart: CartNode } }>(
+    /* GraphQL */ `
+      ${CART_FRAGMENT}
+      mutation CartAttributesUpdate($cartId: ID!, $attributes: [AttributeInput!]!) {
+        cartAttributesUpdate(cartId: $cartId, attributes: $attributes) {
+          cart { ...CartFields }
+          userErrors { message }
+        }
+      }
+    `,
+    { cartId, attributes },
+    { cache: "no-store" },
+  );
+  return normalizeCart(data.cartAttributesUpdate.cart);
 }
 
 /** Fetch an existing cart by id. Returns null if it no longer exists. */

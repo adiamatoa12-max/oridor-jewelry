@@ -14,6 +14,7 @@ import {
   addCartLines,
   updateCartLine,
   removeCartLine,
+  updateCartAttributes,
   getCart,
   getFirstVariantId,
   isShopifyConfigured,
@@ -68,6 +69,10 @@ interface CartContextValue {
   /** Set an absolute quantity for a cart line. */
   updateQuantity: (lineId: string, quantity: number) => void;
   removeItem: (lineId: string) => void;
+  /** Current custom cart attributes (flow through to the Shopify order). */
+  attributes: { key: string; value: string }[];
+  /** Replace the cart's custom attributes (e.g. the mystery-gift flag). */
+  setAttributes: (attrs: { key: string; value: string }[]) => void;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -185,6 +190,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     [run],
   );
 
+  const setAttributes = useCallback(
+    (attrs: { key: string; value: string }[]) => {
+      const current = cartRef.current;
+      if (!current) return;
+      run(() => updateCartAttributes(current.id, attrs));
+    },
+    [run],
+  );
+
   const value = useMemo<CartContextValue>(() => {
     /**
      * "Material · chosen options" for the cart line, e.g.
@@ -234,8 +248,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       addByHandle,
       updateQuantity,
       removeItem,
+      attributes: cart?.attributes ?? [],
+      setAttributes,
     };
-  }, [isOpen, cart, busy, addVariant, addByHandle, updateQuantity, removeItem]);
+  }, [
+    isOpen,
+    cart,
+    busy,
+    addVariant,
+    addByHandle,
+    updateQuantity,
+    removeItem,
+    setAttributes,
+  ]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 }
