@@ -2,23 +2,38 @@ import type { Metadata } from "next";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
-import MoissaniteGrid, { type MoissaniteProduct } from "@/components/MoissaniteGrid";
+import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
-import products from "@/data/moissanite_collection.json";
+import {
+  buildUnifiedCatalog,
+  applyLiveStatus,
+  sortByPriceAsc,
+  COLLECTION_MOISSANITE,
+} from "@/lib/catalog";
+import { getLivePriceMap } from "@/lib/shopify";
 
 export const metadata: Metadata = {
   title: { absolute: "קולקציית הטניס | צמידים ושרשראות זוהרים | Oridor" },
   description:
-    "צמידי ושרשראות טניס: שורת אבני מואסנייט רציפה בכסף 925 מצופה רודיום. קלאסיקה נוצצת שלא יוצאת מהאופנה. משלוח חינם ואחריות מלאה.",
+    "צמידי ושרשראות טניס בכסף סטרלינג 925 בציפוי רודיום — משובצים במואסנייט ובאבני חן נוצצות. שורת ברק רציפה, קלאסיקה שלא יוצאת מהאופנה. משלוח חינם ואחריות מלאה.",
   alternates: { canonical: "/collections/tennis" },
 };
 
-// Only true tennis pieces — items whose name contains 'טניס'.
-const tennis = (products as MoissaniteProduct[]).filter((p) =>
-  p.name.includes("טניס"),
-);
+// Re-fetch live Shopify prices at most every 2 min (ISR).
+export const revalidate = 120;
 
-export default function TennisCollectionPage() {
+export default async function TennisCollectionPage() {
+  const live = await getLivePriceMap();
+  // Every tennis piece across the whole catalogue — moissanite AND silver 925 —
+  // not just the moissanite listings. Built from the unified catalog so each
+  // item keeps its own collection route and price; sorted cheapest-first like
+  // the rest of the store.
+  const tennis = sortByPriceAsc(
+    applyLiveStatus(buildUnifiedCatalog(), live).filter((p) =>
+      p.title.includes("טניס"),
+    ),
+  );
+
   return (
     <main>
       <AnnouncementBar />
@@ -31,11 +46,31 @@ export default function TennisCollectionPage() {
             קולקציית הטניס
           </h1>
           <p className="mx-auto mt-4 max-w-md text-sm font-light text-graphite">
-            צמידים ושרשראות טניס: שורה רציפה של אבני מואסנייט בכסף 925 מצופה רודיום. קלאסיקה שלא יוצאת מהאופנה.
+            צמידים ושרשראות טניס בכסף סטרלינג 925 בציפוי רודיום, משובצים במואסנייט ובאבני חן נוצצות. קלאסיקה שלא יוצאת מהאופנה.
           </p>
         </header>
 
-        <Reveal><MoissaniteGrid products={tennis} layout="grid" /></Reveal>
+        <Reveal>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-10">
+            {tennis.map((p) => (
+              <ProductCard
+                key={p.id}
+                image={p.image}
+                secondaryImage={p.secondaryImage}
+                handle={p.handle}
+                href={p.href}
+                fit={p.fit}
+                category={p.category}
+                title={p.title}
+                price={p.price}
+                priceLabel={`₪${p.price.toLocaleString("he-IL")}`}
+                compareAt={p.compareAtPrice}
+                variants={p.variants}
+                isMoissanite={p.collection === COLLECTION_MOISSANITE}
+              />
+            ))}
+          </div>
+        </Reveal>
 
         <p className="mt-14 text-center text-xs font-light tracking-wide text-ash">
           {tennis.length} {tennis.length === 1 ? "פריט" : "פריטים"}
