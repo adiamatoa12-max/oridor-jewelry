@@ -1,11 +1,6 @@
 import type { Metadata } from "next";
 import { jsonLdHtml } from "@/lib/seo";
-import {
-  Assistant,
-  Montserrat,
-  Cormorant_Garamond,
-  Frank_Ruhl_Libre,
-} from "next/font/google";
+import { Rubik } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
@@ -13,39 +8,12 @@ import AccessibilityWidget from "@/components/AccessibilityWidget";
 import MetaPixel from "@/components/MetaPixel";
 import PromoPopup from "@/components/PromoPopup";
 
-// Body sans — Hebrew-complete companion behind Montserrat (renders Hebrew copy).
-const assistant = Assistant({
+// Site-wide font — Rubik. One clean, modern, highly legible sans that covers
+// both Hebrew and Latin, used for every role (headings, body, buttons, prices).
+const rubik = Rubik({
   subsets: ["hebrew", "latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-assistant",
-  display: "swap",
-});
-
-// Primary body face (Latin). Renders English/numerals; Assistant covers Hebrew.
-const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-montserrat",
-  display: "swap",
-});
-
-// Primary heading face (Latin) — Cormorant Garamond, a delicate, high-contrast
-// old-style serif for a refined luxury feel. Renders the "Oridor" wordmark,
-// English accents and numerals; Frank Ruhl Libre covers Hebrew.
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
-  display: "swap",
-});
-
-// Editorial display serif — Hebrew-complete, renders Hebrew headings behind
-// Cormorant Garamond in the stack.
-const frankRuhl = Frank_Ruhl_Libre({
-  subsets: ["hebrew", "latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-display",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-rubik",
   display: "swap",
 });
 
@@ -113,7 +81,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="he" dir="rtl" className={`${assistant.variable} ${montserrat.variable} ${cormorant.variable} ${frankRuhl.variable}`}>
+    <html lang="he" dir="rtl" className={rubik.variable}>
       <body>
         <MetaPixel />
         <script

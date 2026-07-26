@@ -15,7 +15,7 @@ const OFFER_HREF = "/shop";
 
 /**
  * Promotional popup — a clean, responsive modal on the dark brand surface
- * (ink + gold, Cormorant/Frank Ruhl heading). Auto-opens once per session and
+ * (ink + gold, Rubik heading). Auto-opens once per session and
  * can also be opened by dispatching PROMO_OPEN_EVENT from any button. Closes on
  * the ✕, the backdrop, Esc, or "לא תודה". Mounted once, globally, in the layout.
  */

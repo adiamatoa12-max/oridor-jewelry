@@ -41,23 +41,12 @@ const config: Config = {
         ash: "#6B6B6B",           // muted / captions
       },
       fontFamily: {
-        // Montserrat renders Latin; Assistant covers Hebrew glyphs behind it.
-        sans: [
-          "var(--font-montserrat)",
-          "var(--font-assistant)",
-          "ui-sans-serif",
-          "system-ui",
-          "sans-serif",
-        ],
-        serif: ["var(--font-cormorant)", "ui-serif", "Georgia", "serif"],
-        // Luxury headings — Cormorant Garamond for Latin, Frank Ruhl Libre for Hebrew.
-        display: [
-          "var(--font-cormorant)",
-          "var(--font-display)",
-          "ui-serif",
-          "Georgia",
-          "serif",
-        ],
+        // Rubik everywhere — one clean modern sans for Hebrew + Latin. `serif`
+        // and `display` intentionally resolve to Rubik too, so any font-serif /
+        // font-display usage stays on-brand rather than falling back to a serif.
+        sans: ["var(--font-rubik)", "ui-sans-serif", "system-ui", "sans-serif"],
+        serif: ["var(--font-rubik)", "ui-sans-serif", "system-ui", "sans-serif"],
+        display: ["var(--font-rubik)", "ui-sans-serif", "system-ui", "sans-serif"],
       },
       letterSpacing: {
         brand: "0.35em",

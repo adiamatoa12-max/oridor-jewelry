@@ -36,8 +36,8 @@
     max-width: 100%;
     overflow-x: hidden;
     overflow-x: clip;
-    /* Montserrat/Assistant body — 16px minimum, airy leading + a whisper of
-       tracking so long Hebrew copy breathes and scrolls comfortably on mobile. */
+    /* Rubik body — 16px minimum, airy leading + a whisper of tracking so long
+       Hebrew copy breathes and scrolls comfortably on mobile. */
     font-size: 1rem;
     line-height: 1.7;
     letter-spacing: 0.01em;
@@ -56,17 +56,16 @@
     line-height: 1.75;
   }
 
-  /* LARGE main titles only — the refined serif (Cormorant Garamond + Frank Ruhl
-     Libre), with airy tracking and a touch more leading so multi-line titles
-     never read cramped. */
+  /* Headings are Rubik (like everything else). Large titles get airier tracking
+     and a touch more leading so multi-line titles never read cramped. */
   h1, h2 {
-    @apply font-display text-charcoal font-medium;
+    @apply font-sans text-charcoal font-medium;
     letter-spacing: 0.04em;
     line-height: 1.25;
   }
 
-  /* Sub-headings / product titles — the clean modern sans, not the serif, so
-     they stay light and highly legible at small sizes. */
+  /* Sub-headings / product titles — Rubik, medium, tighter tracking and
+     comfortable leading for crisp legibility at small sizes. */
   h3, h4, h5, h6 {
     @apply font-sans text-charcoal font-medium;
     letter-spacing: 0.015em;
