@@ -185,7 +185,7 @@ export default function PromoPopup() {
               </h2>
 
               <p className="mx-auto mt-4 max-w-xs text-sm font-light leading-relaxed text-platinum/70">
-                סט מואסנייט יוקרתי במתנה — לזמן מוגבל בלבד.
+                כל קנייה באתר מכניסה אותך אוטומטית להגרלה על סט מואסנייט יוקרתי במתנה! ✨
               </p>
 
               <div className="mt-9 flex flex-col items-center gap-4">
@@ -202,7 +202,7 @@ export default function PromoPopup() {
                   onClick={close}
                   className="text-xs font-light tracking-wide text-platinum/50 underline decoration-platinum/30 underline-offset-4 transition-colors duration-300 hover:text-platinum hover:decoration-platinum/60"
                 >
-                  לא תודה, אוותר על המתנה
+                  לא תודה, מוותרת על ההגרלה
                 </button>
               </div>
             </>
