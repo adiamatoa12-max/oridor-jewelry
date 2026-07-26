@@ -185,7 +185,7 @@ export default function PromoPopup() {
               </h2>
 
               <p className="mx-auto mt-4 max-w-xs text-sm font-light leading-relaxed text-platinum/70">
-                קני 2 פריטים וקבלי תכשיט שלישי במתנה — לזמן מוגבל בלבד.
+                סט מואסנייט יוקרתי במתנה — לזמן מוגבל בלבד.
               </p>
 
               <div className="mt-9 flex flex-col items-center gap-4">
@@ -202,7 +202,7 @@ export default function PromoPopup() {
                   onClick={close}
                   className="text-xs font-light tracking-wide text-platinum/50 underline decoration-platinum/30 underline-offset-4 transition-colors duration-300 hover:text-platinum hover:decoration-platinum/60"
                 >
-                  לא תודה, אשלם מחיר מלא
+                  לא תודה, אוותר על המתנה
                 </button>
               </div>
             </>
@@ -218,7 +218,7 @@ export default function PromoPopup() {
               </h2>
 
               <p className="mx-auto mt-4 max-w-xs text-sm font-light leading-relaxed text-platinum/70">
-                השאירי אימייל או טלפון ונפתח לך את מבצע 2+1 מיד.
+                השאירי אימייל או טלפון ונשלח לך את פרטי המתנה מיד.
               </p>
 
               <form onSubmit={submitLead} className="mt-8 flex flex-col items-center gap-4" noValidate>
