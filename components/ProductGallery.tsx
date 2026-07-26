@@ -33,6 +33,13 @@ export default function ProductGallery({
   const [active, setActive] = useState(0);
   const [zoom, setZoom] = useState(false);
   const [origin, setOrigin] = useState("50% 50%");
+  // Srcs that failed to load (404, blocked host, broken variant image). A
+  // failed image would otherwise render as a blank white box; instead we fall
+  // back to the first image that still loads (the main product photo).
+  const [brokenSrcs, setBrokenSrcs] = useState<Set<string>>(() => new Set());
+  const markBroken = useCallback((src: string) => {
+    setBrokenSrcs((prev) => (prev.has(src) ? prev : new Set(prev).add(src)));
+  }, []);
   const frameRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const thumbsRef = useRef<HTMLDivElement>(null);
@@ -63,9 +70,15 @@ export default function ProductGallery({
       ? sync.activeSrc
       : null;
 
-  const current: GalleryImage | undefined = overrideSrc
+  const rawCurrent: GalleryImage | undefined = overrideSrc
     ? { src: overrideSrc, alt: gallery[0]?.alt ?? "" }
     : gallery[active] ?? gallery[0];
+
+  // Clean fallback: if the chosen image failed to load, show the first image
+  // that still works (the main product photo) rather than a blank frame.
+  const firstGood = gallery.find((g) => !brokenSrcs.has(g.src)) ?? gallery[0];
+  const current: GalleryImage | undefined =
+    rawCurrent && !brokenSrcs.has(rawCurrent.src) ? rawCurrent : firstGood;
 
   /** Per-image fit, falling back to the collection default. */
   const fitOf = (img?: GalleryImage) => img?.fit ?? fit;
@@ -196,13 +209,19 @@ export default function ProductGallery({
           //    makes a drag feel like it "grabbed" the photo.
           className="hide-scrollbar flex w-full select-none snap-x snap-mandatory touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain rounded-2xl sm:hidden"
         >
-          {gallery.map((img) => (
+          {gallery.map((img) => {
+            // A broken slide would otherwise show a blank frame; fall back to
+            // the first image that still loads (the main product photo).
+            const slideSrc = brokenSrcs.has(img.src)
+              ? firstGood?.src ?? img.src
+              : img.src;
+            return (
             <div
               key={img.src}
               className="relative aspect-[4/5] w-full flex-none snap-center bg-cream ring-1 ring-platinum/40"
             >
               <Image
-                src={img.src}
+                src={slideSrc}
                 alt={img.alt}
                 fill
                 priority={img.src === gallery[0]?.src}
@@ -210,6 +229,7 @@ export default function ProductGallery({
                 // press-and-move, which fights the scroller and is what makes
                 // the swipe feel loose rather than locked to the track.
                 draggable={false}
+                onError={() => markBroken(img.src)}
                 // Deliberately over-stated vs the slide's own width. The frame
                 // is 4:5 portrait, so a LANDSCAPE shot under object-cover is
                 // scaled up until it fills the height, rendering ~1.5x wider
@@ -221,7 +241,8 @@ export default function ProductGallery({
                 }`}
               />
             </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* DESKTOP — main image with hover-to-zoom. */}
@@ -238,6 +259,7 @@ export default function ProductGallery({
             alt={current.alt}
             fill
             priority
+            onError={() => markBroken(current.src)}
             // Over-stated like the mobile slide: the 4:5 portrait frame crops a
             // landscape shot under object-cover, and hovering zooms to 1.7x, so
             // the rendered pixels far exceed the frame's own width.
@@ -310,6 +332,7 @@ export default function ProductGallery({
                   fill
                   sizes="80px"
                   draggable={false}
+                  onError={() => markBroken(img.src)}
                   className={
                     fitOf(img) === "cover" ? "object-cover" : "object-contain p-1.5"
                   }
