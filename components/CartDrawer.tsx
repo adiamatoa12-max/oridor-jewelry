@@ -11,6 +11,8 @@ import {
   ArrowLeft,
   Gift,
   ShieldCheck,
+  Star,
+  Tag,
 } from "lucide-react";
 import { useCart } from "./CartContext";
 import { trackInitiateCheckout } from "@/lib/metaPixel";
@@ -84,6 +86,15 @@ export default function CartDrawer() {
   const progress = Math.min(count, GIFT_THRESHOLD); // 0 → 2, never resets
   const toGo = Math.max(0, GIFT_THRESHOLD - count); // items still needed
   const unlocked = count >= GIFT_THRESHOLD;
+
+  // Total promotional savings across the cart — the sum of every line's
+  // (compareAt − price) × qty. Drives the highlighted green savings callout in
+  // the footer, so the shopper sees the full discount at a glance.
+  const totalSaved = items.reduce((sum, item) => {
+    const onSale =
+      item.compareAtPrice != null && item.compareAtPrice > item.price;
+    return sum + (onSale ? (item.compareAtPrice! - item.price) * item.quantity : 0);
+  }, 0);
 
   useEffect(() => {
     if (!unlocked || giftsState !== "idle") return;
@@ -474,10 +485,44 @@ export default function CartDrawer() {
             above the scroll region with a soft upward shadow. Pared back to the
             essentials: total figure, CTA, and trust signals. */}
         <div className="border-t border-platinum/50 bg-canvas px-6 py-6 shadow-[0_-10px_30px_rgba(31,31,31,0.05)]">
-          {/* Total — the price figure only, no label */}
-          <p className="text-center text-2xl font-normal tracking-wide text-charcoal">
-            {formatPrice(subtotal)}
-          </p>
+          {/* Highlighted savings callout — the full promotional discount on
+              this order, so the value is unmistakable right before checkout. */}
+          {totalSaved > 0 && (
+            <div className="mb-4 flex items-center justify-center gap-2 rounded-xl bg-emerald-50 px-4 py-2.5 ring-1 ring-emerald-600/15">
+              <Tag size={15} strokeWidth={1.75} className="text-emerald-600" />
+              <span className="text-[13px] font-semibold text-emerald-700">
+                את חוסכת {formatPrice(totalSaved)} בהזמנה הזו
+              </span>
+            </div>
+          )}
+
+          {/* Total — quiet label beside the figure */}
+          <div className="flex items-baseline justify-between">
+            <span className="text-xs font-light tracking-wide text-ash">
+              סה״כ לתשלום
+            </span>
+            <span className="text-2xl font-normal tracking-wide text-charcoal">
+              {formatPrice(subtotal)}
+            </span>
+          </div>
+
+          {/* Social proof — a 5-star rating placed right by the CTA to lift
+              confidence at the decision point. */}
+          <div className="mt-5 flex items-center justify-center gap-2">
+            <div className="flex items-center gap-0.5" aria-hidden="true">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  size={14}
+                  strokeWidth={1}
+                  className="fill-gold text-gold"
+                />
+              ))}
+            </div>
+            <span className="text-[11px] font-medium tracking-wide text-graphite">
+              4.9 מתוך 5 · מאות לקוחות ממליצות
+            </span>
+          </div>
 
           <a
             href={checkoutUrl ?? "#"}
@@ -494,7 +539,7 @@ export default function CartDrawer() {
               // are what Meta needs for checkout-abandonment audiences.
               trackInitiateCheckout({ value: subtotal, numItems: count });
             }}
-            className={`group mt-5 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-canvas transition-all duration-300 ease-cinematic hover:bg-gold hover:text-charcoal active:scale-[0.99] ${
+            className={`group mt-3 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-canvas transition-all duration-300 ease-cinematic hover:bg-gold hover:text-charcoal active:scale-[0.99] ${
               items.length === 0 || !checkoutUrl || busy
                 ? "pointer-events-none cursor-not-allowed opacity-40"
                 : ""
