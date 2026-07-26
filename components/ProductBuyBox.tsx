@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useCart } from "./CartContext";
 import { usePdpImageSync } from "./PdpImageSync";
 import { trackPixel, trackProductEvent } from "@/lib/metaPixel";
@@ -141,18 +141,41 @@ export default function ProductBuyBox({
   // gallery thumbnail the shopper just clicked.
   const setActiveSrc = imageSync?.setActiveSrc;
 
+  // Normalised colour→image lookup. The curated map is keyed by the Hebrew
+  // colour ("זהב ורוד"); a Shopify option value can differ in case or spacing
+  // (e.g. " Rose Gold "), which would miss an exact-key lookup and leave the
+  // gallery on a stale/blank frame. Match loosely so the exact rose-gold file
+  // is always resolved. Falls back to the main product image — never nothing.
+  const imageByNorm = useMemo(() => {
+    const norm = (s: string) => s.trim().toLowerCase();
+    const out: Record<string, string> = {};
+    for (const [k, v] of Object.entries(imageByValue)) out[norm(k)] = v;
+    return out;
+  }, [imageByValue]);
+
+  const localImageFor = useCallback(
+    (value?: string): string | undefined => {
+      if (!value) return undefined;
+      return imageByValue[value] ?? imageByNorm[value.trim().toLowerCase()];
+    },
+    [imageByValue, imageByNorm],
+  );
+
   useEffect(() => {
     if (!setActiveSrc || variants.length <= 1) return;
-    // Prefer the page's curated per-colour image map (distinct local assets);
-    // otherwise use the selected variant's own Shopify image, but only when the
-    // variants genuinely have different images. Single-image variant sets keep
-    // the curated local gallery.
+    // Prefer the page's curated per-colour image (distinct local assets); else
+    // the selected variant's own Shopify image when variants genuinely differ;
+    // else the main product image, so the frame never falls back to blank.
     const localSrc = currentVariant?.selectedOptions
-      .map((o) => imageByValue[o.value])
+      .map((o) => localImageFor(o.value))
       .find(Boolean);
-    const src = localSrc ?? (variantImagesVary ? currentVariant?.image : undefined);
+    const src =
+      localSrc ??
+      (variantImagesVary ? currentVariant?.image : undefined) ??
+      image ??
+      undefined;
     if (src) setActiveSrc(src);
-  }, [currentVariant, imageByValue, setActiveSrc, variants.length, variantImagesVary]);
+  }, [currentVariant, localImageFor, setActiveSrc, variants.length, variantImagesVary, image]);
 
   const choose = (optName: string, value: string) => {
     setSelected((s) => ({ ...s, [optName]: value }));
@@ -161,9 +184,10 @@ export default function ProductBuyBox({
       content_ids: handle ? [handle] : undefined,
       content_name: title,
     });
-    // Immediate feedback from the local map (the effect above then reconciles
-    // to the resolved variant's Shopify image when available).
-    const src = imageByValue[value];
+    // Immediate feedback: the exact per-colour image if we have one, otherwise
+    // the main product image (never leave the frame blank). The effect above
+    // then reconciles to the resolved variant's Shopify image when available.
+    const src = localImageFor(value) ?? image;
     if (src) imageSync?.setActiveSrc(src);
   };
 
