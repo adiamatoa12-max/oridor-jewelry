@@ -47,7 +47,23 @@ const securityHeaders = [
 const nextConfig = {
   poweredByHeader: false,
   images: {
-    // Serve modern, smaller formats automatically (AVIF, then WebP fallback).
+    // Serve product images DIRECTLY from /public, bypassing Vercel's on-demand
+    // Image Optimization (/_next/image).
+    //
+    // Why: once the project's monthly image-optimization quota is exhausted,
+    // Vercel returns HTTP 402 for every /_next/image request. That surfaced as
+    // broken product photos — the gallery fell back to the packaging shot, and
+    // thumbnails/variant images (especially less-cached rose-gold shots) showed
+    // placeholder errors. The source files themselves serve fine (200) as static
+    // assets, so serving them un-optimised makes every image load reliably,
+    // independent of any optimization quota.
+    //
+    // Trade-off: images are sent at their stored size/format instead of being
+    // auto-resized to AVIF/WebP. Our assets are already compact (mostly .webp /
+    // trimmed .png), so this is an acceptable exchange for images that always
+    // load. To re-enable optimization later, remove `unoptimized` after raising
+    // the Vercel plan's Image Optimization limit.
+    unoptimized: true,
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
