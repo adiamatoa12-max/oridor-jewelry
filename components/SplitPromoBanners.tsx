@@ -18,7 +18,7 @@ const BANNERS: PromoBanner[] = [
   {
     // Right banner (first in RTL flow) — light marble background.
     title: "קולקציית הטניס",
-    subtitle: "קנו 2, והתכשיט השלישי עלינו",
+    subtitle: "קני 2, והתכשיט השלישי עלינו",
     // Dedicated tennis collection page — renders only 'טניס'-named pieces.
     href: "/collections/tennis",
     image: "/photo/שמירה תצוגה אורידור.jpeg",

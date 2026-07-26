@@ -52,7 +52,7 @@ export default function Hero() {
         <div className="mx-auto max-w-xl text-center [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.55))]">
           {/* Sales headline. */}
           <h1 className="animate-fade-up text-[28px] font-bold leading-[1.15] tracking-tight text-white [text-wrap:balance] [animation-delay:100ms] sm:text-4xl lg:text-5xl">
-            קנה 2 פריטים וקבל תכשיט שלישי במתנה
+            קני 2 פריטים וקבלי תכשיט שלישי במתנה
           </h1>
 
           {/* Dual CTA — white / outline-white for the video surface; the two
