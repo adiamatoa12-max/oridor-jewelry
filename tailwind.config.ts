@@ -49,10 +49,10 @@ const config: Config = {
           "system-ui",
           "sans-serif",
         ],
-        serif: ["var(--font-playfair)", "ui-serif", "Georgia", "serif"],
-        // Luxury headings — Playfair Display for Latin, Frank Ruhl Libre for Hebrew.
+        serif: ["var(--font-cormorant)", "ui-serif", "Georgia", "serif"],
+        // Luxury headings — Cormorant Garamond for Latin, Frank Ruhl Libre for Hebrew.
         display: [
-          "var(--font-playfair)",
+          "var(--font-cormorant)",
           "var(--font-display)",
           "ui-serif",
           "Georgia",

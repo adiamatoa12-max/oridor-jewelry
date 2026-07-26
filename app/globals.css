@@ -54,7 +54,7 @@
     line-height: 1.6;
   }
 
-  /* Headings — Playfair Display (Latin) + Frank Ruhl Libre (Hebrew).
+  /* Headings — Cormorant Garamond (Latin) + Frank Ruhl Libre (Hebrew).
      Refined luxury settings: semibold weight, 0.05em tracking, tight leading. */
   h1, h2, h3, h4 {
     @apply font-display text-charcoal font-semibold;

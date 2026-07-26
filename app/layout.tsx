@@ -3,7 +3,7 @@ import { jsonLdHtml } from "@/lib/seo";
 import {
   Assistant,
   Montserrat,
-  Playfair_Display,
+  Cormorant_Garamond,
   Frank_Ruhl_Libre,
 } from "next/font/google";
 import "./globals.css";
@@ -28,18 +28,19 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-// Primary heading face (Latin) — Playfair Display. Renders the "Oridor"
-// wordmark, English accents and numerals; Frank Ruhl Libre covers Hebrew.
-const playfair = Playfair_Display({
+// Primary heading face (Latin) — Cormorant Garamond, a delicate, high-contrast
+// old-style serif for a refined luxury feel. Renders the "Oridor" wordmark,
+// English accents and numerals; Frank Ruhl Libre covers Hebrew.
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   style: ["normal", "italic"],
-  variable: "--font-playfair",
+  variable: "--font-cormorant",
   display: "swap",
 });
 
 // Editorial display serif — Hebrew-complete, renders Hebrew headings behind
-// Playfair Display in the stack.
+// Cormorant Garamond in the stack.
 const frankRuhl = Frank_Ruhl_Libre({
   subsets: ["hebrew", "latin"],
   weight: ["400", "500", "600", "700"],
@@ -111,7 +112,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="he" dir="rtl" className={`${assistant.variable} ${montserrat.variable} ${playfair.variable} ${frankRuhl.variable}`}>
+    <html lang="he" dir="rtl" className={`${assistant.variable} ${montserrat.variable} ${cormorant.variable} ${frankRuhl.variable}`}>
       <body>
         <MetaPixel />
         <script
