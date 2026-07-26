@@ -1,8 +1,5 @@
-"use client";
-
-import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { Star, BadgeCheck, ChevronLeft, ChevronRight } from "lucide-react";
+import { Star, BadgeCheck } from "lucide-react";
 
 interface Review {
   title: string;
@@ -44,222 +41,105 @@ const REVIEWS: Review[] = [
   },
 ];
 
-const AUTOPLAY_MS = 5500;
+/** Aggregate rating shown in the header. */
+const AGGREGATE = { score: "4.9", count: 160 };
 
-/** Row of 5 crisp golden stars. Filled, no outline. */
-function Stars({ className = "" }: { className?: string }) {
+/** Row of 5 crisp green stars — filled, no outline. */
+function Stars({ size = 15, className = "" }: { size?: number; className?: string }) {
   return (
-    <div className={`flex gap-1 ${className}`} aria-label="5 מתוך 5 כוכבים">
+    <div className={`flex gap-0.5 ${className}`} aria-label="5 מתוך 5 כוכבים">
       {Array.from({ length: 5 }).map((_, i) => (
-        <Star key={i} size={14} className="fill-gold text-gold" strokeWidth={0} />
+        <Star
+          key={i}
+          size={size}
+          strokeWidth={0}
+          className="fill-emerald-500 text-emerald-500"
+        />
       ))}
     </div>
   );
 }
 
 /**
- * Customer reviews — a clean, luxury horizontal carousel.
- * Native CSS scroll-snap (swipeable on touch) drives the motion; a small client
- * layer adds dots, desktop arrows and a slow autoplay. Shows 1 card on mobile,
- * 2 on tablet, 3 on desktop. Cards are equal-height so the slider never jumps.
- * RTL-aware scroll math keeps the first review on the reading-start (right).
+ * Customer reviews — a clean, professional card grid.
+ * Centered header with the aggregate rating, then rounded review cards
+ * (verified badge, green stars, bold title + body, optional photo thumbnail,
+ * and an avatar-initial attribution). 1 column on mobile, 2 on tablet, 3 on
+ * desktop; equal-height cards keep the row tidy.
  */
 export default function CustomerReviews() {
-  const trackRef = useRef<HTMLDivElement>(null);
-  const [index, setIndex] = useState(0);
-  const [perView, setPerView] = useState(1);
-  const [paused, setPaused] = useState(false);
-
-  const pages = Math.max(1, REVIEWS.length - perView + 1);
-
-  // Recompute how many cards are visible per breakpoint.
-  useEffect(() => {
-    const compute = () => {
-      const w = window.innerWidth;
-      setPerView(w >= 1024 ? 3 : w >= 640 ? 2 : 1);
-    };
-    compute();
-    window.addEventListener("resize", compute);
-    return () => window.removeEventListener("resize", compute);
-  }, []);
-
-  // Scroll ONLY the horizontal track — never scrollIntoView, which drags every
-  // scrollable ancestor (including the page) back to this section. Using a
-  // bounding-rect delta keeps it RTL-agnostic and page-safe.
-  const scrollToIndex = useCallback((i: number) => {
-    const track = trackRef.current;
-    const card = track?.children[i] as HTMLElement | undefined;
-    if (!track || !card) return;
-    const delta =
-      card.getBoundingClientRect().left - track.getBoundingClientRect().left;
-    track.scrollBy({ left: delta, behavior: "smooth" });
-  }, []);
-
-  // Track the active card by visibility — robust across RTL scroll conventions.
-  useEffect(() => {
-    const track = trackRef.current;
-    if (!track) return;
-    const cards = Array.from(track.children);
-    const ratios = new Map<Element, number>();
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => ratios.set(e.target, e.intersectionRatio));
-        let best = 0;
-        let bestRatio = -1;
-        cards.forEach((c, i) => {
-          const r = ratios.get(c) ?? 0;
-          if (r > bestRatio) {
-            bestRatio = r;
-            best = i;
-          }
-        });
-        setIndex(Math.min(best, pages - 1));
-      },
-      { root: track, threshold: [0, 0.25, 0.5, 0.75, 1] },
-    );
-    cards.forEach((c) => io.observe(c));
-    return () => io.disconnect();
-  }, [pages]);
-
-  // Slow autoplay — paused on hover/focus and when everything already fits.
-  useEffect(() => {
-    if (paused || pages <= 1) return;
-    const id = window.setInterval(() => {
-      setIndex((prev) => {
-        const next = (prev + 1) % pages;
-        scrollToIndex(next);
-        return next;
-      });
-    }, AUTOPLAY_MS);
-    return () => window.clearInterval(id);
-  }, [paused, pages, scrollToIndex]);
-
-  const go = (i: number) => {
-    const clamped = Math.min(Math.max(i, 0), pages - 1);
-    setIndex(clamped);
-    scrollToIndex(clamped);
-  };
-
   return (
     <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
-      {/* Header */}
+      {/* Header — bold title + aggregate score */}
       <div className="mb-10 flex flex-col items-center text-center lg:mb-14">
-        <p className="mb-3 text-[11px] uppercase tracking-[0.3em] text-gold">
-          מה אומרות עלינו
-        </p>
-        <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
-          אהובות על לקוחותינו
+        <h2 className="text-2xl font-bold tracking-tight text-charcoal sm:text-3xl">
+          דירוג הלקוחות <span className="text-emerald-600">״מצוין״</span>
         </h2>
-        <div className="mt-5 flex items-center gap-2.5">
-          <Stars />
-          <span className="text-xs font-light text-ash">
-            4.9 · 150+ ביקורות מאומתות
+        <div className="mt-4 flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+          <Stars size={18} />
+          <span className="text-sm font-medium text-graphite">
+            {AGGREGATE.score} • מבוסס על {AGGREGATE.count} ביקורות
           </span>
         </div>
       </div>
 
-      {/* Carousel */}
-      <div
-        className="relative"
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        onFocusCapture={() => setPaused(true)}
-        onBlurCapture={() => setPaused(false)}
-      >
-        {/* Desktop arrows */}
-        {pages > 1 && (
-          <>
-            <button
-              type="button"
-              aria-label="הביקורת הקודמת"
-              onClick={() => go(index - 1)}
-              disabled={index === 0}
-              className="absolute -right-3 top-[38%] z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-platinum/60 bg-canvas/90 text-charcoal shadow-card backdrop-blur transition-all hover:border-charcoal/40 disabled:pointer-events-none disabled:opacity-0 lg:flex"
-            >
-              <ChevronRight size={18} strokeWidth={1.5} />
-            </button>
-            <button
-              type="button"
-              aria-label="הביקורת הבאה"
-              onClick={() => go(index + 1)}
-              disabled={index >= pages - 1}
-              className="absolute -left-3 top-[38%] z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-platinum/60 bg-canvas/90 text-charcoal shadow-card backdrop-blur transition-all hover:border-charcoal/40 disabled:pointer-events-none disabled:opacity-0 lg:flex"
-            >
-              <ChevronLeft size={18} strokeWidth={1.5} />
-            </button>
-          </>
-        )}
-
-        {/* Snap track */}
-        <div
-          ref={trackRef}
-          className="hide-scrollbar -mx-2.5 flex snap-x snap-mandatory overflow-x-auto scroll-smooth"
-        >
-          {REVIEWS.map((review) => (
-            <div
+      {/* Card grid */}
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+        {REVIEWS.map((review) => {
+          const initial = review.name.trim().charAt(0);
+          return (
+            <article
               key={review.name}
-              className="flex w-full shrink-0 snap-start px-2.5 sm:w-1/2 lg:w-1/3"
+              className="flex flex-col rounded-2xl border border-platinum/60 bg-canvas p-6 text-right shadow-card transition-shadow duration-300 hover:shadow-cardHover"
             >
-              <article className="flex w-full flex-col">
-                {/* Customer photo — soft corners, subtle shadow + hairline */}
-                <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl shadow-[0_18px_44px_-16px_rgba(0,0,0,0.25)] ring-1 ring-charcoal/10">
+              {/* Top row — green stars (reading start) + verified badge (corner) */}
+              <div className="flex items-start justify-between gap-2">
+                <Stars />
+                <span className="inline-flex flex-none items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-medium text-emerald-700 ring-1 ring-emerald-600/15">
+                  <BadgeCheck size={12} strokeWidth={2} className="text-emerald-600" />
+                  ביקורת מאומתת
+                </span>
+              </div>
+
+              {/* Title + body */}
+              <h3 className="mt-4 text-base font-bold leading-snug text-charcoal sm:text-[17px]">
+                {review.title}
+              </h3>
+              <blockquote className="mt-2 text-sm font-light leading-[1.85] text-graphite">
+                {review.body}
+              </blockquote>
+
+              {/* Optional customer photo thumbnail */}
+              {review.photo && (
+                <div className="relative mt-4 h-[72px] w-[72px] flex-none overflow-hidden rounded-xl ring-1 ring-platinum/50">
                   <Image
                     src={review.photo}
                     alt={review.photoAlt}
                     fill
-                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 85vw"
+                    sizes="72px"
                     className="object-cover object-center"
                   />
                 </div>
+              )}
 
-                {/* Quote */}
-                <div className="mt-5 flex flex-1 flex-col text-right">
-                  <Stars className="mb-3" />
-                  <h3 className="text-lg font-bold leading-snug text-charcoal">
-                    {review.title}
-                  </h3>
-                  <blockquote className="mt-2.5 text-[15px] font-light leading-[1.85] text-graphite">
-                    {review.body}
-                  </blockquote>
-
-                  {/* Attribution — small and quiet, label pinned to the bottom */}
-                  <figcaption className="mt-auto pt-5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] font-light text-ash">
-                    <span className="font-medium tracking-wide text-graphite">
-                      {review.name}
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <BadgeCheck size={12} strokeWidth={1.5} className="text-emerald-500" />
-                      מאומתת
-                    </span>
-                    <span aria-hidden="true">·</span>
-                    <span>{review.date}</span>
-                  </figcaption>
-                  <p className="mt-1 text-[11px] font-light text-ash">
-                    רכשה: {review.product}
+              {/* Attribution — avatar initial + name + date, pinned to the bottom */}
+              <div className="mt-auto flex items-center gap-3 border-t border-platinum/40 pt-5">
+                <span
+                  aria-hidden="true"
+                  className="inline-flex h-9 w-9 flex-none items-center justify-center rounded-full bg-gold/15 text-sm font-semibold text-gold ring-1 ring-gold/25"
+                >
+                  {initial}
+                </span>
+                <div className="min-w-0">
+                  <p className="truncate text-[13px] font-medium text-charcoal">
+                    {review.name}
                   </p>
+                  <p className="text-[11px] font-light text-ash">{review.date}</p>
                 </div>
-              </article>
-            </div>
-          ))}
-        </div>
-
-        {/* Dots */}
-        {pages > 1 && (
-          <div className="mt-8 flex items-center justify-center gap-2.5">
-            {Array.from({ length: pages }).map((_, i) => (
-              <button
-                key={i}
-                type="button"
-                aria-label={`מעבר לביקורת ${i + 1}`}
-                aria-current={i === index}
-                onClick={() => go(i)}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  i === index ? "w-6 bg-charcoal" : "w-1.5 bg-platinum hover:bg-ash"
-                }`}
-              />
-            ))}
-          </div>
-        )}
+              </div>
+            </article>
+          );
+        })}
       </div>
     </section>
   );
