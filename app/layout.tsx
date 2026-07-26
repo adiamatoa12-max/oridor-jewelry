@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { jsonLdHtml } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site";
 import { Rubik } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
@@ -17,7 +18,6 @@ const rubik = Rubik({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com";
 
 const OG_IMAGE = {
   url: "/og-image.jpg",

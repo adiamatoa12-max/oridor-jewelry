@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { SITE_URL } from "@/lib/site";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
@@ -11,7 +12,6 @@ import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 import data from "@/data/silver_collection.json";
 
 const products = data as SilverProduct[];
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com";
 
 export function generateStaticParams() {
   return products.map((p) => ({ slug: p.slug }));

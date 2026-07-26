@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import products from "@/data/moissanite_collection.json";
+import { SITE_URL } from "@/lib/site";
 import silver from "@/data/silver_collection.json";
 import signature from "@/data/signature_collection.json";
 import newArrivals from "@/data/new_arrivals.json";
@@ -8,7 +9,6 @@ import type { SilverProduct } from "@/components/SilverGrid";
 import type { VariantProduct } from "@/components/VariantCard";
 import type { NewArrival } from "@/components/NewArrivalsGrid";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [

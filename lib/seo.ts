@@ -10,7 +10,7 @@
  * AggregateRating markup everywhere at once.
  */
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://oridorjewelry.com";
+import { SITE_URL } from "@/lib/site";
 
 export function buildProductJsonLd(opts: {
   name: string;
