@@ -18,10 +18,10 @@ import { trackInitiateCheckout } from "@/lib/metaPixel";
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
-// "2+1" promotion — reach 3 items and the 3rd (a premium gift) is on us.
-// "2+1": buy 2, the 3rd is on us. The picker therefore unlocks at TWO items —
-// the third is the gift itself, so requiring three to unlock it would be
-// circular. One-time: once reached it stays unlocked as the cart grows.
+// "קני 2 פריטים, תכשיט שלישי במתנה" — buy 2 paid items and the 3rd jewellery
+// piece is a free gift. The tier therefore unlocks at TWO paid items: the third
+// is the gift itself, so requiring three to unlock it would be circular. Once
+// reached it stays unlocked as the cart grows.
 const GIFT_THRESHOLD = 2;
 /**
  * A gift the shopper may claim. Resolved at runtime from the store's own
@@ -39,7 +39,7 @@ interface GiftOption {
 /**
  * Slide-out mini cart (RTL) — high-end boutique experience.
  * Overlay fades in; the panel slides from the left (inline-end in RTL). Kept
- * mounted so enter/exit both animate. A "2+1" step progress bar sits on top,
+ * mounted so enter/exit both animate. A gift-progress bar (buy 2, 3rd free) sits on top,
  * clean item cards fill the scroll region, and a sticky checkout footer with
  * secure-payment trust signals is always pinned at the bottom.
  */
@@ -113,7 +113,7 @@ export default function CartDrawer() {
       .finally(() => setGiftsState("done"));
   }, [items.length, giftsState]);
 
-  // Automatic 2+1 gift: add the designated gift the instant the shopper reaches
+  // Automatic gift (buy 2, 3rd free): add the designated gift the instant the shopper reaches
   // the tier, and pull it back out if the cart drops below it. The ref guards
   // against firing twice before the mutation settles (mutations are queued).
   const giftActionRef = useRef(false);
@@ -191,7 +191,7 @@ export default function CartDrawer() {
           </button>
         </div>
 
-        {/* 2+1 progress — pinned directly under the header, OUTSIDE the scroll
+        {/* Gift progress (buy 2, 3rd free) — pinned directly under the header, OUTSIDE the scroll
             region, so how far the shopper is from the free gift stays visible
             no matter how long the cart gets. */}
         {items.length > 0 && (
@@ -202,12 +202,12 @@ export default function CartDrawer() {
                 {unlocked ? (
                   <>
                     <span className="font-semibold text-gold">יש!</span>{" "}
-                    המתנה שלך נוספה לסל — בחינם 🎁
+                    התכשיט השלישי שלך נוסף לסל במתנה 🎁
                   </>
                 ) : (
                   <>
-                    עוד {toGo} {toGo === 1 ? "פריט" : "פריטים"} והמתנה שלך תתווסף
-                    אוטומטית 🎁
+                    עוד {toGo} {toGo === 1 ? "פריט" : "פריטים"} וקבלי תכשיט שלישי
+                    במתנה 🎁
                   </>
                 )}
               </p>
@@ -310,7 +310,7 @@ export default function CartDrawer() {
                             {isGift ? (
                               <p className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium text-gold">
                                 <Gift size={12} strokeWidth={2} />
-                                המתנה שלך · מבצע 2+1
+                                התכשיט השלישי שלך · במתנה
                               </p>
                             ) : (
                               (item.details ?? item.variant) && (
@@ -375,7 +375,7 @@ export default function CartDrawer() {
                             the automatic gift (no quantity controls). */}
                         {isGift ? (
                           <p className="mt-auto pt-3 text-[11px] font-light text-ash">
-                            נוסף אוטומטית עם רכישת 2 פריטים
+                            נוסף אוטומטית עם רכישת 2 פריטים — קני 2, השלישי במתנה
                           </p>
                         ) : (
                           <div className="mt-auto flex items-center justify-between pt-3">
