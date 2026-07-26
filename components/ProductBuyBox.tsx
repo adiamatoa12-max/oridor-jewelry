@@ -164,18 +164,19 @@ export default function ProductBuyBox({
   useEffect(() => {
     if (!setActiveSrc || variants.length <= 1) return;
     // Prefer the page's curated per-colour image (distinct local assets); else
-    // the selected variant's own Shopify image when variants genuinely differ;
-    // else the main product image, so the frame never falls back to blank.
+    // the selected variant's own Shopify image when variants genuinely differ.
+    // Crucially, do NOT fall back to the main product image here: when a colour
+    // resolves to a real per-colour asset via `choose` but this reconcile pass
+    // can't re-derive it (e.g. currentVariant momentarily unresolved), falling
+    // back to `image` would overwrite the correct swatch image with the main
+    // (silver) shot — the reported "rose shows silver" bug. A genuinely broken
+    // image is handled by the gallery's own onError fallback instead.
     const localSrc = currentVariant?.selectedOptions
       .map((o) => localImageFor(o.value))
       .find(Boolean);
-    const src =
-      localSrc ??
-      (variantImagesVary ? currentVariant?.image : undefined) ??
-      image ??
-      undefined;
+    const src = localSrc ?? (variantImagesVary ? currentVariant?.image : undefined);
     if (src) setActiveSrc(src);
-  }, [currentVariant, localImageFor, setActiveSrc, variants.length, variantImagesVary, image]);
+  }, [currentVariant, localImageFor, setActiveSrc, variants.length, variantImagesVary]);
 
   const choose = (optName: string, value: string) => {
     setSelected((s) => ({ ...s, [optName]: value }));
@@ -184,10 +185,10 @@ export default function ProductBuyBox({
       content_ids: handle ? [handle] : undefined,
       content_name: title,
     });
-    // Immediate feedback: the exact per-colour image if we have one, otherwise
-    // the main product image (never leave the frame blank). The effect above
-    // then reconciles to the resolved variant's Shopify image when available.
-    const src = localImageFor(value) ?? image;
+    // Immediate feedback: swap to the exact per-colour image. If a colour has no
+    // curated image we leave the current frame as-is rather than forcing the
+    // main image, so a correct selection is never overwritten by the silver shot.
+    const src = localImageFor(value);
     if (src) imageSync?.setActiveSrc(src);
   };
 
