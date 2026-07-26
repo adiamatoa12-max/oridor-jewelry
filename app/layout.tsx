@@ -11,6 +11,7 @@ import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import MetaPixel from "@/components/MetaPixel";
+import PromoPopup from "@/components/PromoPopup";
 
 // Body sans — Hebrew-complete companion behind Montserrat (renders Hebrew copy).
 const assistant = Assistant({
@@ -123,6 +124,7 @@ export default function RootLayout({
           {children}
           <CartDrawer />
           <AccessibilityWidget />
+          <PromoPopup />
         </CartProvider>
       </body>
     </html>

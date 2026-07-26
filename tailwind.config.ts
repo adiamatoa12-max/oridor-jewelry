@@ -87,6 +87,14 @@ const config: Config = {
           "0%, 100%": { transform: "translateY(0)", opacity: "1" },
           "50%": { transform: "translateY(-6px)", opacity: "0.85" },
         },
+        fade: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "pop-in": {
+          "0%": { opacity: "0", transform: "scale(0.96) translateY(8px)" },
+          "100%": { opacity: "1", transform: "scale(1) translateY(0)" },
+        },
       },
       animation: {
         // Cinematic ease, starts hidden (fill: both) for clean staggering
@@ -94,6 +102,8 @@ const config: Config = {
         marquee: "marquee 28s linear infinite",
         "soft-ping": "soft-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite",
         "soft-float": "soft-float 5s ease-in-out infinite",
+        fade: "fade 0.3s ease-out both",
+        "pop-in": "pop-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both",
       },
     },
   },
