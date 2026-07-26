@@ -23,7 +23,7 @@ export default function Accordion({
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="divide-y divide-platinum/50 overflow-hidden rounded-xl border border-platinum/50 bg-cream/30 px-5">
+    <div className="divide-y divide-platinum/50 overflow-hidden rounded-2xl border border-platinum/50 bg-cream/30 px-5 antialiased sm:px-6">
       {items.map((item, i) => {
         const isOpen = open === i;
         return (
@@ -32,12 +32,14 @@ export default function Accordion({
               type="button"
               onClick={() => setOpen(isOpen ? -1 : i)}
               aria-expanded={isOpen}
-              className="flex w-full items-center justify-between py-5 text-start text-sm font-medium tracking-wide text-charcoal transition-colors hover:text-gold"
+              className={`flex w-full items-center justify-between py-5 text-start text-[15px] font-semibold tracking-wide transition-colors hover:text-gold sm:text-base ${
+                isOpen ? "text-gold" : "text-charcoal"
+              }`}
             >
               {item.title}
               <span
-                className={`ms-4 text-lg font-light text-ash transition-transform duration-300 ${
-                  isOpen ? "rotate-45" : ""
+                className={`ms-4 flex h-6 w-6 flex-none items-center justify-center text-xl font-light transition-transform duration-300 ${
+                  isOpen ? "rotate-45 text-gold" : "text-ash"
                 }`}
                 aria-hidden="true"
               >
@@ -50,7 +52,7 @@ export default function Accordion({
               }`}
             >
               <div className="overflow-hidden">
-                <div className="pb-6 text-base font-light leading-relaxed text-graphite sm:text-sm">
+                <div className="pb-7 text-[15px] font-light leading-[1.8] text-graphite sm:text-sm">
                   {item.content}
                 </div>
               </div>
