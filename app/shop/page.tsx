@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import ShopCatalog from "@/components/ShopCatalog";
-import { buildUnifiedCatalog, applyLiveStatus } from "@/lib/catalog";
+import { buildUnifiedCatalog, applyLiveStatus, sortByPriceAsc } from "@/lib/catalog";
 import { getLivePriceMap } from "@/lib/shopify";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 // overlaid by handle on the server (safe no-op if Shopify is unconfigured).
 export default async function ShopPage() {
   const live = await getLivePriceMap();
-  const products = applyLiveStatus(buildUnifiedCatalog(), live);
+  const products = sortByPriceAsc(applyLiveStatus(buildUnifiedCatalog(), live));
 
   return (
     <main>

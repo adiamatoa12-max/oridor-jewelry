@@ -7,6 +7,7 @@ import Reveal from "@/components/Reveal";
 import {
   buildUnifiedCatalog,
   applyLiveStatus,
+  sortByPriceAsc,
   COLLECTION_MOISSANITE,
 } from "@/lib/catalog";
 import { getLivePriceMap } from "@/lib/shopify";
@@ -22,8 +23,10 @@ export const metadata: Metadata = {
 // so we gather them from the unified catalog rather than a single data file.
 export default async function EarringsPage() {
   const live = await getLivePriceMap();
-  const earrings = applyLiveStatus(buildUnifiedCatalog(), live).filter(
-    (p) => p.category === "Earrings",
+  const earrings = sortByPriceAsc(
+    applyLiveStatus(buildUnifiedCatalog(), live).filter(
+      (p) => p.category === "Earrings",
+    ),
   );
 
   return (

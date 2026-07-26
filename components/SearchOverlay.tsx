@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
-import { buildUnifiedCatalog } from "@/lib/catalog";
+import { buildUnifiedCatalog, sortByPriceAsc } from "@/lib/catalog";
 import { trackSearch } from "@/lib/metaPixel";
 import PriceTag from "./PriceTag";
 
@@ -29,8 +29,10 @@ export default function SearchOverlay({
   const [mounted, setMounted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Build the search index once (pure function over the local catalog).
-  const catalog = useMemo(() => buildUnifiedCatalog(), []);
+  // Build the search index once (pure function over the local catalog),
+  // pre-sorted cheapest-first so results honour the store-wide low→high default
+  // (filtering preserves order).
+  const catalog = useMemo(() => sortByPriceAsc(buildUnifiedCatalog()), []);
 
   useEffect(() => setMounted(true), []);
 

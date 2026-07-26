@@ -8,6 +8,7 @@ import CollectionHero from "@/components/CollectionHero";
 import {
   buildUnifiedCatalog,
   applyLiveStatus,
+  sortByPriceAsc,
   COLLECTION_SILVER,
 } from "@/lib/catalog";
 import { getLivePriceMap } from "@/lib/shopify";
@@ -32,8 +33,10 @@ export const metadata: Metadata = {
  */
 export default async function SilverCollectionPage() {
   const live = await getLivePriceMap();
-  const products = applyLiveStatus(buildUnifiedCatalog(), live).filter(
-    (p) => p.collection === COLLECTION_SILVER,
+  const products = sortByPriceAsc(
+    applyLiveStatus(buildUnifiedCatalog(), live).filter(
+      (p) => p.collection === COLLECTION_SILVER,
+    ),
   );
 
   return (

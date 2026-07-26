@@ -206,6 +206,22 @@ export function overlayLivePrices<
   });
 }
 
+/**
+ * Store-wide default ordering: cheapest first.
+ *
+ * Applied at every list surface — collection pages, the shop's category chips
+ * and search — so price always runs low → high by default, on mobile and
+ * desktop alike. Sort by the EFFECTIVE display price, i.e. call this AFTER
+ * overlayLivePrices/applyLiveStatus so live Shopify prices order correctly.
+ *
+ * Returns a new array and is stable (equal-priced items keep their source
+ * order). Deliberately NOT baked into overlayLivePrices, which is also used for
+ * single PDPs and the curated homepage teaser, where reordering is unwanted.
+ */
+export function sortByPriceAsc<T extends { price: number }>(items: T[]): T[] {
+  return [...items].sort((a, b) => a.price - b.price);
+}
+
 /** Sticky filter chips — mixes collection and type axes; each chip filters one. */
 export type Chip =
   | { label: string; kind: "all" }

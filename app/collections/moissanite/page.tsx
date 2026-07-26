@@ -6,7 +6,7 @@ import MoissaniteCollection from "@/components/MoissaniteCollection";
 import { type MoissaniteProduct } from "@/components/MoissaniteGrid";
 import CollectionHero from "@/components/CollectionHero";
 import { getLivePriceMap } from "@/lib/shopify";
-import { overlayLivePrices } from "@/lib/catalog";
+import { overlayLivePrices, sortByPriceAsc } from "@/lib/catalog";
 import productsData from "@/data/moissanite_collection.json";
 
 export const metadata: Metadata = {
@@ -22,9 +22,8 @@ export const revalidate = 120;
 
 export default async function MoissaniteCollectionPage() {
   const live = await getLivePriceMap();
-  const products = overlayLivePrices(
-    productsData as MoissaniteProduct[],
-    live,
+  const products = sortByPriceAsc(
+    overlayLivePrices(productsData as MoissaniteProduct[], live),
   );
   return (
     <main>
