@@ -132,7 +132,6 @@ export default async function MoissaniteProductPage({
         fallbackPrice={product.price}
         compareAtPrice={product.compare_at_price}
         shopifyProduct={displayProduct}
-        qualityNote="איכות ואותנטיות: כסף 925 ומואסנייט D / VVS1"
         showRingGuide={/ring|טבעת/i.test(product.name)}
         description="אבן מואסנייט נוצצת בעבודת יד מדויקת, משובצת בכסף 925 טהור מצופה רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אותך לכל החיים."
         materials={

@@ -175,7 +175,6 @@ export default function ProductDetail({
   shopifyProduct,
   hexByValue,
   imageByValue,
-  qualityNote,
   description,
   materials,
   showRingGuide = false,
@@ -196,7 +195,6 @@ export default function ProductDetail({
   hexByValue?: Record<string, string>;
   /** Map of swatch value → gallery image src (switches the main image). */
   imageByValue?: Record<string, string>;
-  qualityNote: string;
   /** Product description (accordion, open by default). */
   description: string;
   /** "Materials & details" accordion content (JSX or text). */
@@ -294,15 +292,11 @@ export default function ProductDetail({
             {title}
           </h1>
 
-          {/* Honest trust line in place of the old fabricated star rating +
-              "120+ ביקורות": the guarantees the brand can actually stand behind
-              until real customer reviews exist. */}
-          <p className="mt-2.5 text-xs font-light tracking-wide text-ash">
-            משלוח חינם · אחריות מלאה · תעודת אותנטיות
-          </p>
-
           {/* Buy box starts with the price (grouped with the title above), then
-              the configurator (colour + size), CTA and trust micro-copy. */}
+              the configurator (colour + size), CTA and one trust micro-copy line.
+              The upfront panel is deliberately minimal — title, price, variant
+              selectors, CTA — so nothing competes with the buy decision. Fuller
+              material, care and shipping detail lives in the accordions below. */}
           <ProductBuyBox
             title={title}
             image={images[0]?.src ?? ""}
@@ -315,20 +309,18 @@ export default function ProductDetail({
             handle={slug}
           />
 
-          <Link
-            href="/quality-warranty"
-            className="mt-7 inline-flex items-center gap-1.5 text-xs font-light tracking-wide text-graphite underline-offset-4 transition-colors hover:text-gold"
-          >
-            <ShieldCheck size={14} strokeWidth={1.5} className="text-gold" />
-            {qualityNote}
-          </Link>
-
-          {showRingGuide && <SizeGuideModal />}
+          {showRingGuide && (
+            <div className="mt-7">
+              <SizeGuideModal />
+            </div>
+          )}
 
           {/* Generous gap before the description block — the pause high-end
               brands leave between the commercial ask and the editorial copy. */}
           <div className="mt-12 sm:mt-8">
-            <Accordion defaultOpen={0} items={accordionItems} />
+            {/* All sections start collapsed so the upfront panel stays light —
+                the shopper opens only what they want to read. */}
+            <Accordion items={accordionItems} />
           </div>
         </div>
       </div>

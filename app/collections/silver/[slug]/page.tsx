@@ -130,7 +130,6 @@ export default async function SilverProductPage({
         shopifyProduct={displayProduct}
         hexByValue={hexByValue}
         imageByValue={imageByValue}
-        qualityNote="איכות ואותנטיות: כסף 925 טהור"
         showRingGuide={/טבעת/.test(product.name)}
         description="פריט מכסף 925 טהור בעבודת יד מדויקת, מלוטש בקפידה לגימור נקי ועל-זמני. עיצוב שנועד ללוות אותך יום-יום, לשנים רבות."
         materials={

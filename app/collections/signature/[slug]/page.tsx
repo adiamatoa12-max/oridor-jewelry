@@ -125,7 +125,6 @@ export default async function SignatureProductPage({
         shopifyProduct={displayProduct}
         hexByValue={hexByValue}
         imageByValue={imageByValue}
-        qualityNote="איכות ואותנטיות: כסף 925 טהור"
         showRingGuide={/טבעת/.test(product.name)}
         description={`${product.name} מקולקציית החתימה של Oridor, זמין ב-${product.variants.length} גימורים. עבודת יד מדויקת בכסף 925 טהור, לגימור נקי ועל-זמני.`}
         materials={
