@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import {
   X,
@@ -18,23 +18,11 @@ import { trackInitiateCheckout } from "@/lib/metaPixel";
 
 const formatPrice = (n: number) => `₪${n.toLocaleString("he-IL")}`;
 
-// "קני 2 פריטים, תכשיט שלישי במתנה" — buy 2 paid items and the 3rd jewellery
-// piece is a free gift. The tier therefore unlocks at TWO paid items: the third
-// is the gift itself, so requiring three to unlock it would be circular. Once
-// reached it stays unlocked as the cart grows.
-const GIFT_THRESHOLD = 2;
-/**
- * A gift the shopper may claim. Resolved at runtime from the store's own
- * Buy X Get Y rule via /api/gift-options — never hardcoded, so the picker can
- * only ever offer products that genuinely qualify for the free item.
- */
-interface GiftOption {
-  variantId: string | null;
-  handle: string;
-  title: string;
-  image: string | null;
-  price: number;
-}
+// "קני 2 פריטים, תכשיט שלישי במתנה" — with 3+ jewellery items in the cart the
+// cheapest one is free (a 100% discount applied by Shopify's automatic
+// "buy 2, get 1 free" rule). The progress bar counts toward 3 items; the free
+// line is detected from the cart's real discount, never hardcoded.
+const GIFT_THRESHOLD = 3;
 
 /**
  * Slide-out mini cart (RTL) — high-end boutique experience.
@@ -52,100 +40,47 @@ export default function CartDrawer() {
     count,
     updateQuantity,
     removeItem,
-    addVariant,
     checkoutUrl,
     busy,
   } = useCart();
-  // Eligible gift(s) from the live Shopify Buy-X-Get-Y rule. Fetched once the
-  // cart has items, so the designated gift is resolved before the shopper hits
-  // the tier and can be added automatically.
-  const [gifts, setGifts] = useState<GiftOption[]>([]);
-  const [giftsState, setGiftsState] = useState<"idle" | "loading" | "done">(
-    "idle",
-  );
-
-  // The single designated free gift — the first product the discount rule marks
-  // eligible. Added automatically; never chosen by the shopper.
-  const designatedGift = gifts[0] ?? null;
-
   // The drawer stays mounted, so reset its scroll to the top each time it opens.
   const bodyRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (isOpen) bodyRef.current?.scrollTo({ top: 0 });
   }, [isOpen]);
 
-  // The gift line currently in the cart, matched by product handle.
-  const giftLine = designatedGift
-    ? items.find((it) => it.handle === designatedGift.handle) ?? null
-    : null;
-  const giftInCart = !!giftLine;
+  // The free promo item(s): whichever line Shopify has discounted to ₪0 under
+  // the active "buy 2, 3rd (cheapest) free" rule. Read from the cart's own
+  // discount data, so the drawer always matches what checkout will charge —
+  // nothing is added or hardcoded here.
+  const hasFreeItem = items.some((it) => it.isFree);
 
-  // Items the shopper actually PAID toward the tier — the free gift never counts
-  // toward unlocking itself, so progress is measured on paid items only.
-  const paidCount = count - (giftLine?.quantity ?? 0);
-  const progress = Math.min(paidCount, GIFT_THRESHOLD);
-  const toGo = Math.max(0, GIFT_THRESHOLD - paidCount);
-  const unlocked = paidCount >= GIFT_THRESHOLD;
+  // Progress toward the promo. "Buy 2, get the 3rd free" unlocks at 3 items;
+  // `count` is Shopify's total quantity (sum of line quantities). The unlocked
+  // celebration follows the REAL discount (a free line actually present), so the
+  // copy never promises a gift the cart hasn't been given.
+  const progress = Math.min(count, GIFT_THRESHOLD);
+  const toGo = Math.max(1, GIFT_THRESHOLD - count);
+  const unlocked = hasFreeItem;
 
-  // Total promotional savings — sum of every PAID line's (compareAt − price) ×
-  // qty. The gift is excluded (shown separately as ₪0).
+  // Footer savings callout: the promo discount (the free item's value) plus any
+  // per-line sale discounts.
   const totalSaved = items.reduce((sum, item) => {
-    if (designatedGift && item.handle === designatedGift.handle) return sum;
     const onSale =
       item.compareAtPrice != null && item.compareAtPrice > item.price;
-    return sum + (onSale ? (item.compareAtPrice! - item.price) * item.quantity : 0);
+    const saleSaved = onSale
+      ? (item.compareAtPrice! - item.price) * item.quantity
+      : 0;
+    return sum + item.promoDiscount + saleSaved;
   }, 0);
 
   // Subtotal comes straight from Shopify's cart cost, which already reflects the
-  // Buy-X-Get-Y discount — the free gift is discounted to ₪0 in the cart total.
-  // So we DON'T subtract the gift again here (that would double-discount it);
-  // the ₪0 shown on the gift line and this total already agree.
+  // automatic discount — the free item is ₪0 in this total, so no manual math.
   const displaySubtotal = subtotal;
 
-  // Resolve the eligible gift(s) as soon as the cart has items.
-  useEffect(() => {
-    if (items.length === 0 || giftsState !== "idle") return;
-    setGiftsState("loading");
-    fetch("/api/gift-options")
-      .then((r) => r.json())
-      .then((d: { gifts?: GiftOption[] }) => setGifts(d.gifts ?? []))
-      .catch(() => setGifts([]))
-      .finally(() => setGiftsState("done"));
-  }, [items.length, giftsState]);
-
-  // Automatic gift (buy 2, 3rd free): add the designated gift the instant the shopper reaches
-  // the tier, and pull it back out if the cart drops below it. The ref guards
-  // against firing twice before the mutation settles (mutations are queued).
-  const giftActionRef = useRef(false);
-  useEffect(() => {
-    if (busy || giftActionRef.current) return;
-    if (giftsState !== "done" || !designatedGift?.variantId) return;
-    if (unlocked && !giftInCart) {
-      giftActionRef.current = true;
-      addVariant(designatedGift.variantId, 1);
-    } else if (!unlocked && giftLine) {
-      giftActionRef.current = true;
-      removeItem(giftLine.id);
-    }
-  }, [
-    unlocked,
-    giftInCart,
-    giftLine,
-    designatedGift,
-    giftsState,
-    busy,
-    addVariant,
-    removeItem,
-  ]);
-
-  // Once a mutation settles (items now reflect it) the guard can clear.
-  useEffect(() => {
-    if (!busy) giftActionRef.current = false;
-  }, [busy]);
-
-  // Paid items first, the free gift pinned last so it reads as a bonus.
-  const orderedItems = giftLine
-    ? [...items.filter((it) => it.id !== giftLine.id), giftLine]
+  // Paid items first, any free promo item pinned last so it reads as a bonus.
+  const orderedItems = hasFreeItem
+    ? [...items.filter((it) => !it.isFree), ...items.filter((it) => it.isFree)]
     : items;
 
   return (
@@ -202,7 +137,7 @@ export default function CartDrawer() {
                 {unlocked ? (
                   <>
                     <span className="font-semibold text-gold">יש!</span>{" "}
-                    התכשיט השלישי שלך נוסף לסל במתנה 🎁
+                    הפריט הזול בסל שלך עכשיו במתנה 🎁
                   </>
                 ) : (
                   <>
@@ -270,8 +205,7 @@ export default function CartDrawer() {
             ) : (
               <ul className="divide-y divide-platinum/30">
                 {orderedItems.map((item) => {
-                  const isGift =
-                    !!designatedGift && item.handle === designatedGift.handle;
+                  const isGift = item.isFree;
                   const onSale =
                     !isGift &&
                     item.compareAtPrice != null &&
@@ -320,17 +254,16 @@ export default function CartDrawer() {
                               )
                             )}
                           </div>
-                          {/* Remove — hidden for the gift, which is automatic */}
-                          {!isGift && (
-                            <button
-                              type="button"
-                              aria-label={`הסרת ${item.title} מהעגלה`}
-                              onClick={() => removeItem(item.id)}
-                              className="-me-1.5 -mt-1 inline-flex h-8 w-8 flex-none items-center justify-center rounded-full text-ash transition-colors hover:bg-platinum/20 hover:text-charcoal"
-                            >
-                              <X size={15} strokeWidth={1.5} />
-                            </button>
-                          )}
+                          {/* Remove — available on every line, incl. the free
+                              item (it's one of the shopper's own products). */}
+                          <button
+                            type="button"
+                            aria-label={`הסרת ${item.title} מהעגלה`}
+                            onClick={() => removeItem(item.id)}
+                            className="-me-1.5 -mt-1 inline-flex h-8 w-8 flex-none items-center justify-center rounded-full text-ash transition-colors hover:bg-platinum/20 hover:text-charcoal"
+                          >
+                            <X size={15} strokeWidth={1.5} />
+                          </button>
                         </div>
 
                         {/* Price — gift shows ₪0 with the value struck through;
@@ -372,10 +305,10 @@ export default function CartDrawer() {
                         </div>
 
                         {/* Bottom row — stepper for paid items; a quiet note for
-                            the automatic gift (no quantity controls). */}
+                            the free promo item (no quantity controls). */}
                         {isGift ? (
                           <p className="mt-auto pt-3 text-[11px] font-light text-ash">
-                            נוסף אוטומטית עם רכישת 2 פריטים — קני 2, השלישי במתנה
+                            הפריט הזול בסל שלך — עלינו 🎁
                           </p>
                         ) : (
                           <div className="mt-auto flex items-center justify-between pt-3">

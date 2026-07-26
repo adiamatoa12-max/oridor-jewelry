@@ -416,6 +416,11 @@ export interface ShopifyCartLine {
   price: number;
   /** Original ("compare at") unit price when the variant is on sale. */
   compareAtPrice?: number;
+  /** Line total AFTER Shopify's automatic discounts (₪), e.g. 0 for a promo
+   *  free item. Equals price × quantity when nothing is discounted. */
+  discountedTotal: number;
+  /** Total promotional discount applied to this line (₪). 0 when none. */
+  promoDiscount: number;
   /** Product handle — the join key back to the local catalog. */
   handle: string;
   /** Material line from the product description, e.g. "כסף 925 טהור". */
@@ -444,6 +449,10 @@ const CART_FRAGMENT = /* GraphQL */ `
         node {
           id
           quantity
+          # Line cost AFTER automatic discounts, plus the raw allocations, so the
+          # cart can show a promo-free line (e.g. "buy 2, 3rd free") at ₪0.
+          cost { totalAmount { amount } }
+          discountAllocations { discountedAmount { amount } }
           merchandise {
             ... on ProductVariant {
               id
@@ -470,6 +479,8 @@ interface CartNode {
       node: {
         id: string;
         quantity: number;
+        cost: { totalAmount: { amount: string } };
+        discountAllocations: { discountedAmount: { amount: string } }[];
         merchandise: {
           id: string;
           title: string;
@@ -516,6 +527,17 @@ function normalizeCart(node: CartNode): ShopifyCart {
         const c = parseFloat(l.merchandise.compareAtPrice?.amount ?? "0");
         return c > parseFloat(l.merchandise.price.amount) ? c : undefined;
       })(),
+      // Sum every automatic-discount allocation on the line, and derive the
+      // net line total. A "buy 2, 3rd free" promo fully discounts the cheapest
+      // line, so its discountedTotal comes back as 0.
+      promoDiscount: (l.discountAllocations ?? []).reduce(
+        (s, d) => s + parseFloat(d.discountedAmount?.amount ?? "0"),
+        0,
+      ),
+      discountedTotal: parseFloat(
+        l.cost?.totalAmount?.amount ??
+          String(parseFloat(l.merchandise.price.amount) * l.quantity),
+      ),
       image: l.merchandise.product.featuredImage?.url ?? null,
     })),
   };

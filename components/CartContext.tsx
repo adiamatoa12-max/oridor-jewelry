@@ -34,6 +34,12 @@ export interface CartItem {
   price: number;
   /** Original unit price when on sale (renders as a struck-through discount). */
   compareAtPrice?: number;
+  /** Line total after Shopify's automatic promo discounts (₪). */
+  discountedTotal: number;
+  /** Promotional discount applied to this line (₪); > 0 for a promo item. */
+  promoDiscount: number;
+  /** True when the whole line is a free promo gift (discounted to ₪0). */
+  isFree: boolean;
   /**
    * One-line detail shown under the title, e.g.
    * "כסף 925 טהור בציפוי רודיום · 2 קראט" — material from the product
@@ -206,6 +212,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       variant: l.variantTitle || undefined,
       price: l.price,
       compareAtPrice: l.compareAtPrice,
+      discountedTotal: l.discountedTotal,
+      promoDiscount: l.promoDiscount,
+      // A fully-discounted line (net ≈ ₪0 with a real discount) is the free
+      // promo gift, e.g. the cheapest item under "buy 2, 3rd free".
+      isFree: l.promoDiscount > 0 && l.discountedTotal < 0.01,
       details: buildDetails(l),
       quantity: l.quantity,
       image: l.image ?? "",
