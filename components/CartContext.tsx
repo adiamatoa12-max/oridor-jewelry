@@ -27,6 +27,8 @@ const STORAGE_KEY = "oridor_cart_id";
 export interface CartItem {
   /** Cart LINE id — used to update/remove this exact line. */
   id: string;
+  /** Product handle — used to identify special lines (e.g. the free gift). */
+  handle: string;
   title: string;
   variant?: string;
   price: number;
@@ -199,6 +201,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
     const items: CartItem[] = (cart?.lines ?? []).map((l) => ({
       id: l.id,
+      handle: l.handle,
       title: l.title,
       variant: l.variantTitle || undefined,
       price: l.price,

@@ -6,7 +6,6 @@ import {
   X,
   Plus,
   Minus,
-  Check,
   Lock,
   ArrowLeft,
   Gift,
@@ -57,79 +56,97 @@ export default function CartDrawer() {
     checkoutUrl,
     busy,
   } = useCart();
-  const [selectedGift, setSelectedGift] = useState<string | null>(null);
-
-  // Eligible gifts come from the live Shopify discount rule, fetched lazily the
-  // first time the shopper actually reaches the tier — so the request only
-  // happens when the picker is about to be shown.
+  // Eligible gift(s) from the live Shopify Buy-X-Get-Y rule. Fetched once the
+  // cart has items, so the designated gift is resolved before the shopper hits
+  // the tier and can be added automatically.
   const [gifts, setGifts] = useState<GiftOption[]>([]);
   const [giftsState, setGiftsState] = useState<"idle" | "loading" | "done">(
     "idle",
   );
 
-  // The drawer stays mounted, so its scroll position would otherwise persist
-  // between openings — reopening after browsing the gifts would land the
-  // shopper mid-list. Reset to the top so the cart items are always what they
-  // see first.
+  // The single designated free gift — the first product the discount rule marks
+  // eligible. Added automatically; never chosen by the shopper.
+  const designatedGift = gifts[0] ?? null;
+
+  // The drawer stays mounted, so reset its scroll to the top each time it opens.
   const bodyRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (isOpen) bodyRef.current?.scrollTo({ top: 0 });
   }, [isOpen]);
 
-  // One-time unlock at GIFT_THRESHOLD items. `count` is Shopify's totalQuantity —
-  // the sum of line QUANTITIES, not the number of lines — so three separate
-  // products and a single product at quantity three both reach the gift.
-  //
-  // Progress deliberately clamps rather than wrapping: wrapping sent the bar
-  // backwards once the cart grew past the threshold while the copy still read
-  // "unlocked", so the bar contradicted the message.
-  const progress = Math.min(count, GIFT_THRESHOLD); // 0 → 2, never resets
-  const toGo = Math.max(0, GIFT_THRESHOLD - count); // items still needed
-  const unlocked = count >= GIFT_THRESHOLD;
+  // The gift line currently in the cart, matched by product handle.
+  const giftLine = designatedGift
+    ? items.find((it) => it.handle === designatedGift.handle) ?? null
+    : null;
+  const giftInCart = !!giftLine;
 
-  // Total promotional savings across the cart — the sum of every line's
-  // (compareAt − price) × qty. Drives the highlighted green savings callout in
-  // the footer, so the shopper sees the full discount at a glance.
+  // Items the shopper actually PAID toward the tier — the free gift never counts
+  // toward unlocking itself, so progress is measured on paid items only.
+  const paidCount = count - (giftLine?.quantity ?? 0);
+  const progress = Math.min(paidCount, GIFT_THRESHOLD);
+  const toGo = Math.max(0, GIFT_THRESHOLD - paidCount);
+  const unlocked = paidCount >= GIFT_THRESHOLD;
+
+  // Total promotional savings — sum of every PAID line's (compareAt − price) ×
+  // qty. The gift is excluded (shown separately as ₪0).
   const totalSaved = items.reduce((sum, item) => {
+    if (designatedGift && item.handle === designatedGift.handle) return sum;
     const onSale =
       item.compareAtPrice != null && item.compareAtPrice > item.price;
     return sum + (onSale ? (item.compareAtPrice! - item.price) * item.quantity : 0);
   }, 0);
 
+  // Subtotal comes straight from Shopify's cart cost, which already reflects the
+  // Buy-X-Get-Y discount — the free gift is discounted to ₪0 in the cart total.
+  // So we DON'T subtract the gift again here (that would double-discount it);
+  // the ₪0 shown on the gift line and this total already agree.
+  const displaySubtotal = subtotal;
+
+  // Resolve the eligible gift(s) as soon as the cart has items.
   useEffect(() => {
-    if (!unlocked || giftsState !== "idle") return;
+    if (items.length === 0 || giftsState !== "idle") return;
     setGiftsState("loading");
     fetch("/api/gift-options")
       .then((r) => r.json())
       .then((d: { gifts?: GiftOption[] }) => setGifts(d.gifts ?? []))
       .catch(() => setGifts([]))
       .finally(() => setGiftsState("done"));
-  }, [unlocked, giftsState]);
+  }, [items.length, giftsState]);
 
-  /**
-   * Claim a gift: add the real Shopify variant to the cart so the Buy X Get Y
-   * rule can discount it at checkout. Selecting alone would have been cosmetic
-   * — the item has to actually be in the cart to be given away.
-   * Guarded so a double-tap, or a click while the cart is mutating, can't add
-   * the item twice.
-   */
-  const claimGift = (gift: GiftOption) => {
-    if (busy || !gift.variantId) return;
-    // Re-clicking the current gift is a no-op — it stays selected.
-    if (selectedGift === gift.handle) return;
-    // Swapping: remove the previously-chosen gift line before adding the new
-    // one, so the shopper never ends up with two free items. Cart mutations run
-    // on a serialized queue (CartContext.run), so the remove fully settles
-    // before the add — no race. The old gift's line is matched by title, since
-    // the gift products are distinct pieces.
-    if (selectedGift) {
-      const prev = gifts.find((g) => g.handle === selectedGift);
-      const prevLine = prev && items.find((it) => it.title === prev.title);
-      if (prevLine) removeItem(prevLine.id);
+  // Automatic 2+1 gift: add the designated gift the instant the shopper reaches
+  // the tier, and pull it back out if the cart drops below it. The ref guards
+  // against firing twice before the mutation settles (mutations are queued).
+  const giftActionRef = useRef(false);
+  useEffect(() => {
+    if (busy || giftActionRef.current) return;
+    if (giftsState !== "done" || !designatedGift?.variantId) return;
+    if (unlocked && !giftInCart) {
+      giftActionRef.current = true;
+      addVariant(designatedGift.variantId, 1);
+    } else if (!unlocked && giftLine) {
+      giftActionRef.current = true;
+      removeItem(giftLine.id);
     }
-    setSelectedGift(gift.handle);
-    addVariant(gift.variantId, 1);
-  };
+  }, [
+    unlocked,
+    giftInCart,
+    giftLine,
+    designatedGift,
+    giftsState,
+    busy,
+    addVariant,
+    removeItem,
+  ]);
+
+  // Once a mutation settles (items now reflect it) the guard can clear.
+  useEffect(() => {
+    if (!busy) giftActionRef.current = false;
+  }, [busy]);
+
+  // Paid items first, the free gift pinned last so it reads as a bonus.
+  const orderedItems = giftLine
+    ? [...items.filter((it) => it.id !== giftLine.id), giftLine]
+    : items;
 
   return (
     <div
@@ -184,12 +201,13 @@ export default function CartDrawer() {
               <p className="min-w-0 flex-1 text-[13px] font-medium leading-snug text-charcoal">
                 {unlocked ? (
                   <>
-                    <span className="font-semibold text-gold">המתנה נפתחה!</span>{" "}
-                    בחרי אותה למטה 🎁
+                    <span className="font-semibold text-gold">יש!</span>{" "}
+                    המתנה שלך נוספה לסל — בחינם 🎁
                   </>
                 ) : (
                   <>
-                    עוד {toGo} {toGo === 1 ? "פריט" : "פריטים"} והמתנה שלך תיפתח 🎁
+                    עוד {toGo} {toGo === 1 ? "פריט" : "פריטים"} והמתנה שלך תתווסף
+                    אוטומטית 🎁
                   </>
                 )}
               </p>
@@ -251,15 +269,21 @@ export default function CartDrawer() {
               )
             ) : (
               <ul className="divide-y divide-platinum/30">
-                {items.map((item) => {
+                {orderedItems.map((item) => {
+                  const isGift =
+                    !!designatedGift && item.handle === designatedGift.handle;
                   const onSale =
+                    !isGift &&
                     item.compareAtPrice != null &&
                     item.compareAtPrice > item.price;
                   const saved = onSale
                     ? (item.compareAtPrice! - item.price) * item.quantity
                     : 0;
                   return (
-                    <li key={item.id} className="flex gap-4 py-5">
+                    <li
+                      key={item.id}
+                      className={`flex gap-4 py-5 ${isGift ? "rounded-2xl bg-gold/[0.05] px-3 ring-1 ring-gold/25" : ""}`}
+                    >
                       {/* Product image (right in RTL) */}
                       <div className="relative aspect-square w-[84px] flex-none overflow-hidden rounded-xl bg-cream ring-1 ring-platinum/40">
                         <Image
@@ -269,6 +293,11 @@ export default function CartDrawer() {
                           sizes="84px"
                           className="object-cover"
                         />
+                        {isGift && (
+                          <span className="absolute inset-x-0 bottom-0 bg-gold/90 py-0.5 text-center text-[9px] font-semibold tracking-[0.1em] text-[#0a0a0a]">
+                            מתנה
+                          </span>
+                        )}
                       </div>
 
                       {/* Details + controls (left) */}
@@ -278,84 +307,113 @@ export default function CartDrawer() {
                             <h3 className="truncate text-sm font-medium leading-snug text-charcoal">
                               {item.title}
                             </h3>
-                            {/* Material · chosen options, e.g.
-                                "כסף 925 טהור בציפוי רודיום · 2 קראט".
-                                Falls back to the raw variant title if the
-                                product has no description to draw on. */}
-                            {(item.details ?? item.variant) && (
-                              <p className="mt-0.5 truncate text-[11px] font-light leading-snug text-ash">
-                                {item.details ?? item.variant}
+                            {isGift ? (
+                              <p className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium text-gold">
+                                <Gift size={12} strokeWidth={2} />
+                                המתנה שלך · מבצע 2+1
                               </p>
+                            ) : (
+                              (item.details ?? item.variant) && (
+                                <p className="mt-0.5 truncate text-[11px] font-light leading-snug text-ash">
+                                  {item.details ?? item.variant}
+                                </p>
+                              )
                             )}
                           </div>
-                          {/* Remove */}
-                          <button
-                            type="button"
-                            aria-label={`הסרת ${item.title} מהעגלה`}
-                            onClick={() => removeItem(item.id)}
-                            className="-me-1.5 -mt-1 inline-flex h-8 w-8 flex-none items-center justify-center rounded-full text-ash transition-colors hover:bg-platinum/20 hover:text-charcoal"
-                          >
-                            <X size={15} strokeWidth={1.5} />
-                          </button>
+                          {/* Remove — hidden for the gift, which is automatic */}
+                          {!isGift && (
+                            <button
+                              type="button"
+                              aria-label={`הסרת ${item.title} מהעגלה`}
+                              onClick={() => removeItem(item.id)}
+                              className="-me-1.5 -mt-1 inline-flex h-8 w-8 flex-none items-center justify-center rounded-full text-ash transition-colors hover:bg-platinum/20 hover:text-charcoal"
+                            >
+                              <X size={15} strokeWidth={1.5} />
+                            </button>
+                          )}
                         </div>
 
-                        {/* Price — sale price in green with struck-through original */}
+                        {/* Price — gift shows ₪0 with the value struck through;
+                            paid items show sale price in green when discounted. */}
                         <div className="mt-1.5 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-                          <span
-                            className={`text-sm font-medium ${
-                              onSale ? "text-emerald-600" : "text-graphite"
-                            }`}
-                          >
-                            {formatPrice(item.price)}
-                          </span>
-                          {onSale && (
+                          {isGift ? (
                             <>
+                              <span className="text-sm font-semibold text-emerald-600">
+                                {formatPrice(0)}
+                              </span>
                               <span className="text-xs font-light text-ash line-through">
-                                {formatPrice(item.compareAtPrice!)}
+                                {formatPrice(item.price)}
                               </span>
                               <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">
-                                חסכת {formatPrice(saved)}
+                                חינם
                               </span>
+                            </>
+                          ) : (
+                            <>
+                              <span
+                                className={`text-sm font-medium ${
+                                  onSale ? "text-emerald-600" : "text-graphite"
+                                }`}
+                              >
+                                {formatPrice(item.price)}
+                              </span>
+                              {onSale && (
+                                <>
+                                  <span className="text-xs font-light text-ash line-through">
+                                    {formatPrice(item.compareAtPrice!)}
+                                  </span>
+                                  <span className="rounded-full bg-emerald-50 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700">
+                                    חסכת {formatPrice(saved)}
+                                  </span>
+                                </>
+                              )}
                             </>
                           )}
                         </div>
 
-                        {/* Bottom row — compact stepper + line total */}
-                        <div className="mt-auto flex items-center justify-between pt-3">
-                          <div className="flex items-center rounded-full border border-platinum/60">
-                            <button
-                              type="button"
-                              aria-label="הפחתת כמות"
-                              onClick={() =>
-                                updateQuantity(item.id, item.quantity - 1)
-                              }
-                              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-cream disabled:opacity-30"
-                              disabled={item.quantity <= 1 || busy}
-                            >
-                              <Minus size={14} strokeWidth={1.75} />
-                            </button>
-                            <span className="min-w-7 text-center text-sm tabular-nums text-charcoal">
-                              {item.quantity}
-                            </span>
-                            <button
-                              type="button"
-                              aria-label="הוספת כמות"
-                              onClick={() =>
-                                updateQuantity(item.id, item.quantity + 1)
-                              }
-                              disabled={busy}
-                              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-cream disabled:opacity-30"
-                            >
-                              <Plus size={14} strokeWidth={1.75} />
-                            </button>
-                          </div>
+                        {/* Bottom row — stepper for paid items; a quiet note for
+                            the automatic gift (no quantity controls). */}
+                        {isGift ? (
+                          <p className="mt-auto pt-3 text-[11px] font-light text-ash">
+                            נוסף אוטומטית עם רכישת 2 פריטים
+                          </p>
+                        ) : (
+                          <div className="mt-auto flex items-center justify-between pt-3">
+                            <div className="flex items-center rounded-full border border-platinum/60">
+                              <button
+                                type="button"
+                                aria-label="הפחתת כמות"
+                                onClick={() =>
+                                  updateQuantity(item.id, item.quantity - 1)
+                                }
+                                className="inline-flex h-10 w-10 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-cream disabled:opacity-30"
+                                disabled={item.quantity <= 1 || busy}
+                              >
+                                <Minus size={14} strokeWidth={1.75} />
+                              </button>
+                              <span className="min-w-7 text-center text-sm tabular-nums text-charcoal">
+                                {item.quantity}
+                              </span>
+                              <button
+                                type="button"
+                                aria-label="הוספת כמות"
+                                onClick={() =>
+                                  updateQuantity(item.id, item.quantity + 1)
+                                }
+                                disabled={busy}
+                                className="inline-flex h-10 w-10 items-center justify-center rounded-full text-charcoal transition-colors hover:bg-cream disabled:opacity-30"
+                              >
+                                <Plus size={14} strokeWidth={1.75} />
+                              </button>
+                            </div>
 
-                          {item.quantity > 1 && (
-                            <span className="text-sm font-light text-charcoal">
-                              {formatPrice(item.price * item.quantity)}
-                            </span>
-                          )}
-                        </div>
+                            {item.quantity > 1 && (
+                              <span className="text-sm font-light text-charcoal">
+                                {formatPrice(item.price * item.quantity)}
+                              </span>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </li>
                   );
@@ -364,112 +422,6 @@ export default function CartDrawer() {
             )}
           </div>
 
-          {/* Gift options — collapses to zero height until the tier is reached.
-              Premium cards: real product imagery, generous padding, a
-              standout heading, and a clear gold selection state. */}
-          {items.length > 0 && (
-            <div
-              className={`grid bg-cream/60 transition-all duration-700 ease-cinematic ${
-                unlocked
-                  ? "mt-2 grid-rows-[1fr] border-t border-platinum/50 opacity-100"
-                  : "grid-rows-[0fr] opacity-0"
-              }`}
-            >
-              <div className="overflow-hidden">
-                <div className="px-6 py-5">
-                  {/* Section heading — clear hierarchy so the invitation stands out. */}
-                  <div className="mb-3.5 text-center">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-gold">
-                      מתנה מאיתנו
-                    </p>
-                    <h3 className="mt-1.5 text-lg font-medium tracking-wide text-charcoal">
-                      בחרי את המתנה שלך
-                    </h3>
-                  </div>
-
-                  {giftsState === "loading" && (
-                    <div className="flex justify-center py-8">
-                      <span className="h-5 w-5 animate-spin rounded-full border-2 border-gold/20 border-t-gold" />
-                    </div>
-                  )}
-
-                  {giftsState === "done" && gifts.length === 0 && (
-                    <p className="py-6 text-center text-[11px] font-light leading-relaxed text-ash">
-                      המתנות יתעדכנו כאן בקרוב, ונצרף אותן להזמנה שלך.
-                    </p>
-                  )}
-
-                  <div className="space-y-2.5">
-                    {gifts.map((gift) => {
-                      const { handle, title, image, price } = gift;
-                      const active = selectedGift === handle;
-                      // Every gift stays selectable so the shopper can freely
-                      // swap. Only `busy` (a mutation in flight) disables the
-                      // buttons, which prevents double-taps mid-swap.
-                      return (
-                        <button
-                          key={handle}
-                          type="button"
-                          onClick={() => claimGift(gift)}
-                          disabled={busy}
-                          aria-pressed={active}
-                          className={`group relative flex w-full items-center gap-3.5 rounded-2xl border p-3 text-start transition-all duration-300 ease-cinematic disabled:cursor-wait ${
-                            active
-                              ? "scale-[1.015] border-gold bg-gold/[0.06] shadow-[0_14px_34px_-14px_rgba(197,160,89,0.55)] ring-1 ring-gold/40"
-                              : "border-platinum/60 bg-canvas shadow-card hover:-translate-y-0.5 hover:border-gold/50 hover:shadow-cardHover"
-                          }`}
-                        >
-                          {/* Product image — live from Shopify */}
-                          <div className="relative h-[68px] w-[68px] flex-none overflow-hidden rounded-xl bg-cream">
-                            {image && (
-                              <Image
-                                src={image}
-                                alt={`${title}, מתנת פרימיום מבית Oridor`}
-                                fill
-                                sizes="68px"
-                                className="object-cover transition-transform duration-500 ease-cinematic group-hover:scale-105"
-                              />
-                            )}
-                          </div>
-
-                          {/* Copy */}
-                          <div className="min-w-0 flex-1">
-                            <p className="text-[13.5px] font-medium leading-snug text-charcoal">
-                              {title}
-                            </p>
-                            <p className="mt-0.5 text-[11px] font-light leading-snug text-ash">
-                              שווי {formatPrice(price)}
-                            </p>
-                            <p className="mt-1.5 text-[10px] font-medium tracking-[0.12em] text-gold">
-                              {active ? "✓ נוסף לסל" : "✦ לבחירת המתנה"}
-                            </p>
-                          </div>
-
-                          {/* Selection indicator — empty ring → filled gold check */}
-                          <span
-                            aria-hidden="true"
-                            className={`flex-none inline-flex h-6 w-6 items-center justify-center rounded-full border transition-all duration-300 ${
-                              active
-                                ? "border-gold bg-gold text-canvas shadow-sm"
-                                : "border-platinum/70 bg-transparent text-transparent group-hover:border-gold/50"
-                            }`}
-                          >
-                            <Check size={13} strokeWidth={2.75} />
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  {selectedGift && (
-                    <p className="mt-3 text-center text-[11px] font-light tracking-wide text-gold">
-                      המתנה נוספה לסל שלך ✓
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Footer: total + checkout — pinned (sticky) at the bottom, floating
@@ -493,7 +445,7 @@ export default function CartDrawer() {
               סה״כ לתשלום
             </span>
             <span className="text-2xl font-normal tracking-wide text-charcoal">
-              {formatPrice(subtotal)}
+              {formatPrice(displaySubtotal)}
             </span>
           </div>
 
@@ -528,7 +480,7 @@ export default function CartDrawer() {
               // off our domain, and must be tracked Shopify-side. CartItem
               // carries no handle, so content_ids is omitted; value + num_items
               // are what Meta needs for checkout-abandonment audiences.
-              trackInitiateCheckout({ value: subtotal, numItems: count });
+              trackInitiateCheckout({ value: displaySubtotal, numItems: count });
             }}
             className={`group mt-3 flex w-full items-center justify-center gap-2 bg-charcoal py-4 text-xs font-medium uppercase tracking-[0.2em] text-canvas transition-all duration-300 ease-cinematic hover:bg-gold hover:text-charcoal active:scale-[0.99] ${
               items.length === 0 || !checkoutUrl || busy
