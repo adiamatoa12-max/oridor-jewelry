@@ -18,7 +18,7 @@ const BANNERS: PromoBanner[] = [
   {
     // Right banner (first in RTL flow) — light marble background.
     title: "קולקציית הטניס",
-    subtitle: "מבצע השקה: קני 2, קבלי 15% הנחה",
+    subtitle: "קנו 2, והתכשיט השלישי עלינו",
     // Dedicated tennis collection page — renders only 'טניס'-named pieces.
     href: "/collections/tennis",
     image: "/photo/שמירה תצוגה אורידור.jpeg",
@@ -28,7 +28,7 @@ const BANNERS: PromoBanner[] = [
   {
     // Left banner — darker, complex background.
     title: "אלגנטיות לערב",
-    subtitle: "פריטים מובחרים לאירועים בלתי נשכחים",
+    subtitle: "מבחר מוקפד לרגעים הגדולים",
     // Necklaces. There's no /collections/necklaces route: necklaces are a
     // CATEGORY that spans the moissanite and silver collections, so the site
     // reaches them through the shop's category chip. The label must match

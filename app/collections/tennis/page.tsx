@@ -46,7 +46,7 @@ export default async function TennisCollectionPage() {
             קולקציית הטניס
           </h1>
           <p className="mx-auto mt-4 max-w-md text-sm font-light text-graphite">
-            צמידים ושרשראות טניס בכסף סטרלינג 925 בציפוי רודיום, משובצים במואסנייט ובאבני חן נוצצות. קלאסיקה שלא יוצאת מהאופנה.
+            שורת אבנים נוצצת בכסף 925 בציפוי רודיום. קלאסיקה שלא יוצאת מהאופנה.
           </p>
         </header>
 
