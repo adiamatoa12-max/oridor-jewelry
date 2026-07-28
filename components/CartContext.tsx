@@ -15,6 +15,7 @@ import {
   updateCartLine,
   removeCartLine,
   updateCartAttributes,
+  applyDiscountCodes,
   getCart,
   getFirstVariantId,
   isShopifyConfigured,
@@ -73,6 +74,11 @@ interface CartContextValue {
   attributes: { key: string; value: string }[];
   /** Replace the cart's custom attributes (e.g. the mystery-gift flag). */
   setAttributes: (attrs: { key: string; value: string }[]) => void;
+  /** Discount codes on the cart, with whether Shopify actually applies each. */
+  discountCodes: { code: string; applicable: boolean }[];
+  /** Apply a discount code (e.g. the club welcome code) to the session's cart,
+   *  creating an empty cart to hold it if none exists yet. */
+  applyDiscount: (code: string) => void;
 }
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -199,6 +205,26 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     [run],
   );
 
+  const applyDiscount = useCallback(
+    (code: string) => {
+      if (!isShopifyConfigured || !code) return;
+      run(() => {
+        const current = cartRef.current;
+        if (current) {
+          // Merge with any existing codes (cartDiscountCodesUpdate REPLACES).
+          const codes = Array.from(
+            new Set([...current.discountCodes.map((d) => d.code), code]),
+          );
+          return applyDiscountCodes(current.id, codes);
+        }
+        // No cart yet — create an empty one that holds the code, so the club
+        // discount is active for the whole session the moment items are added.
+        return createCart([], [code]);
+      });
+    },
+    [run],
+  );
+
   const value = useMemo<CartContextValue>(() => {
     /**
      * "Material · chosen options" for the cart line, e.g.
@@ -250,6 +276,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       removeItem,
       attributes: cart?.attributes ?? [],
       setAttributes,
+      discountCodes: cart?.discountCodes ?? [],
+      applyDiscount,
     };
   }, [
     isOpen,
@@ -260,6 +288,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     updateQuantity,
     removeItem,
     setAttributes,
+    applyDiscount,
   ]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

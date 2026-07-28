@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Instagram, ArrowLeft, ChevronDown, Accessibility } from "lucide-react";
 import { A11Y_OPEN_EVENT } from "./AccessibilityWidget";
+import ClubSignup from "./ClubSignup";
 
 const SERVICE_LINKS = [
   { label: "צור קשר", href: "/contact" },
@@ -99,7 +100,7 @@ export default function PremiumFooter() {
           onToggle={() => toggle("הקולקציות")}
         />
 
-        {/* Newsletter */}
+        {/* Club sign-up — joining activates a 10% welcome discount */}
         <div>
           <h3 className="text-[12px] font-medium uppercase tracking-[0.2em] text-cream">
             הצטרפי למועדון
@@ -107,26 +108,9 @@ export default function PremiumFooter() {
           <p className="mt-4 text-sm font-light leading-relaxed text-platinum/55">
             קבלי 10% הנחה על ההזמנה הראשונה.
           </p>
-          <form className="mt-6" onSubmit={(e) => e.preventDefault()}>
-            {/* Underline field with a distinct gold submit button — the line
-                lifts to gold on focus, the button fills gold on hover. */}
-            <div className="group flex items-center gap-2 border-b border-white/20 pb-2.5 transition-colors focus-within:border-gold">
-              <input
-                type="email"
-                required
-                placeholder="כתובת אימייל"
-                aria-label="כתובת אימייל"
-                className="w-full bg-transparent text-sm font-light text-cream placeholder:text-platinum/40 focus:outline-none"
-              />
-              <button
-                type="submit"
-                aria-label="הרשמה לניוזלטר"
-                className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/50 text-gold transition-all duration-300 hover:bg-gold hover:text-ink"
-              >
-                <ArrowLeft size={16} strokeWidth={1.5} />
-              </button>
-            </div>
-          </form>
+          <div className="mt-6">
+            <ClubSignup tone="dark" />
+          </div>
         </div>
       </div>
 

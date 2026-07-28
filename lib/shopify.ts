@@ -439,6 +439,9 @@ export interface ShopifyCart {
   /** Custom cart attributes — flow through to the order (visible in Admin), used
    *  e.g. to flag that a free mystery gift must be packed. */
   attributes: { key: string; value: string }[];
+  /** Discount codes on the cart (e.g. the club welcome code). `applicable` is
+   *  true when Shopify actually applies it to the current cart. */
+  discountCodes: { code: string; applicable: boolean }[];
 }
 
 const CART_FRAGMENT = /* GraphQL */ `
@@ -447,6 +450,7 @@ const CART_FRAGMENT = /* GraphQL */ `
     checkoutUrl
     totalQuantity
     attributes { key value }
+    discountCodes { code applicable }
     cost { subtotalAmount { amount currencyCode } }
     lines(first: 100) {
       edges {
@@ -478,6 +482,7 @@ interface CartNode {
   checkoutUrl: string;
   totalQuantity: number;
   attributes: { key: string; value: string }[];
+  discountCodes: { code: string; applicable: boolean }[];
   cost: { subtotalAmount: MoneyV2 };
   lines: {
     edges: {
@@ -512,6 +517,7 @@ function normalizeCart(node: CartNode): ShopifyCart {
     subtotal: parseFloat(node.cost.subtotalAmount.amount),
     currencyCode: node.cost.subtotalAmount.currencyCode,
     attributes: node.attributes ?? [],
+    discountCodes: node.discountCodes ?? [],
     lines: node.lines.edges.map(({ node: l }) => ({
       id: l.id,
       quantity: l.quantity,
@@ -554,26 +560,55 @@ export interface CartLineInput {
   quantity: number;
 }
 
-/** Create a new cart with the given lines. */
+/** Create a new cart with the given lines (and optional discount codes, e.g.
+ *  the club welcome code — applied even to an otherwise-empty cart). */
 export async function createCart(
   lines: CartLineInput[],
+  discountCodes: string[] = [],
 ): Promise<ShopifyCart> {
   const data = await shopifyFetch<{
     cartCreate: { cart: CartNode; userErrors: { message: string }[] };
   }>(
     /* GraphQL */ `
       ${CART_FRAGMENT}
-      mutation CartCreate($lines: [CartLineInput!]!) {
-        cartCreate(input: { lines: $lines }) {
+      mutation CartCreate($lines: [CartLineInput!]!, $discountCodes: [String!]) {
+        cartCreate(input: { lines: $lines, discountCodes: $discountCodes }) {
           cart { ...CartFields }
           userErrors { message }
         }
       }
     `,
-    { lines },
+    { lines, discountCodes },
     { cache: "no-store" },
   );
   return normalizeCart(data.cartCreate.cart);
+}
+
+/**
+ * Apply (replace) the discount codes on an existing cart — the club welcome
+ * code is passed here. Shopify validates each code and marks it `applicable`
+ * when it actually discounts the cart; the discount then carries to checkout.
+ */
+export async function applyDiscountCodes(
+  cartId: string,
+  discountCodes: string[],
+): Promise<ShopifyCart> {
+  const data = await shopifyFetch<{
+    cartDiscountCodesUpdate: { cart: CartNode; userErrors: { message: string }[] };
+  }>(
+    /* GraphQL */ `
+      ${CART_FRAGMENT}
+      mutation CartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!]) {
+        cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
+          cart { ...CartFields }
+          userErrors { message }
+        }
+      }
+    `,
+    { cartId, discountCodes },
+    { cache: "no-store" },
+  );
+  return normalizeCart(data.cartDiscountCodesUpdate.cart);
 }
 
 /** Add lines to an existing cart. */

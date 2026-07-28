@@ -13,6 +13,7 @@ import {
   Star,
   Tag,
   Sparkles,
+  Crown,
 } from "lucide-react";
 import { useCart } from "./CartContext";
 import { trackInitiateCheckout } from "@/lib/metaPixel";
@@ -51,7 +52,11 @@ export default function CartDrawer() {
     busy,
     attributes,
     setAttributes,
+    discountCodes,
   } = useCart();
+
+  // Active club / welcome discount codes actually applied to the cart.
+  const activeCodes = discountCodes.filter((d) => d.applicable);
   // The drawer stays mounted, so reset its scroll to the top each time it opens.
   const bodyRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -433,6 +438,16 @@ export default function CartDrawer() {
               <Tag size={15} strokeWidth={1.75} className="text-emerald-600" />
               <span className="text-[13px] font-semibold text-emerald-700">
                 את חוסכת {formatPrice(totalSaved)} בהזמנה הזו
+              </span>
+            </div>
+          )}
+
+          {/* Active club / welcome discount — confirms the code is live */}
+          {activeCodes.length > 0 && (
+            <div className="mb-4 flex items-center justify-center gap-2 rounded-xl bg-gold/10 px-4 py-2 ring-1 ring-gold/25">
+              <Crown size={14} strokeWidth={1.75} className="text-gold" />
+              <span className="text-[12px] font-medium text-charcoal">
+                הנחת מועדון פעילה · {activeCodes[0].code}
               </span>
             </div>
           )}
