@@ -16,8 +16,8 @@ export const PROMO_OPEN_EVENT = "oridor:open-promo";
  * A hard MIN_DELAY_MS floor guarantees it never interrupts the first moment on
  * the site, even if the page loads already scrolled or the shopper scrolls fast.
  */
-const SCROLL_TRIGGER_PX = 400;
-const FALLBACK_DELAY_MS = 5000;
+const SCROLL_TRIGGER_PX = 350;
+const FALLBACK_DELAY_MS = 4000;
 const MIN_DELAY_MS = 1500;
 
 /**
@@ -153,7 +153,7 @@ export default function PromoPopup() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-xs text-sm font-light leading-relaxed text-platinum/70">
-            וקבלי 10% הנחה מיידית על כל המוצרים באתר + השתתפות בהגרלות בלעדיות ✨
+            וקבלי 10% הנחה מיידית על כל המוצרים באתר + השתתפות אוטומטית בהגרלה על סט מואסנייט יוקרתי ✨
           </p>
 
           <div className="mt-8">
