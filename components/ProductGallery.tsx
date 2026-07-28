@@ -47,6 +47,10 @@ export default function ProductGallery({
   // programmatic scrollTo would otherwise fight the state we just set.
   const swiping = useRef(false);
   const scrollEnd = useRef<number | undefined>(undefined);
+  // Touch start point, for detecting a horizontal swipe on touchend. The mobile
+  // track uses touch-action: pan-y (vertical page scroll is NEVER trapped), so
+  // horizontal swipes are read here in JS instead of via native pan-x.
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   // Memoised: an inline filter would produce a new array every render, making
   // the sync effect below re-run constantly and fight the clicked thumbnail.
@@ -128,6 +132,34 @@ export default function ProductGallery({
     }, 120);
   };
 
+  // Horizontal-swipe detection on the mobile track. Because touch-action is
+  // pan-y, the browser always keeps VERTICAL panning for the page (a downward
+  // drag over the gallery scrolls the page and is never trapped). Horizontal
+  // gestures are ignored by the browser here, so we read them on touchend — and
+  // we never call preventDefault, so page scrolling stays fully native.
+  const onTrackTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+  const onTrackTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    // Only a clearly-horizontal gesture switches the image; anything with a
+    // meaningful vertical component was a page scroll and is left alone.
+    if (Math.abs(dx) < 40 || Math.abs(dx) <= Math.abs(dy)) return;
+    // dx > 0 (finger dragged right) advances toward the next image, which sits
+    // to the LEFT under RTL; dx < 0 goes back. Clamped to the slide range.
+    const next = Math.min(
+      Math.max(active + (dx > 0 ? 1 : -1), 0),
+      gallery.length - 1,
+    );
+    if (next !== active) show(next);
+  };
+
   // State → track, so a thumbnail tap, an arrow or a variant swatch moves the
   // carousel. Skipped mid-swipe: scrolling the track while the user's finger is
   // driving it would yank the image out from under them.
@@ -200,14 +232,16 @@ export default function ProductGallery({
         <div
           ref={trackRef}
           onScroll={onTrackScroll}
-          // Movement is locked to one axis:
-          //  - overflow-y-hidden: `overflow-x-auto` alone leaves the Y axis
-          //    computing to `auto`, so the track was draggable vertically too.
-          //  - touch-pan-x: tells the browser this element only pans
-          //    horizontally, so a diagonal drag can't smear both ways.
-          //  - select-none: stops the long-press text/image selection that
-          //    makes a drag feel like it "grabbed" the photo.
-          className="hide-scrollbar flex w-full select-none snap-x snap-mandatory touch-pan-x overflow-x-auto overflow-y-hidden overscroll-x-contain rounded-2xl sm:hidden"
+          onTouchStart={onTrackTouchStart}
+          onTouchEnd={onTrackTouchEnd}
+          // touch-pan-y: the page ALWAYS gets vertical scrolling, so a downward
+          // drag over the gallery is never trapped/frozen. Horizontal swipes are
+          // read in JS (onTouchEnd) and drive the track programmatically —
+          // touch-pan-x used to reserve the whole gesture and block page scroll.
+          //  - overflow-y-hidden: keep the track itself from panning vertically.
+          //  - select-none: stops the long-press text/image selection that makes
+          //    a drag feel like it "grabbed" the photo.
+          className="hide-scrollbar flex w-full select-none snap-x snap-mandatory touch-pan-y overflow-x-auto overflow-y-hidden overscroll-x-contain rounded-2xl sm:hidden"
         >
           {gallery.map((img) => {
             // A broken slide would otherwise show a blank frame; fall back to
