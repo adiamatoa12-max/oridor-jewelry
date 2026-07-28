@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { X } from "lucide-react";
+import { X, Crown } from "lucide-react";
 import ClubSignup from "./ClubSignup";
 
 /** sessionStorage flag so the popup auto-shows at most once per browsing session. */
@@ -9,16 +9,14 @@ const SEEN_KEY = "oridor-promo-seen";
 /** Any element can open the popup on demand: window.dispatchEvent(new Event(PROMO_OPEN_EVENT)). */
 export const PROMO_OPEN_EVENT = "oridor:open-promo";
 /**
- * Auto-open pacing — the popup lets the visitor start browsing first, so it
- * opens on the FIRST of these engagement signals rather than on page load:
- *  - they scroll past SCROLL_TRIGGER_PX, or
- *  - FALLBACK_DELAY_MS passes (a gentle time-based fallback).
- * A hard MIN_DELAY_MS floor guarantees it never interrupts the first moment on
- * the site, even if the page loads already scrolled or the shopper scrolls fast.
+ * Auto-open pacing — the popup NEVER interrupts on entry. A hard 15-second floor
+ * means nothing opens before then; at 15s it opens (or the moment the shopper
+ * scrolls past SCROLL_TRIGGER_PX once the floor has elapsed). Shown at most once
+ * per session (SEEN_KEY in sessionStorage).
  */
 const SCROLL_TRIGGER_PX = 350;
-const FALLBACK_DELAY_MS = 4000;
-const MIN_DELAY_MS = 1500;
+const FALLBACK_DELAY_MS = 15000;
+const MIN_DELAY_MS = 15000;
 
 /**
  * VIP club welcome popup — a striking dark modal (ink + gold) inviting the
@@ -122,37 +120,55 @@ export default function PromoPopup() {
         className="absolute inset-0 animate-fade cursor-default bg-black/70 backdrop-blur-sm"
       />
 
-      {/* Card — striking dark surface with a soft gold glow. */}
-      <div className="relative w-full max-w-md animate-pop-in overflow-hidden rounded-2xl bg-ink text-center shadow-[0_30px_80px_-20px_rgba(0,0,0,0.7)] ring-1 ring-white/10">
+      {/* Card — a boutique-jewelry modal: deep ink surface, a hairline gold
+          frame, and a warm gold glow behind the crest. */}
+      <div className="relative w-full max-w-md animate-pop-in overflow-hidden rounded-[26px] bg-gradient-to-b from-[#141210] to-ink text-center shadow-[0_40px_100px_-24px_rgba(0,0,0,0.75)] ring-1 ring-gold/25">
+        {/* Warm gold glow behind the crest */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-20 left-1/2 h-52 w-52 -translate-x-1/2 rounded-full bg-gold/25 blur-3xl"
+          className="pointer-events-none absolute -top-24 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-gold/25 blur-3xl"
+        />
+        {/* Thin gold top accent line */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-l from-transparent via-gold/70 to-transparent"
         />
 
-        {/* Close */}
+        {/* Close — visible, generous tap target on mobile + desktop */}
         <button
           ref={closeRef}
           type="button"
           onClick={close}
           aria-label="סגירה"
-          className="absolute end-4 top-4 z-10 inline-flex h-9 w-9 items-center justify-center rounded-full text-platinum/60 transition-colors duration-300 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+          className="absolute end-3.5 top-3.5 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/[0.06] text-platinum/80 backdrop-blur-sm transition-all duration-300 hover:border-gold/50 hover:bg-white/10 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
         >
-          <X size={18} strokeWidth={1.5} />
+          <X size={18} strokeWidth={1.75} />
         </button>
 
-        <div className="relative px-8 pb-11 pt-14 sm:px-10">
-          <p className="mb-4 text-[11px] uppercase tracking-[0.3em] text-gold">
+        <div className="relative px-8 pb-11 pt-12 sm:px-10">
+          {/* Crest — a gold crown in a ringed circle for the boutique feel */}
+          <span className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full bg-gold/12 ring-1 ring-gold/30">
+            <Crown size={24} strokeWidth={1.5} className="text-gold" />
+          </span>
+
+          <p className="mt-5 text-[11px] uppercase tracking-[0.38em] text-gold/90">
             מועדון ה-VIP
           </p>
 
           <h2
             id="promo-title"
-            className="font-display text-3xl font-semibold leading-snug text-cream sm:text-[34px]"
+            className="mt-3 font-display text-[30px] font-semibold leading-[1.15] tracking-tight text-cream sm:text-[34px]"
           >
             הצטרפי למועדון ה-VIP שלנו
           </h2>
 
-          <p className="mx-auto mt-4 max-w-xs text-sm font-light leading-relaxed text-platinum/70">
+          {/* Short gold divider */}
+          <span
+            aria-hidden="true"
+            className="mx-auto mt-5 block h-px w-14 bg-gradient-to-l from-transparent via-gold/60 to-transparent"
+          />
+
+          <p className="mx-auto mt-5 max-w-xs text-[13.5px] font-light leading-[1.75] text-platinum/75">
             וקבלי 10% הנחה מיידית על כל המוצרים באתר + השתתפות אוטומטית בהגרלה על סט מואסנייט יוקרתי ✨
           </p>
 
@@ -174,7 +190,7 @@ export default function PromoPopup() {
           <button
             type="button"
             onClick={close}
-            className="mt-5 text-xs font-light tracking-wide text-platinum/50 underline decoration-platinum/30 underline-offset-4 transition-colors duration-300 hover:text-platinum hover:decoration-platinum/60"
+            className="mt-6 text-[11px] font-light tracking-[0.05em] text-platinum/45 underline decoration-platinum/25 underline-offset-4 transition-colors duration-300 hover:text-platinum/80 hover:decoration-platinum/50"
           >
             אולי בפעם אחרת
           </button>

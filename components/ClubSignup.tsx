@@ -130,10 +130,10 @@ export default function ClubSignup({
           placeholder="כתובת אימייל"
           aria-label="כתובת אימייל להצטרפות למועדון"
           aria-invalid={Boolean(error)}
-          className={`w-full rounded-lg border px-4 py-3 text-center text-sm transition-colors focus:outline-none focus:ring-1 ${
+          className={`w-full rounded-xl border px-4 py-3.5 text-center text-[15px] tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 ${
             dark
-              ? "border-white/15 bg-white/[0.06] text-cream placeholder:text-platinum/40 focus:border-gold focus:ring-gold/60"
-              : "border-charcoal/15 bg-canvas text-charcoal placeholder:text-ash focus:border-gold focus:ring-gold/50"
+              ? "border-white/12 bg-white/[0.05] text-cream placeholder:text-platinum/40 focus:border-gold/60 focus:bg-white/[0.08] focus:ring-gold/40"
+              : "border-charcoal/15 bg-canvas text-charcoal placeholder:text-ash focus:border-gold/60 focus:ring-gold/30"
           }`}
         />
 
@@ -146,7 +146,7 @@ export default function ClubSignup({
         <button
           type="submit"
           disabled={state === "submitting"}
-          className="btn-gold mt-3 w-full disabled:cursor-not-allowed disabled:opacity-70"
+          className="btn-gold mt-3.5 w-full rounded-xl disabled:cursor-not-allowed disabled:opacity-70"
         >
           {state === "submitting" ? (
             "רק רגע…"
