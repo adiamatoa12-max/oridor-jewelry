@@ -5,6 +5,7 @@ import { Rubik } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import CartDrawer from "@/components/CartDrawer";
+import FloatingCartButton from "@/components/FloatingCartButton";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import MetaPixel from "@/components/MetaPixel";
 import PromoPopup from "@/components/PromoPopup";
@@ -91,6 +92,7 @@ export default function RootLayout({
         <CartProvider>
           {children}
           <CartDrawer />
+          <FloatingCartButton />
           <AccessibilityWidget />
           <PromoPopup />
         </CartProvider>

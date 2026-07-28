@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { X } from "lucide-react";
+import { X, Accessibility } from "lucide-react";
+import { A11Y_OPEN_EVENT } from "./AccessibilityWidget";
 
 const MAIN_LINKS = [
   { label: "הכל", href: "/shop" },
@@ -116,6 +117,19 @@ export default function MobileMenu({
                 </Link>
               );
             })}
+
+            {/* Accessibility settings — opens the a11y panel, then closes menu */}
+            <button
+              type="button"
+              onClick={() => {
+                window.dispatchEvent(new Event(A11Y_OPEN_EVENT));
+                onClose();
+              }}
+              className="flex min-h-[40px] items-center justify-start gap-2 text-[13px] font-light tracking-[0.05em] text-ash transition-colors duration-300 hover:text-charcoal"
+            >
+              <Accessibility size={15} strokeWidth={1.5} className="text-gold" />
+              הגדרות נגישות
+            </button>
           </div>
         </nav>
       </aside>

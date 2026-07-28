@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import {
-  Accessibility,
   X,
   AArrowUp,
   AArrowDown,
@@ -14,6 +13,14 @@ import {
 } from "lucide-react";
 
 const FONT_STEPS = [100, 110, 120, 135, 150];
+
+/**
+ * Any discreet trigger (footer, side menu) opens the panel by dispatching this
+ * event: `window.dispatchEvent(new Event(A11Y_OPEN_EVENT))`. The widget itself
+ * no longer renders a prominent floating button — that corner is reserved for
+ * the floating cart — so the a11y controls live tucked away yet reachable.
+ */
+export const A11Y_OPEN_EVENT = "oridor:open-accessibility";
 
 /**
  * Lightweight, self-contained accessibility widget (RTL).
@@ -53,6 +60,13 @@ export default function AccessibilityWidget() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [open]);
+
+  // Opened on demand from the discreet triggers (footer / side menu).
+  useEffect(() => {
+    const openNow = () => setOpen(true);
+    window.addEventListener(A11Y_OPEN_EVENT, openNow);
+    return () => window.removeEventListener(A11Y_OPEN_EVENT, openNow);
+  }, []);
 
   const reset = () => {
     setFontIdx(0);
@@ -138,17 +152,6 @@ export default function AccessibilityWidget() {
           </button>
         </div>
       </div>
-
-      {/* Trigger button */}
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-label="פתיחת תפריט נגישות"
-        aria-expanded={open}
-        className="floating-action fixed bottom-6 right-5 z-50 flex h-11 w-11 items-center justify-center rounded-full bg-charcoal transition-opacity duration-300 ease-out hover:opacity-80"
-      >
-        <Accessibility size={20} strokeWidth={1.5} className="text-gold" />
-      </button>
     </>
   );
 }

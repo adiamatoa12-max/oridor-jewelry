@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Instagram, ArrowLeft, ChevronDown } from "lucide-react";
+import { Instagram, ArrowLeft, ChevronDown, Accessibility } from "lucide-react";
+import { A11Y_OPEN_EVENT } from "./AccessibilityWidget";
 
 const SERVICE_LINKS = [
   { label: "צור קשר", href: "/contact" },
@@ -162,6 +163,21 @@ export default function PremiumFooter() {
               </li>
             ))}
           </ul>
+
+          {/* Discreet accessibility trigger — the a11y controls live here now
+              (out of the floating corner). Opens the same panel via an event. */}
+          <div className="mb-5 flex justify-center">
+            <button
+              type="button"
+              onClick={() =>
+                window.dispatchEvent(new Event(A11Y_OPEN_EVENT))
+              }
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3.5 py-1.5 text-[11px] font-light tracking-wide text-platinum/60 transition-colors duration-300 hover:border-white/30 hover:text-cream"
+            >
+              <Accessibility size={14} strokeWidth={1.5} className="text-gold" />
+              הגדרות נגישות
+            </button>
+          </div>
 
           <div className="flex flex-col items-center justify-between gap-5 sm:flex-row">
             <p className="text-xs font-light text-platinum/45">
