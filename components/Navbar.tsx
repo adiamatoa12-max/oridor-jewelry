@@ -86,18 +86,18 @@ export default function Navbar() {
             >
               <User size={19} strokeWidth={1.5} />
             </Link> */}
+            {/* Clean icon only — the item-count badge is reserved for the
+                floating bottom cart button. The count stays in the aria-label
+                so the control is still meaningful to screen readers. */}
             <button
               type="button"
               onClick={openCart}
-              aria-label={`עגלת קניות, ${count} פריטים`}
-              className="relative inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-graphite"
+              aria-label={
+                count > 0 ? `עגלת קניות, ${count} פריטים` : "עגלת קניות"
+              }
+              className="inline-flex h-11 w-11 items-center justify-center transition-colors hover:text-graphite"
             >
               <ShoppingBag size={18} strokeWidth={1.25} />
-              {count > 0 && (
-                <span className="absolute end-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-charcoal px-1 text-[10px] font-medium leading-none text-canvas">
-                  {count}
-                </span>
-              )}
             </button>
           </div>
         </div>
