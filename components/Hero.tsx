@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HeroVideo from "./HeroVideo";
 
 /**
  * Cinematic hero — copy overlaid on a video banner, anchored to the bottom.
@@ -20,20 +21,10 @@ export default function Hero() {
           playback. Instead the section's dark (bg-ink) surface shows through
           until the first frame paints — a clean dark skeleton that the dimmed
           video transitions straight out of, with no old still ever appearing.
-          preload="auto" fetches the clip immediately. Decorative → aria-hidden
-          + untabbable. */}
-      <video
-        className="absolute inset-0 h-full w-full object-cover object-[center_60%]"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        aria-hidden="true"
-        tabIndex={-1}
-      >
-        <source src="/video/post_33.mp4" type="video/mp4" />
-      </video>
+          <HeroVideo/> is mobile-hardened: pointer-events-none so it can never
+          freeze touch, preload="metadata" so it doesn't stall on entry, and a
+          play-nudge that reliably starts autoplay on iOS/Android. */}
+      <HeroVideo />
 
       {/* Overlay — an even dim for baseline contrast plus a gradient that deepens
           toward the bottom, where the copy sits, so the white text stays sharp
