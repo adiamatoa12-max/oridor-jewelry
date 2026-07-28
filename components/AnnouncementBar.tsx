@@ -1,7 +1,6 @@
 "use client";
 
 import { Fragment, useEffect, useState } from "react";
-import { X } from "lucide-react";
 
 // Launch-sale deadline (Israel time). Update to extend the promotion.
 const SALE_END = new Date("2026-07-31T23:59:59+03:00").getTime();
@@ -74,12 +73,10 @@ function Countdown() {
 /**
  * Premium top announcement bar — a sharp black strip that anchors the header
  * against the airy off-white site. White text for high contrast. Shows the
- * launch-sale promo + live countdown. Sits above the header; dismissible.
+ * launch-sale promo + live countdown. Sits above the header and is always
+ * visible — deliberately NOT dismissible, so the promo can't be hidden.
  */
 export default function AnnouncementBar() {
-  const [dismissed, setDismissed] = useState(false);
-  if (dismissed) return null;
-
   return (
     <div className="relative bg-black text-white">
       <div className="mx-auto flex min-h-10 max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-10 py-2 text-center sm:px-12">
@@ -92,14 +89,6 @@ export default function AnnouncementBar() {
         </p>
         <Countdown />
       </div>
-      <button
-        type="button"
-        aria-label="סגירת סרגל ההודעות"
-        onClick={() => setDismissed(true)}
-        className="absolute end-1.5 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center text-white/50 transition-colors hover:text-white"
-      >
-        <X size={14} strokeWidth={1.5} />
-      </button>
     </div>
   );
 }
