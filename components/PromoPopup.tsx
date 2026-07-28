@@ -8,8 +8,17 @@ import { X, ArrowLeft, Check } from "lucide-react";
 const SEEN_KEY = "oridor-promo-seen";
 /** Any element can open the popup on demand: window.dispatchEvent(new Event(PROMO_OPEN_EVENT)). */
 export const PROMO_OPEN_EVENT = "oridor:open-promo";
-/** Delay before the auto-open, so it doesn't slam the visitor on first paint. */
-const AUTO_OPEN_DELAY_MS = 1600;
+/**
+ * Auto-open pacing — the popup should let the visitor start browsing first, so
+ * it opens on the FIRST of these engagement signals rather than on page load:
+ *  - they scroll past SCROLL_TRIGGER_PX, or
+ *  - FALLBACK_DELAY_MS passes (a gentle time-based fallback).
+ * A hard MIN_DELAY_MS floor guarantees it never interrupts the first moment on
+ * the site, even if the page loads already scrolled or the shopper scrolls fast.
+ */
+const SCROLL_TRIGGER_PX = 400;
+const FALLBACK_DELAY_MS = 5000;
+const MIN_DELAY_MS = 1500;
 /** Where "כן, אני רוצה!" sends the shopper — the offer. */
 const OFFER_HREF = "/shop";
 
@@ -58,7 +67,9 @@ export default function PromoPopup() {
     setSubmitting(false);
   }, []);
 
-  // Auto-open once per session, after a short delay.
+  // Auto-open once per session — triggered by engagement (a scroll past
+  // SCROLL_TRIGGER_PX) or a FALLBACK_DELAY_MS timer, whichever comes first, and
+  // never before the MIN_DELAY_MS floor. So it never slams the first second.
   useEffect(() => {
     let seen = false;
     try {
@@ -67,8 +78,39 @@ export default function PromoPopup() {
       seen = false;
     }
     if (seen) return;
-    const t = window.setTimeout(() => setOpen(true), AUTO_OPEN_DELAY_MS);
-    return () => window.clearTimeout(t);
+
+    let opened = false;
+    let minElapsed = false;
+
+    const openOnce = () => {
+      if (opened) return;
+      opened = true;
+      setOpen(true);
+      cleanup();
+    };
+
+    const onScroll = () => {
+      if (minElapsed && window.scrollY >= SCROLL_TRIGGER_PX) openOnce();
+    };
+
+    // The floor: below this we never open. When it elapses, honour a scroll the
+    // shopper may have already made past the trigger.
+    const minTimer = window.setTimeout(() => {
+      minElapsed = true;
+      if (window.scrollY >= SCROLL_TRIGGER_PX) openOnce();
+    }, MIN_DELAY_MS);
+
+    // Gentle time-based fallback for shoppers who don't scroll.
+    const fallbackTimer = window.setTimeout(openOnce, FALLBACK_DELAY_MS);
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    function cleanup() {
+      window.clearTimeout(minTimer);
+      window.clearTimeout(fallbackTimer);
+      window.removeEventListener("scroll", onScroll);
+    }
+    return cleanup;
   }, []);
 
   // Manual trigger from anywhere (e.g. a "מבצעים" button) — reopens even if seen.
