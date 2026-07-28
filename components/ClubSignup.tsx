@@ -24,8 +24,19 @@ function isEmail(v: string): boolean {
  */
 export default function ClubSignup({
   tone = "light",
+  layout = "inline",
+  ctaLabel = "הצטרפי וקבלי 10% הנחה",
+  onSuccess,
 }: {
   tone?: "light" | "dark";
+  /** "inline" = underline field + round arrow (footer/section); "stacked" =
+   *  boxed field above a prominent full-width gold button (popup). */
+  layout?: "inline" | "stacked";
+  /** Label for the prominent button in the "stacked" layout. */
+  ctaLabel?: string;
+  /** Fired once the shopper has successfully joined (e.g. so a host popup can
+   *  mark itself dismissed). */
+  onSuccess?: () => void;
 }) {
   const { applyDiscount } = useCart();
   const [email, setEmail] = useState("");
@@ -55,6 +66,7 @@ export default function ClubSignup({
     // Activate the 10% welcome discount on this shopper's cart.
     applyDiscount(WELCOME_CODE);
     setState("done");
+    onSuccess?.();
   };
 
   /* -------- Success / onboarding state -------- */
@@ -101,7 +113,55 @@ export default function ClubSignup({
     );
   }
 
-  /* -------- Sign-up form -------- */
+  /* -------- Stacked layout: boxed field + prominent gold button (popup) -------- */
+  if (layout === "stacked") {
+    return (
+      <form onSubmit={submit} noValidate className="w-full">
+        <input
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          dir="rtl"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value);
+            if (error) setError(null);
+          }}
+          placeholder="כתובת אימייל"
+          aria-label="כתובת אימייל להצטרפות למועדון"
+          aria-invalid={Boolean(error)}
+          className={`w-full rounded-lg border px-4 py-3 text-center text-sm transition-colors focus:outline-none focus:ring-1 ${
+            dark
+              ? "border-white/15 bg-white/[0.06] text-cream placeholder:text-platinum/40 focus:border-gold focus:ring-gold/60"
+              : "border-charcoal/15 bg-canvas text-charcoal placeholder:text-ash focus:border-gold focus:ring-gold/50"
+          }`}
+        />
+
+        {error && (
+          <p className="mt-2 text-center text-xs font-light text-[#e7a89a]">
+            {error}
+          </p>
+        )}
+
+        <button
+          type="submit"
+          disabled={state === "submitting"}
+          className="btn-gold mt-3 w-full disabled:cursor-not-allowed disabled:opacity-70"
+        >
+          {state === "submitting" ? (
+            "רק רגע…"
+          ) : (
+            <span className="inline-flex items-center gap-2">
+              <Sparkles size={15} strokeWidth={2} />
+              {ctaLabel}
+            </span>
+          )}
+        </button>
+      </form>
+    );
+  }
+
+  /* -------- Inline layout: underline field + round arrow (footer/section) -------- */
   return (
     <form onSubmit={submit} noValidate className="w-full">
       <div
