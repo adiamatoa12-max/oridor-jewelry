@@ -9,7 +9,6 @@ import MoissanitePreview from "@/components/MoissanitePreview";
 import NewArrivals from "@/components/NewArrivals";
 import Reveal from "@/components/Reveal";
 import MoissaniteEducation from "@/components/MoissaniteEducation";
-import VipClub from "@/components/VipClub";
 
 // The curated-sets carousel was the only consumer of the live Shopify price map
 // on this page, so the fetch (and the ISR window it needed) went with it. Every
@@ -55,9 +54,6 @@ export default function Home() {
 
         {/* Social proof, just above the footer */}
         <Reveal><CustomerReviews /></Reveal>
-
-        {/* VIP club — join for an instant 10% welcome discount */}
-        <Reveal><VipClub /></Reveal>
       </div>
 
       <PremiumFooter />
