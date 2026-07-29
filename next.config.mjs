@@ -47,17 +47,19 @@ const securityHeaders = [
 const nextConfig = {
   poweredByHeader: false,
   images: {
-    // On-demand Image Optimization is ENABLED: Next.js auto-serves every image
-    // as a per-device-width AVIF/WebP (transparency preserved), which is the
-    // biggest mobile-payload win — a phone gets a ~640px variant instead of the
-    // full-size source. `sizes` on each <Image> drives the responsive srcset.
+    // Image Optimization is DISABLED again — images serve directly from /public.
     //
-    // History / revert: this was previously `unoptimized: true` because an
-    // exhausted Vercel image-optimization quota returns HTTP 402 for every
-    // /_next/image request, which surfaced as broken product photos. If that
-    // recurs (spiking 402s / broken images in prod), raise the Vercel plan's
-    // Image Optimization limit, or re-add `unoptimized: true` here to fall back
-    // to serving the raw /public files (now already compressed, so still light).
+    // Why: re-enabling the optimizer surfaced live HTTP 402s from /_next/image
+    // (logo, hover shots, etc.) because this project's Vercel image-optimization
+    // quota is exhausted — which rendered as broken-image placeholders on prod.
+    // The raw /public files always return 200, so serving them un-optimised makes
+    // every image load reliably, independent of any optimization quota.
+    //
+    // The source assets are now already compressed (the heaviest hero/product
+    // shots were recompressed −89%), so the un-optimised payload is far lighter
+    // than before. To re-enable optimization later, remove `unoptimized` ONLY
+    // after raising the Vercel plan's Image Optimization limit.
+    unoptimized: true,
     formats: ["image/avif", "image/webp"],
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
