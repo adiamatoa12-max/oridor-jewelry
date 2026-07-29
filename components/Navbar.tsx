@@ -35,7 +35,7 @@ export default function Navbar() {
       {/* A single hairline closes the header. The nav row deliberately carries
           no top border: paired with this one it boxed the wordmark in, which
           read as a frame rather than letting the logo stand on its own. */}
-      <header className="relative z-40 border-b border-platinum/25 bg-canvas/95 backdrop-blur-md transition-shadow duration-300 supports-[backdrop-filter]:bg-canvas/80">
+      <header className="sticky top-0 z-40 border-b border-platinum/25 bg-canvas/95 shadow-[0_4px_20px_-12px_rgba(31,31,31,0.35)] backdrop-blur-md transition-shadow duration-300 supports-[backdrop-filter]:bg-canvas/80">
       <div className="mx-auto max-w-7xl px-6 sm:px-8 lg:px-14">
         {/* Top row — brand identity, generous height so the mark breathes */}
         <div className="relative flex h-20 items-center sm:h-24">
