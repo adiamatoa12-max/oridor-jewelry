@@ -43,13 +43,13 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
   const mainSrc = encodeURI(product.variants[0]?.image_url ?? "");
 
   return (
-    <div className="group block bg-transparent transition-[transform,opacity] duration-300 ease-out has-[a:active]:opacity-90 md:hover:-translate-y-1">
+    <div className="group block touch-pan-y bg-transparent transition-[transform,opacity] duration-300 ease-out has-[a:active]:opacity-90 md:hover:-translate-y-1">
       <Link
         href={`/collections/signature/${product.slug}`}
         className="block [-webkit-tap-highlight-color:transparent]"
       >
         <div
-          className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
+          className={`relative aspect-[4/5] w-full touch-pan-y overflow-hidden ${GRID_CARD}`}
         >
           {/* Crossfade between variant images */}
           {product.variants.map((v, i) => {
