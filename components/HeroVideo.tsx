@@ -30,20 +30,35 @@ export default function HeroVideo() {
     const v = ref.current;
     if (!v) return;
 
+    // Aggressive autoplay kick: mobile Safari/Chrome sometimes ignore the
+    // `autoplay` attribute (low-power mode, backgrounded load, first paint) and
+    // park on the first frame with a play button. Explicitly calling .play()
+    // across every readiness signal — and a few short retries — forces playback
+    // the moment any data is available, so it never freezes on entry.
     const tryPlay = () => {
+      if (!v.paused) return;
       const p = v.play();
       if (p && typeof p.catch === "function") p.catch(() => {});
     };
 
     tryPlay();
-    v.addEventListener("canplay", tryPlay);
+    // Fire on each stage the clip becomes playable.
+    const events = ["loadedmetadata", "loadeddata", "canplay", "canplaythrough"];
+    events.forEach((e) => v.addEventListener(e, tryPlay));
+    // A couple of timed retries cover the case where autoplay was silently
+    // blocked before any media event fired.
+    const t1 = window.setTimeout(tryPlay, 300);
+    const t2 = window.setTimeout(tryPlay, 1200);
+    // Resume when the tab returns to the foreground (iOS pauses on background).
     const onVisible = () => {
       if (!document.hidden) tryPlay();
     };
     document.addEventListener("visibilitychange", onVisible);
 
     return () => {
-      v.removeEventListener("canplay", tryPlay);
+      events.forEach((e) => v.removeEventListener(e, tryPlay));
+      window.clearTimeout(t1);
+      window.clearTimeout(t2);
       document.removeEventListener("visibilitychange", onVisible);
     };
   }, []);
