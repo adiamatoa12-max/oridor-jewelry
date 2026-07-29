@@ -63,10 +63,21 @@ export default function HeroVideo() {
     };
     document.addEventListener("visibilitychange", onVisible);
 
+    // Final guard: if the clip has buffered enough to play (readyState >= 3)
+    // yet is STILL paused after every retry, autoplay was blocked by an OS
+    // policy JS can't bypass (e.g. iOS Low Power Mode). In that case .play()
+    // rejects without firing `error`, so iOS would paint its native play button
+    // over a frozen frame. Flip to the branded fallback instead — a clean dark
+    // backdrop, never a tap-to-play overlay.
+    const settle = window.setTimeout(() => {
+      if (v.paused && v.readyState >= 3) setFailed(true);
+    }, 2500);
+
     return () => {
       events.forEach((e) => v.removeEventListener(e, tryPlay));
       window.clearTimeout(t1);
       window.clearTimeout(t2);
+      window.clearTimeout(settle);
       document.removeEventListener("visibilitychange", onVisible);
     };
   }, []);
