@@ -112,33 +112,28 @@ export default function PromoPopup() {
       aria-labelledby="promo-title"
       dir="rtl"
     >
-      {/* Backdrop — deep dim + soft blur, click to dismiss. */}
+      {/* Backdrop — a warm charcoal dim so the light card reads as a lit
+          boutique window, click to dismiss. */}
       <button
         type="button"
         aria-label="סגירת החלון"
         onClick={close}
-        className="absolute inset-0 animate-fade cursor-default bg-black/80 backdrop-blur-md"
+        className="absolute inset-0 animate-fade cursor-default bg-charcoal/45 backdrop-blur-sm"
       />
 
-      {/* Card — a boutique-jewelry modal wrapped in a glowing gold gradient
-          frame (a 1.5px gradient border over a near-black glass surface). */}
-      <div className="relative w-full max-w-md animate-pop-in rounded-[30px] bg-gradient-to-b from-gold/60 via-gold/15 to-gold/45 p-[1.5px] shadow-[0_50px_130px_-30px_rgba(0,0,0,0.9)]">
-        {/* Ambient gold aura bleeding beyond the frame */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -inset-6 -z-10 rounded-[40px] bg-gold/10 blur-3xl"
-        />
-
-        <div className="relative overflow-hidden rounded-[29px] bg-[#0b0a08]/95 text-center backdrop-blur-2xl">
-          {/* Warm gold glow behind the crest */}
+      {/* Card — a light boutique-jewelry modal: a champagne-gold hairline frame
+          (1px gradient border) over a warm cream surface with a soft shadow. */}
+      <div className="relative w-full max-w-md animate-pop-in rounded-[28px] bg-gradient-to-b from-gold/45 via-gold/20 to-gold/40 p-px shadow-[0_40px_90px_-32px_rgba(26,26,26,0.45)]">
+        <div className="relative overflow-hidden rounded-[27px] bg-gradient-to-b from-canvas to-cream text-center">
+          {/* Whisper-soft warm gold wash behind the crest */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -top-28 left-1/2 h-64 w-64 -translate-x-1/2 rounded-full bg-gold/20 blur-3xl"
+            className="pointer-events-none absolute -top-24 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-gold/[0.07] blur-3xl"
           />
           {/* Thin gold top accent line */}
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-l from-transparent via-gold/70 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-l from-transparent via-gold/60 to-transparent"
           />
 
           {/* Close — visible, generous tap target on mobile + desktop */}
@@ -147,30 +142,30 @@ export default function PromoPopup() {
             type="button"
             onClick={close}
             aria-label="סגירה"
-            className="absolute end-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 bg-white/[0.05] text-platinum/70 backdrop-blur-sm transition-all duration-300 hover:border-gold/50 hover:bg-white/10 hover:text-cream focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+            className="absolute end-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-charcoal/10 bg-canvas/80 text-graphite backdrop-blur-sm transition-all duration-300 hover:border-gold/50 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
           >
             <X size={18} strokeWidth={1.75} />
           </button>
 
           <div className="relative px-8 pb-11 pt-12 sm:px-10">
-            {/* Crest — a gold crown haloed by a glowing double gold ring */}
+            {/* Crest — a gold crown in a soft champagne ring */}
             <span className="relative mx-auto inline-flex h-[68px] w-[68px] items-center justify-center">
               <span
                 aria-hidden="true"
-                className="absolute inset-0 rounded-full bg-gold/25 blur-xl"
+                className="absolute inset-0 rounded-full bg-gold/15 blur-xl"
               />
-              <span className="relative inline-flex h-[68px] w-[68px] items-center justify-center rounded-full bg-gradient-to-b from-gold/25 to-gold/[0.04] ring-1 ring-gold/40 shadow-[0_0_34px_-6px_rgba(198,161,92,0.65),inset_0_0_16px_-8px_rgba(198,161,92,0.8)]">
+              <span className="relative inline-flex h-[68px] w-[68px] items-center justify-center rounded-full bg-gradient-to-b from-gold/[0.16] to-gold/[0.04] ring-1 ring-gold/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]">
                 <Crown size={27} strokeWidth={1.5} className="text-gold" />
               </span>
             </span>
 
-            <p className="mt-6 text-[11px] uppercase tracking-[0.42em] text-gold/90">
+            <p className="mt-6 text-[11px] uppercase tracking-[0.42em] text-gold">
               מועדון ה-VIP
             </p>
 
             <h2
               id="promo-title"
-              className="mt-3.5 bg-gradient-to-b from-cream via-cream to-[#e6d5ac] bg-clip-text font-display text-[31px] font-semibold leading-[1.12] tracking-tight text-transparent sm:text-[35px]"
+              className="mt-3.5 font-display text-[31px] font-semibold leading-[1.12] tracking-tight text-charcoal sm:text-[35px]"
             >
               הצטרפי למועדון ה-VIP שלנו
             </h2>
@@ -180,24 +175,24 @@ export default function PromoPopup() {
               aria-hidden="true"
               className="mx-auto mt-5 flex items-center justify-center gap-2"
             >
-              <span className="h-px w-10 bg-gradient-to-l from-gold/50 to-transparent" />
-              <span className="h-1 w-1 rotate-45 bg-gold/70" />
-              <span className="h-px w-10 bg-gradient-to-r from-gold/50 to-transparent" />
+              <span className="h-px w-10 bg-gradient-to-l from-gold/60 to-transparent" />
+              <span className="h-1 w-1 rotate-45 bg-gold" />
+              <span className="h-px w-10 bg-gradient-to-r from-gold/60 to-transparent" />
             </span>
 
             {/* Subtext — two clean lines: the discount, then the sweepstakes */}
             <div className="mx-auto mt-5 max-w-[19rem] space-y-1.5">
-              <p className="text-[14px] font-light leading-[1.6] text-platinum/85">
-                קבלי <span className="font-medium text-gold">10% הנחה מיידית</span> על כל המוצרים באתר
+              <p className="text-[14px] font-light leading-[1.6] text-graphite">
+                קבלי <span className="font-semibold text-gold">10% הנחה מיידית</span> על כל המוצרים באתר
               </p>
-              <p className="text-[13px] font-light leading-[1.6] text-platinum/60">
+              <p className="text-[13px] font-light leading-[1.6] text-ash">
                 + השתתפות אוטומטית בהגרלה על סט מואסנייט יוקרתי ✨
               </p>
             </div>
 
             <div className="mt-8">
               <ClubSignup
-                tone="dark"
+                tone="light"
                 layout="stacked"
                 ctaLabel="קבלי את ההנחה שלי"
                 onSuccess={() => {
@@ -213,7 +208,7 @@ export default function PromoPopup() {
             <button
               type="button"
               onClick={close}
-              className="mt-6 text-[11px] font-light tracking-[0.05em] text-platinum/45 underline decoration-platinum/25 underline-offset-4 transition-colors duration-300 hover:text-platinum/80 hover:decoration-platinum/50"
+              className="mt-6 text-[11px] font-light tracking-[0.05em] text-ash underline decoration-platinum underline-offset-4 transition-colors duration-300 hover:text-charcoal hover:decoration-graphite"
             >
               אולי בפעם אחרת
             </button>
