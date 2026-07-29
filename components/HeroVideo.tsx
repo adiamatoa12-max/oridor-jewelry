@@ -35,8 +35,16 @@ export default function HeroVideo() {
     // park on the first frame with a play button. Explicitly calling .play()
     // across every readiness signal — and a few short retries — forces playback
     // the moment any data is available, so it never freezes on entry.
+    // iOS only grants muted-autoplay when `muted` is set as a DOM PROPERTY, not
+    // merely the HTML attribute — otherwise it blocks playback and paints the
+    // tap-to-play overlay. Force the property (and defaultMuted) before playing.
+    v.muted = true;
+    v.defaultMuted = true;
+    v.setAttribute("muted", "");
+
     const tryPlay = () => {
       if (!v.paused) return;
+      v.muted = true;
       const p = v.play();
       if (p && typeof p.catch === "function") p.catch(() => {});
     };
@@ -82,7 +90,9 @@ export default function HeroVideo() {
           muted
           playsInline
           preload="auto"
+          controls={false}
           disablePictureInPicture
+          disableRemotePlayback
           onError={() => setFailed(true)}
           aria-hidden="true"
           tabIndex={-1}
