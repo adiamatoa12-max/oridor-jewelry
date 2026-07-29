@@ -18,7 +18,7 @@ const REVIEWS: Review[] = [
     title: "מושלם מושלם מושלם!",
     body: "וואו, הצמיד פשוט נוצץ בטירוף על היד! יפה הרבה יותר מבתמונות. האריזה הגיעה מהר והיא ממש מושקעת, רואים שחשבו על הכל. בטוח אזמין שוב.",
     product: "צמיד טניס אבני חן שחורות",
-    photo: "/photo/oridor-bracelet-tennis-black-moissanite-wrist.webp",
+    photo: "/photo/oridor-bracelet-tennis-black-moissanite-wrist.jpg",
     photoAlt: "לקוחה עונדת צמיד טניס אבני חן שחורות מבית Oridor",
   },
   {
@@ -27,7 +27,7 @@ const REVIEWS: Review[] = [
     title: "איכות מטורפת!",
     body: "חיפשתי שרשרת שלא נראית זולה וזה פשוט קליעה בול. עונדת אותה כל יום, גם במקלחת, והיא נשארת נוצצת לגמרי!",
     product: "שרשרת תליון סוליטר",
-    photo: "/photo/oridor-necklace-solitaire-moissanite-neck.webp",
+    photo: "/photo/oridor-necklace-solitaire-moissanite-neck.jpg",
     photoAlt: "לקוחה עונדת שרשרת תליון סוליטר מבית Oridor",
   },
   {
@@ -36,7 +36,7 @@ const REVIEWS: Review[] = [
     title: "המתנה הכי טובה שקיבלתי",
     body: "בעלי הפתיע אותי עם הטבעת הזו ליום הנישואין. שירות הלקוחות היה מהמם ועזר לו לבחור בדיוק את מה שמתאים לי. פשוט תכשיטים ברמה גבוהה!",
     product: "טבעת מרקיזה שלושה",
-    photo: "/photo/oridor-ring-marquise-cluster-lifestyle.webp",
+    photo: "/photo/oridor-ring-marquise-cluster-lifestyle.jpg",
     photoAlt: "לקוחה עונדת טבעת מרקיזה שלושה מבית Oridor",
   },
 ];
