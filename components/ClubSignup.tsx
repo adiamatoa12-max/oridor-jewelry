@@ -130,10 +130,10 @@ export default function ClubSignup({
           placeholder="כתובת אימייל"
           aria-label="כתובת אימייל להצטרפות למועדון"
           aria-invalid={Boolean(error)}
-          className={`w-full rounded-xl border px-4 py-3.5 text-center text-[15px] tracking-wide transition-all duration-300 focus:outline-none focus:ring-2 ${
+          className={`w-full rounded-full border px-5 py-3.5 text-center text-[15px] tracking-wide transition-all duration-300 focus:outline-none ${
             dark
-              ? "border-white/12 bg-white/[0.05] text-cream placeholder:text-platinum/40 focus:border-gold/60 focus:bg-white/[0.08] focus:ring-gold/40"
-              : "border-charcoal/15 bg-canvas text-charcoal placeholder:text-ash focus:border-gold/60 focus:ring-gold/30"
+              ? "border-white/12 bg-white/[0.04] text-cream placeholder:text-platinum/40 focus:border-gold/70 focus:bg-white/[0.07] focus:shadow-[0_0_0_4px_rgba(198,161,92,0.14)]"
+              : "border-charcoal/15 bg-canvas text-charcoal placeholder:text-ash focus:border-gold/60 focus:shadow-[0_0_0_4px_rgba(198,161,92,0.14)]"
           }`}
         />
 
@@ -146,13 +146,17 @@ export default function ClubSignup({
         <button
           type="submit"
           disabled={state === "submitting"}
-          className="btn-gold mt-3.5 w-full rounded-xl disabled:cursor-not-allowed disabled:opacity-70"
+          className="btn-gold group mt-3.5 w-full rounded-full shadow-[0_10px_28px_-12px_rgba(198,161,92,0.7)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_38px_-12px_rgba(198,161,92,0.85)] active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0"
         >
           {state === "submitting" ? (
             "רק רגע…"
           ) : (
             <span className="inline-flex items-center gap-2">
-              <Sparkles size={15} strokeWidth={2} />
+              <Sparkles
+                size={15}
+                strokeWidth={2}
+                className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110"
+              />
               {ctaLabel}
             </span>
           )}
