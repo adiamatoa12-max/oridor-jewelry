@@ -9,6 +9,7 @@ import {
   Lock,
   ArrowLeft,
   Gift,
+  Gem,
   ShieldCheck,
   Star,
   Tag,
@@ -389,7 +390,7 @@ export default function CartDrawer() {
                   <li className="flex gap-4 py-5">
                     {/* Wrapped-gift tile with a "?" to signal a surprise */}
                     <div className="relative flex aspect-square w-[84px] flex-none items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-gold/25 via-gold/10 to-transparent ring-1 ring-gold/30">
-                      <Gift size={30} strokeWidth={1.5} className="text-gold" />
+                      <Gem size={30} strokeWidth={1.5} className="text-gold" />
                       <span className="absolute end-1.5 top-1.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full bg-gold text-[11px] font-bold text-[#0a0a0a]">
                         ?
                       </span>
@@ -398,11 +399,11 @@ export default function CartDrawer() {
                     <div className="flex flex-1 flex-col">
                       <div className="min-w-0">
                         <h3 className="text-sm font-medium leading-snug text-charcoal">
-                          מתנה בהפתעה 🎁
+                          תכשיט במתנה בהפתעה 💎
                         </h3>
                         <p className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium text-gold">
                           <Sparkles size={12} strokeWidth={2} />
-                          הפתעה מאיתנו, נבחרת במיוחד עבורך
+                          תכשיט כסף 925 מפנק במתנה מאיתנו, נבחר במיוחד עבורך ✨
                         </p>
                       </div>
 
@@ -416,7 +417,7 @@ export default function CartDrawer() {
                       </div>
 
                       <p className="mt-auto pt-3 text-[11px] font-light text-ash">
-                        תצורף לחבילה שלך — הפתעה 🤍
+                        יצורף לחבילה שלך — הפתעה 🤍
                       </p>
                     </div>
                   </li>
