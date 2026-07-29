@@ -167,12 +167,12 @@ export default function CartDrawer() {
                 {unlocked ? (
                   <>
                     <span className="font-semibold text-gold">יש!</span>{" "}
-                    מתנת ההפתעה שלך מצורפת לחבילה 🎁
+                    התכשיט במתנה שלך מצורף לחבילה 💎
                   </>
                 ) : (
                   <>
-                    עוד {toGo} {toGo === 1 ? "פריט" : "פריטים"} וקבלי מתנה בהפתעה
-                    🎁
+                    עוד {toGo} {toGo === 1 ? "פריט" : "פריטים"} וקבלי תכשיט
+                    במתנה 💎
                   </>
                 )}
               </p>
