@@ -74,7 +74,7 @@ export default function HeroVideo() {
           // Legacy attribute for older iOS Safari that predates `playsinline`.
           {...({ "webkit-playsinline": "true" } as Record<string, string>)}
         >
-          <source src="/video/post_33.mp4" type="video/mp4" />
+          <source src="/video/hero.mp4" type="video/mp4" />
         </video>
       )}
     </>
