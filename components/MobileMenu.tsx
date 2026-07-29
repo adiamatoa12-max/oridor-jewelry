@@ -74,7 +74,7 @@ export default function MobileMenu({
           <Link
             href="/shop"
             onClick={onClose}
-            className="mb-1 flex min-h-[48px] items-center justify-start gap-2.5 text-[22px] font-normal tracking-wide text-gold transition-opacity duration-300 hover:opacity-80"
+            className="mb-1 flex min-h-[48px] items-center justify-start gap-2.5 text-[22px] font-semibold tracking-wide text-gold transition-opacity duration-300 hover:opacity-80"
           >
             מבצעים
             <span className="relative flex h-2 w-2">
@@ -88,7 +88,7 @@ export default function MobileMenu({
               key={link.href}
               href={link.href}
               onClick={onClose}
-              className="flex min-h-[48px] items-center justify-start text-[22px] font-light tracking-wide text-charcoal transition-colors duration-300 hover:text-graphite"
+              className="flex min-h-[48px] items-center justify-start text-[22px] font-medium tracking-wide text-charcoal transition-colors duration-300 hover:text-gold"
             >
               {link.label}
             </Link>
