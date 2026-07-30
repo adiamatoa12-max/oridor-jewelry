@@ -147,6 +147,13 @@ const nextConfig = {
         destination: "/collections/silver",
         permanent: true,
       },
+      // "שרשרת תליון לב" (newarrival-13) was removed from the store. Redirect
+      // its retired product URL to the silver collection so no link/SEO 404s.
+      {
+        source: "/collections/new/newarrival-13",
+        destination: "/collections/silver",
+        permanent: true,
+      },
       // The gold/rose "marquise-ring" listing was merged into silver-1, which
       // now carries all three finishes as colour variants. Redirect its old URL
       // to the combined product.
