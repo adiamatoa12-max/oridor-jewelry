@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export interface CardSlide {
   src: string;
@@ -86,11 +87,12 @@ export default function CardImageCarousel({
     setActive(i);
   };
 
-  const goTo = (i: number, e: React.MouseEvent) => {
-    // Inside a <Link>: switch the image, never navigate.
+  // Arrow step. Inside a <Link>, so we must swallow the click (never navigate).
+  const step = (dir: 1 | -1, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    scrollToIndex(i);
+    const next = Math.min(Math.max(active + dir, 0), slides.length - 1);
+    if (next !== active) scrollToIndex(next);
   };
 
   // Horizontal-swipe detection. The track's touch-action is pan-y, so the
@@ -131,7 +133,7 @@ export default function CardImageCarousel({
         // drag over a card never gets trapped by the carousel. Horizontal swipes
         // are handled in JS (onTouchEnd) instead of native pan-x, which is what
         // used to capture diagonal gestures and stall the scroll.
-        className="hide-scrollbar flex h-full w-full snap-x snap-mandatory touch-pan-y select-none overflow-x-auto overflow-y-hidden overscroll-x-contain"
+        className="hide-scrollbar flex h-full w-full snap-x snap-mandatory scroll-smooth touch-pan-y select-none overflow-x-auto overflow-y-hidden overscroll-x-contain"
       >
         {slides.map((s, i) => {
           const src = brokenSrcs.has(s.src) ? slides[0]?.src ?? s.src : s.src;
@@ -151,27 +153,30 @@ export default function CardImageCarousel({
         })}
       </div>
 
-      {/* Dot indicators — signal that more images exist, and tap to switch.
-          Charcoal with a soft glow so they read on both the white cut-out
-          slide and a full-bleed lifestyle slide. */}
-      <div className="absolute inset-x-0 bottom-2 flex justify-center gap-1.5">
-        {slides.map((_, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={`תמונה ${i + 1}`}
-            aria-current={i === active}
-            onClick={(e) => goTo(i, e)}
-            className="flex h-6 w-6 items-center justify-center"
-          >
-            <span
-              className={`h-1.5 rounded-full shadow-[0_0_3px_rgba(255,255,255,0.7)] transition-all duration-300 ease-out ${
-                i === active ? "w-4 bg-charcoal" : "w-1.5 bg-charcoal/40"
-              }`}
-            />
-          </button>
-        ))}
-      </div>
+      {/* Sleek side arrows — clean circular controls over the image. Under RTL
+          the next image sits to the LEFT, so the left chevron advances and the
+          right chevron goes back. Each is hidden at its end of the range. The
+          track's scroll-smooth makes the transition fluid. */}
+      {active < slides.length - 1 && (
+        <button
+          type="button"
+          aria-label="התמונה הבאה"
+          onClick={(e) => step(1, e)}
+          className="absolute left-2 top-1/2 z-[2] inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-charcoal shadow-[0_1px_5px_rgba(0,0,0,0.22)] backdrop-blur-sm transition-all duration-200 hover:bg-white active:scale-90"
+        >
+          <ChevronLeft size={16} strokeWidth={2.25} />
+        </button>
+      )}
+      {active > 0 && (
+        <button
+          type="button"
+          aria-label="התמונה הקודמת"
+          onClick={(e) => step(-1, e)}
+          className="absolute right-2 top-1/2 z-[2] inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-charcoal shadow-[0_1px_5px_rgba(0,0,0,0.22)] backdrop-blur-sm transition-all duration-200 hover:bg-white active:scale-90"
+        >
+          <ChevronRight size={16} strokeWidth={2.25} />
+        </button>
+      )}
     </div>
   );
 }
