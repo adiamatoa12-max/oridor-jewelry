@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { X, Crown } from "lucide-react";
+import { X } from "lucide-react";
 import ClubSignup from "./ClubSignup";
 
 /** sessionStorage flag so the popup auto-shows at most once per browsing session. */
@@ -158,26 +158,13 @@ export default function PromoPopup() {
           <X size={18} strokeWidth={1.75} />
         </button>
 
-        {/* Content — centred and generously padded over the darkened image */}
-        <div className="relative px-8 pb-11 pt-12 text-center sm:px-10">
-          {/* Crest — a gold crown in a soft gold ring */}
-          <span className="relative mx-auto inline-flex h-[68px] w-[68px] items-center justify-center">
-            <span
-              aria-hidden="true"
-              className="absolute inset-0 rounded-full bg-gold/25 blur-xl"
-            />
-            <span className="relative inline-flex h-[68px] w-[68px] items-center justify-center rounded-full bg-white/[0.08] ring-1 ring-gold/45 backdrop-blur-sm">
-              <Crown size={27} strokeWidth={1.5} className="text-gold" />
-            </span>
-          </span>
-
-          <p className="mt-6 text-[11px] uppercase tracking-[0.42em] text-gold">
-            מועדון ה-VIP
-          </p>
-
+        {/* Content — centred and generously padded over the darkened image.
+            (Crown crest + "מועדון ה-VIP" eyebrow intentionally removed; the
+            model portrait shows through cleanly where they were.) */}
+        <div className="relative px-8 pb-11 pt-14 text-center sm:px-10">
           <h2
             id="promo-title"
-            className="mt-3.5 font-display text-[31px] font-semibold leading-[1.12] tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] sm:text-[35px]"
+            className="font-display text-[31px] font-semibold leading-[1.12] tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] sm:text-[35px]"
           >
             הצטרפי למועדון ה-VIP שלנו
           </h2>
