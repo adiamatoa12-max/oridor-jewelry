@@ -83,28 +83,25 @@ function Countdown() {
 export default function AnnouncementBar() {
   return (
     <div className="relative bg-black text-white shadow-[inset_0_-1px_0_rgba(197,160,89,0.35)]">
-      <div className="mx-auto flex min-h-11 max-w-7xl flex-wrap items-center justify-center gap-x-4 gap-y-1.5 px-6 py-2.5 text-center sm:px-12">
-        <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-[11.5px] leading-snug tracking-wide sm:text-[13px]">
-          {/* Rose — standalone leading item so it pins to the visual start
+      <div className="mx-auto flex min-h-11 max-w-7xl flex-wrap items-center justify-center gap-x-5 gap-y-1.5 px-6 py-2.5 text-center sm:px-12 sm:gap-x-7">
+        <p className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-0.5 text-[11.5px] leading-snug tracking-wide sm:text-[13px]">
+          {/* Diamond — standalone leading item so it pins to the visual start
               (right edge in RTL) rather than being reordered mid-line. */}
-          <span aria-hidden="true" className="text-[15px] leading-none">
-            🌹
+          <span aria-hidden="true" className="text-[14px] leading-none">
+            💎
           </span>
-          {/* Headline — punchy bold offer, the gift word in gold */}
+          {/* Main offer — clean, sharp white */}
           <span className="font-semibold text-white">
-            קני 2 תכשיטים והשלישי{" "}
-            <span className="font-bold text-gold">במתנה</span>
+            קני 2 פריטים וקבלי תכשיט שלישי במתנה
           </span>
-          <span aria-hidden="true" className="hidden text-gold/50 sm:inline">
-            •
+          {/* Slim divider */}
+          <span
+            aria-hidden="true"
+            className="font-light text-white/30"
+          >
+            |
           </span>
           <span className="font-light text-white/85">משלוח חינם</span>
-          <span aria-hidden="true" className="hidden text-gold/50 sm:inline">
-            •
-          </span>
-          <span className="font-light text-white/85">
-            כסף 925 בציפוי רודיום, לא משחיר
-          </span>
         </p>
         <Countdown />
       </div>
