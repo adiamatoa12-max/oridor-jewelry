@@ -40,15 +40,6 @@ const REVIEWS: Review[] = [
     photoAlt: "לקוחה עונדת צמיד טניס אבני חן שחורות מבית Oridor",
   },
   {
-    name: "דנה ר.",
-    date: "לפני שבוע",
-    title: "איכות מטורפת!",
-    body: "חיפשתי שרשרת שלא נראית זולה וזה פשוט קליעה בול. עונדת אותה כל יום, גם במקלחת, והיא נשארת נוצצת לגמרי!",
-    product: "שרשרת תליון סוליטר",
-    photo: "/photo/oridor-necklace-solitaire-moissanite-neck.jpg",
-    photoAlt: "לקוחה עונדת שרשרת תליון סוליטר מבית Oridor",
-  },
-  {
     name: "נועה א.",
     date: "לפני חודש",
     title: "המתנה הכי טובה שקיבלתי",
@@ -101,14 +92,16 @@ export default function CustomerReviews() {
         </div>
       </div>
 
-      {/* Card grid */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-6">
+      {/* Horizontal carousel — a smooth, swipeable scroll-snap row. Full-bleed
+          to the section padding so cards can scroll edge to edge; vertical page
+          scroll passes straight through (only the X axis scrolls here). */}
+      <div className="hide-scrollbar -mx-6 flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-px-6 px-6 pb-2 [scrollbar-width:none] sm:-mx-10 sm:scroll-px-10 sm:px-10 lg:-mx-16 lg:gap-6 lg:scroll-px-16 lg:px-16">
         {REVIEWS.map((review) => {
           const initial = review.name.trim().charAt(0);
           return (
             <article
               key={review.name}
-              className="flex flex-col rounded-2xl border border-platinum/60 bg-canvas p-6 text-right shadow-card transition-shadow duration-300 hover:shadow-cardHover"
+              className="flex w-[82%] max-w-[21rem] flex-none snap-start flex-col rounded-2xl border border-platinum/60 bg-canvas p-6 text-right shadow-card transition-shadow duration-300 hover:shadow-cardHover sm:w-[21rem]"
             >
               {/* Top row — green stars (reading start) + verified badge (corner) */}
               <div className="flex items-start justify-between gap-2">
