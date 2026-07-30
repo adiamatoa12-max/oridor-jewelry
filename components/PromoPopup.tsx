@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { X, Crown } from "lucide-react";
 import ClubSignup from "./ClubSignup";
 
@@ -112,107 +113,117 @@ export default function PromoPopup() {
       aria-labelledby="promo-title"
       dir="rtl"
     >
-      {/* Backdrop — a warm charcoal dim so the light card reads as a lit
-          boutique window, click to dismiss. */}
+      {/* Backdrop — deep dim + soft blur, click to dismiss. */}
       <button
         type="button"
         aria-label="סגירת החלון"
         onClick={close}
-        className="absolute inset-0 animate-fade cursor-default bg-charcoal/45 backdrop-blur-sm"
+        className="absolute inset-0 animate-fade cursor-default bg-black/70 backdrop-blur-sm"
       />
 
-      {/* Card — a light boutique-jewelry modal: a champagne-gold hairline frame
-          (1px gradient border) over a warm cream surface with a soft shadow. */}
-      <div className="relative w-full max-w-md animate-pop-in rounded-[28px] bg-gradient-to-b from-gold/45 via-gold/20 to-gold/40 p-px shadow-[0_40px_90px_-32px_rgba(26,26,26,0.45)]">
-        <div className="relative overflow-hidden rounded-[27px] bg-gradient-to-b from-canvas to-cream text-center">
-          {/* Whisper-soft warm gold wash behind the crest */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-24 left-1/2 h-56 w-56 -translate-x-1/2 rounded-full bg-gold/[0.07] blur-3xl"
-          />
-          {/* Thin gold top accent line */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-l from-transparent via-gold/60 to-transparent"
-          />
+      {/* Card — a full-bleed jewellery-model photo behind a dark overlay, framed
+          by a fine gold hairline. White copy sits over the darkened image for a
+          high-end editorial look. */}
+      <div className="relative w-full max-w-md animate-pop-in overflow-hidden rounded-[28px] shadow-[0_50px_120px_-30px_rgba(0,0,0,0.85)] ring-1 ring-gold/30">
+        {/* Full-size model background (cover, centred) */}
+        <Image
+          src="/photo/popup-model.png"
+          alt=""
+          fill
+          priority
+          sizes="448px"
+          className="object-cover object-center"
+        />
+        {/* Dark overlay for text readability — a flat dim plus a bottom-weighted
+            gradient so the form area stays crisp and legible. */}
+        <div aria-hidden="true" className="absolute inset-0 bg-black/45" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-gradient-to-b from-black/25 via-black/35 to-black/70"
+        />
+        {/* Thin gold top accent line */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-l from-transparent via-gold/70 to-transparent"
+        />
 
-          {/* Close — visible, generous tap target on mobile + desktop */}
-          <button
-            ref={closeRef}
-            type="button"
-            onClick={close}
-            aria-label="סגירה"
-            className="absolute end-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-charcoal/10 bg-canvas/80 text-graphite backdrop-blur-sm transition-all duration-300 hover:border-gold/50 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold/60"
-          >
-            <X size={18} strokeWidth={1.75} />
-          </button>
+        {/* Close — visible, generous tap target on mobile + desktop */}
+        <button
+          ref={closeRef}
+          type="button"
+          onClick={close}
+          aria-label="סגירה"
+          className="absolute end-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/30 text-white/85 backdrop-blur-sm transition-all duration-300 hover:border-gold/60 hover:text-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
+        >
+          <X size={18} strokeWidth={1.75} />
+        </button>
 
-          <div className="relative px-8 pb-11 pt-12 sm:px-10">
-            {/* Crest — a gold crown in a soft champagne ring */}
-            <span className="relative mx-auto inline-flex h-[68px] w-[68px] items-center justify-center">
-              <span
-                aria-hidden="true"
-                className="absolute inset-0 rounded-full bg-gold/15 blur-xl"
-              />
-              <span className="relative inline-flex h-[68px] w-[68px] items-center justify-center rounded-full bg-gradient-to-b from-gold/[0.16] to-gold/[0.04] ring-1 ring-gold/35 shadow-[inset_0_1px_1px_rgba(255,255,255,0.6)]">
-                <Crown size={27} strokeWidth={1.5} className="text-gold" />
-              </span>
-            </span>
-
-            <p className="mt-6 text-[11px] uppercase tracking-[0.42em] text-gold">
-              מועדון ה-VIP
-            </p>
-
-            <h2
-              id="promo-title"
-              className="mt-3.5 font-display text-[31px] font-semibold leading-[1.12] tracking-tight text-charcoal sm:text-[35px]"
-            >
-              הצטרפי למועדון ה-VIP שלנו
-            </h2>
-
-            {/* Short gold divider with a centre diamond accent */}
+        {/* Content — centred and generously padded over the darkened image */}
+        <div className="relative px-8 pb-11 pt-12 text-center sm:px-10">
+          {/* Crest — a gold crown in a soft gold ring */}
+          <span className="relative mx-auto inline-flex h-[68px] w-[68px] items-center justify-center">
             <span
               aria-hidden="true"
-              className="mx-auto mt-5 flex items-center justify-center gap-2"
-            >
-              <span className="h-px w-10 bg-gradient-to-l from-gold/60 to-transparent" />
-              <span className="h-1 w-1 rotate-45 bg-gold" />
-              <span className="h-px w-10 bg-gradient-to-r from-gold/60 to-transparent" />
+              className="absolute inset-0 rounded-full bg-gold/25 blur-xl"
+            />
+            <span className="relative inline-flex h-[68px] w-[68px] items-center justify-center rounded-full bg-white/[0.08] ring-1 ring-gold/45 backdrop-blur-sm">
+              <Crown size={27} strokeWidth={1.5} className="text-gold" />
             </span>
+          </span>
 
-            {/* Subtext — two clean lines: the discount, then the sweepstakes */}
-            <div className="mx-auto mt-5 max-w-[19rem] space-y-1.5">
-              <p className="text-[14px] font-light leading-[1.6] text-graphite">
-                קבלי <span className="font-semibold text-gold">10% הנחה מיידית</span> על כל המוצרים באתר
-              </p>
-              <p className="text-[13px] font-light leading-[1.6] text-ash">
-                + השתתפות אוטומטית בהגרלה על סט מואסנייט יוקרתי ✨
-              </p>
-            </div>
+          <p className="mt-6 text-[11px] uppercase tracking-[0.42em] text-gold">
+            מועדון ה-VIP
+          </p>
 
-            <div className="mt-8">
-              <ClubSignup
-                tone="light"
-                layout="stacked"
-                ctaLabel="קבלי את ההנחה שלי"
-                onSuccess={() => {
-                  try {
-                    sessionStorage.setItem(SEEN_KEY, "1");
-                  } catch {
-                    /* ignore */
-                  }
-                }}
-              />
-            </div>
+          <h2
+            id="promo-title"
+            className="mt-3.5 font-display text-[31px] font-semibold leading-[1.12] tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.5)] sm:text-[35px]"
+          >
+            הצטרפי למועדון ה-VIP שלנו
+          </h2>
 
-            <button
-              type="button"
-              onClick={close}
-              className="mt-6 text-[11px] font-light tracking-[0.05em] text-ash underline decoration-platinum underline-offset-4 transition-colors duration-300 hover:text-charcoal hover:decoration-graphite"
-            >
-              אולי בפעם אחרת
-            </button>
+          {/* Short gold divider with a centre diamond accent */}
+          <span
+            aria-hidden="true"
+            className="mx-auto mt-5 flex items-center justify-center gap-2"
+          >
+            <span className="h-px w-10 bg-gradient-to-l from-gold/70 to-transparent" />
+            <span className="h-1 w-1 rotate-45 bg-gold" />
+            <span className="h-px w-10 bg-gradient-to-r from-gold/70 to-transparent" />
+          </span>
+
+          {/* Subtext — two clean lines: the discount, then the sweepstakes */}
+          <div className="mx-auto mt-5 max-w-[19rem] space-y-1.5 [text-shadow:0_1px_8px_rgba(0,0,0,0.55)]">
+            <p className="text-[14px] font-light leading-[1.6] text-white/90">
+              קבלי <span className="font-semibold text-gold">10% הנחה מיידית</span> על כל המוצרים באתר
+            </p>
+            <p className="text-[13px] font-light leading-[1.6] text-white/70">
+              + השתתפות אוטומטית בהגרלה על סט מואסנייט יוקרתי ✨
+            </p>
           </div>
+
+          <div className="mt-8">
+            <ClubSignup
+              tone="dark"
+              layout="stacked"
+              ctaLabel="קבלי את ההנחה שלי"
+              onSuccess={() => {
+                try {
+                  sessionStorage.setItem(SEEN_KEY, "1");
+                } catch {
+                  /* ignore */
+                }
+              }}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={close}
+            className="mt-6 text-[11px] font-light tracking-[0.05em] text-white/60 underline decoration-white/30 underline-offset-4 transition-colors duration-300 hover:text-white hover:decoration-white/60"
+          >
+            אולי בפעם אחרת
+          </button>
         </div>
       </div>
     </div>

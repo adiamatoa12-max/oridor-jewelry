@@ -130,9 +130,9 @@ export default function ClubSignup({
           placeholder="כתובת אימייל"
           aria-label="כתובת אימייל להצטרפות למועדון"
           aria-invalid={Boolean(error)}
-          className={`w-full rounded-full border px-5 py-3.5 text-center text-[15px] tracking-wide transition-all duration-300 focus:outline-none ${
+          className={`w-full rounded-full border px-5 py-3.5 text-center text-[15px] tracking-wide backdrop-blur-sm transition-all duration-300 focus:outline-none ${
             dark
-              ? "border-white/12 bg-white/[0.04] text-cream placeholder:text-platinum/40 focus:border-gold/70 focus:bg-white/[0.07] focus:shadow-[0_0_0_4px_rgba(198,161,92,0.14)]"
+              ? "border-white/25 bg-black/35 text-white placeholder:text-white/55 focus:border-gold/70 focus:bg-black/45 focus:shadow-[0_0_0_4px_rgba(198,161,92,0.18)]"
               : "border-charcoal/15 bg-canvas text-charcoal placeholder:text-ash focus:border-gold/60 focus:shadow-[0_0_0_4px_rgba(198,161,92,0.14)]"
           }`}
         />
