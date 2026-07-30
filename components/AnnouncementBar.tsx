@@ -46,21 +46,25 @@ function Countdown() {
 
   return (
     <span
-      className="inline-flex items-center gap-1.5"
+      className="inline-flex items-center gap-1"
       aria-label={`נותרו ${t.d} ימים ${t.h} שעות ${t.m} דקות`}
     >
       {units.map((u, i) => (
         <Fragment key={u.l}>
-          <span className="inline-flex min-w-[1.75rem] flex-col items-center leading-none">
-            <span className="text-[12px] font-semibold tabular-nums text-white">
+          <span className="inline-flex flex-col items-center">
+            {/* Sharp boxed digit — high contrast on the black bar */}
+            <span className="min-w-[26px] rounded-[5px] bg-white/[0.12] px-1.5 py-1 text-center text-[13px] font-bold leading-none tabular-nums text-white ring-1 ring-white/15">
               {pad(u.v)}
             </span>
-            <span className="mt-0.5 text-[7px] uppercase tracking-[0.15em] text-white/50">
+            <span className="mt-1 text-[7px] font-medium uppercase tracking-[0.14em] text-white/55">
               {u.l}
             </span>
           </span>
           {i < units.length - 1 && (
-            <span aria-hidden="true" className="text-white/50">
+            <span
+              aria-hidden="true"
+              className="self-start py-1 text-[13px] font-bold leading-none text-gold"
+            >
               :
             </span>
           )}
@@ -78,14 +82,29 @@ function Countdown() {
  */
 export default function AnnouncementBar() {
   return (
-    <div className="relative bg-black text-white">
-      <div className="mx-auto flex min-h-10 max-w-7xl flex-wrap items-center justify-center gap-x-3 gap-y-1 px-10 py-2 text-center sm:px-12">
-        <p className="text-[11px] font-light leading-snug tracking-wide sm:text-xs">
-          <span className="font-medium text-white">קני 2 פריטים וקבלי תכשיט שלישי במתנה</span>
-          <span className="mx-1.5 text-white/40">|</span>
-          משלוח חינם
-          <span className="mx-1.5 text-white/40">|</span>
-          כסף 925 בציפוי רודיום, לא משחיר
+    <div className="relative bg-black text-white shadow-[inset_0_-1px_0_rgba(197,160,89,0.35)]">
+      <div className="mx-auto flex min-h-11 max-w-7xl flex-wrap items-center justify-center gap-x-4 gap-y-1.5 px-6 py-2.5 text-center sm:px-12">
+        <p className="flex flex-wrap items-center justify-center gap-x-2 gap-y-0.5 text-[11.5px] leading-snug tracking-wide sm:text-[13px]">
+          {/* Rose — standalone leading item so it pins to the visual start
+              (right edge in RTL) rather than being reordered mid-line. */}
+          <span aria-hidden="true" className="text-[15px] leading-none">
+            🌹
+          </span>
+          {/* Headline — punchy bold offer, the gift word in gold */}
+          <span className="font-semibold text-white">
+            קני 2 תכשיטים והשלישי{" "}
+            <span className="font-bold text-gold">במתנה</span>
+          </span>
+          <span aria-hidden="true" className="hidden text-gold/50 sm:inline">
+            •
+          </span>
+          <span className="font-light text-white/85">משלוח חינם</span>
+          <span aria-hidden="true" className="hidden text-gold/50 sm:inline">
+            •
+          </span>
+          <span className="font-light text-white/85">
+            כסף 925 בציפוי רודיום, לא משחיר
+          </span>
         </p>
         <Countdown />
       </div>
