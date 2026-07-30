@@ -44,6 +44,18 @@ const REVIEWS: Review[] = [
 /** Aggregate rating shown in the header. */
 const AGGREGATE = { score: "4.9", count: 160 };
 
+/** Real customer photos shown as a gallery strip beneath the reviews. */
+const CUSTOMER_PHOTOS: { src: string; alt: string }[] = [
+  {
+    src: "/photo/review-customer-1.jpg",
+    alt: "לקוחה עונדת שרשרת מרקיזה עדינה מבית Oridor",
+  },
+  {
+    src: "/photo/review-customer-2.jpg",
+    alt: "לקוחה עונדת טבעות מרקיזה מבית Oridor",
+  },
+];
+
 /** Row of 5 crisp green stars — filled, no outline. */
 function Stars({ size = 15, className = "" }: { size?: number; className?: string }) {
   return (
@@ -140,6 +152,34 @@ export default function CustomerReviews() {
             </article>
           );
         })}
+      </div>
+
+      {/* Real customer photos — a clean, responsive strip beneath the reviews. */}
+      <div className="mt-14 lg:mt-20">
+        <div className="flex flex-col items-center text-center">
+          <h3 className="text-xl font-bold tracking-tight text-charcoal sm:text-2xl">
+            מהלקוחות שלנו ✨
+          </h3>
+          <p className="mt-2 text-sm font-light text-ash">
+            תמונות אמיתיות שקיבלנו מלקוחות מרוצות
+          </p>
+        </div>
+        <div className="mt-7 flex flex-wrap justify-center gap-4 sm:gap-6">
+          {CUSTOMER_PHOTOS.map((photo) => (
+            <div
+              key={photo.src}
+              className="relative aspect-[3/4] w-40 flex-none overflow-hidden rounded-2xl ring-1 ring-platinum/60 shadow-card transition-shadow duration-300 hover:shadow-cardHover sm:w-48"
+            >
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                sizes="(min-width: 640px) 192px, 160px"
+                className="object-cover object-center"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
