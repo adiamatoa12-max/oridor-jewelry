@@ -127,7 +127,7 @@ export default function PromoPopup() {
       <div className="relative w-full max-w-md animate-pop-in overflow-hidden rounded-[28px] shadow-[0_50px_120px_-30px_rgba(0,0,0,0.85)] ring-1 ring-gold/30">
         {/* Full-size model background (cover, centred) */}
         <Image
-          src="/photo/popup-model.png"
+          src="/photo/popup.jpg"
           alt=""
           fill
           priority
