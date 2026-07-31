@@ -3,7 +3,8 @@
 import { Fragment, useEffect, useState } from "react";
 
 // Launch-sale deadline (Israel time). Update to extend the promotion.
-const SALE_END = new Date("2026-07-31T23:59:59+03:00").getTime();
+// Set so the countdown opens at 5 days out; days tick down naturally from there.
+const SALE_END = new Date("2026-08-05T23:59:59+03:00").getTime();
 
 interface TimeLeft {
   d: number;
