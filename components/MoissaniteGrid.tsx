@@ -106,10 +106,10 @@ function MoissaniteCard({
   onQuickAdd: (e: React.MouseEvent, p: MoissaniteProduct) => void;
 }) {
   return (
-    <Link href={`/collections/moissanite/${p.slug}`} className={`${itemClass} touch-pan-y`}>
+    <Link href={`/collections/moissanite/${p.slug}`} className={`${itemClass} touch-manipulation`}>
       {/* White product-image card — lifts the piece off the warm page so it
           doesn't blend into the background (shared GRID_CARD surface). */}
-      <div className={`relative aspect-[4/5] w-full touch-pan-y overflow-hidden ${GRID_CARD}`}>
+      <div className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}>
         {/* Static base image. Hidden on mobile when the swipe carousel takes
             over (a card with a hover image), so the two don't stack. */}
         <Image

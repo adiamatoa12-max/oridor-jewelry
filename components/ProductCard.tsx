@@ -136,12 +136,12 @@ export default function ProductCard({
   return (
     <Link
       href={href}
-      className="group flex h-full flex-col bg-transparent transition-[transform,opacity] duration-300 ease-out touch-pan-y [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
+      className="group flex h-full flex-col bg-transparent transition-[transform,opacity] duration-300 ease-out touch-manipulation [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
       {/* White product-image card — lifts the piece off the warm page so it
           doesn't blend into the background (shared GRID_CARD surface). */}
       <div
-        className={`relative aspect-[4/5] w-full touch-pan-y overflow-hidden ${GRID_CARD}`}
+        className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
       >
         {/* Static base image. Hidden on mobile when the swipe carousel takes
             over, so the two don't stack. */}
