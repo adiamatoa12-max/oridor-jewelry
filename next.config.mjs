@@ -46,6 +46,12 @@ const securityHeaders = [
 
 const nextConfig = {
   poweredByHeader: false,
+  // Bake the deploy's commit SHA into the client bundle so an already-open tab
+  // can detect a newer deployment (via /api/version) and reload itself. Vercel
+  // sets VERCEL_GIT_COMMIT_SHA per deploy; falls back to "dev" locally (no-op).
+  env: {
+    NEXT_PUBLIC_APP_VERSION: process.env.VERCEL_GIT_COMMIT_SHA || "dev",
+  },
   images: {
     // Image Optimization is DISABLED again — images serve directly from /public.
     //

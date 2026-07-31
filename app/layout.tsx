@@ -9,6 +9,7 @@ import FloatingCartButton from "@/components/FloatingCartButton";
 import AccessibilityWidget from "@/components/AccessibilityWidget";
 import MetaPixel from "@/components/MetaPixel";
 import PromoPopup from "@/components/PromoPopup";
+import VersionWatcher from "@/components/VersionWatcher";
 
 // Site-wide font — Rubik. One clean, modern, highly legible sans that covers
 // both Hebrew and Latin, used for every role (headings, body, buttons, prices).
@@ -95,6 +96,7 @@ export default function RootLayout({
           <FloatingCartButton />
           <AccessibilityWidget />
           <PromoPopup />
+          <VersionWatcher />
         </CartProvider>
       </body>
     </html>
