@@ -88,6 +88,10 @@ export default function MoissaniteGrid({
           p={p}
           itemClass={itemClass}
           onQuickAdd={quickAdd}
+          // The in-card image swipe (pan-x) is only safe in the vertical grid.
+          // In the horizontal carousel row it would eat the swipe meant to
+          // scroll between products, so disable it there.
+          enableImageSwipe={layout === "grid"}
         />
       ))}
     </div>
@@ -100,24 +104,29 @@ function MoissaniteCard({
   p,
   itemClass,
   onQuickAdd,
+  enableImageSwipe,
 }: {
   p: MoissaniteProduct;
   itemClass: string;
   onQuickAdd: (e: React.MouseEvent, p: MoissaniteProduct) => void;
+  /** Render the mobile in-card image carousel (only in the vertical grid). */
+  enableImageSwipe: boolean;
 }) {
+  const showCarousel = Boolean(p.hover_image) && enableImageSwipe;
   return (
     <Link href={`/collections/moissanite/${p.slug}`} className={`${itemClass} touch-manipulation`}>
       {/* White product-image card — lifts the piece off the warm page so it
           doesn't blend into the background (shared GRID_CARD surface). */}
       <div className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}>
-        {/* Static base image. Hidden on mobile when the swipe carousel takes
-            over (a card with a hover image), so the two don't stack. */}
+        {/* Static base image. Hidden on mobile only when the swipe carousel takes
+            over, so the two don't stack. In the horizontal row (no carousel) it
+            stays visible so the row scrolls freely. */}
         <Image
           src={encodeURI(p.image_url)}
           alt={`${p.name}, ${p.material}`}
           fill
           sizes={CARD_SIZES}
-          className={`${gridImageClass(p.category)} ${p.hover_image ? "hidden sm:block" : ""}`}
+          className={`${gridImageClass(p.category)} ${showCarousel ? "hidden sm:block" : ""}`}
         />
 
         {/* Desktop hover cross-fade to this product's OWN dedicated hover image.
@@ -134,8 +143,9 @@ function MoissaniteCard({
           />
         )}
 
-        {/* Mobile swipe carousel + dots (touch alternative to hover). */}
-        {p.hover_image && (
+        {/* Mobile swipe carousel (touch alternative to hover) — grid layout
+            only; in the horizontal carousel row it would trap the row swipe. */}
+        {enableImageSwipe && p.hover_image && (
           <CardImageCarousel
             slides={[
               { src: encodeURI(p.image_url), className: gridImageClass(p.category) },
