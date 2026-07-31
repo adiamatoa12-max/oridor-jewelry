@@ -84,26 +84,30 @@ function Countdown() {
 export default function AnnouncementBar() {
   return (
     <div className="relative bg-black text-white shadow-[inset_0_-1px_0_rgba(197,160,89,0.35)]">
-      <div className="mx-auto flex min-h-11 max-w-7xl flex-wrap items-center justify-center gap-x-5 gap-y-1.5 px-6 py-2.5 text-center sm:px-12 sm:gap-x-7">
-        <p className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-0.5 text-[11.5px] leading-snug tracking-wide sm:text-[13px]">
-          {/* Diamond — standalone leading item so it pins to the visual start
-              (right edge in RTL) rather than being reordered mid-line. */}
-          <span aria-hidden="true" className="text-[14px] leading-none">
-            💎
-          </span>
-          {/* Main offer — clean, sharp white */}
-          <span className="font-semibold text-white">
-            קני 2 פריטים וקבלי תכשיט שלישי במתנה
-          </span>
-          {/* Slim divider */}
-          <span
-            aria-hidden="true"
-            className="font-light text-white/30"
-          >
-            |
-          </span>
-          <span className="font-light text-white/85">משלוח חינם</span>
-        </p>
+      <div className="mx-auto flex min-h-12 max-w-7xl flex-wrap items-center justify-center gap-x-5 gap-y-1.5 px-6 py-2 text-center sm:px-12 sm:gap-x-7">
+        {/* Promo copy — main offer with a refined secondary line beneath it */}
+        <div className="flex flex-col items-center gap-y-1">
+          <p className="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-0.5 text-[11.5px] leading-snug tracking-wide sm:text-[13px]">
+            {/* Diamond — standalone leading item so it pins to the visual start
+                (right edge in RTL) rather than being reordered mid-line. */}
+            <span aria-hidden="true" className="text-[14px] leading-none">
+              💎
+            </span>
+            {/* Main offer — clean, sharp white */}
+            <span className="font-semibold text-white">
+              קני 2 פריטים וקבלי תכשיט שלישי במתנה
+            </span>
+            {/* Slim divider */}
+            <span aria-hidden="true" className="font-light text-white/30">
+              |
+            </span>
+            <span className="font-light text-white/85">משלוח חינם</span>
+          </p>
+          {/* Secondary line — quiet, gold-tinted material note for a premium feel */}
+          <p className="text-[9.5px] font-light leading-none tracking-[0.16em] text-gold/75 sm:text-[10.5px]">
+            תכשיטי כסף 925 בציפוי רודיום
+          </p>
+        </div>
         <Countdown />
       </div>
     </div>
