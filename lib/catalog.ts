@@ -108,6 +108,10 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
             color: v.color,
             hex: v.hex,
             image: encodeURI(v.image_url),
+            // Per-finish price/handle for merged products (e.g. silver-1's gold
+            // lives on a separate Shopify listing); undefined for single ones.
+            price: v.price,
+            handle: v.handle,
           }))
         : undefined,
   }));
@@ -130,6 +134,10 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
             color: v.color,
             hex: v.hex,
             image: encodeURI(v.image_url),
+            // Per-finish price/handle for merged products (e.g. silver-1's gold
+            // lives on a separate Shopify listing); undefined for single ones.
+            price: v.price,
+            handle: v.handle,
           }))
         : undefined,
   }));
@@ -155,6 +163,10 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
             color: v.color,
             hex: v.hex,
             image: encodeURI(v.image_url),
+            // Per-finish price/handle for merged products (e.g. silver-1's gold
+            // lives on a separate Shopify listing); undefined for single ones.
+            price: v.price,
+            handle: v.handle,
           }))
         : undefined,
   }));

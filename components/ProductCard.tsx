@@ -78,9 +78,16 @@ export default function ProductCard({
   const markBroken = (src: string) =>
     setBrokenSrcs((prev) => (prev.has(src) ? prev : new Set(prev).add(src)));
 
-  const selectedImage = hasSwatches ? variants![activeColor].image : image;
+  const activeVariant = hasSwatches ? variants![activeColor] : undefined;
+  const selectedImage = activeVariant?.image ?? image;
   // Fall back to the main product image if the selected finish's file fails.
   const displayImage = brokenSrcs.has(selectedImage) ? image : selectedImage;
+
+  // Per-finish price + handle: merged products (e.g. a ring whose gold lives on
+  // a separate Shopify listing) carry their own; single-listing pieces fall back
+  // to the parent, so the swatch updates price/SKU as well as the image.
+  const activePrice = activeVariant?.price ?? price;
+  const activeHandle = activeVariant?.handle ?? handle;
 
   // Hover image — mapped PER-PRODUCT: the product's own dedicated hover file
   // (secondaryImage) if it has one, otherwise its second colour/finish. When a
@@ -120,14 +127,15 @@ export default function ProductCard({
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (handle) {
-      // AddToCart — the card carries price/title/handle, so value is exact.
+    if (activeHandle) {
+      // AddToCart — use the SELECTED finish's handle + price so a merged
+      // product adds the right variant (e.g. gold on its own Shopify listing).
       trackProductEvent("AddToCart", {
-        value: price,
-        contentId: handle,
+        value: activePrice,
+        contentId: activeHandle,
         contentName: title,
       });
-      addByHandle(handle);
+      addByHandle(activeHandle);
     } else openCart();
   };
 
@@ -252,7 +260,7 @@ export default function ProductCard({
           )}
 
           <PriceTag
-            price={price}
+            price={activePrice}
             compareAt={compareAt}
             className={hasSwatches ? "mt-0.5" : "mt-1.5"}
           />
