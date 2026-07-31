@@ -70,7 +70,7 @@ export default function RelatedProducts({
 
                 {/* Generous, consistent space between image and title. */}
                 <div className="pt-6">
-                  <h3 className="min-h-[2.6rem] w-full text-[11px] font-light leading-relaxed tracking-[0.12em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-xs">
+                  <h3 className="min-h-[2.6rem] w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-sm">
                     {item.name}
                   </h3>
 

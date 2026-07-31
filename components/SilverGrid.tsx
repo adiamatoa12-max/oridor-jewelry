@@ -78,7 +78,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
       </div>
 
       <div className="flex flex-1 flex-col items-center pt-6 text-center">
-        <h3 className="w-full text-[11px] font-light leading-relaxed tracking-[0.12em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-xs">
+        <h3 className="w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-sm">
           {p.name}
         </h3>
 

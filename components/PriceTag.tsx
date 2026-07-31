@@ -21,15 +21,15 @@ export default function PriceTag({
   const savePct = onSale ? Math.round(((compareAt! - price) / compareAt!) * 100) : 0;
   const lg = size === "lg";
   // Product page: 20px/bold on mobile (premium-mobile standard), scaling up to
-  // the editorial display size on desktop. Cards: compact but bold + prominent
-  // so the price reads instantly while browsing the grid.
+  // the editorial display size on desktop. Cards: quiet + light so the product
+  // NAME and image lead the hierarchy, not the price.
   const base = lg
     ? "text-xl font-medium sm:text-3xl sm:font-semibold"
-    : "text-sm font-semibold sm:text-[15px]";
-  const strike = lg ? "text-base" : "text-[11px] sm:text-xs";
-  // On sale, the live price wears the gold accent so the deal pops; otherwise
-  // it's deep charcoal for maximum legibility.
-  const priceColor = onSale ? "text-gold" : "text-charcoal";
+    : "text-[11px] font-light sm:text-xs";
+  const strike = lg ? "text-base" : "text-[10px] sm:text-[11px]";
+  // On sale, the live price picks up a soft gold tint so the deal still reads,
+  // but stays light; otherwise a muted graphite keeps it understated on cards.
+  const priceColor = onSale ? "text-gold/90" : lg ? "text-charcoal" : "text-graphite";
 
   return (
     <span className={`inline-flex flex-wrap items-baseline gap-x-2 gap-y-1 ${className}`}>

@@ -206,7 +206,7 @@ export default function ProductCard({
       </div>
 
       <div className="flex flex-1 flex-col items-center px-2 pt-4 text-center">
-        <h3 className="w-full text-xs font-normal leading-snug tracking-[0.08em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-[13px]">
+        <h3 className="w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-sm">
           {title}
         </h3>
         {/* Material callout: moissanite pieces state the stone, everything else
