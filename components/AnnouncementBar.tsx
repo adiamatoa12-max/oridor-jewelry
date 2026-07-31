@@ -97,14 +97,9 @@ export default function AnnouncementBar() {
             <span className="font-semibold text-white">
               קני 2 פריטים וקבלי תכשיט שלישי במתנה
             </span>
-            {/* Slim divider */}
-            <span aria-hidden="true" className="font-light text-white/30">
-              |
-            </span>
-            <span className="font-light text-white/85">משלוח חינם</span>
           </p>
-          {/* Secondary line — quiet, gold-tinted material note for a premium feel */}
-          <p className="text-[9.5px] font-light leading-none tracking-[0.16em] text-gold/75 sm:text-[10.5px]">
+          {/* Secondary line — prominent gold material statement, the eye-catcher */}
+          <p className="text-[12px] font-bold leading-none tracking-[0.12em] text-gold sm:text-[15px]">
             תכשיטי כסף 925 בציפוי רודיום
           </p>
         </div>
