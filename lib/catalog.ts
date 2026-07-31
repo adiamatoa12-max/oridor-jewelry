@@ -123,6 +123,15 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     collection: COLLECTION_SILVER,
     category: asType(p.category) ?? inferCategory(p.name),
     fit: "cover",
+    // Surface colour/metal swatches on the card for multi-finish pieces.
+    variants:
+      Array.isArray(p.variants) && p.variants.length > 1
+        ? p.variants.map((v: any) => ({
+            color: v.color,
+            hex: v.hex,
+            image: encodeURI(v.image_url),
+          }))
+        : undefined,
   }));
 
   const signatureItems: CatalogProduct[] = (signature as any[]).map((p) => ({
