@@ -14,15 +14,18 @@ export interface CardSlide {
  * Mobile-only image carousel for product cards — the touch equivalent of the
  * desktop hover swap.
  *
- * Performance model: the track is a NATIVE horizontal scroll-snap container.
- *  - `touch-action: pan-x` (touch-pan-x) hands horizontal drags to the browser's
- *    own compositor-driven scroller, so a swipe follows the finger with real
- *    momentum and snapping — no JS in the gesture path, no sticking. A vertical
- *    drag is left to the page, so downward scrolling passes straight through.
- *  - The active slide is tracked with an IntersectionObserver, so there is NO
- *    per-scroll-tick layout reading (the old getBoundingClientRect-in-onScroll
- *    was the source of the jank).
- *  - Arrows scroll programmatically; `scroll-smooth` animates those fluidly.
+ * Scroll model — vertical page scroll is NEVER trapped:
+ *  - `touch-action: pan-y` (touch-pan-y) tells the browser to ALWAYS keep
+ *    vertical panning for the page. A downward drag anywhere on the card
+ *    therefore scrolls the page immediately and can never be captured by the
+ *    slider — the top priority. (`pan-x` would let the browser axis-lock a
+ *    slightly-diagonal drag to horizontal, momentarily stalling page scroll.)
+ *  - Horizontal is handled in JS instead: we measure the gesture on touchend
+ *    and only switch slides on a DELIBERATE horizontal swipe (dx past a
+ *    threshold AND more horizontal than vertical). We never preventDefault, so
+ *    a vertical/diagonal drag always falls through to the page untouched.
+ *  - The active slide is tracked with an IntersectionObserver (no per-tick
+ *    layout reads); arrows scroll programmatically with `scroll-smooth`.
  *  - A plain tap doesn't move the scroller, so it bubbles to the card <Link>.
  *
  * Hidden at sm+; desktop keeps the hover cross-fade.
@@ -65,6 +68,35 @@ export default function CardImageCarousel({
     return () => io.disconnect();
   }, [slides.length]);
 
+  // Deliberate-horizontal-swipe detection. `pan-y` disables native horizontal
+  // dragging, so we detect a horizontal swipe ourselves and switch slides only
+  // when the gesture is clearly sideways — a vertical/diagonal drag is ignored
+  // here (and never preventDefault'd), so page scrolling is untouched.
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+
+  const onTouchEnd = (e: React.TouchEvent) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    // Ignore anything that isn't a clear, deliberate horizontal swipe.
+    if (Math.abs(dx) < 40 || Math.abs(dx) <= Math.abs(dy)) return;
+    // RTL: a leftward swipe (dx < 0) advances to the next image.
+    const dir = dx < 0 ? 1 : -1;
+    const next = Math.min(Math.max(active + dir, 0), slides.length - 1);
+    if (next !== active) {
+      setActive(next);
+      scrollToIndex(next);
+    }
+  };
+
   const scrollToIndex = (i: number) => {
     const el = trackRef.current;
     const slide = el?.children[i] as HTMLElement | undefined;
@@ -94,10 +126,15 @@ export default function CardImageCarousel({
     <div className="absolute inset-0 z-[1] sm:hidden">
       <div
         ref={trackRef}
-        // touch-pan-x: native, compositor-driven horizontal swipe (fluid, with
-        // momentum + snap); vertical drags fall through to the page scroll.
-        // -webkit-overflow-scrolling:touch keeps legacy iOS momentum on.
-        className="hide-scrollbar flex h-full w-full snap-x snap-mandatory scroll-smooth touch-pan-x select-none overflow-x-auto overflow-y-hidden overscroll-x-contain [-webkit-overflow-scrolling:touch]"
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        // touch-action: pan-y set INLINE, not via Tailwind — this build doesn't
+        // emit the touch-* utilities, so the class form is a silent no-op. pan-y
+        // makes the browser always keep vertical panning for the page, so a
+        // downward drag over a card is never trapped by the slider. Horizontal
+        // switching is handled by the touch handlers above + the arrows.
+        style={{ touchAction: "pan-y" }}
+        className="hide-scrollbar flex h-full w-full snap-x snap-mandatory scroll-smooth select-none overflow-x-auto overflow-y-hidden overscroll-x-contain [-webkit-overflow-scrolling:touch]"
       >
         {slides.map((s, i) => {
           const src = brokenSrcs.has(s.src) ? slides[0]?.src ?? s.src : s.src;
