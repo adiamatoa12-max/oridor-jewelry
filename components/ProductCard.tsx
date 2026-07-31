@@ -183,7 +183,7 @@ export default function ProductCard({
 
         {/* Minimal status tag — top-right (inline-start in RTL) */}
         {tag && (
-          <span className="pointer-events-none absolute start-3 top-3 z-10 border border-charcoal/25 bg-canvas/60 px-3 py-1 text-[10px] uppercase tracking-[0.2em] text-charcoal backdrop-blur-sm">
+          <span className="pointer-events-none absolute start-3 top-3 z-10 bg-canvas/70 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.24em] text-charcoal/80 backdrop-blur-sm">
             {tag}
           </span>
         )}
@@ -270,10 +270,10 @@ export default function ProductCard({
             type="button"
             onClick={handleAdd}
             aria-label={quickAddLabel}
-            // Narrow 2-up mobile cards can't take btn-primary's px-10 + wide
-            // tracking — the label wrapped onto a second line and made every
-            // card taller. Tighten padding/tracking so it stays one line.
-            className="btn-primary mt-2.5 w-full whitespace-nowrap px-3 tracking-[0.14em] sm:hidden"
+            // Refined ghost CTA (mobile only) — a thin outline pill that reads as
+            // boutique, not a heavy black slab on every card, yet stays clearly
+            // tappable for impulse adds. Fills softly on press.
+            className="mt-3 inline-flex w-full items-center justify-center whitespace-nowrap border border-charcoal/25 px-3 py-2.5 text-[10px] uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 ease-out hover:border-charcoal/50 active:bg-charcoal/[0.06] sm:hidden"
           >
             הוספה מהירה
           </button>

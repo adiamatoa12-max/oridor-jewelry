@@ -20,19 +20,22 @@ const SHADOW =
 
 /**
  * The product-image CARD surface, shared by every grid so cards look identical
- * across collections. A crisp white tile, softly top-lit (white→cream gradient),
- * lifted off the warm page by a hairline ring and a layered, elegant shadow —
- * an ambient core, a soft key, and a wide diffuse cast — the way a high-end
- * jewellery card sits on the page. The shadow blooms on hover (paired with the
- * card's own lift on the parent link) for a gentle 3D pop. Rounded to match the
- * PDP frame. Pair with `relative aspect-[4/5] w-full overflow-hidden`, on a card
- * whose outer element carries `group`.
+ * across collections.
+ *
+ * Boutique treatment: SEAMLESS at rest — no tile, no border, no box shadow. Each
+ * piece is a transparent cut-out that floats directly on the warm page, grounded
+ * only by its own contact shadow (see SHADOW above), for the airy, gallery-like
+ * look of a high-end jeweller. On hover the piece gently lifts onto a whisper-soft
+ * warm card with a single diffuse shadow — interactive feedback without clutter.
+ * The `rounded-2xl overflow-hidden` frame still crops any full-bleed lifestyle
+ * (cover) shot into a clean rounded photo. Pair with
+ * `relative aspect-[4/5] w-full overflow-hidden`, on a card whose outer element
+ * carries `group`.
  */
 export const GRID_CARD =
-  "rounded-xl bg-gradient-to-b from-canvas to-cream ring-1 ring-platinum/40 " +
-  "shadow-[0_2px_4px_rgba(20,20,20,0.03),0_8px_16px_-6px_rgba(20,20,20,0.08),0_26px_44px_-22px_rgba(20,20,20,0.17)] " +
-  "transition-shadow duration-500 ease-out " +
-  "group-hover:shadow-[0_4px_8px_rgba(20,20,20,0.05),0_18px_32px_-10px_rgba(20,20,20,0.13),0_44px_66px_-30px_rgba(20,20,20,0.26)]";
+  "rounded-2xl bg-transparent transition-[background-color,box-shadow] duration-500 ease-out " +
+  "group-hover:bg-cream/70 " +
+  "group-hover:shadow-[0_18px_44px_-26px_rgba(20,20,20,0.28)]";
 
 export function gridImageClass(
   category?: string | null,
