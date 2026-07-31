@@ -64,7 +64,7 @@ function Countdown() {
           {i < units.length - 1 && (
             <span
               aria-hidden="true"
-              className="self-start py-1 text-[13px] font-bold leading-none text-gold"
+              className="self-start py-1 text-[13px] font-bold leading-none text-white/40"
             >
               :
             </span>
@@ -83,7 +83,7 @@ function Countdown() {
  */
 export default function AnnouncementBar() {
   return (
-    <div className="relative bg-black text-white shadow-[inset_0_-1px_0_rgba(197,160,89,0.35)]">
+    <div className="relative bg-black text-white shadow-[inset_0_-1px_0_rgba(255,255,255,0.10)]">
       <div className="mx-auto flex min-h-12 max-w-7xl flex-wrap items-center justify-center gap-x-5 gap-y-1.5 px-6 py-2 text-center sm:px-12 sm:gap-x-7">
         {/* Promo copy — main offer with a refined secondary line beneath it */}
         <div className="flex flex-col items-center gap-y-1">
@@ -98,8 +98,8 @@ export default function AnnouncementBar() {
               קני 2 פריטים וקבלי תכשיט שלישי במתנה
             </span>
           </p>
-          {/* Secondary line — prominent gold material statement, the eye-catcher */}
-          <p className="text-[12px] font-bold leading-none tracking-[0.12em] text-gold sm:text-[15px]">
+          {/* Secondary line — prominent clean white material statement */}
+          <p className="text-[12px] font-bold leading-none tracking-[0.12em] text-white sm:text-[15px]">
             תכשיטי כסף 925 בציפוי רודיום
           </p>
         </div>
