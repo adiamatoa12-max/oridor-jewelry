@@ -195,6 +195,13 @@ const nextConfig = {
         destination: "/collections/silver",
         permanent: true,
       },
+      // "שרשרת Y סוליטר" (silver-21) was removed from the store. Redirect its
+      // retired product URL to the silver collection so no link/SEO 404s.
+      {
+        source: "/collections/silver/silver-21",
+        destination: "/collections/silver",
+        permanent: true,
+      },
       // The gold/rose "marquise-ring" listing was merged into silver-1, which
       // now carries all three finishes as colour variants. Redirect its old URL
       // to the combined product.
