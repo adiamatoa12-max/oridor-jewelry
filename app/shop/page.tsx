@@ -24,11 +24,11 @@ export default async function ShopPage() {
       <Navbar />
 
       <section className="mx-auto max-w-7xl px-4 pb-24 pt-12 sm:px-10 sm:pt-16 lg:px-16">
-        <header className="mb-8 text-center">
-          <h1 className="text-2xl font-light tracking-wide text-charcoal sm:text-3xl lg:text-4xl">
+        <header className="mb-12 text-center lg:mb-14">
+          <h1 className="text-[27px] font-medium leading-tight tracking-[0.1em] text-charcoal sm:text-[34px] lg:text-[40px]">
             הקולקציה המלאה
           </h1>
-          <p className="mt-3 text-sm font-light text-graphite sm:mt-4">
+          <p className="mx-auto mt-4 max-w-md text-[13px] font-light leading-relaxed tracking-[0.06em] text-graphite sm:text-sm">
             כל הקולקציות שלנו במקום אחד. בחרי קטגוריה וגלי.
           </p>
         </header>

@@ -29,7 +29,7 @@ export default function RelatedProducts({
 
   return (
     <div className="mt-24 lg:mt-32">
-      <h2 className="mb-14 text-center text-2xl font-light tracking-widest text-charcoal lg:mb-20">
+      <h2 className="mb-14 text-center text-[24px] font-medium leading-tight tracking-[0.1em] text-charcoal sm:text-3xl lg:mb-20">
         משלים את הלוק
       </h2>
 

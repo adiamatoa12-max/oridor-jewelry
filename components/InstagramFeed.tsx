@@ -25,12 +25,12 @@ const CATEGORIES = [
 export default function InstagramFeed() {
   return (
     <section className="mx-auto max-w-7xl px-6 pt-12 pb-2 sm:px-10 lg:px-16 lg:pt-16 lg:pb-4">
-      {/* Header */}
-      <div className="mb-12 text-center">
-        <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
+      {/* Header — bold, prominent title with a quiet, subordinate subtitle. */}
+      <div className="mb-14 text-center lg:mb-16">
+        <h2 className="text-[27px] font-medium leading-tight tracking-[0.1em] text-charcoal sm:text-[34px] lg:text-[40px]">
           הקולקציות שלנו
         </h2>
-        <p className="mt-3 text-sm font-light tracking-wide text-ash">
+        <p className="mx-auto mt-4 max-w-md text-[13px] font-light leading-relaxed tracking-[0.06em] text-graphite sm:text-sm">
           לבחירה לפי קטגוריה
         </p>
       </div>

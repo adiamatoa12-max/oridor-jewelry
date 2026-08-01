@@ -43,15 +43,15 @@ export default function CollectionHero({
       {/* Centred editorial text */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.5))]">
         {eyebrow && (
-          <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.4em] text-gold">
+          <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.42em] text-gold">
             {eyebrow}
           </p>
         )}
-        <h1 className="text-3xl font-light uppercase leading-tight tracking-[0.18em] text-white sm:text-4xl lg:text-5xl">
+        <h1 className="text-[32px] font-medium leading-[1.1] tracking-[0.08em] text-white sm:text-[42px] lg:text-[52px]">
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-5 max-w-md text-sm font-light leading-relaxed tracking-wide text-white/85 sm:text-base">
+          <p className="mt-5 max-w-md text-[13px] font-light leading-relaxed tracking-[0.06em] text-white/80 sm:text-[15px]">
             {subtitle}
           </p>
         )}
