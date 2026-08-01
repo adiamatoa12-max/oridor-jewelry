@@ -55,7 +55,10 @@ export default async function SilverCollectionPage() {
         subtitle="עיצוב נקי, על-זמני ומלוטש, לכל רגע."
       />
 
-      <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
+      {/* Uniform light-grey product zone — a soft, premium grey band behind the
+          whole grid so the (matching-grey) cards sit seamlessly within it. */}
+      <section className="bg-[#ECEBE8]">
+        <div className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
         {/* Single material line, centered directly under the collection title.
             Intentionally the only sub-header here — no trust bar, no boxes. */}
         <p className="mx-auto mb-14 max-w-2xl text-center text-base font-light leading-relaxed text-graphite sm:text-sm lg:mb-16">
@@ -86,6 +89,7 @@ export default async function SilverCollectionPage() {
         <p className="mt-14 text-center text-xs font-light tracking-wide text-ash">
           {products.length} {products.length === 1 ? "פריט" : "פריטים"}
         </p>
+        </div>
       </section>
 
       <PremiumFooter />

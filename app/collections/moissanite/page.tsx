@@ -39,8 +39,12 @@ export default async function MoissaniteCollectionPage() {
         subtitle="הניצוץ של היהלום, במחיר שמרגיש נכון."
       />
 
-      <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
-        <MoissaniteCollection products={products} />
+      {/* Uniform light-grey product zone — a soft, premium grey band behind the
+          whole grid so the (matching-grey) cards sit seamlessly within it. */}
+      <section className="bg-[#ECEBE8]">
+        <div className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
+          <MoissaniteCollection products={products} />
+        </div>
       </section>
 
       <PremiumFooter />
