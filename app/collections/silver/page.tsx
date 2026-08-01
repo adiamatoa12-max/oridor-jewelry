@@ -45,8 +45,11 @@ export default async function SilverCollectionPage() {
       <Navbar />
 
       <CollectionHero
-        image="/photo/silver-hero.webp"
-        scrim="bg-gradient-to-b from-black/45 via-black/55 to-black/65"
+        image={encodeURI(
+          "/photo/Nano Banana Pro - _____ __ ____ _____ _____ _______ ____ __ ______ ________ ______ _______ ______.PNG",
+        )}
+        imagePosition="object-[center_45%]"
+        scrim="bg-gradient-to-b from-black/50 via-black/50 to-black/65"
         eyebrow="כסף 925 טהור"
         title="קולקציית כסף 925"
         subtitle="עיצוב נקי, על-זמני ומלוטש, לכל רגע."
