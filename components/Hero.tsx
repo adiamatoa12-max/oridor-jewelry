@@ -24,7 +24,7 @@ export default function Hero() {
         className="relative block w-full aspect-square sm:aspect-auto sm:h-[70vh] lg:h-[78vh]"
       >
         <Image
-          src={encodeURI("/photo/2+1 על כל האתר.PNG")}
+          src="/photo/promo-banner-2plus1.png"
           alt="Oridor — מבצע 2+1 על כל האתר: יהלומי מואסנייט ותכשיטי כסף 925 בציפוי רודיום"
           fill
           priority
