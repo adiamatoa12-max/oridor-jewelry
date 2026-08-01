@@ -110,9 +110,11 @@ function HighlightRow({
   );
 }
 
-// Material & certification highlights — shared across every product so the same
-// premium promise appears on every page, now as scannable icon rows.
-const MATERIAL_HIGHLIGHTS = (
+// Material & certification highlights — scannable icon rows. The 925 + rhodium
+// rows apply to every piece; the moissanite grade + GRA certificate rows are
+// moissanite-only (GRA certifies the stone), so they render only when the
+// product ships with a certificate (isMoissanite).
+const materialHighlights = (isMoissanite: boolean) => (
   <ul className="space-y-4">
     <HighlightRow icon={Gem} title="כסף 925 טהור">
       כסף סטרלינג אמיתי לכל עומקו — מתכת יקרה שנשארת יפה לאורך שנים.
@@ -120,12 +122,16 @@ const MATERIAL_HIGHLIGHTS = (
     <HighlightRow icon={Sparkles} title="ציפוי רודיום">
       שכבת הגנה יוקרתית לברק עמיד, שאינו מתקלף ואינו משחיר.
     </HighlightRow>
-    <HighlightRow icon={Diamond} title="מואסנייט D / VVS1">
-      דרגת הצבע והניקיון הגבוהה ביותר, בליטוש מושלם (Excellent Cut).
-    </HighlightRow>
-    <HighlightRow icon={BadgeCheck} title="תעודת אחריות GRA">
-      כל פריט מגיע עם תעודת אותנטיות ואחריות לכל החיים.
-    </HighlightRow>
+    {isMoissanite && (
+      <>
+        <HighlightRow icon={Diamond} title="מואסנייט D / VVS1">
+          דרגת הצבע והניקיון הגבוהה ביותר, בליטוש מושלם (Excellent Cut).
+        </HighlightRow>
+        <HighlightRow icon={BadgeCheck} title="תעודת אחריות GRA">
+          כל אבן מואסנייט מגיעה עם תעודת אותנטיות ואחריות לכל החיים.
+        </HighlightRow>
+      </>
+    )}
   </ul>
 );
 
@@ -151,8 +157,8 @@ const SHIPPING_ROWS = (
       באריזה המקורית וללא שימוש. מטעמי היגיינה, עגילים אינם ניתנים להחזרה או
       להחלפה.
     </HighlightRow>
-    <HighlightRow icon={ShieldCheck} title="אחריות ותעודת אותנטיות">
-      כל פריט מגיע עם תעודה ואחריות מלאה.
+    <HighlightRow icon={ShieldCheck} title="אחריות מלאה">
+      כל פריט מגובה באחריות מלאה.
     </HighlightRow>
   </ul>
 );
@@ -214,6 +220,11 @@ export default function ProductDetail({
    */
   authenticity?: { src: string; alt: string; heading: string; body: string };
 }) {
+  // GRA authenticity certificates certify the moissanite stone, so the
+  // certificate/moissanite material rows show only for the moissanite
+  // collection — the only one that supplies the `authenticity` band.
+  const isMoissanite = !!authenticity;
+
   // Three collapsible sections (Product Story · Materials & Care ·
   // Shipping/Returns). Materials & Care folds together the page's materials
   // copy, the shared quality guarantees, and the care instructions.
@@ -231,7 +242,7 @@ export default function ProductDetail({
       content: (
         <div className="space-y-6">
           {/* Material & certification highlights — the visual centrepiece */}
-          {MATERIAL_HIGHLIGHTS}
+          {materialHighlights(isMoissanite)}
 
           {/* Per-product spec, set apart as a quiet, tabular block. The pages
               pass their own <dl>; we only frame it with a hairline + sizing. */}

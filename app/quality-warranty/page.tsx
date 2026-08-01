@@ -8,7 +8,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 export const metadata: Metadata = {
   title: "אחריות ואיכות",
   description:
-    "הבטחת האיכות של Oridor: מואסנייט בדרגת D / VVS1, תעודת אותנטיות GRA לכל תכשיט, כסף סטרלינג 925 בציפוי רודיום אנטי-החלדה ואחריות לכל החיים.",
+    "הבטחת האיכות של Oridor: מואסנייט בדרגת D / VVS1, תעודת GRA לתכשיטי מואסנייט, כסף סטרלינג 925 בציפוי רודיום אנטי-החלדה ואחריות לכל החיים.",
   alternates: { canonical: "/quality-warranty" },
 };
 
@@ -23,8 +23,8 @@ const PILLARS = [
   {
     icon: ScrollText,
     eyebrow: "האותנטיות",
-    title: "תעודת GRA לכל תכשיט",
-    body: "כל פריט מגיע עם תעודת GRA (Gemological Research Association) המאמתת את מקוריות אבן המואסנייט ואת דרגתה. התעודה היא הביטחון שלך, הוכחה רשמית לכך שמה שאת עונדת הוא בדיוק מה שהובטח, ללא פשרות וללא תחליפים.",
+    title: "תעודת GRA לתכשיטי מואסנייט",
+    body: "כל תכשיט מואסנייט מגיע עם תעודת GRA (Gemological Research Association) המאמתת את מקוריות אבן המואסנייט ואת דרגתה. התעודה היא הביטחון שלך, הוכחה רשמית לכך שמה שאת עונדת הוא בדיוק מה שהובטח, ללא פשרות וללא תחליפים.",
   },
   {
     icon: Sparkles,
@@ -56,7 +56,7 @@ export default function QualityWarrantyPage() {
         </h1>
         <span className="mx-auto my-8 block h-px w-16 bg-gold" />
         <p className="mx-auto max-w-xl font-sans text-[15px] font-light leading-relaxed text-graphite">
-          ב-Oridor יוקרה אמיתית מתחילה באמת. כל תכשיט נוצר מחומרים מובחרים, מלווה בתעודת אותנטיות ומגובה באחריות לכל החיים, כדי שתוכלי לענוד אותו בביטחון מלא, לתמיד.
+          ב-Oridor יוקרה אמיתית מתחילה באמת. כל תכשיט נוצר מחומרים מובחרים ומגובה באחריות לכל החיים, כדי שתוכלי לענוד אותו בביטחון מלא, לתמיד.
         </p>
       </section>
 
