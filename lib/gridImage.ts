@@ -22,19 +22,18 @@ const SHADOW =
  * The product-image CARD surface, shared by every grid so cards look identical
  * across collections.
  *
- * Boutique treatment (Mondo-style): a soft, uniform LIGHT-GREY fill with NO
- * border and no base shadow, so the tile frames the jewellery cleanly and
- * seamlessly instead of boxing it in white/cream with outlines. Minimalist and
- * borderless; only a whisper of shadow blooms on hover for a subtle lift. The
- * `rounded-2xl overflow-hidden` frame still crops any full-bleed lifestyle
- * (cover) shot into a clean rounded photo. Pair with
- * `relative aspect-[4/5] w-full overflow-hidden`, on a card whose outer element
- * carries `group`.
+ * Boutique treatment: fully BORDERLESS and SEAMLESS — no fill, no grey box, no
+ * border. Each transparent cut-out sits clean and spacious directly on the page
+ * (or the grey product zone) so the jewellery is the whole focus; only a whisper
+ * of shadow blooms on hover for a subtle lift. The `rounded-2xl overflow-hidden`
+ * frame still crops any full-bleed lifestyle (cover) shot into a clean rounded
+ * photo. Pair with `relative aspect-[4/5] w-full overflow-hidden`, on a card
+ * whose outer element carries `group`.
  */
 export const GRID_CARD =
-  "rounded-2xl bg-[#F1F1EF] " +
+  "rounded-2xl bg-transparent " +
   "transition-shadow duration-500 ease-out " +
-  "group-hover:shadow-[0_16px_36px_-24px_rgba(20,20,20,0.2)]";
+  "group-hover:shadow-[0_16px_38px_-26px_rgba(20,20,20,0.16)]";
 
 export function gridImageClass(
   category?: string | null,
@@ -50,16 +49,17 @@ export function gridImageClass(
   const common = `object-contain object-center ${SHADOW} ${transition}`;
   switch (category) {
     case "Necklaces":
-      // Long/delicate — already near-full at this zoom. Left as-is: pushing it
-      // harder would clip tall necklaces (object-contain + scale can overflow
-      // the frame, which overflow-hidden then crops).
-      return `${common} p-1 scale-[1.3] group-hover:scale-[1.45]`;
+      // Long/delicate — already near-full at this zoom. Nudged up a touch;
+      // pushing much harder would clip tall necklaces (object-contain + scale
+      // can overflow the frame, which overflow-hidden then crops).
+      return `${common} p-0.5 scale-[1.36] group-hover:scale-[1.48]`;
     case "Bracelets":
-      // Horizontal lines — a firmer zoom so they fill the card like the rest.
-      return `${common} p-2 scale-[1.2] group-hover:scale-[1.3]`;
+      // Horizontal lines — a firmer zoom so they fill the slot boldly.
+      return `${common} p-1 scale-[1.3] group-hover:scale-[1.4]`;
     default:
       // Rings, earrings — these read smallest, floating in whitespace. Tighter
-      // padding plus a base zoom fills the card so the stone detail stands out.
-      return `${common} p-2.5 scale-[1.12] group-hover:scale-[1.2]`;
+      // padding plus a bigger base zoom fills the slot so the stone detail is
+      // bold and crystal-clear.
+      return `${common} p-1.5 scale-[1.22] group-hover:scale-[1.3]`;
   }
 }
