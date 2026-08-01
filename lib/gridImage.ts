@@ -22,22 +22,19 @@ const SHADOW =
  * The product-image CARD surface, shared by every grid so cards look identical
  * across collections.
  *
- * Boutique treatment: a SOFT, STRUCTURED container — a hairline platinum border
- * and a gently top-lit warm fill (white→cream) with a whisper of shadow, so each
- * piece sits in a clean, defined tile instead of floating loose on the page. Kept
- * deliberately light (thin border, barely-there shadow) so it reads structured
- * yet airy, not heavy. The border and shadow deepen a touch on hover for a subtle
- * lift. The `rounded-2xl overflow-hidden` frame still crops any full-bleed
- * lifestyle (cover) shot into a clean rounded photo. Pair with
+ * Boutique treatment (Mondo-style): a soft, uniform LIGHT-GREY fill with NO
+ * border and no base shadow, so the tile frames the jewellery cleanly and
+ * seamlessly instead of boxing it in white/cream with outlines. Minimalist and
+ * borderless; only a whisper of shadow blooms on hover for a subtle lift. The
+ * `rounded-2xl overflow-hidden` frame still crops any full-bleed lifestyle
+ * (cover) shot into a clean rounded photo. Pair with
  * `relative aspect-[4/5] w-full overflow-hidden`, on a card whose outer element
  * carries `group`.
  */
 export const GRID_CARD =
-  "rounded-2xl border border-platinum/45 bg-gradient-to-b from-canvas to-cream/60 " +
-  "shadow-[0_1px_2px_rgba(20,20,20,0.025),0_12px_26px_-20px_rgba(20,20,20,0.16)] " +
-  "transition-[background-color,box-shadow,border-color] duration-500 ease-out " +
-  "group-hover:border-platinum/70 " +
-  "group-hover:shadow-[0_18px_40px_-24px_rgba(20,20,20,0.24)]";
+  "rounded-2xl bg-[#F1F1EF] " +
+  "transition-shadow duration-500 ease-out " +
+  "group-hover:shadow-[0_16px_36px_-24px_rgba(20,20,20,0.2)]";
 
 export function gridImageClass(
   category?: string | null,
