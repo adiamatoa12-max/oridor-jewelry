@@ -1,15 +1,15 @@
 import { SUBTITLE_CLASS } from "./MoissaniteLabel";
 
 /**
- * "כסף 925 בציפוי רודיום" — the material callout shown under the title of
- * non-moissanite pieces, mirroring MoissaniteLabel for products that aren't
- * stone-set. Shares MoissaniteLabel's exact style via SUBTITLE_CLASS so the two
- * subtitles are visually identical and stay in sync.
+ * "בציפוי רודיום" — the concise material callout shown under the title of
+ * non-moissanite (silver) pieces, mirroring MoissaniteLabel's "משובץ מואסנייט".
+ * Shares MoissaniteLabel's exact style via SUBTITLE_CLASS so the two subtitles
+ * are visually identical (size, gold tone, spacing) and stay in sync.
  */
 export default function SilverLabel({
   className = "",
 }: {
   className?: string;
 }) {
-  return <p className={`${SUBTITLE_CLASS} ${className}`}>כסף 925 בציפוי רודיום</p>;
+  return <p className={`${SUBTITLE_CLASS} ${className}`}>בציפוי רודיום</p>;
 }
