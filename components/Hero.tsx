@@ -40,13 +40,20 @@ export default function Hero() {
         className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-32 bg-gradient-to-t from-black/35 to-transparent"
       />
 
-      {/* Call to action — sleek transparent pill with a thin white border. */}
-      <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center px-6 pb-7 sm:pb-9">
+      {/* Dual call to action — two sleek transparent pills (thin white border)
+          sit side-by-side over the lower edge, one per collection. */}
+      <div className="absolute inset-x-0 bottom-0 z-10 flex justify-center gap-3 px-6 pb-7 sm:gap-4 sm:pb-9">
         <Link
-          href="/shop"
-          className="inline-flex min-h-[52px] items-center justify-center rounded-sm border border-white/75 bg-white/5 px-11 text-[12px] font-semibold uppercase tracking-[0.24em] text-white shadow-[0_6px_22px_-10px_rgba(0,0,0,0.55)] backdrop-blur-[2px] transition-all duration-300 ease-cinematic hover:-translate-y-0.5 hover:bg-white hover:text-charcoal sm:text-[13px]"
+          href="/collections/moissanite"
+          className="inline-flex min-h-[52px] flex-1 items-center justify-center whitespace-nowrap rounded-sm border border-white/75 bg-white/5 px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white shadow-[0_6px_22px_-10px_rgba(0,0,0,0.55)] backdrop-blur-[2px] transition-all duration-300 ease-cinematic hover:-translate-y-0.5 hover:bg-white hover:text-charcoal sm:flex-none sm:px-9 sm:text-[13px] sm:tracking-[0.24em]"
         >
-          למעבר לקולקציה
+          קולקציית מואסנייט
+        </Link>
+        <Link
+          href="/collections/silver"
+          className="inline-flex min-h-[52px] flex-1 items-center justify-center whitespace-nowrap rounded-sm border border-white/75 bg-white/5 px-5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white shadow-[0_6px_22px_-10px_rgba(0,0,0,0.55)] backdrop-blur-[2px] transition-all duration-300 ease-cinematic hover:-translate-y-0.5 hover:bg-white hover:text-charcoal sm:flex-none sm:px-9 sm:text-[13px] sm:tracking-[0.24em]"
+        >
+          קולקציית כסף 925
         </Link>
       </div>
     </section>
