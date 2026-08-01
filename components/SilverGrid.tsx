@@ -77,17 +77,17 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
         />
       </div>
 
-      <div className="flex flex-1 flex-col items-center pt-6 text-center">
+      <div className="flex flex-1 flex-col pt-6 text-right">
         <h3 className="w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-sm">
           {p.name}
         </h3>
 
         {/* Bottom group — swatches, price and CTA anchored to the card bottom
             (flex space-between effect via mt-auto), so every card lines up. */}
-        <div className="mt-auto flex w-full flex-col items-center pt-4">
+        <div className="mt-auto flex w-full flex-col pt-4">
           {/* Fixed-height swatch slot — always reserves one 44px row, even when
               a product has no swatches, so the price below stays aligned. */}
-          <div className="flex h-11 items-center justify-center gap-0.5">
+          <div className="flex h-11 items-center justify-start gap-0.5">
             {hasSwatches &&
               p.variants!.map((v, i) => {
                 const on = i === active;

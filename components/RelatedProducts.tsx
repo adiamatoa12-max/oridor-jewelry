@@ -44,7 +44,7 @@ export default function RelatedProducts({
           return (
             <div
               key={item.id}
-              className="group flex flex-col text-center transition-transform duration-300 ease-in-out md:hover:-translate-y-1"
+              className="group flex flex-col text-right transition-transform duration-300 ease-in-out md:hover:-translate-y-1"
             >
               {/* One link wraps image, title AND price, so tapping anywhere on
                   the card opens the product — previously the image and title
@@ -91,7 +91,7 @@ export default function RelatedProducts({
                 type="button"
                 onClick={() => addByHandle(item.slug)}
                 aria-label={`הוספת ${item.name} לסל`}
-                className="mt-5 inline-flex self-center items-center justify-center border border-charcoal/30 px-5 py-2 text-[10px] uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 ease-in-out hover:border-charcoal/50 hover:bg-charcoal/[0.05] active:bg-charcoal/[0.08]"
+                className="mt-5 inline-flex self-start items-center justify-center border border-charcoal/30 px-5 py-2 text-[10px] uppercase tracking-[0.2em] text-charcoal transition-colors duration-300 ease-in-out hover:border-charcoal/50 hover:bg-charcoal/[0.05] active:bg-charcoal/[0.08]"
               >
                 הוספה לסל
               </button>

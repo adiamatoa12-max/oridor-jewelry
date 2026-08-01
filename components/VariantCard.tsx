@@ -73,12 +73,12 @@ export default function VariantCard({ product }: { product: VariantProduct }) {
         </div>
       </Link>
 
-      <div className="px-2 pt-5 text-center">
+      <div className="px-2 pt-5 text-right">
         <h3 className="min-h-[2.6rem] text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal sm:text-sm">{product.name}</h3>
         <PriceTag price={product.price} compareAt={product.compare_at_price} className="mt-1.5" />
 
         {/* Color swatches — 20px dots inside a 44px tap target for touch */}
-        <div className="mt-1 flex items-center justify-center gap-1">
+        <div className="mt-1 flex items-center justify-start gap-1">
           {product.variants.map((v, i) => {
             const on = i === active;
             return (

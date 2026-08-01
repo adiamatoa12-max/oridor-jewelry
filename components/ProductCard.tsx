@@ -205,7 +205,7 @@ export default function ProductCard({
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col items-center px-2 pt-4 text-center">
+      <div className="flex flex-1 flex-col px-2 pt-4 text-right">
         <h3 className="w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-sm">
           {title}
         </h3>
@@ -221,14 +221,14 @@ export default function ProductCard({
         {/* Bottom group — swatches, price and CTA anchored to the card bottom
             (flex space-between effect via mt-auto), so every card lines up
             regardless of the title/content above. */}
-        <div className="mt-auto flex w-full flex-col items-center pt-3">
+        <div className="mt-auto flex w-full flex-col pt-3">
           {/* Swatch row is rendered ONLY when a product actually has finishes.
               It used to reserve a fixed 44px row on every card to keep prices
               aligned, but most pieces have no swatches, so that left a dead
               band under the subtitle on the majority of the grid. The bottom
               group is still mt-auto anchored, so cards stay tidy. */}
           {hasSwatches && (
-            <div className="flex items-center justify-center gap-0.5">
+            <div className="flex items-center justify-start gap-0.5">
               {variants!.map((v, i) => {
                 const on = i === activeColor;
                 return (
