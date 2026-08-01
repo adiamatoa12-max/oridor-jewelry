@@ -5,7 +5,7 @@
  * refinement of the title rather than a badge competing with it.
  */
 export const SUBTITLE_CLASS =
-  "text-[10px] font-light leading-none tracking-[0.16em] text-gold";
+  "text-[10.5px] font-medium leading-none tracking-[0.12em] text-[#9A7526]";
 
 /**
  * "משובץ מואסנייט" — the stone callout shown under a product title in the

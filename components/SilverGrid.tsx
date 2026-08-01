@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
+import SilverLabel from "./SilverLabel";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 
 export interface SilverColorVariant {
@@ -81,6 +82,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
         <h3 className="w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-sm">
           {p.name}
         </h3>
+        <SilverLabel className="mt-1" />
 
         {/* Bottom group — swatches, price and CTA anchored to the card bottom
             (flex space-between effect via mt-auto), so every card lines up. */}

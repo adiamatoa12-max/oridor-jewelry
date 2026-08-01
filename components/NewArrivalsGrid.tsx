@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
+import SilverLabel from "./SilverLabel";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 
 export interface NewArrival {
@@ -97,6 +98,7 @@ export default function NewArrivalsGrid({
             <h3 className="min-h-[2.25rem] text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-sm">
               {p.name}
             </h3>
+            <SilverLabel className="mt-1" />
             <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-1.5" />
           </div>
         </Link>
