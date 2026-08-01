@@ -7,18 +7,18 @@ import Link from "next/link";
  * The image carries the full message baked in (ORIDOR logo, the 2+1 offer, the
  * material tagline), so there is NO separate overlaid copy.
  *
- * Framing — the WHOLE artwork is always visible, never cropped:
+ * Framing:
  *  - Mobile: the section is a square that matches the 1:1 asset, so
- *    `object-cover` fills it edge-to-edge with zero crop.
- *  - Desktop: a capped-height banner with `object-contain`, so the full square
- *    sits centred and complete on the warm taupe field (#A59178, the image's
- *    own background) — 2+1 text, necklace and hand all framed correctly.
+ *    `object-cover` fills it edge-to-edge with the whole graphic in frame.
+ *  - Desktop (>=768px): a full-width widescreen banner at 70vh with
+ *    `object-cover object-center`, so the image spans the entire screen width
+ *    seamlessly (no side margins), the central 2+1 message always framed.
  * A sleek transparent CTA (thin white border) floats over the lower edge.
  */
 export default function Hero() {
   return (
-    <section className="relative aspect-square w-full overflow-hidden bg-[#A59178] sm:aspect-auto sm:min-h-[560px] lg:min-h-[620px]">
-      {/* Full campaign artwork — contained/centred so nothing is cut off. */}
+    <section className="relative aspect-square w-full overflow-hidden bg-[#A59178] md:aspect-auto md:h-[70vh] md:min-h-[520px]">
+      {/* Campaign artwork — cover + centred so it spans full width on desktop. */}
       <Link
         href="/shop"
         aria-label="מבצע 2+1 על כל האתר — למעבר לקולקציה"
@@ -30,7 +30,7 @@ export default function Hero() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center sm:object-contain"
+          className="object-cover object-center"
         />
       </Link>
 
