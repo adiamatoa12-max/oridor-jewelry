@@ -31,8 +31,9 @@ export default async function MoissaniteCollectionPage() {
       <Navbar />
 
       <CollectionHero
-        image="/photo/moissanite-hero.webp"
-        scrim="bg-gradient-to-b from-black/30 via-black/25 to-black/50"
+        image="/photo/magnific_._SOScuPzUb8.PNG"
+        imagePosition="object-[center_55%]"
+        scrim="bg-gradient-to-b from-black/45 via-black/40 to-black/60"
         eyebrow="ברק נצחי"
         title="קולקציית מואסנייט"
         subtitle="הניצוץ של היהלום, במחיר שמרגיש נכון."

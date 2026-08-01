@@ -12,6 +12,7 @@ export default function CollectionHero({
   title,
   subtitle,
   scrim = "bg-gradient-to-b from-black/45 via-black/45 to-black/60",
+  imagePosition = "object-center",
 }: {
   image: string;
   eyebrow?: string;
@@ -20,6 +21,9 @@ export default function CollectionHero({
   /** Overlay gradient classes — tune per image so the text always pops
    *  (heavier over bright photos, lighter over dark ones). */
   scrim?: string;
+  /** object-position for the cover crop — tune per image so the strongest,
+   *  text-friendly region sits behind the title (defaults to centre). */
+  imagePosition?: string;
 }) {
   return (
     <section className="relative h-[300px] w-full overflow-hidden bg-mist md:h-[400px]">
@@ -30,7 +34,7 @@ export default function CollectionHero({
         fill
         priority
         sizes="100vw"
-        className="object-cover object-center"
+        className={`object-cover ${imagePosition}`}
       />
 
       {/* Dark scrim so the white text stays perfectly readable */}
