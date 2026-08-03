@@ -174,6 +174,13 @@ const nextConfig = {
         destination: "/collections/silver",
         permanent: true,
       },
+      // "עגילי סוליטר קלאסי" (newarrival-9) was removed from the store. Redirect
+      // its retired product URL to the earrings collection so no link/SEO 404s.
+      {
+        source: "/collections/new/newarrival-9",
+        destination: "/collections/earrings",
+        permanent: true,
+      },
       // "טבעת פאווה עדינה" (silver-3) was removed from the store. Redirect its
       // retired product URL to the silver collection so no link/SEO 404s.
       {
