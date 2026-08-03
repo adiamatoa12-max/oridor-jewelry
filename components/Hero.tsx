@@ -14,7 +14,7 @@ import HeroVideo from "./HeroVideo";
  */
 export default function Hero() {
   const ghost =
-    "inline-flex min-h-[46px] flex-1 items-center justify-center whitespace-nowrap rounded-sm border border-white/70 bg-transparent px-4 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-white transition-all duration-300 ease-cinematic hover:-translate-y-0.5 hover:bg-white hover:text-charcoal sm:min-h-[50px] sm:flex-none sm:px-10 sm:text-[13px] sm:tracking-[0.24em]";
+    "inline-flex min-h-[48px] flex-1 items-center justify-center whitespace-nowrap rounded-sm border border-white/80 bg-transparent px-4 text-[10.5px] font-semibold uppercase tracking-[0.18em] text-white transition-all duration-300 ease-cinematic hover:-translate-y-0.5 hover:bg-white hover:text-charcoal sm:min-h-[52px] sm:flex-none sm:min-w-[190px] sm:px-9 sm:text-[13px] sm:tracking-[0.22em]";
 
   return (
     <section className="relative h-[70svh] min-h-[480px] w-full overflow-hidden bg-ink sm:h-[72vh] lg:h-[76vh]">
@@ -42,7 +42,7 @@ export default function Hero() {
           בציפוי רודיום.
         </p>
 
-        <div className="mt-8 flex w-full max-w-md items-center justify-center gap-3 sm:mt-9 sm:w-auto sm:gap-4">
+        <div className="mt-11 flex w-full max-w-md items-center justify-center gap-3 sm:mt-14 sm:w-auto sm:gap-5">
           <Link href="/collections/moissanite" className={ghost}>
             קולקציית מואסנייט
           </Link>
