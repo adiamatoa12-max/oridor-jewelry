@@ -30,19 +30,23 @@ export default function Hero() {
       />
 
       {/* Centred content — sits cleanly on top of the video, responsive. */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center px-6 text-center [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.55))]">
-        <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.42em] text-white/85 sm:text-[11px]">
-          מבצע השקה
-        </p>
-        <h1 className="text-[40px] font-bold leading-[1.04] tracking-tight text-white sm:text-6xl lg:text-7xl">
-          2+1 על כל האתר
-        </h1>
-        <p className="mx-auto mt-5 max-w-md text-[13px] font-light leading-relaxed tracking-wide text-white/85 sm:mt-6 sm:text-[15px]">
-          קני 2 פריטים וקבלי תכשיט שלישי במתנה — יהלומי מואסנייט ותכשיטי כסף 925
-          בציפוי רודיום.
-        </p>
+      {/* Mobile: headline centred in the upper space, CTAs anchored low (pt/pb +
+          a flex-1 text block). Desktop: the whole group centres together. */}
+      <div className="absolute inset-0 z-10 flex flex-col items-center px-6 pb-14 pt-16 text-center [filter:drop-shadow(0_2px_14px_rgba(0,0,0,0.55))] sm:justify-center sm:pb-0 sm:pt-0">
+        <div className="flex flex-1 flex-col items-center justify-center sm:flex-none">
+          <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.42em] text-white/85 sm:text-[11px]">
+            מבצע השקה
+          </p>
+          <h1 className="text-[40px] font-bold leading-[1.04] tracking-tight text-white sm:text-6xl lg:text-7xl">
+            2+1 על כל האתר
+          </h1>
+          <p className="mx-auto mt-5 max-w-md text-[13px] font-light leading-relaxed tracking-wide text-white/85 sm:mt-6 sm:text-[15px]">
+            קני 2 פריטים וקבלי תכשיט שלישי במתנה — יהלומי מואסנייט ותכשיטי כסף 925
+            בציפוי רודיום.
+          </p>
+        </div>
 
-        <div className="mt-11 flex w-full max-w-md items-center justify-center gap-3 sm:mt-14 sm:w-auto sm:gap-5">
+        <div className="mt-8 flex w-full max-w-md flex-none items-center justify-center gap-3 sm:mt-14 sm:w-auto sm:gap-5">
           <Link href="/collections/moissanite" className={ghost}>
             קולקציית מואסנייט
           </Link>
