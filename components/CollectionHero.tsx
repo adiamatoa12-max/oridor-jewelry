@@ -26,7 +26,7 @@ export default function CollectionHero({
   imagePosition?: string;
 }) {
   return (
-    <section className="relative h-[300px] w-full overflow-hidden bg-mist md:h-[400px]">
+    <section className="relative h-[340px] w-full overflow-hidden bg-mist md:h-[460px]">
       {/* Cover background image */}
       <Image
         src={image}
@@ -39,21 +39,41 @@ export default function CollectionHero({
 
       {/* Dark scrim so the white text stays perfectly readable */}
       <div aria-hidden="true" className={`absolute inset-0 ${scrim}`} />
+      {/* Soft vignette — deepens the edges so the centred title reads with more
+          depth and the composition feels intentional, like a campaign shot. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_30%,rgba(0,0,0,0.4))]"
+      />
 
       {/* Centred editorial text */}
-      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center [filter:drop-shadow(0_2px_10px_rgba(0,0,0,0.5))]">
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center [filter:drop-shadow(0_2px_12px_rgba(0,0,0,0.55))]">
         {eyebrow && (
-          <p className="mb-5 text-[10px] font-semibold uppercase tracking-[0.42em] text-gold">
-            {eyebrow}
-          </p>
+          // Gold eyebrow framed by two hairlines — a classic couture masthead
+          // motif that signals the collection with quiet authority.
+          <div className="mb-6 flex items-center gap-3.5">
+            <span aria-hidden="true" className="h-px w-8 bg-gold/50 sm:w-10" />
+            <p className="text-[10px] font-semibold uppercase tracking-[0.44em] text-gold sm:text-[11px]">
+              {eyebrow}
+            </p>
+            <span aria-hidden="true" className="h-px w-8 bg-gold/50 sm:w-10" />
+          </div>
         )}
-        <h1 className="text-[32px] font-medium leading-[1.1] tracking-[0.08em] text-white sm:text-[42px] lg:text-[52px]">
+        <h1 className="text-[40px] font-bold leading-[1.02] tracking-[0.01em] text-white sm:text-[56px] lg:text-[68px]">
           {title}
         </h1>
         {subtitle && (
-          <p className="mt-5 max-w-md text-[13px] font-light leading-relaxed tracking-[0.06em] text-white/80 sm:text-[15px]">
-            {subtitle}
-          </p>
+          <>
+            {/* Slim divider between the commanding title and the fine-print
+                subtitle — sets the boutique rhythm. */}
+            <span
+              aria-hidden="true"
+              className="mt-7 h-px w-14 bg-white/35"
+            />
+            <p className="mt-6 max-w-lg text-[14px] font-light leading-relaxed tracking-[0.09em] text-white/85 sm:text-[16px]">
+              {subtitle}
+            </p>
+          </>
         )}
       </div>
     </section>
