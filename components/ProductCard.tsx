@@ -96,10 +96,13 @@ export default function ProductCard({
   const rawHoverImage =
     secondaryImage ??
     (variants && variants.length > 1 ? variants[1].image : undefined);
-  // Drop the hover image if it failed to load — better no cross-fade than a
-  // broken frame flashing in on hover.
-  const hoverImage =
-    rawHoverImage && !brokenSrcs.has(rawHoverImage) ? rawHoverImage : undefined;
+  // Hover image swap is DISABLED: the collection grid always shows the clean
+  // primary studio shot (or the shopper's selected swatch), held static on
+  // hover for a consistent, stable catalog. Secondary/lifestyle shots still
+  // live in the product-page gallery. `rawHoverImage` stays computed so the
+  // behaviour can be re-enabled by restoring the line below.
+  void rawHoverImage;
+  const hoverImage: string | undefined = undefined;
 
   // Dedicated hover files are full-bleed lifestyle shots (cover); a second
   // finish is a studio product shot (contain, matching the primary framing).
