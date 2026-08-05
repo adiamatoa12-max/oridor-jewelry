@@ -246,39 +246,42 @@ export default function CartDrawer() {
                   return (
                     <li
                       key={item.id}
-                      className={`flex gap-4 py-5 ${isGift ? "rounded-2xl bg-gold/[0.05] px-3 ring-1 ring-gold/25" : ""}`}
+                      className={`flex gap-5 py-6 ${isGift ? "rounded-2xl bg-gold/[0.05] px-3 ring-1 ring-gold/25" : ""}`}
                     >
-                      {/* Product image (right in RTL) */}
-                      <div className="relative aspect-square w-[84px] flex-none overflow-hidden rounded-xl bg-cream ring-1 ring-platinum/40">
+                      {/* Product image (right in RTL) — large boutique tile.
+                          `object-contain` + padding shows the whole piece so no
+                          necklace/earring ever gets cropped; soft tile + ring
+                          gives it a framed, high-end feel. */}
+                      <div className="relative aspect-square w-[108px] flex-none overflow-hidden rounded-2xl bg-gradient-to-b from-white to-cream ring-1 ring-platinum/50">
                         <Image
                           src={item.image}
                           alt={`${item.title}, תכשיט מבית Oridor`}
                           fill
-                          sizes="84px"
-                          className="object-cover"
+                          sizes="108px"
+                          className="object-contain p-2.5 [filter:drop-shadow(0px_4px_8px_rgba(0,0,0,0.06))]"
                         />
                         {isGift && (
-                          <span className="absolute inset-x-0 bottom-0 bg-gold/90 py-0.5 text-center text-[9px] font-semibold tracking-[0.1em] text-[#0a0a0a]">
+                          <span className="absolute inset-x-0 bottom-0 bg-gold/90 py-1 text-center text-[9px] font-semibold tracking-[0.14em] text-[#0a0a0a]">
                             מתנה
                           </span>
                         )}
                       </div>
 
                       {/* Details + controls (left) */}
-                      <div className="flex flex-1 flex-col">
+                      <div className="flex flex-1 flex-col py-0.5">
                         <div className="flex items-start justify-between gap-2">
                           <div className="min-w-0">
-                            <h3 className="truncate text-sm font-medium leading-snug text-charcoal">
+                            <h3 className="truncate text-[15px] font-medium leading-snug tracking-[0.01em] text-charcoal">
                               {item.title}
                             </h3>
                             {isGift ? (
-                              <p className="mt-0.5 inline-flex items-center gap-1 text-[11px] font-medium text-gold">
+                              <p className="mt-1 inline-flex items-center gap-1 text-[11px] font-medium text-gold">
                                 <Gift size={12} strokeWidth={2} />
                                 התכשיט השלישי שלך · במתנה
                               </p>
                             ) : (
                               (item.details ?? item.variant) && (
-                                <p className="mt-0.5 truncate text-[11px] font-light leading-snug text-ash">
+                                <p className="mt-1 truncate text-xs font-light leading-snug tracking-wide text-ash">
                                   {item.details ?? item.variant}
                                 </p>
                               )
@@ -387,16 +390,16 @@ export default function CartDrawer() {
                     signal is the cart attribute written above; this card is the
                     shopper-facing "you've earned a free surprise" cue. */}
                 {unlocked && (
-                  <li className="flex gap-4 py-5">
+                  <li className="flex gap-5 py-6">
                     {/* Wrapped-gift tile with a "?" to signal a surprise */}
-                    <div className="relative flex aspect-square w-[84px] flex-none items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-gold/25 via-gold/10 to-transparent ring-1 ring-gold/30">
-                      <Gem size={30} strokeWidth={1.5} className="text-gold" />
-                      <span className="absolute end-1.5 top-1.5 inline-flex h-[18px] w-[18px] items-center justify-center rounded-full bg-gold text-[11px] font-bold text-[#0a0a0a]">
+                    <div className="relative flex aspect-square w-[108px] flex-none items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-br from-gold/25 via-gold/10 to-transparent ring-1 ring-gold/30">
+                      <Gem size={38} strokeWidth={1.5} className="text-gold" />
+                      <span className="absolute end-2 top-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-gold text-[11px] font-bold text-[#0a0a0a]">
                         ?
                       </span>
                     </div>
 
-                    <div className="flex flex-1 flex-col">
+                    <div className="flex flex-1 flex-col py-0.5">
                       <div className="min-w-0">
                         <h3 className="text-sm font-medium leading-snug text-charcoal">
                           תכשיט במתנה בהפתעה 💎
