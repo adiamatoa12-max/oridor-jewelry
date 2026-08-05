@@ -3,8 +3,10 @@
 import { Fragment, useEffect, useState } from "react";
 
 // Launch-sale deadline (Israel time). Update to extend the promotion.
-// Set so the countdown opens at 5 days out; days tick down naturally from there.
-const SALE_END = new Date("2026-08-05T23:59:59+03:00").getTime();
+// 10-day launch-sale window: target sits ~10 days out (with a small cushion so
+// the day count reads 10 and the hours read 00 at reset), so the countdown
+// opens at 10 ימים · 00 שע · 00 · 00 and ticks down naturally from there.
+const SALE_END = new Date("2026-08-15T21:14:04+03:00").getTime();
 
 interface TimeLeft {
   d: number;
