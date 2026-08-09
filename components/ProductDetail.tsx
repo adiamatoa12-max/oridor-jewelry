@@ -183,7 +183,7 @@ export default function ProductDetail({
   imageByValue,
   description,
   materials,
-  stoneSize,
+  stoneSizes,
   showRingGuide = false,
   category,
   slug,
@@ -206,8 +206,9 @@ export default function ProductDetail({
   description: string;
   /** "Materials & details" accordion content (JSX or text). */
   materials: React.ReactNode;
-  /** Optional stone-size spec (e.g. "2-4 mm") shown by the buy-box selectors. */
-  stoneSize?: string;
+  /** Selectable stone-size options (e.g. ["2 mm","3 mm","4 mm"]) shown by the
+   *  buy-box selectors. */
+  stoneSizes?: string[];
   /** Show the ring-size-guide link (rings only). */
   showRingGuide?: boolean;
   /** Product category — drives the size options and related products. */
@@ -320,7 +321,7 @@ export default function ProductDetail({
             hexByValue={hexByValue}
             imageByValue={imageByValue}
             sizes={sizes}
-            stoneSize={stoneSize}
+            stoneSizes={stoneSizes}
             handle={slug}
           />
 

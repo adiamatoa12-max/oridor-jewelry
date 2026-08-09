@@ -7,7 +7,14 @@ import { useState } from "react";
  * the product page's sizeConfig) and tracks the chosen one. Purely presentational
  * for now — it needs no Shopify/DB wiring — matching the buy box's pill styling.
  */
-export default function SizeSelector({ sizes }: { sizes: string[] }) {
+export default function SizeSelector({
+  sizes,
+  label = "מידה",
+}: {
+  sizes: string[];
+  /** Group heading — defaults to "מידה" (length); pass e.g. "מידת אבן". */
+  label?: string;
+}) {
   const [selected, setSelected] = useState(sizes[0]);
   if (!sizes.length) return null;
 
@@ -23,7 +30,7 @@ export default function SizeSelector({ sizes }: { sizes: string[] }) {
   if (single) {
     return (
       <div className="mt-7">
-        <p className="mb-3 text-xs uppercase tracking-[0.2em] text-ash">מידה</p>
+        <p className="mb-3 text-xs uppercase tracking-[0.2em] text-ash">{label}</p>
         <span className="inline-flex min-h-[40px] items-center rounded-full border border-platinum/70 bg-transparent px-5 text-xs tracking-wide text-graphite">
           {sizes[0]}
         </span>
@@ -34,7 +41,7 @@ export default function SizeSelector({ sizes }: { sizes: string[] }) {
   return (
     <div className="mt-7">
       <p className="mb-3 text-xs uppercase tracking-[0.2em] text-ash">
-        מידה
+        {label}
         <span className="ms-2 tracking-normal text-charcoal">{selected}</span>
       </p>
       <div className={longLabels ? "flex flex-col gap-2.5" : "flex flex-wrap gap-2.5"}>

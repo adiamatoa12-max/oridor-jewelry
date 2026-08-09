@@ -40,7 +40,7 @@ export default function ProductBuyBox({
   hexByValue = {},
   imageByValue = {},
   sizes = [],
-  stoneSize,
+  stoneSizes = [],
   handle,
 }: {
   title: string;
@@ -57,8 +57,9 @@ export default function ProductBuyBox({
   imageByValue?: Record<string, string>;
   /** Local (presentational) size options, rendered between price and CTA. */
   sizes?: string[];
-  /** Optional stone-size spec (e.g. "2-4 mm") shown by the option selectors. */
-  stoneSize?: string;
+  /** Selectable stone-size options (e.g. ["2 mm","3 mm","4 mm"]), shown by the
+   *  option selectors. Presentational, like the length sizes. */
+  stoneSizes?: string[];
   /** Product handle — used to add-to-cart when the selected variant is a
    *  frontend-only (`local:`) colour synthesised from local data. */
   handle?: string;
@@ -320,17 +321,10 @@ export default function ProductBuyBox({
         );
       })}
 
-      {/* Stone-size spec — surfaced right by the option selectors (e.g. carat)
-          so shoppers see the size range immediately, not only in the accordion. */}
-      {stoneSize && (
-        <div className="mt-7 flex items-center gap-3">
-          <span className="text-xs uppercase tracking-[0.2em] text-ash">
-            מידת אבן
-          </span>
-          <span className="inline-flex min-h-[34px] items-center rounded-full border border-platinum/70 bg-canvas px-4 text-sm font-semibold tracking-wide text-charcoal">
-            {stoneSize}
-          </span>
-        </div>
+      {/* Stone-size options — selectable pills right by the other selectors
+          (e.g. carat), so shoppers choose the size like length/karat. */}
+      {stoneSizes.length > 0 && (
+        <SizeSelector sizes={stoneSizes} label="מידת אבן" />
       )}
 
       {/* Local size options — between the configurator and the CTA. */}

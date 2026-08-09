@@ -130,7 +130,7 @@ export default async function SilverProductPage({
         shopifyProduct={displayProduct}
         hexByValue={hexByValue}
         imageByValue={imageByValue}
-        stoneSize={product.size}
+        stoneSizes={product.stoneSizes}
         showRingGuide={/טבעת/.test(product.name)}
         description={
           product.description ??

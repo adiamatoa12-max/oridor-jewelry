@@ -132,7 +132,7 @@ export default async function MoissaniteProductPage({
         fallbackPrice={product.price}
         compareAtPrice={product.compare_at_price}
         shopifyProduct={displayProduct}
-        stoneSize={product.size}
+        stoneSizes={product.stoneSizes}
         showRingGuide={/ring|טבעת/i.test(product.name)}
         description={
           product.description ??
