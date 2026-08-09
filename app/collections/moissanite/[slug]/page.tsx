@@ -133,7 +133,10 @@ export default async function MoissaniteProductPage({
         compareAtPrice={product.compare_at_price}
         shopifyProduct={displayProduct}
         showRingGuide={/ring|טבעת/i.test(product.name)}
-        description="אבן מואסנייט נוצצת בעבודת יד מדויקת, משובצת בכסף 925 טהור מצופה רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אותך לכל החיים."
+        description={
+          product.description ??
+          "אבן מואסנייט נוצצת בעבודת יד מדויקת, משובצת בכסף 925 טהור מצופה רודיום לברק עמיד ולהגנה מרבית. פריט על-זמני שנועד ללוות אותך לכל החיים."
+        }
         materials={
           <dl className="space-y-2">
             <div className="flex gap-2">

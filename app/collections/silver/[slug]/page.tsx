@@ -131,7 +131,10 @@ export default async function SilverProductPage({
         hexByValue={hexByValue}
         imageByValue={imageByValue}
         showRingGuide={/טבעת/.test(product.name)}
-        description="פריט מכסף 925 טהור בעבודת יד מדויקת, מלוטש בקפידה לגימור נקי ועל-זמני. עיצוב שנועד ללוות אותך יום-יום, לשנים רבות."
+        description={
+          product.description ??
+          "פריט מכסף 925 טהור בעבודת יד מדויקת, מלוטש בקפידה לגימור נקי ועל-זמני. עיצוב שנועד ללוות אותך יום-יום, לשנים רבות."
+        }
         materials={
           <dl className="space-y-2">
             <div className="flex gap-2">

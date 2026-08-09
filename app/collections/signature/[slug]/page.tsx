@@ -126,7 +126,10 @@ export default async function SignatureProductPage({
         hexByValue={hexByValue}
         imageByValue={imageByValue}
         showRingGuide={/טבעת/.test(product.name)}
-        description={`${product.name} מקולקציית החתימה של Oridor, זמין ב-${product.variants.length} גימורים. עבודת יד מדויקת בכסף 925 טהור, לגימור נקי ועל-זמני.`}
+        description={
+          product.description ??
+          `${product.name} מקולקציית החתימה של Oridor, זמין ב-${product.variants.length} גימורים. עבודת יד מדויקת בכסף 925 טהור, לגימור נקי ועל-זמני.`
+        }
         materials={
           <dl className="space-y-2">
             <div className="flex gap-2">

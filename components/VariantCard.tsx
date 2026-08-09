@@ -22,6 +22,8 @@ export interface VariantProduct {
   slug: string;
   /** Extra product-page gallery slides. PDP only — never used by the grid. */
   gallery_images?: string[];
+  /** Optional per-product PDP description that overrides the collection default. */
+  description?: string;
   variants: Variant[];
 }
 
