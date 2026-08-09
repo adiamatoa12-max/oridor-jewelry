@@ -15,11 +15,10 @@ export default async function NewArrivals() {
   return (
     <section className="mx-auto max-w-7xl px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
       <div className="mb-12 text-center">
-        <p className="mb-3 text-xs tracking-[0.25em] text-gold">כסף 925 טהור</p>
-        <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
+        <h2 className="text-[32px] font-bold leading-tight tracking-wide text-charcoal sm:text-4xl">
           קולקציית כסף 925
         </h2>
-        <p className="mx-auto mt-4 max-w-md text-sm font-light text-graphite">
+        <p className="mx-auto mt-4 max-w-md text-[15px] font-semibold leading-relaxed text-charcoal sm:text-base">
           כסף סטרלינג 925 טהור ומוצק, לא ציפוי. נצנוץ על-זמני שנשאר לתמיד.
         </p>
       </div>
