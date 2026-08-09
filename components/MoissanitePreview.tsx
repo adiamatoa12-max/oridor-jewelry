@@ -29,8 +29,10 @@ export default async function MoissanitePreview() {
         <h2 className="text-3xl font-light leading-relaxed tracking-widest text-charcoal">
           קולקציית מואסנייט
         </h2>
-        <p className="mx-auto mt-4 max-w-md text-sm font-light text-graphite">
-          אבני מואסנייט בדרגת D / VVS1, ברק שמתחרה ביהלומים.
+        <p className="mx-auto mt-4 max-w-md text-[15px] font-medium leading-relaxed tracking-wide text-charcoal">
+          אבני מואסנייט בדרגת{" "}
+          <span className="font-semibold text-gold">D / VVS1</span>, ברק שמתחרה
+          ביהלומים.
         </p>
       </div>
 
