@@ -27,6 +27,8 @@ export interface MoissaniteProduct {
   gallery_images?: string[];
   /** Optional per-product PDP description that overrides the collection default. */
   description?: string;
+  /** Optional stone-size spec (e.g. "2-4 mm"), shown by the buy-box selectors. */
+  size?: string;
   slug: string;
   /** Category key for filtering (Rings/Bracelets/Necklaces/Earrings). */
   category?: string;

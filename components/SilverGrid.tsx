@@ -31,6 +31,8 @@ export interface SilverProduct {
   gallery_images?: string[];
   /** Optional per-product PDP description that overrides the collection default. */
   description?: string;
+  /** Optional stone-size spec (e.g. "2-4 mm"), shown by the buy-box selectors. */
+  size?: string;
   /** Colour/metal variants — renders swatches and swaps the image when >1. */
   variants?: SilverColorVariant[];
 }

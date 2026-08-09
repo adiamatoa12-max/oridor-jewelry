@@ -125,6 +125,7 @@ export default async function SignatureProductPage({
         shopifyProduct={displayProduct}
         hexByValue={hexByValue}
         imageByValue={imageByValue}
+        stoneSize={product.size}
         showRingGuide={/טבעת/.test(product.name)}
         description={
           product.description ??
