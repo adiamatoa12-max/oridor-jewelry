@@ -37,6 +37,7 @@ export default async function MoissaniteCollectionPage() {
         eyebrow="ברק נצחי"
         title="קולקציית מואסנייט"
         subtitle="הניצוץ של היהלום, במחיר שמרגיש נכון."
+        showAccents={false}
       />
 
       {/* Uniform light-grey product zone — a soft, premium grey band behind the

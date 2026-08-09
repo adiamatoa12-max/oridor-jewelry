@@ -13,6 +13,7 @@ export default function CollectionHero({
   subtitle,
   scrim = "bg-gradient-to-b from-black/45 via-black/45 to-black/60",
   imagePosition = "object-center",
+  showAccents = true,
 }: {
   image: string;
   eyebrow?: string;
@@ -24,6 +25,9 @@ export default function CollectionHero({
   /** object-position for the cover crop — tune per image so the strongest,
    *  text-friendly region sits behind the title (defaults to centre). */
   imagePosition?: string;
+  /** Decorative hairlines (flanking the eyebrow + under the title). Set false
+   *  for a cleaner, line-free banner. */
+  showAccents?: boolean;
 }) {
   return (
     <section className="relative h-[340px] w-full overflow-hidden bg-mist md:h-[460px]">
@@ -48,29 +52,36 @@ export default function CollectionHero({
 
       {/* Centred editorial text */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 text-center [filter:drop-shadow(0_2px_12px_rgba(0,0,0,0.55))]">
-        {eyebrow && (
-          // Gold eyebrow framed by two hairlines — a classic couture masthead
-          // motif that signals the collection with quiet authority.
-          <div className="mb-6 flex items-center gap-3.5">
-            <span aria-hidden="true" className="h-px w-8 bg-gold/50 sm:w-10" />
-            <p className="text-[10px] font-semibold uppercase tracking-[0.44em] text-gold sm:text-[11px]">
+        {eyebrow &&
+          (showAccents ? (
+            // Gold eyebrow framed by two hairlines — a classic couture masthead
+            // motif that signals the collection with quiet authority.
+            <div className="mb-6 flex items-center gap-3.5">
+              <span aria-hidden="true" className="h-px w-8 bg-gold/50 sm:w-10" />
+              <p className="text-[10px] font-semibold uppercase tracking-[0.44em] text-gold sm:text-[11px]">
+                {eyebrow}
+              </p>
+              <span aria-hidden="true" className="h-px w-8 bg-gold/50 sm:w-10" />
+            </div>
+          ) : (
+            // Clean, line-free eyebrow.
+            <p className="mb-6 text-[10px] font-semibold uppercase tracking-[0.44em] text-gold sm:text-[11px]">
               {eyebrow}
             </p>
-            <span aria-hidden="true" className="h-px w-8 bg-gold/50 sm:w-10" />
-          </div>
-        )}
+          ))}
         <h1 className="text-[40px] font-bold leading-[1.02] tracking-[0.01em] text-white sm:text-[56px] lg:text-[68px]">
           {title}
         </h1>
         {subtitle && (
           <>
             {/* Slim divider between the commanding title and the fine-print
-                subtitle — sets the boutique rhythm. */}
-            <span
-              aria-hidden="true"
-              className="mt-7 h-px w-14 bg-white/35"
-            />
-            <p className="mt-6 max-w-lg text-[14px] font-light leading-relaxed tracking-[0.09em] text-white/85 sm:text-[16px]">
+                subtitle — sets the boutique rhythm. Hidden when accents off. */}
+            {showAccents && (
+              <span aria-hidden="true" className="mt-7 h-px w-14 bg-white/35" />
+            )}
+            <p
+              className={`${showAccents ? "mt-6" : "mt-5"} max-w-lg text-[14px] font-light leading-relaxed tracking-[0.09em] text-white/85 sm:text-[16px]`}
+            >
               {subtitle}
             </p>
           </>
