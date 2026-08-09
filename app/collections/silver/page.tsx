@@ -45,9 +45,7 @@ export default async function SilverCollectionPage() {
       <Navbar />
 
       <CollectionHero
-        image={encodeURI(
-          "/photo/Nano Banana Pro - _____ __ ____ _____ _____ _______ ____ __ ______ ________ ______ _______ ______.PNG",
-        )}
+        image="/photo/silver-collection-hero.webp"
         imagePosition="object-[center_45%]"
         scrim="bg-gradient-to-b from-black/50 via-black/50 to-black/65"
         eyebrow="כסף 925 טהור"
