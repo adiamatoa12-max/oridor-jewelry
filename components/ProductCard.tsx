@@ -98,12 +98,12 @@ export default function ProductCard({
   // The secondary is always a lifestyle photo, so it fills the frame (cover).
   const hoverIsCover = true;
 
-  // Mobile has no hover, so a second image is unreachable on touch. Show a
-  // swipeable dot carousel there instead — but only for lifestyle cards with a
-  // real second image and no swatches; swatch pieces already switch their image
-  // from the swatches. The desktop hover cross-fade is unchanged.
+  // Mobile has no hover, so the lifestyle shot is reached by swiping the in-card
+  // carousel instead. Available on swatch cards too: the first slide tracks the
+  // selected finish (displayImage), the second is the lifestyle photo, and the
+  // swatch dots live below the image so a sideways swipe never conflicts.
   const cardImageSizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw";
-  const showMobileCarousel = !hasSwatches && !!hoverImage;
+  const showMobileCarousel = !!hoverImage;
   const mobileSlides: CardSlide[] | null = showMobileCarousel
     ? [
         { src: displayImage, className: gridImageClass(category) },
@@ -169,8 +169,10 @@ export default function ProductCard({
           />
         )}
 
-        {/* Mobile swipe carousel + dots (touch alternative to hover). */}
-        {mobileSlides && activeColor === 0 && (
+        {/* Mobile swipe carousel (touch alternative to hover). Always available
+            so the lifestyle shot is reachable at any selected finish; slide 0
+            tracks the chosen colour. */}
+        {mobileSlides && (
           <CardImageCarousel slides={mobileSlides} alt={title} sizes={cardImageSizes} />
         )}
 

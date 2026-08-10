@@ -63,10 +63,11 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
   const displayImage = hasSwatches ? p.variants![active].image_url : p.image_url;
 
   // Second image = lifestyle (on-model) shot. Desktop cross-fades to it on
-  // hover; mobile reaches it via the swipe carousel — but not on swatch cards,
-  // where the swatches already own the image swap.
+  // hover; mobile reaches it by swiping the in-card carousel. Available on
+  // swatch cards too — the swatch dots sit BELOW the image, so a sideways
+  // swipe over the photo never conflicts with picking a colour.
   const lifestyle = p.gallery_images?.[0] ? encodeURI(p.gallery_images[0]) : undefined;
-  const showCarousel = !!lifestyle && !hasSwatches;
+  const showCarousel = !!lifestyle;
 
   const quickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
