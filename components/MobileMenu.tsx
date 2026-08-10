@@ -8,13 +8,18 @@ const MAIN_LINKS = [
   { label: "הכל", href: "/shop" },
   { label: "מואסנייט", href: "/collections/moissanite" },
   { label: "כסף 925", href: "/collections/silver" },
-  { label: "עגילים", href: "/collections/earrings" },
+];
+
+// Customer-service subsection, grouped under the "שירות לקוחות" heading.
+const SERVICE_LINKS = [
+  { label: "שאלות נפוצות", href: "/faq" },
+  { label: "צור קשר", href: "/contact" },
+  { label: "אחריות", href: "/quality-warranty" },
 ];
 
 const UTILITY_LINKS = [
   // Account link hidden until the user-auth system is built:
   // { label: "התחברות / הרשמה", href: "/account" },
-  { label: "שירות לקוחות", href: "/contact" },
   { label: "האינסטגרם שלנו", href: "https://www.instagram.com/oridor.jewelry" },
 ];
 
@@ -98,6 +103,23 @@ export default function MobileMenu({
               wider-tracked than the categories above, so the hierarchy reads at
               a glance. */}
           <div className="mt-5 border-t border-platinum/40 pt-4">
+            {/* Customer-service subsection — a quiet heading over its links. */}
+            <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-charcoal/70">
+              שירות לקוחות
+            </p>
+            {SERVICE_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={onClose}
+                className="flex min-h-[40px] items-center justify-start text-[13px] font-light tracking-[0.05em] text-ash transition-colors duration-300 hover:text-charcoal"
+              >
+                {link.label}
+              </Link>
+            ))}
+
+            {/* Other utility links (social, accessibility). */}
+            <div className="mt-3 border-t border-platinum/40 pt-3">
             {UTILITY_LINKS.map((link) => {
               // Social profiles live off-site and open in a new tab, so the
               // shopper doesn't lose the store. Internal links (customer
@@ -130,6 +152,7 @@ export default function MobileMenu({
               <Accessibility size={15} strokeWidth={1.5} className="text-gold" />
               הגדרות נגישות
             </button>
+            </div>
           </div>
         </nav>
       </aside>
