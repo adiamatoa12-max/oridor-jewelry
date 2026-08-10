@@ -54,20 +54,13 @@ export function gridImageClass(
     return `object-cover object-center ${transition} group-hover:scale-[1.08]`;
   }
 
-  const common = `object-contain object-center ${SHADOW} ${transition}`;
-  switch (category) {
-    case "Necklaces":
-      // Long/delicate — already near-full at this zoom. Nudged up a touch;
-      // pushing much harder would clip tall necklaces (object-contain + scale
-      // can overflow the frame, which overflow-hidden then crops).
-      return `${common} p-0.5 scale-[1.36] group-hover:scale-[1.5]`;
-    case "Bracelets":
-      // Horizontal lines — a firmer zoom so they fill the slot boldly.
-      return `${common} p-1 scale-[1.3] group-hover:scale-[1.44]`;
-    default:
-      // Rings, earrings — these read smallest, floating in whitespace. Tighter
-      // padding plus a bigger base zoom fills the slot so the stone detail is
-      // bold and crystal-clear.
-      return `${common} p-1.5 scale-[1.22] group-hover:scale-[1.34]`;
-  }
+  // Every grid cut-out is pre-normalized (offline) so its subject fills the
+  // SAME fraction (0.90) of a square transparent canvas — see the asset
+  // pipeline. That makes visual size uniform at the source, so the old
+  // per-category scale hacks (which tried, and failed, to equalize photos with
+  // wildly different built-in whitespace) are gone. One class fits all: a light
+  // uniform base scale to sit comfortably in the 4:5 slot, plus the shared
+  // hover zoom. `category` is kept in the signature for callers/compat.
+  void category;
+  return `object-contain object-center ${SHADOW} ${transition} p-2 scale-[1.04] group-hover:scale-[1.14]`;
 }
