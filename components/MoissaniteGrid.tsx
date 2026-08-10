@@ -7,7 +7,7 @@ import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 import MoissaniteLabel from "./MoissaniteLabel";
-import CardImageCarousel from "./CardImageCarousel";
+import CardImageSwap from "./CardImageSwap";
 
 /** Shared responsive sizes for the card image and its carousel slides. */
 const CARD_SIZES = "(min-width: 1024px) 25vw, 62vw";
@@ -92,10 +92,6 @@ export default function MoissaniteGrid({
           p={p}
           itemClass={itemClass}
           onQuickAdd={quickAdd}
-          // The in-card image swipe (pan-x) is only safe in the vertical grid.
-          // In the horizontal carousel row it would eat the swipe meant to
-          // scroll between products, so disable it there.
-          enableImageSwipe={layout === "grid"}
         />
       ))}
     </div>
@@ -103,18 +99,15 @@ export default function MoissaniteGrid({
 }
 
 /** A single moissanite card: primary shot with an on-model image that
- *  cross-fades in on hover. */
+ *  cross-fades in on hover (desktop) or toggles via dots (mobile). */
 function MoissaniteCard({
   p,
   itemClass,
   onQuickAdd,
-  enableImageSwipe,
 }: {
   p: MoissaniteProduct;
   itemClass: string;
   onQuickAdd: (e: React.MouseEvent, p: MoissaniteProduct) => void;
-  /** Render the mobile in-card image carousel (only in the vertical grid). */
-  enableImageSwipe: boolean;
 }) {
   // Second image = the on-model shot: a dedicated hover_image if set, else the
   // first lifestyle gallery image. Desktop cross-fades to it on hover; mobile
@@ -124,47 +117,27 @@ function MoissaniteCard({
     : p.gallery_images?.[0]
       ? encodeURI(p.gallery_images[0])
       : undefined;
-  const showCarousel = Boolean(lifestyle) && enableImageSwipe;
   return (
     <Link href={`/collections/moissanite/${p.slug}`} className={`${itemClass} touch-manipulation`}>
       {/* White product-image card — lifts the piece off the warm page so it
           doesn't blend into the background (shared GRID_CARD surface). */}
       <div className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}>
-        {/* Static base image. Hidden on mobile only when the swipe carousel takes
-            over, so the two don't stack. In the horizontal row (no carousel) it
-            stays visible so the row scrolls freely. */}
-        <Image
-          src={encodeURI(p.image_url)}
-          alt={`${p.name}, ${p.material}`}
-          fill
-          sizes={CARD_SIZES}
-          className={`${gridImageClass(p.category)} ${showCarousel ? "hidden sm:block" : ""}`}
-        />
-
-        {/* Desktop hover cross-fade to this product's OWN dedicated hover image.
-            Hidden on mobile — the carousel handles touch there. Deliberately NOT
-            group-active: on touch :active fires while tapping and would swap the
-            photo mid-tap instead of opening the product. */}
-        {lifestyle && (
+        {lifestyle ? (
+          // Desktop hover-swap + mobile dot-toggle to the lifestyle shot.
+          <CardImageSwap
+            primary={encodeURI(p.image_url)}
+            primaryClass={gridImageClass(p.category)}
+            lifestyle={lifestyle}
+            alt={`${p.name}, ${p.material}`}
+            sizes={CARD_SIZES}
+          />
+        ) : (
           <Image
-            src={lifestyle}
-            alt={`${p.name}, תמונה נוספת`}
+            src={encodeURI(p.image_url)}
+            alt={`${p.name}, ${p.material}`}
             fill
             sizes={CARD_SIZES}
-            className="hidden object-cover object-center opacity-0 transition-opacity duration-500 ease-cinematic group-hover:opacity-100 sm:block"
-          />
-        )}
-
-        {/* Mobile swipe carousel (touch alternative to hover) — grid layout
-            only; in the horizontal carousel row it would trap the row swipe. */}
-        {showCarousel && (
-          <CardImageCarousel
-            slides={[
-              { src: encodeURI(p.image_url), className: gridImageClass(p.category) },
-              { src: lifestyle!, className: "object-cover object-center" },
-            ]}
-            alt={p.name}
-            sizes={CARD_SIZES}
+            className={gridImageClass(p.category)}
           />
         )}
 

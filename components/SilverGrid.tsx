@@ -7,7 +7,7 @@ import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import SilverLabel from "./SilverLabel";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
-import CardImageCarousel from "./CardImageCarousel";
+import CardImageSwap from "./CardImageSwap";
 
 const CARD_SIZES = "(min-width: 1024px) 25vw, 50vw";
 
@@ -67,7 +67,6 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
   // swatch cards too — the swatch dots sit BELOW the image, so a sideways
   // swipe over the photo never conflicts with picking a colour.
   const lifestyle = p.gallery_images?.[0] ? encodeURI(p.gallery_images[0]) : undefined;
-  const showCarousel = !!lifestyle;
 
   const quickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -83,36 +82,22 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
       {/* Image floats on the page — no box, border, badge or fill; only a soft
           contact shadow. Gently scales on hover. */}
       <div className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}>
-        <Image
-          src={encodeURI(displayImage)}
-          alt={`${p.name}, ${p.material}`}
-          fill
-          sizes={CARD_SIZES}
-          className={`${gridImageClass(p.category)} ${showCarousel ? "hidden sm:block" : ""}`}
-        />
-
-        {/* Desktop hover cross-fade to the lifestyle shot. sm+ and group-hover
-            only — `hoverOnlyWhenSupported` keeps it off touch, so it never
-            shows or sticks on mobile and can't block scroll/tap. */}
-        {lifestyle && (
+        {lifestyle ? (
+          // Desktop hover-swap + mobile dot-toggle to the lifestyle shot.
+          <CardImageSwap
+            primary={encodeURI(displayImage)}
+            primaryClass={gridImageClass(p.category)}
+            lifestyle={lifestyle}
+            alt={`${p.name}, ${p.material}`}
+            sizes={CARD_SIZES}
+          />
+        ) : (
           <Image
-            src={lifestyle}
-            alt={`${p.name} בתמונת אווירה`}
+            src={encodeURI(displayImage)}
+            alt={`${p.name}, ${p.material}`}
             fill
             sizes={CARD_SIZES}
-            className="hidden object-cover object-center opacity-0 transition-opacity duration-500 ease-cinematic group-hover:opacity-100 sm:block"
-          />
-        )}
-
-        {/* Mobile swipe carousel (touch equivalent of the hover swap). */}
-        {showCarousel && (
-          <CardImageCarousel
-            slides={[
-              { src: encodeURI(displayImage), className: gridImageClass(p.category) },
-              { src: lifestyle!, className: "object-cover object-center" },
-            ]}
-            alt={p.name}
-            sizes={CARD_SIZES}
+            className={gridImageClass(p.category)}
           />
         )}
       </div>

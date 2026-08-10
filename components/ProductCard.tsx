@@ -8,7 +8,7 @@ import PriceTag from "./PriceTag";
 import MoissaniteLabel from "./MoissaniteLabel";
 import SilverLabel from "./SilverLabel";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
-import CardImageCarousel, { type CardSlide } from "./CardImageCarousel";
+import CardImageSwap from "./CardImageSwap";
 import { trackProductEvent } from "@/lib/metaPixel";
 import type { ProductColorVariant } from "@/lib/catalog";
 
@@ -95,26 +95,7 @@ export default function ProductCard({
   const hoverImage =
     secondaryImage && !brokenSrcs.has(secondaryImage) ? secondaryImage : undefined;
 
-  // The secondary is always a lifestyle photo, so it fills the frame (cover).
-  const hoverIsCover = true;
-
-  // Mobile has no hover, so the lifestyle shot is reached by swiping the in-card
-  // carousel instead. Available on swatch cards too: the first slide tracks the
-  // selected finish (displayImage), the second is the lifestyle photo, and the
-  // swatch dots live below the image so a sideways swipe never conflicts.
   const cardImageSizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw";
-  const showMobileCarousel = !!hoverImage;
-  const mobileSlides: CardSlide[] | null = showMobileCarousel
-    ? [
-        { src: displayImage, className: gridImageClass(category) },
-        {
-          src: hoverImage!,
-          className: hoverIsCover
-            ? "object-cover object-center"
-            : gridImageClass(category),
-        },
-      ]
-    : null;
 
   // Quick-add: don't navigate the parent link — add the real Shopify variant.
   const handleAdd = (e: React.MouseEvent) => {
@@ -144,36 +125,26 @@ export default function ProductCard({
       <div
         className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
       >
-        {/* Static base image. Hidden on mobile when the swipe carousel takes
-            over, so the two don't stack. */}
-        <Image
-          src={displayImage}
-          alt={`${title}, תכשיט כסף מבית Oridor`}
-          fill
-          sizes={cardImageSizes}
-          onError={() => markBroken(selectedImage)}
-          className={`${gridImageClass(category)} ${showMobileCarousel ? "hidden sm:block" : ""}`}
-        />
-
-        {/* Desktop hover cross-fade to the product's OWN second image. Only
-            while the shopper hasn't picked a specific colour, so it never shows
-            a wrong item. Hidden on mobile — the carousel handles touch there. */}
-        {hoverImage && activeColor === 0 && (
+        {/* Image with the lifestyle second shot: desktop hover-swap + mobile
+            dot-toggle. The primary tracks the selected finish. When a product
+            has no lifestyle shot, it's just the static studio image. */}
+        {hoverImage ? (
+          <CardImageSwap
+            primary={displayImage}
+            primaryClass={gridImageClass(category)}
+            lifestyle={hoverImage}
+            alt={`${title}, תכשיט כסף מבית Oridor`}
+            sizes={cardImageSizes}
+          />
+        ) : (
           <Image
-            src={hoverImage}
-            alt={`${title}, תמונה נוספת`}
+            src={displayImage}
+            alt={`${title}, תכשיט כסף מבית Oridor`}
             fill
             sizes={cardImageSizes}
-            onError={() => markBroken(hoverImage)}
-            className={`${hoverIsCover ? "object-cover object-center" : gridImageClass(category)} hidden opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 sm:block`}
+            onError={() => markBroken(selectedImage)}
+            className={gridImageClass(category)}
           />
-        )}
-
-        {/* Mobile swipe carousel (touch alternative to hover). Always available
-            so the lifestyle shot is reachable at any selected finish; slide 0
-            tracks the chosen colour. */}
-        {mobileSlides && (
-          <CardImageCarousel slides={mobileSlides} alt={title} sizes={cardImageSizes} />
         )}
 
         {/* Minimal status tag — top-right (inline-start in RTL) */}
