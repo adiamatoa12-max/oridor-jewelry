@@ -151,7 +151,7 @@ const CARE_ROW = (
 const SHIPPING_ROWS = (
   <ul className="space-y-4">
     <HighlightRow icon={Truck} title="משלוח חינם עד הבית">
-      לכל ההזמנות, באספקה של 3–7 ימי עסקים.
+      לכל ההזמנות, באספקה של עד 5 ימי עסקים.
     </HighlightRow>
     <HighlightRow icon={RotateCcw} title="14 יום להחזרה או החלפה">
       באריזה המקורית וללא שימוש. מטעמי היגיינה, עגילים אינם ניתנים להחזרה או
@@ -162,6 +162,60 @@ const SHIPPING_ROWS = (
     </HighlightRow>
   </ul>
 );
+
+// Product-page FAQ — shared across every collection's PDP. Answers mirror the
+// site's policy pages (materials, sensitive-skin, care, 14-day returns with
+// earrings excluded, up-to-5-day free shipping, gift packaging).
+const faqAnswer = (text: string) => (
+  <p className="text-[15px] font-light leading-[1.85] text-graphite sm:text-sm">
+    {text}
+  </p>
+);
+
+const PDP_FAQ: AccordionItem[] = [
+  {
+    title: "האם יש אפשרות לתכשיט מותאם אישית?",
+    content: faqAnswer(
+      "נשמח לסייע בכל בקשה מיוחדת. לפניות בנוגע להתאמה אישית או שינוי בפריט, ניתן ליצור איתנו קשר דרך עמוד 'צור קשר', ונחזור אלייך עם כל האפשרויות.",
+    ),
+  },
+  {
+    title: "מה החומרים בהם משתמשים בתכשיטי Oridor?",
+    content: faqAnswer(
+      "כל תכשיט עשוי מכסף סטרלינג 925 טהור בציפוי רודיום יוקרתי, המעניק ברק לבן עז והגנה מפני השחרה. תכשיטי המואסנייט משובצים באבני מואסנייט בדרגת D / VVS1, המלוות בתעודת GRA.",
+    ),
+  },
+  {
+    title: "האם התכשיטים מתאימים לעור רגיש?",
+    content: faqAnswer(
+      "בהחלט. ציפוי הרודיום נטול ניקל והיפואלרגני, כך שהתכשיטים עדינים על העור ונוחים לענידה יומיומית — גם לבעלות עור רגיש.",
+    ),
+  },
+  {
+    title: "כיצד לטפל בתכשיטים ולשמור עליהם?",
+    content: faqAnswer(
+      "אחסני במקום יבש והרחיקי ממים, מבישום ומכלור. נקי בעדינות במטלית רכה. מומלץ לענוד את התכשיט אחרון ולהסיר ראשון — כך הברק נשמר לאורך שנים.",
+    ),
+  },
+  {
+    title: "האם ניתן להחזיר או להחליף פריט?",
+    content: faqAnswer(
+      "כן. ניתן להחזיר או להחליף תוך 14 יום ממועד הקבלה, באריזה המקורית וללא שימוש. מטעמי היגיינה, עגילים אינם ניתנים להחזרה או להחלפה.",
+    ),
+  },
+  {
+    title: "מה זמני המשלוח?",
+    content: faqAnswer(
+      "אנחנו אורזים ושולחים כל הזמנה במהירות. משלוח עם שליח עד הבית מגיע תוך עד 5 ימי עסקים לכל חלקי הארץ, וכל משלוח מלווה במספר מעקב. המשלוח חינם.",
+    ),
+  },
+  {
+    title: "האם ניתן לרכוש כמתנה?",
+    content: faqAnswer(
+      "בהחלט. כל הזמנה מגיעה באריזת מתנה יוקרתית של המותג, מוכנה להענקה.",
+    ),
+  },
+];
 
 /**
  * Unified product-detail layout for every collection (moissanite, silver,
@@ -337,6 +391,14 @@ export default function ProductDetail({
             {/* All sections start collapsed so the upfront panel stays light —
                 the shopper opens only what they want to read. */}
             <Accordion items={accordionItems} />
+          </div>
+
+          {/* Product FAQ — a second collapsible block, shared across every PDP. */}
+          <div className="mt-10">
+            <h2 className="mb-4 font-display text-xl font-semibold text-charcoal sm:text-2xl">
+              שאלות ותשובות
+            </h2>
+            <Accordion items={PDP_FAQ} />
           </div>
         </div>
       </div>
