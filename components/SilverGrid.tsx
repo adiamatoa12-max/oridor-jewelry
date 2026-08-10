@@ -80,27 +80,15 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
       className="group flex h-full flex-col bg-transparent transition-transform duration-300 ease-in-out [-webkit-tap-highlight-color:transparent] md:hover:-translate-y-1"
     >
       {/* Image floats on the page — no box, border, badge or fill; only a soft
-          contact shadow. Gently scales on hover. */}
-      <div className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}>
-        {lifestyle ? (
-          // Desktop hover-swap + mobile dot-toggle to the lifestyle shot.
-          <CardImageSwap
-            primary={encodeURI(displayImage)}
-            primaryClass={gridImageClass(p.category)}
-            lifestyle={lifestyle}
-            alt={`${p.name}, ${p.material}`}
-            sizes={CARD_SIZES}
-          />
-        ) : (
-          <Image
-            src={encodeURI(displayImage)}
-            alt={`${p.name}, ${p.material}`}
-            fill
-            sizes={CARD_SIZES}
-            className={gridImageClass(p.category)}
-          />
-        )}
-      </div>
+          contact shadow. Desktop hover-swap + mobile dot-toggle to lifestyle. */}
+      <CardImageSwap
+        containerClassName={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
+        primary={encodeURI(displayImage)}
+        primaryClass={gridImageClass(p.category)}
+        lifestyle={lifestyle}
+        alt={`${p.name}, ${p.material}`}
+        sizes={CARD_SIZES}
+      />
 
       <div className="flex flex-1 flex-col pt-6 text-right">
         <h3 className="w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-sm">

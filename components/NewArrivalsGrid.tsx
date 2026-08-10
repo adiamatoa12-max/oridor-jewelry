@@ -81,29 +81,15 @@ export default function NewArrivalsGrid({
           className={itemClass}
         >
           {/* Flat, transparent card — the product image sits directly on the
-              page background with no box, border, or shadow. */}
-          <div
-            className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
+              page background. Desktop hover-swap + mobile dot-toggle to lifestyle. */}
+          <CardImageSwap
+            containerClassName={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
+            primary={encodeURI(p.image_url)}
+            primaryClass={gridImageClass(p.category)}
+            lifestyle={lifestyle}
+            alt={`${p.name}, ${p.material}`}
+            sizes={CARD_SIZES}
           >
-            {lifestyle ? (
-              // Desktop hover-swap + mobile dot-toggle to the lifestyle shot.
-              <CardImageSwap
-                primary={encodeURI(p.image_url)}
-                primaryClass={gridImageClass(p.category)}
-                lifestyle={lifestyle}
-                alt={`${p.name}, ${p.material}`}
-                sizes={CARD_SIZES}
-              />
-            ) : (
-              <Image
-                src={encodeURI(p.image_url)}
-                alt={`${p.name}, ${p.material}`}
-                fill
-                sizes={CARD_SIZES}
-                className={gridImageClass(p.category)}
-              />
-            )}
-
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
             <button
               type="button"
@@ -114,7 +100,7 @@ export default function NewArrivalsGrid({
               <ShoppingBag size={14} strokeWidth={1.5} />
               הוספה לאוסף
             </button>
-          </div>
+          </CardImageSwap>
 
           <div className="px-2 pt-4 text-right">
             <h3 className="min-h-[2.25rem] text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-sm">

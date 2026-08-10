@@ -4,15 +4,20 @@ import { useState } from "react";
 import Image from "next/image";
 
 /**
- * Product-card image with a second (lifestyle) shot, accessible on every device.
+ * Product-card image with an optional second (lifestyle) shot, accessible on
+ * every device.
  *
- *  - Desktop (hover devices): the lifestyle image cross-fades in on hover — two
- *    stacked images, `hidden sm:block`, opacity driven by `group-hover`.
- *  - Mobile (touch): a SINGLE image whose `src` swaps between the studio shot
- *    and the lifestyle shot when the dots below are tapped. Pure React state and
- *    a plain `src` change — NO horizontal scrolling and NO opacity/media tricks —
- *    so it toggles instantly and reliably on any phone, never affects vertical
- *    page scroll, and a plain tap on the image still opens the product.
+ *  - Desktop (hover devices): the lifestyle image cross-fades in on hover.
+ *  - Mobile (touch): two dots BELOW the image toggle the visible image's `src`
+ *    between the studio shot and the lifestyle shot — instant, state-driven, no
+ *    horizontal scrolling. The dots sit in the gap just under the photo (not
+ *    over it), so they never cover the jewellery, never affect vertical page
+ *    scroll, and a plain tap on the image still opens the product.
+ *
+ * Owns the aspect-ratio image box (via `containerClassName`) so the dots can be
+ * placed just outside it — the box itself is `overflow-hidden` for the image
+ * crop, which would otherwise clip anything below it. `children` are card
+ * overlays (quick-add button, tag) that live inside the image box.
  */
 export default function CardImageSwap({
   primary,
@@ -21,13 +26,17 @@ export default function CardImageSwap({
   lifestyleClass = "object-cover object-center",
   alt,
   sizes,
+  containerClassName,
+  children,
 }: {
   primary: string;
   primaryClass: string;
-  lifestyle: string;
+  lifestyle?: string;
   lifestyleClass?: string;
   alt: string;
   sizes: string;
+  containerClassName: string;
+  children?: React.ReactNode;
 }) {
   const [showLifestyle, setShowLifestyle] = useState(false);
 
@@ -39,36 +48,51 @@ export default function CardImageSwap({
   };
 
   return (
-    <>
-      {/* DESKTOP: hover cross-fade. Both hidden on mobile. */}
-      <Image
-        src={primary}
-        alt={alt}
-        fill
-        sizes={sizes}
-        className={`${primaryClass} hidden sm:block`}
-      />
-      <Image
-        src={lifestyle}
-        alt={`${alt} בתמונת אווירה`}
-        fill
-        sizes={sizes}
-        className={`${lifestyleClass} hidden opacity-0 transition-opacity duration-500 ease-cinematic group-hover:opacity-100 sm:block`}
-      />
+    // Wrapper is `relative` (no overflow clip) so the dots can sit just below
+    // the image box without being cropped and without adding layout height.
+    <div className="relative">
+      <div className={containerClassName}>
+        {lifestyle ? (
+          <>
+            {/* DESKTOP: hover cross-fade (both hidden on mobile). */}
+            <Image
+              src={primary}
+              alt={alt}
+              fill
+              sizes={sizes}
+              className={`${primaryClass} hidden sm:block`}
+            />
+            <Image
+              src={lifestyle}
+              alt={`${alt} בתמונת אווירה`}
+              fill
+              sizes={sizes}
+              className={`${lifestyleClass} hidden opacity-0 transition-opacity duration-500 ease-cinematic group-hover:opacity-100 sm:block`}
+            />
 
-      {/* MOBILE: one image that swaps its src on dot tap, plus the dots. */}
-      <div className="absolute inset-0 sm:hidden">
-        <Image
-          key={showLifestyle ? "lifestyle" : "primary"}
-          src={showLifestyle ? lifestyle : primary}
-          alt={alt}
-          fill
-          sizes={sizes}
-          className={showLifestyle ? lifestyleClass : primaryClass}
-        />
+            {/* MOBILE: one image that swaps its src on dot tap. */}
+            <div className="absolute inset-0 sm:hidden">
+              <Image
+                key={showLifestyle ? "lifestyle" : "primary"}
+                src={showLifestyle ? lifestyle : primary}
+                alt={alt}
+                fill
+                sizes={sizes}
+                className={showLifestyle ? lifestyleClass : primaryClass}
+              />
+            </div>
+          </>
+        ) : (
+          <Image src={primary} alt={alt} fill sizes={sizes} className={primaryClass} />
+        )}
 
-        {/* Toggle dots — a clear, instant way to see the second image on a phone. */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-2.5 z-[2] flex items-center justify-center gap-2">
+        {children}
+      </div>
+
+      {/* Mobile toggle dots — placed in the gap BELOW the photo so they never
+          cover the jewellery. Absolutely positioned → no layout shift. */}
+      {lifestyle && (
+        <div className="pointer-events-none absolute inset-x-0 top-full z-[2] flex items-center justify-center gap-2.5 sm:hidden">
           {[false, true].map((isLifestyle) => {
             const on = showLifestyle === isLifestyle;
             return (
@@ -78,19 +102,18 @@ export default function CardImageSwap({
                 aria-label={isLifestyle ? "תצוגה על דוגמנית" : "תצוגת סטודיו"}
                 aria-pressed={on}
                 onClick={pick(isLifestyle)}
-                // Generous 24px tap target around an 8px dot.
-                className="pointer-events-auto inline-flex h-6 w-6 items-center justify-center"
+                className="pointer-events-auto inline-flex h-4 w-6 items-center justify-center"
               >
                 <span
-                  className={`h-2 w-2 rounded-full shadow-[0_0_0_1px_rgba(255,255,255,0.75)] transition-all duration-200 ${
-                    on ? "scale-110 bg-charcoal" : "bg-charcoal/35"
+                  className={`h-2 w-2 rounded-full transition-all duration-200 ${
+                    on ? "scale-110 bg-charcoal" : "bg-charcoal/30"
                   }`}
                 />
               </button>
             );
           })}
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 }

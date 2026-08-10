@@ -122,31 +122,17 @@ export default function ProductCard({
     >
       {/* White product-image card — lifts the piece off the warm page so it
           doesn't blend into the background (shared GRID_CARD surface). */}
-      <div
-        className={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
+      {/* Image with the lifestyle second shot: desktop hover-swap + mobile
+          dot-toggle. The primary tracks the selected finish; when a product has
+          no lifestyle shot it's just the static studio image. */}
+      <CardImageSwap
+        containerClassName={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
+        primary={displayImage}
+        primaryClass={gridImageClass(category)}
+        lifestyle={hoverImage}
+        alt={`${title}, תכשיט כסף מבית Oridor`}
+        sizes={cardImageSizes}
       >
-        {/* Image with the lifestyle second shot: desktop hover-swap + mobile
-            dot-toggle. The primary tracks the selected finish. When a product
-            has no lifestyle shot, it's just the static studio image. */}
-        {hoverImage ? (
-          <CardImageSwap
-            primary={displayImage}
-            primaryClass={gridImageClass(category)}
-            lifestyle={hoverImage}
-            alt={`${title}, תכשיט כסף מבית Oridor`}
-            sizes={cardImageSizes}
-          />
-        ) : (
-          <Image
-            src={displayImage}
-            alt={`${title}, תכשיט כסף מבית Oridor`}
-            fill
-            sizes={cardImageSizes}
-            onError={() => markBroken(selectedImage)}
-            className={gridImageClass(category)}
-          />
-        )}
-
         {/* Minimal status tag — top-right (inline-start in RTL) */}
         {tag && (
           <span className="pointer-events-none absolute start-3 top-3 z-10 bg-canvas/70 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.24em] text-charcoal/80 backdrop-blur-sm">
@@ -169,7 +155,7 @@ export default function ProductCard({
             הוספה מהירה
           </button>
         </div>
-      </div>
+      </CardImageSwap>
 
       <div className="flex flex-1 flex-col px-2 pt-4 text-right">
         <h3 className="w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-sm">
