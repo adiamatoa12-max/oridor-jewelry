@@ -128,7 +128,7 @@ const materialHighlights = (isMoissanite: boolean) => (
           דרגת הצבע והניקיון הגבוהה ביותר, בליטוש מושלם (Excellent Cut).
         </HighlightRow>
         <HighlightRow icon={BadgeCheck} title="תעודת אחריות GRA">
-          כל אבן מואסנייט מגיעה עם תעודת אותנטיות ואחריות לכל החיים.
+          כל אבן מואסנייט מגיעה עם תעודת אותנטיות ואחריות לשנה.
         </HighlightRow>
       </>
     )}

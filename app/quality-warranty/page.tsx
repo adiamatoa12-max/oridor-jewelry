@@ -8,7 +8,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 export const metadata: Metadata = {
   title: "אחריות ואיכות",
   description:
-    "הבטחת האיכות של Oridor: מואסנייט בדרגת D / VVS1, תעודת GRA לתכשיטי מואסנייט, כסף סטרלינג 925 בציפוי רודיום אנטי-החלדה ואחריות לכל החיים.",
+    "הבטחת האיכות של Oridor: מואסנייט בדרגת D / VVS1, תעודת GRA לתכשיטי מואסנייט, כסף סטרלינג 925 בציפוי רודיום אנטי-החלדה ואחריות לשנה.",
   alternates: { canonical: "/quality-warranty" },
 };
 
@@ -35,8 +35,8 @@ const PILLARS = [
   {
     icon: ShieldCheck,
     eyebrow: "השקט הנפשי",
-    title: "אחריות לכל החיים",
-    body: "אנחנו עומדים מאחורי כל פריט שאנחנו יוצרים. כל תכשיט מכוסה באחריות לכל החיים כנגד פגמי ייצור, וכל הזמנה מגיעה באריזת מתנה יוקרתית. ניתן להחזיר או להחליף תוך 14 יום ממועד הקבלה, כדי שתוכלי לרכוש בביטחון מלא.",
+    title: "אחריות לשנה",
+    body: "אנחנו עומדים מאחורי כל פריט שאנחנו יוצרים. כל תכשיט מכוסה באחריות לשנה כנגד פגמי ייצור, וכל הזמנה מגיעה באריזת מתנה יוקרתית. ניתן להחזיר או להחליף תוך 14 יום ממועד הקבלה, כדי שתוכלי לרכוש בביטחון מלא.",
   },
 ];
 
@@ -56,7 +56,7 @@ export default function QualityWarrantyPage() {
         </h1>
         <span className="mx-auto my-8 block h-px w-16 bg-gold" />
         <p className="mx-auto max-w-xl font-sans text-[15px] font-light leading-relaxed text-graphite">
-          ב-Oridor יוקרה אמיתית מתחילה באמת. כל תכשיט נוצר מחומרים מובחרים ומגובה באחריות לכל החיים, כדי שתוכלי לענוד אותו בביטחון מלא, לתמיד.
+          ב-Oridor יוקרה אמיתית מתחילה באמת. כל תכשיט נוצר מחומרים מובחרים ומגובה באחריות לשנה, כדי שתוכלי לענוד אותו בביטחון מלא.
         </p>
       </section>
 
@@ -112,7 +112,7 @@ export default function QualityWarrantyPage() {
         <div className="mx-auto max-w-3xl px-6 py-20 text-center sm:px-10 lg:py-24">
           <BadgeCheck size={30} strokeWidth={1.25} className="mx-auto text-gold" />
           <h2 className="mt-6 font-display text-3xl font-semibold leading-tight text-charcoal">
-            מובטח לכל החיים
+            מובטח לשנה
           </h2>
           <p className="mx-auto mt-5 max-w-xl font-sans text-[15px] font-light leading-relaxed text-graphite">
             אנחנו יוצרים תכשיטים שנועדו ללוות אותך שנים, ומגבים אותם בהתאם. אם מסיבה כלשהי אינך מרוצה לחלוטין, אנחנו כאן. זו ההבטחה של Oridor.
