@@ -7,6 +7,9 @@ import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import SilverLabel from "./SilverLabel";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
+import CardImageCarousel from "./CardImageCarousel";
+
+const CARD_SIZES = "(min-width: 1024px) 25vw, 50vw";
 
 export interface SilverColorVariant {
   color: string;
@@ -59,6 +62,12 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
   const [active, setActive] = useState(0);
   const displayImage = hasSwatches ? p.variants![active].image_url : p.image_url;
 
+  // Second image = lifestyle (on-model) shot. Desktop cross-fades to it on
+  // hover; mobile reaches it via the swipe carousel — but not on swatch cards,
+  // where the swatches already own the image swap.
+  const lifestyle = p.gallery_images?.[0] ? encodeURI(p.gallery_images[0]) : undefined;
+  const showCarousel = !!lifestyle && !hasSwatches;
+
   const quickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -77,9 +86,34 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
           src={encodeURI(displayImage)}
           alt={`${p.name}, ${p.material}`}
           fill
-          sizes="(min-width: 1024px) 25vw, 50vw"
-          className={gridImageClass(p.category)}
+          sizes={CARD_SIZES}
+          className={`${gridImageClass(p.category)} ${showCarousel ? "hidden sm:block" : ""}`}
         />
+
+        {/* Desktop hover cross-fade to the lifestyle shot. sm+ and group-hover
+            only — `hoverOnlyWhenSupported` keeps it off touch, so it never
+            shows or sticks on mobile and can't block scroll/tap. */}
+        {lifestyle && (
+          <Image
+            src={lifestyle}
+            alt={`${p.name} בתמונת אווירה`}
+            fill
+            sizes={CARD_SIZES}
+            className="hidden object-cover object-center opacity-0 transition-opacity duration-500 ease-cinematic group-hover:opacity-100 sm:block"
+          />
+        )}
+
+        {/* Mobile swipe carousel (touch equivalent of the hover swap). */}
+        {showCarousel && (
+          <CardImageCarousel
+            slides={[
+              { src: encodeURI(displayImage), className: gridImageClass(p.category) },
+              { src: lifestyle!, className: "object-cover object-center" },
+            ]}
+            alt={p.name}
+            sizes={CARD_SIZES}
+          />
+        )}
       </div>
 
       <div className="flex flex-1 flex-col pt-6 text-right">

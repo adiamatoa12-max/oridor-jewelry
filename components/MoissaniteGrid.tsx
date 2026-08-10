@@ -116,7 +116,15 @@ function MoissaniteCard({
   /** Render the mobile in-card image carousel (only in the vertical grid). */
   enableImageSwipe: boolean;
 }) {
-  const showCarousel = Boolean(p.hover_image) && enableImageSwipe;
+  // Second image = the on-model shot: a dedicated hover_image if set, else the
+  // first lifestyle gallery image. Desktop cross-fades to it on hover; mobile
+  // reaches it via the swipe carousel (vertical grid only).
+  const lifestyle = p.hover_image
+    ? encodeURI(p.hover_image)
+    : p.gallery_images?.[0]
+      ? encodeURI(p.gallery_images[0])
+      : undefined;
+  const showCarousel = Boolean(lifestyle) && enableImageSwipe;
   return (
     <Link href={`/collections/moissanite/${p.slug}`} className={`${itemClass} touch-manipulation`}>
       {/* White product-image card — lifts the piece off the warm page so it
@@ -137,23 +145,23 @@ function MoissaniteCard({
             Hidden on mobile — the carousel handles touch there. Deliberately NOT
             group-active: on touch :active fires while tapping and would swap the
             photo mid-tap instead of opening the product. */}
-        {p.hover_image && (
+        {lifestyle && (
           <Image
-            src={encodeURI(p.hover_image)}
+            src={lifestyle}
             alt={`${p.name}, תמונה נוספת`}
             fill
             sizes={CARD_SIZES}
-            className="hidden object-cover object-center opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 sm:block"
+            className="hidden object-cover object-center opacity-0 transition-opacity duration-500 ease-cinematic group-hover:opacity-100 sm:block"
           />
         )}
 
         {/* Mobile swipe carousel (touch alternative to hover) — grid layout
             only; in the horizontal carousel row it would trap the row swipe. */}
-        {enableImageSwipe && p.hover_image && (
+        {showCarousel && (
           <CardImageCarousel
             slides={[
               { src: encodeURI(p.image_url), className: gridImageClass(p.category) },
-              { src: encodeURI(p.hover_image), className: "object-cover object-center" },
+              { src: lifestyle!, className: "object-cover object-center" },
             ]}
             alt={p.name}
             sizes={CARD_SIZES}

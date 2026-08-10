@@ -89,24 +89,14 @@ export default function ProductCard({
   const activePrice = activeVariant?.price ?? price;
   const activeHandle = activeVariant?.handle ?? handle;
 
-  // Hover image — mapped PER-PRODUCT: the product's own dedicated hover file
-  // (secondaryImage) if it has one, otherwise its second colour/finish. When a
-  // product has neither, hoverImage is undefined → no hover, so a card defaults
-  // to its primary image and never shows a generic/incorrect shot.
-  const rawHoverImage =
-    secondaryImage ??
-    (variants && variants.length > 1 ? variants[1].image : undefined);
-  // Hover image swap is DISABLED: the collection grid always shows the clean
-  // primary studio shot (or the shopper's selected swatch), held static on
-  // hover for a consistent, stable catalog. Secondary/lifestyle shots still
-  // live in the product-page gallery. `rawHoverImage` stays computed so the
-  // behaviour can be re-enabled by restoring the line below.
-  void rawHoverImage;
-  const hoverImage: string | undefined = undefined;
+  // Hover image = the product's on-model lifestyle shot (secondaryImage). On
+  // hover the clean studio primary smoothly cross-fades to it; if a product has
+  // no lifestyle shot, hoverImage is undefined → the card just stays static.
+  const hoverImage =
+    secondaryImage && !brokenSrcs.has(secondaryImage) ? secondaryImage : undefined;
 
-  // Dedicated hover files are full-bleed lifestyle shots (cover); a second
-  // finish is a studio product shot (contain, matching the primary framing).
-  const hoverIsCover = fit === "cover";
+  // The secondary is always a lifestyle photo, so it fills the frame (cover).
+  const hoverIsCover = true;
 
   // Mobile has no hover, so a second image is unreachable on touch. Show a
   // swipeable dot carousel there instead — but only for lifestyle cards with a

@@ -7,6 +7,9 @@ import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import SilverLabel from "./SilverLabel";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
+import CardImageCarousel from "./CardImageCarousel";
+
+const CARD_SIZES = "(min-width: 1024px) 25vw, 62vw";
 
 export interface NewArrival {
   id: string;
@@ -63,7 +66,16 @@ export default function NewArrivalsGrid({
 
   return (
     <div className={containerClass}>
-      {products.map((p) => (
+      {products.map((p) => {
+        // Second image = the lifestyle (on-model) shot. Desktop cross-fades to
+        // it on hover; mobile reaches it by swiping the in-card carousel — but
+        // only in the vertical grid, never inside the horizontal snap row (that
+        // would fight the row swipe).
+        const lifestyle = p.gallery_images?.[0]
+          ? encodeURI(p.gallery_images[0])
+          : undefined;
+        const showCarousel = !!lifestyle && layout === "grid";
+        return (
         <Link
           key={p.id}
           href={`/collections/new/${p.slug}`}
@@ -78,9 +90,34 @@ export default function NewArrivalsGrid({
               src={encodeURI(p.image_url)}
               alt={`${p.name}, ${p.material}`}
               fill
-              sizes="(min-width: 1024px) 25vw, 62vw"
-              className={gridImageClass(p.category)}
+              sizes={CARD_SIZES}
+              className={`${gridImageClass(p.category)} ${showCarousel ? "hidden sm:block" : ""}`}
             />
+
+            {/* Desktop hover cross-fade to the lifestyle shot. Gated to sm+ and
+                group-hover (which `hoverOnlyWhenSupported` keeps off touch), so
+                it never appears — or sticks — on mobile. */}
+            {lifestyle && (
+              <Image
+                src={lifestyle}
+                alt={`${p.name} בתמונת אווירה`}
+                fill
+                sizes={CARD_SIZES}
+                className="hidden object-cover object-center opacity-0 transition-opacity duration-500 ease-cinematic group-hover:opacity-100 sm:block"
+              />
+            )}
+
+            {/* Mobile swipe carousel (touch equivalent of the hover swap). */}
+            {showCarousel && (
+              <CardImageCarousel
+                slides={[
+                  { src: encodeURI(p.image_url), className: gridImageClass(p.category) },
+                  { src: lifestyle!, className: "object-cover object-center" },
+                ]}
+                alt={p.name}
+                sizes={CARD_SIZES}
+              />
+            )}
 
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
             <button
@@ -102,7 +139,8 @@ export default function NewArrivalsGrid({
             <PriceTag price={p.price} compareAt={p.compare_at_price} className="mt-1.5" />
           </div>
         </Link>
-      ))}
+        );
+      })}
     </div>
   );
 }

@@ -80,8 +80,13 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     price: p.price,
     compareAtPrice: p.compare_at_price,
     image: encodeURI(p.image_url),
-    // On-model lifestyle shot that cross-fades in on hover (same as homepage).
-    secondaryImage: p.hover_image ? encodeURI(p.hover_image) : undefined,
+    // On-model lifestyle shot that cross-fades in on hover: a dedicated
+    // hover_image if set, otherwise the first lifestyle gallery image.
+    secondaryImage: p.hover_image
+      ? encodeURI(p.hover_image)
+      : p.gallery_images?.[0]
+        ? encodeURI(p.gallery_images[0])
+        : undefined,
     handle: p.slug,
     href: `/collections/moissanite/${p.slug}`,
     collection: COLLECTION_MOISSANITE,
@@ -101,6 +106,10 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     collection: COLLECTION_SILVER,
     category: asType(p.category) ?? inferCategory(p.name),
     fit: "contain",
+    // On-model lifestyle shot for the hover swap (rendered as a cover crop).
+    secondaryImage: p.gallery_images?.[0]
+      ? encodeURI(p.gallery_images[0])
+      : undefined,
     // Expose colour/metal variants so the shop card shows swatches too.
     variants:
       Array.isArray(p.variants) && p.variants.length > 1
@@ -127,6 +136,10 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     collection: COLLECTION_SILVER,
     category: asType(p.category) ?? inferCategory(p.name),
     fit: "cover",
+    // On-model lifestyle shot for the hover swap (rendered as a cover crop).
+    secondaryImage: p.gallery_images?.[0]
+      ? encodeURI(p.gallery_images[0])
+      : undefined,
     // Surface colour/metal swatches on the card for multi-finish pieces.
     variants:
       Array.isArray(p.variants) && p.variants.length > 1
@@ -148,8 +161,9 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     price: p.price,
     compareAtPrice: p.compare_at_price,
     image: encodeURI(p.variants[0].image_url),
-    secondaryImage: p.variants[1]?.image_url
-      ? encodeURI(p.variants[1].image_url)
+    // On-model lifestyle shot for the hover swap (rendered as a cover crop).
+    secondaryImage: p.gallery_images?.[0]
+      ? encodeURI(p.gallery_images[0])
       : undefined,
     handle: p.slug,
     href: `/collections/signature/${p.slug}`,
