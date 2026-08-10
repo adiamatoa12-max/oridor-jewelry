@@ -192,12 +192,6 @@ const PDP_FAQ: AccordionItem[] = [
     ),
   },
   {
-    title: "כיצד לטפל בתכשיטים ולשמור עליהם?",
-    content: faqAnswer(
-      "אחסני במקום יבש והרחיקי ממים, מבישום ומכלור. נקי בעדינות במטלית רכה. מומלץ לענוד את התכשיט אחרון ולהסיר ראשון — כך הברק נשמר לאורך שנים.",
-    ),
-  },
-  {
     title: "האם ניתן להחזיר או להחליף פריט?",
     content: faqAnswer(
       "כן. ניתן להחזיר או להחליף תוך 14 יום ממועד הקבלה, באריזה המקורית וללא שימוש. מטעמי היגיינה, עגילים אינם ניתנים להחזרה או להחלפה.",
@@ -392,14 +386,6 @@ export default function ProductDetail({
                 the shopper opens only what they want to read. */}
             <Accordion items={accordionItems} />
           </div>
-
-          {/* Product FAQ — a second collapsible block, shared across every PDP. */}
-          <div className="mt-10">
-            <h2 className="mb-4 font-display text-xl font-semibold text-charcoal sm:text-2xl">
-              שאלות ותשובות
-            </h2>
-            <Accordion items={PDP_FAQ} />
-          </div>
         </div>
       </div>
       </PdpImageSyncProvider>
@@ -433,6 +419,15 @@ export default function ProductDetail({
 
       {/* Related products — "complete the look" */}
       <RelatedProducts items={related} hrefBase={breadcrumbHref} />
+
+      {/* Product FAQ — placed low on the page, below the related products, as a
+          full-width collapsible block shared across every PDP. */}
+      <div className="mt-16 lg:mt-24">
+        <h2 className="mb-4 font-display text-xl font-semibold text-charcoal sm:text-2xl">
+          שאלות ותשובות
+        </h2>
+        <Accordion items={PDP_FAQ} />
+      </div>
     </section>
   );
 }
