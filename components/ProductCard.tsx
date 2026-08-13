@@ -120,8 +120,8 @@ export default function ProductCard({
       href={href}
       className="group flex h-full flex-col bg-transparent transition-[transform,opacity] duration-300 ease-out touch-manipulation [-webkit-tap-highlight-color:transparent] active:opacity-90 md:hover:-translate-y-1"
     >
-      {/* White product-image card — lifts the piece off the warm page so it
-          doesn't blend into the background (shared GRID_CARD surface). */}
+      {/* Borderless product image — the cut-out softly floats on the page via
+          its own silhouette drop shadow (shared GRID_CARD surface). */}
       {/* Image with the lifestyle second shot: desktop hover-swap + mobile
           dot-toggle. The primary tracks the selected finish; when a product has
           no lifestyle shot it's just the static studio image. */}

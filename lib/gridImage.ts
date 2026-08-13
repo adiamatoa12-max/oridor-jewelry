@@ -11,36 +11,27 @@
  * The base scale + `group-hover` scale share one element; the hover value is
  * always larger than the base, so hovering zooms in (never out).
  */
-// The jewellery's own contact shadow. Two chained drop-shadows — a tight, dark
-// one for the grounding contact edge and a wider, softer one for ambient depth
-// — so a cut-out piece reads as resting ON the tile with real dimension rather
-// than pasted flat onto it. Contained shots only; cover crops fill the frame.
+// The jewellery's own soft, diffuse drop shadow — it follows the piece's
+// SILHOUETTE (not a box), so a transparent cut-out reads as gently floating on
+// the page background. Two chained drop-shadows: a soft close one for a hint of
+// grounding, and a wider, very diffuse one for airy ambient depth. Kept subtle
+// on purpose. Contained shots only; cover (lifestyle) crops fill the frame.
 const SHADOW =
-  "[filter:drop-shadow(0px_3px_5px_rgba(0,0,0,0.07))_drop-shadow(0px_14px_20px_rgba(0,0,0,0.12))]";
+  "[filter:drop-shadow(0px_5px_8px_rgba(0,0,0,0.06))_drop-shadow(0px_20px_34px_rgba(0,0,0,0.11))]";
 
 /**
- * The product-image CARD surface, shared by every grid so cards look identical
+ * The product-image container, shared by every grid so cards look identical
  * across collections.
  *
- * Boutique treatment: each product sits on a CRISP WHITE tile (`bg-canvas`,
- * #FFFFFF) lifted off the warm off-white page (#FAF9F6) so pale silver/white
- * jewellery no longer blends into the background. A hairline platinum ring
- * defines the tile edge and a soft resting shadow gives it real dimension on
- * every device (the resting shadow matters on touch, where hover never fires);
- * the shadow then deepens on hover for a subtle lift. The `rounded-2xl
- * overflow-hidden` frame crops any full-bleed lifestyle (cover) shot into a
- * clean rounded photo. Pair with `relative aspect-[4/5] w-full overflow-hidden`,
- * on a card whose outer element carries `group`.
+ * Boutique treatment: fully BORDERLESS and SEAMLESS — no fill, no box, no
+ * border, no rectangular shadow. Each transparent cut-out sits directly on the
+ * page and appears to softly float via its own silhouette drop shadow (see
+ * SHADOW above), so nothing frames the jewellery. The `rounded-2xl
+ * overflow-hidden` frame is still there only to crop any full-bleed lifestyle
+ * (cover) shot into a clean rounded photo. Pair with
+ * `relative aspect-[4/5] w-full overflow-hidden`.
  */
-export const GRID_CARD =
-  "rounded-2xl bg-canvas ring-1 ring-platinum/40 " +
-  // Soft resting shadow (visible on mobile too) that blooms deeper on hover.
-  // Desktop-only in effect for the hover step: `hoverOnlyWhenSupported`
-  // (tailwind config) keeps `group-hover:` off touch devices, so it never
-  // sticks on a tap — leaving scroll/touch/click fluid on mobile.
-  "shadow-[0_1px_2px_rgba(20,20,20,0.05),0_12px_26px_-18px_rgba(20,20,20,0.20)] " +
-  "transition-shadow duration-500 ease-cinematic " +
-  "group-hover:shadow-[0_26px_50px_-26px_rgba(20,20,20,0.32)]";
+export const GRID_CARD = "rounded-2xl bg-transparent";
 
 export function gridImageClass(
   category?: string | null,
