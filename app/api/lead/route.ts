@@ -52,10 +52,12 @@ async function saveViaAdmin(
   phone?: string,
   source = "promo-popup",
   phoneVerified = false,
+  emailVerified = false,
 ): Promise<SaveResult> {
   const endpoint = `https://${DOMAIN}/admin/api/${API_VERSION}/graphql.json`;
   const tags = [`lead:${source}`];
   if (phoneVerified && phone) tags.push("phone-verified");
+  if (emailVerified && email) tags.push("email-verified");
   const input: Record<string, unknown> = { tags };
   // Store whatever we have — email and phone can both be present now.
   if (email) {
@@ -161,7 +163,14 @@ async function saveViaStorefront(email: string): Promise<SaveResult> {
 /* ------------------------------------------------------------------ */
 
 export async function POST(request: Request) {
-  let body: { contact?: unknown; email?: unknown; phone?: unknown; source?: unknown; phoneVerified?: unknown };
+  let body: {
+    contact?: unknown;
+    email?: unknown;
+    phone?: unknown;
+    source?: unknown;
+    phoneVerified?: unknown;
+    emailVerified?: unknown;
+  };
   try {
     body = await request.json();
   } catch {
@@ -171,6 +180,7 @@ export async function POST(request: Request) {
   const contact = typeof body.contact === "string" ? body.contact.trim() : "";
   const source = typeof body.source === "string" ? body.source.slice(0, 40) : "promo-popup";
   const phoneVerified = body.phoneVerified === true;
+  const emailVerified = body.emailVerified === true;
 
   // Explicit email/phone fields take precedence; fall back to the legacy single
   // `contact` (email OR phone) for older callers.
@@ -193,7 +203,7 @@ export async function POST(request: Request) {
     let result: SaveResult;
 
     if (DOMAIN && ADMIN_TOKEN) {
-      result = await saveViaAdmin(email, phone ?? undefined, source, phoneVerified);
+      result = await saveViaAdmin(email, phone ?? undefined, source, phoneVerified, emailVerified);
     } else if (DOMAIN && STOREFRONT_TOKEN && email) {
       result = await saveViaStorefront(email);
     } else if (DOMAIN && STOREFRONT_TOKEN && phone) {

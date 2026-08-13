@@ -1,66 +1,59 @@
 import { NextResponse } from "next/server";
-import { normalizeIsraeliPhone } from "@/lib/phone";
-import { isConfigured, startVerification } from "@/lib/twilioVerify";
+import { isEmail } from "@/lib/phone";
+import { isConfigured, generateCode, issueToken, sendCodeEmail } from "@/lib/emailOtp";
 
 /**
- * Start phone verification — POST { phone: string }.
+ * Start email verification — POST { email: string }.
  *
- * Asks Twilio Verify to SMS a one-time code to the shopper's phone. Twilio owns
- * code generation, expiry, attempt caps and per-phone rate limiting, so there's
- * nothing to store here.
+ * Generates a 6-digit code, emails it via Resend, and returns a stateless signed
+ * token the client sends back on verify. The code lives only in the email; the
+ * token carries an HMAC over (payload + code) so it can't be reversed.
  *
- * Graceful rollout: if the Twilio env vars aren't set yet, we return
+ * Graceful rollout: if RESEND_API_KEY isn't set yet, we return
  * { ok: true, configured: false } and the popup falls back to the email-only
  * instant-discount flow — so signups keep working before credentials land.
  */
 export const dynamic = "force-dynamic";
 
 // Best-effort per-instance throttle. Serverless spreads requests across
-// instances so this isn't authoritative — Twilio Verify's own rate limits are
-// the real guard — but it cheaply blunts a burst hitting a single instance.
+// instances so this isn't authoritative, but it cheaply blunts a burst.
 const RECENT = new Map<string, number>();
-const MIN_INTERVAL_MS = 30_000; // one send per phone per 30s per instance
+const MIN_INTERVAL_MS = 30_000; // one send per email per 30s per instance
 
 export async function POST(request: Request) {
-  let body: { phone?: unknown };
+  let body: { email?: unknown };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ ok: false, error: "invalid_body" }, { status: 400 });
   }
 
-  const raw = typeof body.phone === "string" ? body.phone : "";
-  const phone = normalizeIsraeliPhone(raw);
-  if (!phone) {
-    return NextResponse.json({ ok: false, error: "invalid_phone" }, { status: 400 });
+  const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+  if (!isEmail(email)) {
+    return NextResponse.json({ ok: false, error: "invalid_email" }, { status: 400 });
   }
 
-  // Not configured → tell the client to fall back to email-only.
+  // Not configured → tell the client to fall back to email-only join.
   if (!isConfigured()) {
     return NextResponse.json({ ok: true, configured: false });
   }
 
   const now = Date.now();
-  const last = RECENT.get(phone);
+  const last = RECENT.get(email);
   if (last && now - last < MIN_INTERVAL_MS) {
     return NextResponse.json({ ok: false, configured: true, error: "cooldown" }, { status: 429 });
   }
 
-  const result = await startVerification(phone);
-  if (!result.ok) {
-    if (result.reason === "rate_limited") {
-      return NextResponse.json({ ok: false, configured: true, error: "rate_limited" }, { status: 429 });
-    }
-    if (result.reason === "invalid_number") {
-      return NextResponse.json({ ok: false, configured: true, error: "invalid_phone" }, { status: 400 });
-    }
-    console.error("[otp/send] Twilio start failed:", result.message);
+  const code = generateCode();
+  const sent = await sendCodeEmail(email, code);
+  if (!sent.ok) {
+    console.error("[otp/send] Resend send failed:", sent.message);
     return NextResponse.json({ ok: false, configured: true, error: "send_failed" }, { status: 502 });
   }
 
-  RECENT.set(phone, now);
-  // Keep the map from growing unbounded on a long-lived instance.
+  RECENT.set(email, now);
   if (RECENT.size > 5000) RECENT.clear();
 
-  return NextResponse.json({ ok: true, configured: true, sent: true });
+  const token = issueToken(email, code);
+  return NextResponse.json({ ok: true, configured: true, sent: true, token });
 }

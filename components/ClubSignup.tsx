@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Sparkles, Check, ArrowLeft, ShieldCheck } from "lucide-react";
 import { useCart } from "./CartContext";
-import { isEmail, normalizeIsraeliPhone } from "@/lib/phone";
+import { isEmail } from "@/lib/phone";
 
 /**
  * The club welcome discount code. It must exist in Shopify (Discounts → a code
@@ -16,22 +16,22 @@ const WELCOME_CODE = process.env.NEXT_PUBLIC_CLUB_WELCOME_CODE || "WELCOME10";
 const RESEND_COOLDOWN_S = 60;
 
 /**
- * VIP / loyalty club sign-up. On submit it captures the lead (as a Shopify
+ * VIP / loyalty club sign-up. On submit it captures the email (as a Shopify
  * customer, via /api/lead) and activates a 10% welcome discount on the session's
  * cart, then shows a clear welcome + confirmation. Tone-aware so it drops into a
  * light section or the dark footer.
  *
- * When `verifyPhone` is set (the homepage popup), it additionally collects a
- * phone number and requires an SMS one-time-code (Twilio Verify) BEFORE the
- * discount is granted — blocking fake-email/spam signups. If the SMS provider
- * isn't configured yet, it transparently falls back to the email-only flow so
+ * When `verifyEmail` is set (the homepage popup), it first emails a one-time
+ * code (via /api/otp/*) that the shopper must enter BEFORE the discount is
+ * granted — blocking fake-email/spam signups. If the email provider isn't
+ * configured yet, it transparently falls back to the instant email-only flow so
  * the popup never breaks.
  */
 export default function ClubSignup({
   tone = "light",
   layout = "inline",
   ctaLabel = "הצטרפי וקבלי 10% הנחה",
-  verifyPhone = false,
+  verifyEmail = false,
   onSuccess,
 }: {
   tone?: "light" | "dark";
@@ -40,24 +40,24 @@ export default function ClubSignup({
   layout?: "inline" | "stacked";
   /** Label for the prominent button in the "stacked" layout. */
   ctaLabel?: string;
-  /** Require an SMS-verified phone (in addition to email) before granting the
-   *  discount. Only honoured in the "stacked" layout. */
-  verifyPhone?: boolean;
+  /** Require an emailed one-time code before granting the discount. Only
+   *  honoured in the "stacked" layout. */
+  verifyEmail?: boolean;
   /** Fired once the shopper has successfully joined (e.g. so a host popup can
    *  mark itself dismissed). */
   onSuccess?: () => void;
 }) {
   const { applyDiscount } = useCart();
   const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
   const [code, setCode] = useState("");
+  const [token, setToken] = useState("");
   const [phase, setPhase] = useState<"details" | "verify" | "done">("details");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [resendIn, setResendIn] = useState(0);
 
   const dark = tone === "dark";
-  const usePhoneFlow = verifyPhone && layout === "stacked";
+  const useCodeFlow = verifyEmail && layout === "stacked";
 
   // Resend cooldown ticker.
   useEffect(() => {
@@ -67,17 +67,12 @@ export default function ClubSignup({
   }, [resendIn]);
 
   /** Save the lead + activate the discount + show the welcome state. */
-  const finishJoin = async (phoneVerified: boolean) => {
+  const finishJoin = async (emailVerified: boolean) => {
     try {
       await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: email.trim(),
-          phone: phone.trim() || undefined,
-          source: "vip-club",
-          phoneVerified,
-        }),
+        body: JSON.stringify({ email: email.trim(), source: "vip-club", emailVerified }),
       });
     } catch {
       /* capture is best-effort — never block joining on a network hiccup */
@@ -101,15 +96,11 @@ export default function ClubSignup({
     setBusy(false);
   };
 
-  /* -------- Step 1 (phone flow): send the SMS code -------- */
+  /* -------- Step 1 (code flow): email the verification code -------- */
   const sendCode = async (isResend = false) => {
     if (busy) return;
     if (!isEmail(email)) {
       setError("נא להזין כתובת אימייל תקינה");
-      return;
-    }
-    if (!normalizeIsraeliPhone(phone)) {
-      setError("נא להזין מספר טלפון נייד תקין");
       return;
     }
     setBusy(true);
@@ -118,11 +109,12 @@ export default function ClubSignup({
       const res = await fetch("/api/otp/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: phone.trim() }),
+        body: JSON.stringify({ email: email.trim() }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         ok?: boolean;
         configured?: boolean;
+        token?: string;
         error?: string;
       };
 
@@ -131,7 +123,8 @@ export default function ClubSignup({
         await finishJoin(false);
         return;
       }
-      if (res.ok && data.ok) {
+      if (res.ok && data.ok && data.token) {
+        setToken(data.token);
         setPhase("verify");
         setCode("");
         setResendIn(RESEND_COOLDOWN_S);
@@ -139,8 +132,8 @@ export default function ClubSignup({
       }
       if (res.status === 429) {
         setError("נשלחו יותר מדי בקשות. נסי שוב בעוד רגע.");
-      } else if (data.error === "invalid_phone") {
-        setError("מספר הטלפון אינו תקין.");
+      } else if (data.error === "invalid_email") {
+        setError("כתובת האימייל אינה תקינה.");
       } else {
         setError("שליחת הקוד נכשלה. נסי שוב.");
       }
@@ -157,13 +150,13 @@ export default function ClubSignup({
     void sendCode(false);
   };
 
-  /* -------- Step 2 (phone flow): verify the code, then join -------- */
+  /* -------- Step 2 (code flow): verify the code, then join -------- */
   const submitCode = async (e: React.FormEvent) => {
     e.preventDefault();
     if (busy) return;
     const clean = code.replace(/\D/g, "");
     if (clean.length < 4) {
-      setError("נא להזין את הקוד שקיבלת ב-SMS");
+      setError("נא להזין את הקוד שקיבלת במייל");
       return;
     }
     setBusy(true);
@@ -172,7 +165,7 @@ export default function ClubSignup({
       const res = await fetch("/api/otp/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone: phone.trim(), code: clean }),
+        body: JSON.stringify({ email: email.trim(), code: clean, token }),
       });
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; approved?: boolean; error?: string };
 
@@ -240,14 +233,14 @@ export default function ClubSignup({
     );
   }
 
-  /* -------- Phone flow, step 2: enter the SMS code -------- */
-  if (usePhoneFlow && phase === "verify") {
+  /* -------- Code flow, step 2: enter the emailed code -------- */
+  if (useCodeFlow && phase === "verify") {
     return (
       <form onSubmit={submitCode} noValidate className="w-full">
         <p className={`mb-3 text-[13px] font-light ${dark ? "text-white/80" : "text-graphite"}`}>
-          שלחנו קוד אימות ב-SMS למספר{" "}
+          שלחנו קוד אימות למייל{" "}
           <span className="font-semibold" dir="ltr">
-            {phone.trim()}
+            {email.trim()}
           </span>
         </p>
         <input
@@ -261,7 +254,7 @@ export default function ClubSignup({
             if (error) setError(null);
           }}
           placeholder="- - - - - -"
-          aria-label="קוד אימות מה-SMS"
+          aria-label="קוד אימות מהמייל"
           aria-invalid={Boolean(error)}
           maxLength={6}
           className={`${fieldClass} tracking-[0.5em]`}
@@ -292,15 +285,13 @@ export default function ClubSignup({
               dark ? "text-white/60 hover:text-white" : "text-ash hover:text-charcoal"
             }`}
           >
-            ‹ שינוי פרטים
+            ‹ שינוי כתובת
           </button>
           <button
             type="button"
             disabled={busy || resendIn > 0}
             onClick={() => void sendCode(true)}
-            className={`font-light underline-offset-4 enabled:hover:underline disabled:opacity-50 ${
-              dark ? "text-gold" : "text-gold"
-            }`}
+            className="font-light text-gold underline-offset-4 enabled:hover:underline disabled:opacity-50"
           >
             {resendIn > 0 ? `שליחת קוד מחדש (${resendIn})` : "שליחת קוד מחדש"}
           </button>
@@ -309,9 +300,9 @@ export default function ClubSignup({
     );
   }
 
-  /* -------- Stacked layout: boxed field(s) + prominent gold button (popup) -------- */
+  /* -------- Stacked layout: boxed field + prominent gold button (popup) -------- */
   if (layout === "stacked") {
-    const onSubmit = usePhoneFlow ? submitDetails : submitEmailOnly;
+    const onSubmit = useCodeFlow ? submitDetails : submitEmailOnly;
     return (
       <form onSubmit={onSubmit} noValidate className="w-full">
         <input
@@ -330,24 +321,6 @@ export default function ClubSignup({
           className={fieldClass}
         />
 
-        {usePhoneFlow && (
-          <input
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
-            dir="ltr"
-            value={phone}
-            onChange={(e) => {
-              setPhone(e.target.value);
-              if (error) setError(null);
-            }}
-            placeholder="מספר טלפון נייד"
-            aria-label="מספר טלפון נייד לאימות"
-            aria-invalid={Boolean(error)}
-            className={`${fieldClass} mt-3 placeholder:tracking-normal`}
-          />
-        )}
-
         {error && <p className="mt-2 text-center text-xs font-light text-[#e7a89a]">{error}</p>}
 
         <button type="submit" disabled={busy} className={`mt-3.5 ${goldButtonClass}`}>
@@ -360,19 +333,19 @@ export default function ClubSignup({
                 strokeWidth={2}
                 className="transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110"
               />
-              {usePhoneFlow ? "שליחת קוד אימות" : ctaLabel}
+              {useCodeFlow ? "שליחת קוד אימות" : ctaLabel}
             </span>
           )}
         </button>
 
-        {usePhoneFlow && (
+        {useCodeFlow && (
           <p
             className={`mt-3 inline-flex w-full items-center justify-center gap-1 text-[11px] font-light ${
               dark ? "text-white/50" : "text-ash"
             }`}
           >
             <ShieldCheck size={12} strokeWidth={1.5} className="text-gold" />
-            אימות מהיר ב-SMS — כדי לוודא שההטבה מגיעה אלייך בלבד.
+            נשלח קוד אימות למייל — כדי לוודא שההטבה מגיעה אלייך בלבד.
           </p>
         )}
       </form>
