@@ -22,22 +22,25 @@ const SHADOW =
  * The product-image CARD surface, shared by every grid so cards look identical
  * across collections.
  *
- * Boutique treatment: fully BORDERLESS and SEAMLESS — no fill, no grey box, no
- * border. Each transparent cut-out sits clean and spacious directly on the page
- * (or the grey product zone) so the jewellery is the whole focus; only a whisper
- * of shadow blooms on hover for a subtle lift. The `rounded-2xl overflow-hidden`
- * frame still crops any full-bleed lifestyle (cover) shot into a clean rounded
- * photo. Pair with `relative aspect-[4/5] w-full overflow-hidden`, on a card
- * whose outer element carries `group`.
+ * Boutique treatment: each product sits on a CRISP WHITE tile (`bg-canvas`,
+ * #FFFFFF) lifted off the warm off-white page (#FAF9F6) so pale silver/white
+ * jewellery no longer blends into the background. A hairline platinum ring
+ * defines the tile edge and a soft resting shadow gives it real dimension on
+ * every device (the resting shadow matters on touch, where hover never fires);
+ * the shadow then deepens on hover for a subtle lift. The `rounded-2xl
+ * overflow-hidden` frame crops any full-bleed lifestyle (cover) shot into a
+ * clean rounded photo. Pair with `relative aspect-[4/5] w-full overflow-hidden`,
+ * on a card whose outer element carries `group`.
  */
 export const GRID_CARD =
-  "rounded-2xl bg-transparent " +
-  // Silky, cinematic easing + a soft, diffused shadow that blooms on hover.
-  // Desktop-only in effect: `hoverOnlyWhenSupported` (tailwind config) keeps
-  // `group-hover:` off touch devices, so this never fires — and never sticks —
-  // on a tap, leaving scroll/touch/click completely fluid on mobile.
+  "rounded-2xl bg-canvas ring-1 ring-platinum/40 " +
+  // Soft resting shadow (visible on mobile too) that blooms deeper on hover.
+  // Desktop-only in effect for the hover step: `hoverOnlyWhenSupported`
+  // (tailwind config) keeps `group-hover:` off touch devices, so it never
+  // sticks on a tap — leaving scroll/touch/click fluid on mobile.
+  "shadow-[0_1px_2px_rgba(20,20,20,0.05),0_12px_26px_-18px_rgba(20,20,20,0.20)] " +
   "transition-shadow duration-500 ease-cinematic " +
-  "group-hover:shadow-[0_26px_50px_-26px_rgba(20,20,20,0.30)]";
+  "group-hover:shadow-[0_26px_50px_-26px_rgba(20,20,20,0.32)]";
 
 export function gridImageClass(
   category?: string | null,

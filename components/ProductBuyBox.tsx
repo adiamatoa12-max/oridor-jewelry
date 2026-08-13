@@ -339,7 +339,7 @@ export default function ProductBuyBox({
         disabled={soldOut || !currentVariant}
         className="group mt-9 inline-flex min-h-[56px] w-full items-center justify-center border border-charcoal bg-charcoal px-10 text-[11px] font-medium uppercase tracking-[0.28em] text-canvas shadow-[0_10px_30px_-12px_rgba(26,26,26,0.55)] transition-all duration-500 ease-cinematic hover:border-gold hover:bg-gold hover:text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-offwhite disabled:cursor-not-allowed disabled:border-platinum disabled:bg-platinum/40 disabled:text-ash disabled:opacity-70 disabled:shadow-none"
       >
-        {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
+        {soldOut ? "אזל מהמלאי" : "הוספה לעגלה"}
       </button>
 
       {/* Trust micro-copy at the point of conversion. Kept to claims that hold
@@ -371,7 +371,7 @@ export default function ProductBuyBox({
           disabled={soldOut || !currentVariant}
           className="btn-primary ms-auto flex-none px-8 py-3 text-sm disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {soldOut ? "אזל מהמלאי" : "הוספה לאוסף"}
+          {soldOut ? "אזל מהמלאי" : "הוספה לעגלה"}
         </button>
       </div>
     </div>
