@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
+import { isEmail, normalizeIsraeliPhone } from "@/lib/phone";
 
 /**
- * Lead capture — POST { contact: string, source?: string }.
+ * Lead capture — POST { email?, phone?, contact?, source?, phoneVerified? }.
  *
- * The promo popup collects an email OR an Israeli phone number and posts it
- * here. We save the lead as a Shopify CUSTOMER with email-marketing consent, so
- * it lands in the store's marketing audience (Shopify Admin → Customers).
+ * The promo popup collects an email and (once phone verification is enabled) an
+ * SMS-verified Israeli phone, and posts them here. A single `contact` string is
+ * still accepted for the older email-OR-phone callers. We save the lead as a
+ * Shopify CUSTOMER with email-marketing consent, so it lands in the store's
+ * marketing audience (Shopify Admin → Customers).
  *
  * Two ways to reach Shopify, chosen automatically by which credential exists:
  *
@@ -33,31 +36,6 @@ const ADMIN_TOKEN = process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN;
 const STOREFRONT_TOKEN = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
 const API_VERSION = "2024-10";
 
-/** Loose email check — good enough to reject obvious typos, not to gatekeep. */
-function isEmail(v: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-}
-
-/**
- * Normalise an Israeli phone number to E.164 (+972…), which Shopify requires.
- * Returns null if it doesn't look like a valid IL mobile/landline.
- */
-function normalizeIsraeliPhone(raw: string): string | null {
-  const cleaned = raw.replace(/[^\d+]/g, "");
-  const digits = cleaned.replace(/\D/g, "");
-
-  if (cleaned.startsWith("+972")) {
-    return digits.length >= 11 && digits.length <= 12 ? `+${digits}` : null;
-  }
-  if (digits.startsWith("972")) {
-    return digits.length >= 11 && digits.length <= 12 ? `+${digits}` : null;
-  }
-  if (digits.startsWith("0") && digits.length === 10) {
-    return `+972${digits.slice(1)}`;
-  }
-  return null;
-}
-
 /** Shopify treats these as "the lead is already on our list" — a UX success. */
 function isAlreadyExists(message: string): boolean {
   return /has already been taken|already registered|taken/i.test(message);
@@ -69,16 +47,25 @@ type SaveResult = { ok: true; stored: boolean } | { ok: false; error: string };
 /* Admin API path                                                      */
 /* ------------------------------------------------------------------ */
 
-async function saveViaAdmin(email?: string, phone?: string, source = "promo-popup"): Promise<SaveResult> {
+async function saveViaAdmin(
+  email?: string,
+  phone?: string,
+  source = "promo-popup",
+  phoneVerified = false,
+): Promise<SaveResult> {
   const endpoint = `https://${DOMAIN}/admin/api/${API_VERSION}/graphql.json`;
-  const input: Record<string, unknown> = { tags: [`lead:${source}`] };
+  const tags = [`lead:${source}`];
+  if (phoneVerified && phone) tags.push("phone-verified");
+  const input: Record<string, unknown> = { tags };
+  // Store whatever we have — email and phone can both be present now.
   if (email) {
     input.email = email;
     input.emailMarketingConsent = {
       marketingState: "SUBSCRIBED",
       marketingOptInLevel: "SINGLE_OPT_IN",
     };
-  } else if (phone) {
+  }
+  if (phone) {
     input.phone = phone;
   }
 
@@ -174,7 +161,7 @@ async function saveViaStorefront(email: string): Promise<SaveResult> {
 /* ------------------------------------------------------------------ */
 
 export async function POST(request: Request) {
-  let body: { contact?: unknown; source?: unknown };
+  let body: { contact?: unknown; email?: unknown; phone?: unknown; source?: unknown; phoneVerified?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -183,13 +170,18 @@ export async function POST(request: Request) {
 
   const contact = typeof body.contact === "string" ? body.contact.trim() : "";
   const source = typeof body.source === "string" ? body.source.slice(0, 40) : "promo-popup";
+  const phoneVerified = body.phoneVerified === true;
 
-  if (!contact) {
-    return NextResponse.json({ ok: false, error: "empty" }, { status: 400 });
-  }
+  // Explicit email/phone fields take precedence; fall back to the legacy single
+  // `contact` (email OR phone) for older callers.
+  const rawEmail = typeof body.email === "string" ? body.email.trim() : "";
+  const rawPhone = typeof body.phone === "string" ? body.phone.trim() : "";
 
-  const email = isEmail(contact) ? contact.toLowerCase() : undefined;
-  const phone = email ? undefined : normalizeIsraeliPhone(contact);
+  const email =
+    (rawEmail && isEmail(rawEmail) ? rawEmail : isEmail(contact) ? contact : "").toLowerCase() ||
+    undefined;
+  const phone =
+    normalizeIsraeliPhone(rawPhone) ?? (!email ? normalizeIsraeliPhone(contact) : null) ?? undefined;
 
   if (!email && !phone) {
     return NextResponse.json({ ok: false, error: "invalid_contact" }, { status: 400 });
@@ -201,7 +193,7 @@ export async function POST(request: Request) {
     let result: SaveResult;
 
     if (DOMAIN && ADMIN_TOKEN) {
-      result = await saveViaAdmin(email, phone ?? undefined, source);
+      result = await saveViaAdmin(email, phone ?? undefined, source, phoneVerified);
     } else if (DOMAIN && STOREFRONT_TOKEN && email) {
       result = await saveViaStorefront(email);
     } else if (DOMAIN && STOREFRONT_TOKEN && phone) {

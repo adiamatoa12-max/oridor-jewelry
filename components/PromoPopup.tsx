@@ -194,6 +194,7 @@ export default function PromoPopup() {
               tone="dark"
               layout="stacked"
               ctaLabel="קבלי את ההנחה שלי"
+              verifyPhone
               onSuccess={() => {
                 try {
                   sessionStorage.setItem(SEEN_KEY, "1");
