@@ -48,9 +48,7 @@ export default function CardImageSwap({
   };
 
   return (
-    // Wrapper is `relative` (no overflow clip) so the dots can sit just below
-    // the image box without being cropped and without adding layout height.
-    <div className="relative">
+    <div>
       <div className={containerClassName}>
         {lifestyle ? (
           <>
@@ -89,11 +87,16 @@ export default function CardImageSwap({
         {children}
       </div>
 
-      {/* Mobile toggle dots — placed in the gap BELOW the photo so they never
-          cover the jewellery. Absolutely positioned → no layout shift. */}
-      {lifestyle && (
-        <div className="pointer-events-none absolute inset-x-0 top-full z-[2] flex items-center justify-center gap-2.5 sm:hidden">
-          {[false, true].map((isLifestyle) => {
+      {/* Mobile toggle dots — an IN-FLOW, fixed-height, centred slot rendered on
+          every card (mobile only) so the image→title rhythm is identical across
+          the whole grid: cards with a lifestyle shot show the studio/lifestyle
+          toggle dots here; cards without one keep the exact same gap, so nothing
+          looks crooked or shifted. Hidden on desktop (hover cross-fade instead),
+          so desktop spacing is unchanged. The parent's title block uses
+          `pt-0 sm:pt-*` to avoid doubling this gap. */}
+      <div className="flex h-6 items-center justify-center gap-2.5 sm:hidden">
+        {lifestyle &&
+          [false, true].map((isLifestyle) => {
             const on = showLifestyle === isLifestyle;
             return (
               <button
@@ -102,7 +105,7 @@ export default function CardImageSwap({
                 aria-label={isLifestyle ? "תצוגה על דוגמנית" : "תצוגת סטודיו"}
                 aria-pressed={on}
                 onClick={pick(isLifestyle)}
-                className="pointer-events-auto inline-flex h-4 w-6 items-center justify-center"
+                className="inline-flex h-6 w-8 items-center justify-center"
               >
                 <span
                   className={`h-2 w-2 rounded-full transition-all duration-200 ${
@@ -112,8 +115,7 @@ export default function CardImageSwap({
               </button>
             );
           })}
-        </div>
-      )}
+      </div>
     </div>
   );
 }

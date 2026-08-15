@@ -102,7 +102,7 @@ export default function NewArrivalsGrid({
             </button>
           </CardImageSwap>
 
-          <div className="px-2 pt-4 text-right">
+          <div className="px-2 pt-0 text-right sm:pt-4">
             <h3 className="min-h-[2.25rem] text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-sm">
               {p.name}
             </h3>

@@ -90,7 +90,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
         sizes={CARD_SIZES}
       />
 
-      <div className="flex flex-1 flex-col pt-6 text-right">
+      <div className="flex flex-1 flex-col pt-0 text-right sm:pt-6">
         <h3 className="w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-sm">
           {p.name}
         </h3>

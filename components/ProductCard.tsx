@@ -157,7 +157,7 @@ export default function ProductCard({
         </div>
       </CardImageSwap>
 
-      <div className="flex flex-1 flex-col px-2 pt-4 text-right">
+      <div className="flex flex-1 flex-col px-2 pt-0 text-right sm:pt-4">
         <h3 className="w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 group-hover:text-gold sm:text-sm">
           {title}
         </h3>
