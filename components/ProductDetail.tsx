@@ -38,7 +38,7 @@ const sizeConfig: Record<string, string[]> = {
   // mid-sentence in an RTL line reads as a foreign token.
   bracelet: ["16 ס״מ", "17 ס״מ", "18 ס״מ", "16 ס״מ + 5 ס״מ הארכה"],
   ring: ["6", "7", "8", "9"],
-  necklace: ["40 ס״מ + 5 ס״מ הארכה", "40–45 ס״מ מתכוונן"],
+  necklace: ["40 ס״מ + 5 ס״מ הארכה"],
   default: ["מידה אחידה"],
 };
 
