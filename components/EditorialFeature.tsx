@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AutoplayVideo from "./AutoplayVideo";
 
 /**
  * Editorial split feature.
@@ -10,16 +11,10 @@ export default function EditorialFeature() {
     <section className="grid w-full grid-cols-1 md:grid-cols-2">
       {/* Video half */}
       <div className="relative min-h-[420px] md:min-h-[600px]">
-        <video
+        <AutoplayVideo
+          src="/video/clara_post_3.mp4"
           className="absolute inset-0 h-full w-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          aria-hidden="true"
-        >
-          <source src="/video/clara_post_3.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
 
       {/* Text half */}
