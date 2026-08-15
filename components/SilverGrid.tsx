@@ -8,6 +8,8 @@ import PriceTag from "./PriceTag";
 import SilverLabel from "./SilverLabel";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 import CardImageSwap from "./CardImageSwap";
+import ProductBadge from "./ProductBadge";
+import { badgeForSlug } from "@/lib/badges";
 
 const CARD_SIZES = "(min-width: 1024px) 25vw, 50vw";
 
@@ -67,6 +69,7 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
   // swatch cards too — the swatch dots sit BELOW the image, so a sideways
   // swipe over the photo never conflicts with picking a colour.
   const lifestyle = p.gallery_images?.[0] ? encodeURI(p.gallery_images[0]) : undefined;
+  const badge = badgeForSlug(p.slug);
 
   const quickAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -88,7 +91,9 @@ function SilverCard({ product: p }: { product: SilverProduct }) {
         lifestyle={lifestyle}
         alt={`${p.name}, ${p.material}`}
         sizes={CARD_SIZES}
-      />
+      >
+        {badge && <ProductBadge badge={badge} />}
+      </CardImageSwap>
 
       <div className="flex flex-1 flex-col pt-0 text-right sm:pt-6">
         <h3 className="w-full text-[13px] font-semibold leading-snug tracking-[0.04em] text-charcoal transition-colors duration-300 ease-in-out group-hover:text-gold sm:text-sm">

@@ -8,6 +8,8 @@ import PriceTag from "./PriceTag";
 import SilverLabel from "./SilverLabel";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 import CardImageSwap from "./CardImageSwap";
+import ProductBadge from "./ProductBadge";
+import { badgeForSlug } from "@/lib/badges";
 
 const CARD_SIZES = "(min-width: 1024px) 25vw, 62vw";
 
@@ -74,6 +76,8 @@ export default function NewArrivalsGrid({
         const lifestyle = p.gallery_images?.[0]
           ? encodeURI(p.gallery_images[0])
           : undefined;
+        // Every new-arrivals card is "New" unless it's a curated best seller.
+        const badge = badgeForSlug(p.slug, { isNew: true });
         return (
         <Link
           key={p.id}
@@ -90,6 +94,7 @@ export default function NewArrivalsGrid({
             alt={`${p.name}, ${p.material}`}
             sizes={CARD_SIZES}
           >
+            {badge && <ProductBadge badge={badge} />}
             {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
             <button
               type="button"

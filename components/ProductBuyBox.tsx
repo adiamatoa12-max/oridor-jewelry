@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Truck, ShieldCheck, Lock } from "lucide-react";
 import { useCart } from "./CartContext";
 import { usePdpImageSync } from "./PdpImageSync";
 import { trackPixel, trackProductEvent } from "@/lib/metaPixel";
@@ -342,12 +343,24 @@ export default function ProductBuyBox({
         {soldOut ? "אזל מהמלאי" : "הוספה לעגלה"}
       </button>
 
-      {/* Trust micro-copy at the point of conversion. Kept to claims that hold
-          for every product — returns carry conditions (earrings excluded), so
-          they're stated in full in the shipping/returns accordion, not here. */}
-      <p className="mt-3 text-center text-[11px] font-light tracking-wide text-ash">
-        משלוח חינם · אחריות מלאה
-      </p>
+      {/* Trust badges at the point of conversion — small icon + label, evenly
+          split, muted so they reassure without competing with the CTA. Claims
+          that hold for every product; returns carry conditions (earrings
+          excluded), stated in full in the shipping/returns accordion. */}
+      <ul className="mt-4 grid grid-cols-3 gap-2 border-t border-platinum/40 pt-4">
+        {[
+          { icon: Truck, label: "משלוח חינם" },
+          { icon: ShieldCheck, label: "אחריות מלאה" },
+          { icon: Lock, label: "תשלום מאובטח" },
+        ].map(({ icon: Icon, label }) => (
+          <li key={label} className="flex flex-col items-center gap-1.5 text-center">
+            <Icon size={18} strokeWidth={1.5} className="text-gold" />
+            <span className="text-[10.5px] font-light leading-tight tracking-wide text-graphite">
+              {label}
+            </span>
+          </li>
+        ))}
+      </ul>
 
       {/* Sticky mobile CTA — fades in only once the main button is scrolled
           out of view. Shows a brief (truncated) title + price and shares the

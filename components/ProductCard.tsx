@@ -9,6 +9,8 @@ import MoissaniteLabel from "./MoissaniteLabel";
 import SilverLabel from "./SilverLabel";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 import CardImageSwap from "./CardImageSwap";
+import ProductBadge from "./ProductBadge";
+import { badgeForSlug } from "@/lib/badges";
 import { trackProductEvent } from "@/lib/metaPixel";
 import type { ProductColorVariant } from "@/lib/catalog";
 
@@ -97,6 +99,9 @@ export default function ProductCard({
 
   const cardImageSizes = "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw";
 
+  // Curated Best Seller / New badge, keyed by the product slug (last href segment).
+  const badge = badgeForSlug((href ?? "").split("/").pop() ?? "");
+
   // Quick-add: don't navigate the parent link — add the real Shopify variant.
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -133,11 +138,16 @@ export default function ProductCard({
         alt={`${title}, תכשיט כסף מבית Oridor`}
         sizes={cardImageSizes}
       >
-        {/* Minimal status tag — top-right (inline-start in RTL) */}
-        {tag && (
-          <span className="pointer-events-none absolute start-3 top-3 z-10 bg-canvas/70 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.24em] text-charcoal/80 backdrop-blur-sm">
-            {tag}
-          </span>
+        {/* Top-start overlay: a curated Best Seller / New badge takes precedence;
+            otherwise fall back to any manual status tag passed in. */}
+        {badge ? (
+          <ProductBadge badge={badge} />
+        ) : (
+          tag && (
+            <span className="pointer-events-none absolute start-3 top-3 z-10 bg-canvas/70 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.24em] text-charcoal/80 backdrop-blur-sm">
+              {tag}
+            </span>
+          )
         )}
 
         {/* Quick Add — hover-reveal over the bottom of the image (desktop only) */}

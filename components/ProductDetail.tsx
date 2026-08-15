@@ -16,6 +16,7 @@ import ProductBuyBox from "./ProductBuyBox";
 import SizeGuideModal from "./SizeGuideModal";
 import Accordion, { type AccordionItem } from "./Accordion";
 import RelatedProducts from "./RelatedProducts";
+import ReviewStars from "./ReviewStars";
 import { PdpImageSyncProvider } from "./PdpImageSync";
 import type { ShopifyProductOptions } from "@/lib/shopify";
 
@@ -50,15 +51,49 @@ function sizesForCategory(category?: string): string[] {
 }
 
 /** First 3 products sharing the category, excluding the current one. */
+/**
+ * "Complete the Look" — suggest COMPLEMENTARY pieces (different categories) so a
+ * ring page proposes a matching necklace + earrings + bracelet rather than three
+ * near-identical rings, building a set and lifting average order value.
+ *
+ * Preference order: (1) one piece from each OTHER category, for a varied set,
+ * (2) any remaining complementary pieces, (3) same-category as a last resort so
+ * the row is never empty. A deterministic per-slug rotation keeps the suggestions
+ * varied across products without Math.random (SSR-safe).
+ */
 function getRelatedProducts(
   all: RelatedProduct[] | undefined,
   currentSlug: string | undefined,
   category: string | undefined,
 ): RelatedProduct[] {
-  if (!all || !category) return [];
-  return all
-    .filter((p) => p.category === category && p.slug !== currentSlug)
-    .slice(0, 3);
+  if (!all) return [];
+  const pool = all.filter((p) => p.slug !== currentSlug);
+  if (!category) return pool.slice(0, 3);
+
+  // Deterministic rotation seeded by the current slug, so different products
+  // surface different complements while staying stable across renders.
+  const seed = (currentSlug ?? "").split("").reduce((s, c) => s + c.charCodeAt(0), 0);
+  const rotate = <T,>(arr: T[]) => (arr.length ? arr.slice(seed % arr.length).concat(arr.slice(0, seed % arr.length)) : arr);
+
+  const complementary = rotate(pool.filter((p) => p.category !== category));
+  const sameCategory = rotate(pool.filter((p) => p.category === category));
+
+  const picked: RelatedProduct[] = [];
+  const seenCategory = new Set<string | undefined>();
+  // 1) one per distinct complementary category
+  for (const p of complementary) {
+    if (picked.length === 3) break;
+    if (!seenCategory.has(p.category)) {
+      picked.push(p);
+      seenCategory.add(p.category);
+    }
+  }
+  // 2) fill from remaining complementary, then 3) same-category fallback
+  for (const p of [...complementary, ...sameCategory]) {
+    if (picked.length === 3) break;
+    if (!picked.includes(p)) picked.push(p);
+  }
+  return picked.slice(0, 3);
 }
 
 /**
@@ -354,6 +389,10 @@ export default function ProductDetail({
           <h1 className="text-2xl font-bold leading-[1.35] tracking-tight text-charcoal sm:text-5xl sm:font-semibold sm:leading-[1.05] lg:text-6xl">
             {title}
           </h1>
+
+          {/* Star rating — honest placeholder (outline stars + "be the first to
+              review") until real aggregate review data is passed in. */}
+          <ReviewStars />
 
           {/* Buy box starts with the price (grouped with the title above), then
               the configurator (colour + size), CTA and one trust micro-copy line.

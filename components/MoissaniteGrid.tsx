@@ -8,6 +8,8 @@ import PriceTag from "./PriceTag";
 import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
 import MoissaniteLabel from "./MoissaniteLabel";
 import CardImageSwap from "./CardImageSwap";
+import ProductBadge from "./ProductBadge";
+import { badgeForSlug } from "@/lib/badges";
 
 /** Shared responsive sizes for the card image and its carousel slides. */
 const CARD_SIZES = "(min-width: 1024px) 25vw, 62vw";
@@ -117,6 +119,7 @@ function MoissaniteCard({
     : p.gallery_images?.[0]
       ? encodeURI(p.gallery_images[0])
       : undefined;
+  const badge = badgeForSlug(p.slug);
   return (
     <Link href={`/collections/moissanite/${p.slug}`} className={`${itemClass} touch-manipulation`}>
       {/* White product-image card — desktop hover-swap + mobile dot-toggle. */}
@@ -128,6 +131,7 @@ function MoissaniteCard({
         alt={`${p.name}, ${p.material}`}
         sizes={CARD_SIZES}
       >
+        {badge && <ProductBadge badge={badge} />}
         {/* Minimalist quick-add — a subtle outline chip that fades in on hover */}
         <button
           type="button"
