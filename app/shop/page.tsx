@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Navbar from "@/components/Navbar";
 import ShopCatalog from "@/components/ShopCatalog";
-import { buildUnifiedCatalog, applyLiveStatus, sortByPriceAsc } from "@/lib/catalog";
-import { getLivePriceMap } from "@/lib/shopify";
+import { buildUnifiedCatalog, applyLiveStatus, appendLiveProducts, sortByPriceAsc } from "@/lib/catalog";
+import { getLivePriceMap, getLiveProducts } from "@/lib/shopify";
 
 export const metadata: Metadata = {
   title: { absolute: "כל הקולקציה | תכשיטי מואסנייט וכסף 925 | Oridor" },
@@ -15,8 +15,12 @@ export const metadata: Metadata = {
 // Hybrid: local catalog drives the rich UI; live Shopify price + stock is
 // overlaid by handle on the server (safe no-op if Shopify is unconfigured).
 export default async function ShopPage() {
-  const live = await getLivePriceMap();
-  const products = sortByPriceAsc(applyLiveStatus(buildUnifiedCatalog(), live));
+  // Hybrid Append (Option B): curated JSON drives the rich UI; live prices are
+  // overlaid, and any Shopify product not already curated is appended live.
+  const [live, liveProducts] = await Promise.all([getLivePriceMap(), getLiveProducts()]);
+  const products = sortByPriceAsc(
+    appendLiveProducts(applyLiveStatus(buildUnifiedCatalog(), live), liveProducts),
+  );
 
   return (
     <main>

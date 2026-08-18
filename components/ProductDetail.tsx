@@ -456,8 +456,9 @@ export default function ProductDetail({
         </section>
       )}
 
-      {/* Related products — "complete the look" */}
-      <RelatedProducts items={related} hrefBase={breadcrumbHref} />
+      {/* Related products — "complete the look" (hidden when there's nothing to
+          suggest, e.g. a live-only product with no curated catalog passed in). */}
+      {related.length > 0 && <RelatedProducts items={related} hrefBase={breadcrumbHref} />}
 
       {/* Product FAQ — placed low on the page, below the related products, as a
           full-width collapsible block shared across every PDP. */}

@@ -2,7 +2,7 @@ import moissanite from "@/data/moissanite_collection.json";
 import silver from "@/data/silver_collection.json";
 import signature from "@/data/signature_collection.json";
 import newArrivals from "@/data/new_arrivals.json";
-import type { ShopifyProductOptions } from "./shopify";
+import type { ShopifyProductOptions, LiveProduct } from "./shopify";
 
 /** The two — and only two — main categories. */
 export const COLLECTION_MOISSANITE = "מואסנייט";
@@ -191,6 +191,63 @@ export function buildUnifiedCatalog(): CatalogProduct[] {
     ...newArrivalItems,
     ...signatureItems,
   ];
+}
+
+/** Infer a category from a Shopify productType (English), as a fallback. */
+function inferCategoryFromType(productType: string): CatalogCategory | null {
+  const t = productType.toLowerCase();
+  if (/ring/.test(t)) return "Rings";
+  if (/necklace|pendant|chain/.test(t)) return "Necklaces";
+  if (/bracelet|bangle|cuff/.test(t)) return "Bracelets";
+  if (/earring|stud|hoop/.test(t)) return "Earrings";
+  return null;
+}
+
+/**
+ * "Hybrid Append" (Option B): the curated JSON drives the rich UI, but any
+ * product that exists LIVE in Shopify and is NOT already in the curated catalog
+ * is appended so it appears on the site automatically. Products already present
+ * — by their own handle OR as a merged colour-finish handle (e.g. a ring whose
+ * gold lives on a separate Shopify listing) — are never duplicated. Live-only
+ * items link to the generic `/products/[handle]` page (built from live Shopify
+ * data) and carry an inferred collection + category so the shop filters work.
+ *
+ * `live` items without an image are skipped (drafts / incomplete listings).
+ * An empty `live` array is a safe no-op, so nothing breaks when Shopify is off.
+ */
+export function appendLiveProducts(
+  curated: CatalogProduct[],
+  live: LiveProduct[],
+): CatalogProduct[] {
+  // Every handle the curated catalog already represents — top-level and the
+  // per-finish handles of merged multi-listing products.
+  const known = new Set<string>();
+  for (const p of curated) {
+    known.add(p.handle);
+    p.variants?.forEach((v) => v.handle && known.add(v.handle));
+  }
+
+  const extras: CatalogProduct[] = [];
+  for (const lp of live) {
+    if (known.has(lp.handle) || !lp.image) continue;
+    known.add(lp.handle); // guard against duplicate handles within the live list
+    const haystack = `${lp.title} ${lp.productType} ${lp.tags.join(" ")}`;
+    const isMoissanite = /מואסנייט|moissanite/i.test(haystack);
+    extras.push({
+      id: `live-${lp.handle}`,
+      title: lp.title,
+      price: lp.price,
+      compareAtPrice: lp.compareAtPrice,
+      image: lp.image,
+      handle: lp.handle,
+      available: lp.available,
+      href: `/products/${lp.handle}`,
+      collection: isMoissanite ? COLLECTION_MOISSANITE : COLLECTION_SILVER,
+      category: inferCategory(lp.title) ?? inferCategoryFromType(lp.productType),
+      fit: "contain",
+    });
+  }
+  return [...curated, ...extras];
 }
 
 /**

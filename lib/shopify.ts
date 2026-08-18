@@ -139,6 +139,13 @@ export async function shopifyFetch<T>(
   return json.data;
 }
 
+/**
+ * Cache tag on the live product-list fetches. The Shopify webhook calls
+ * `revalidateTag(PRODUCTS_TAG)` so a create/update/delete in Shopify refreshes
+ * the catalog immediately instead of waiting out the 60s revalidate window.
+ */
+export const PRODUCTS_TAG = "shopify-products";
+
 /** True when both env vars are present — lets pages fall back to local data. */
 export const isShopifyConfigured = Boolean(DOMAIN && TOKEN);
 
@@ -360,7 +367,7 @@ export async function getLivePriceMap(): Promise<Record<string, LiveStatus>> {
           };
         }[];
       };
-    }>(query, { first: 250 });
+    }>(query, { first: 250 }, { next: { revalidate: 60, tags: [PRODUCTS_TAG] } });
 
     const map: Record<string, LiveStatus> = {};
     for (const { node } of data.products.edges) {
@@ -377,6 +384,83 @@ export async function getLivePriceMap(): Promise<Record<string, LiveStatus>> {
     return map;
   } catch {
     return {};
+  }
+}
+
+/** A live Shopify product, enough to build a catalog card for an unknown item. */
+export interface LiveProduct {
+  handle: string;
+  title: string;
+  /** Featured image URL (Shopify CDN), or null when the product has no image. */
+  image: string | null;
+  productType: string;
+  tags: string[];
+  price: number;
+  compareAtPrice?: number;
+  available: boolean;
+}
+
+/**
+ * List every live (published) Storefront product with enough detail to render a
+ * catalog card. Powers the "Hybrid Append" layer: the curated JSON drives the
+ * rich UI, and any product that exists in Shopify but NOT in the JSON is
+ * appended from here. Only Storefront-published products are returned, so drafts
+ * and unlisted items are naturally excluded. Never throws — returns [] if
+ * Shopify is unconfigured or the request fails (safe no-op).
+ */
+export async function getLiveProducts(): Promise<LiveProduct[]> {
+  if (!isShopifyConfigured) return [];
+  const query = /* GraphQL */ `
+    query LiveProducts($first: Int!) {
+      products(first: $first) {
+        edges {
+          node {
+            handle
+            title
+            productType
+            tags
+            availableForSale
+            featuredImage { url }
+            priceRange { minVariantPrice { amount } }
+            compareAtPriceRange { minVariantPrice { amount } }
+          }
+        }
+      }
+    }
+  `;
+  try {
+    const data = await shopifyFetch<{
+      products: {
+        edges: {
+          node: {
+            handle: string;
+            title: string;
+            productType: string | null;
+            tags: string[] | null;
+            availableForSale: boolean;
+            featuredImage: { url: string } | null;
+            priceRange: { minVariantPrice: MoneyV2 };
+            compareAtPriceRange: { minVariantPrice: { amount: string } };
+          };
+        }[];
+      };
+    }>(query, { first: 250 }, { next: { revalidate: 60, tags: [PRODUCTS_TAG] } });
+
+    return data.products.edges.map(({ node }) => {
+      const compareAt = parseFloat(node.compareAtPriceRange?.minVariantPrice?.amount ?? "0");
+      return {
+        handle: node.handle,
+        title: node.title,
+        image: node.featuredImage?.url ?? null,
+        productType: node.productType ?? "",
+        tags: node.tags ?? [],
+        price: parseFloat(node.priceRange.minVariantPrice.amount),
+        compareAtPrice: compareAt > 0 ? compareAt : undefined,
+        available: node.availableForSale,
+      };
+    });
+  } catch {
+    return [];
   }
 }
 
