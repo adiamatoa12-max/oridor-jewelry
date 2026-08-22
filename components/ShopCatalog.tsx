@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import ProductCard from "./ProductCard";
 import Reveal from "./Reveal";
 import {
-  buildUnifiedCatalog,
   SHOP_CHIPS,
   COLLECTION_MOISSANITE,
   type Chip,
@@ -25,7 +24,7 @@ export default function ShopCatalog({
   products?: CatalogProduct[];
 }) {
   const products = useMemo(
-    () => provided ?? buildUnifiedCatalog(),
+    () => provided ?? [],
     [provided],
   );
   const [activeChip, setActiveChip] = useState(0);

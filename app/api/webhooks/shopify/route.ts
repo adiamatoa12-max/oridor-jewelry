@@ -20,6 +20,33 @@ import { PRODUCTS_TAG } from "@/lib/shopify";
 export const dynamic = "force-dynamic";
 
 const SECRET = process.env.SHOPIFY_WEBHOOK_SECRET;
+const DOMAIN = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
+const ADMIN_TOKEN = process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN;
+/** "My Store Headless" publication — the sales channel the site reads. */
+const HEADLESS_PUBLICATION_ID = process.env.SHOPIFY_HEADLESS_PUBLICATION_ID;
+
+/**
+ * Auto-publish a newly-created product to the headless channel so it appears on
+ * the live site without a manual "add to sales channel" step. No-op unless the
+ * Admin token + publication id are configured.
+ */
+async function autoPublishToHeadless(productGid: string): Promise<void> {
+  if (!DOMAIN || !ADMIN_TOKEN || !HEADLESS_PUBLICATION_ID) return;
+  const query = /* GraphQL */ `
+    mutation Publish($id: ID!, $pub: ID!) {
+      publishablePublish(id: $id, input: [{ publicationId: $pub }]) {
+        userErrors { field message }
+      }
+    }
+  `;
+  const res = await fetch(`https://${DOMAIN}/admin/api/2024-10/graphql.json`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "X-Shopify-Access-Token": ADMIN_TOKEN },
+    body: JSON.stringify({ query, variables: { id: productGid, pub: HEADLESS_PUBLICATION_ID } }),
+    cache: "no-store",
+  });
+  if (!res.ok) console.error(`[shopify-webhook] auto-publish failed: ${res.status}`);
+}
 
 export async function POST(request: Request) {
   const raw = await request.text();
@@ -41,16 +68,23 @@ export async function POST(request: Request) {
 
   // Any product change → refresh live product data + the surfaces that list it.
   if (topic.startsWith("products/")) {
+    let payload: { handle?: string; admin_graphql_api_id?: string } = {};
+    try {
+      payload = JSON.parse(raw);
+    } catch {
+      /* delete payloads may be minimal — the listing refresh below still runs */
+    }
+
+    // A brand-new product → auto-publish it to the headless channel so it shows
+    // up on the site without the manual "add to sales channel" step.
+    if (topic === "products/create" && payload.admin_graphql_api_id) {
+      await autoPublishToHeadless(payload.admin_graphql_api_id).catch(() => {});
+    }
+
     revalidateTag(PRODUCTS_TAG);
     revalidatePath("/shop");
     revalidatePath("/");
-    // Best-effort: refresh the changed product's own live page too.
-    try {
-      const body = JSON.parse(raw) as { handle?: string };
-      if (body.handle) revalidatePath(`/products/${body.handle}`);
-    } catch {
-      /* delete payloads may not carry a handle — the listing refresh covers it */
-    }
+    if (payload.handle) revalidatePath(`/products/${payload.handle}`);
   }
 
   return NextResponse.json({ ok: true, topic });

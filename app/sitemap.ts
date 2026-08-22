@@ -1,29 +1,19 @@
 import type { MetadataRoute } from "next";
-import products from "@/data/moissanite_collection.json";
 import { SITE_URL } from "@/lib/site";
-import silver from "@/data/silver_collection.json";
-import signature from "@/data/signature_collection.json";
-import newArrivals from "@/data/new_arrivals.json";
-import type { MoissaniteProduct } from "@/components/MoissaniteGrid";
-import type { SilverProduct } from "@/components/SilverGrid";
-import type { VariantProduct } from "@/components/VariantCard";
-import type { NewArrival } from "@/components/NewArrivalsGrid";
+import { getLiveCatalog } from "@/lib/catalog";
 
+// Product URLs come live from Shopify, so the sitemap always reflects the
+// current catalog. Revalidate hourly.
+export const revalidate = 3600;
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
     "",
     "/shop",
     "/collections/moissanite",
     "/collections/silver",
     "/collections/earrings",
-    // /collections/signature and /collections/new were merged into the silver
-    // collection and now 301 there, so they're intentionally absent: a sitemap
-    // should only list canonical 200s. Their /[slug] product URLs below stay.
     "/collections/tennis",
-    // /sets (curated sets) was removed and now 301s to the moissanite
-    // collection, so it's intentionally absent: a sitemap should only list
-    // canonical 200s.
     "/quality-warranty",
     "/ring-size-guide",
     "/faq",
@@ -36,35 +26,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: path === "" ? 1 : 0.7,
   }));
 
-  const productRoutes = (products as MoissaniteProduct[]).map((p) => ({
-    url: `${SITE_URL}/collections/moissanite/${p.slug}`,
+  // Every live product resolves to its canonical /products/<handle> page.
+  const catalog = await getLiveCatalog();
+  const productRoutes = catalog.map((p) => ({
+    url: `${SITE_URL}/products/${encodeURIComponent(p.handle)}`,
     changeFrequency: "weekly" as const,
     priority: 0.6,
   }));
 
-  const silverRoutes = (silver as SilverProduct[]).map((p) => ({
-    url: `${SITE_URL}/collections/silver/${p.slug}`,
-    changeFrequency: "weekly" as const,
-    priority: 0.6,
-  }));
-
-  const signatureRoutes = (signature as VariantProduct[]).map((p) => ({
-    url: `${SITE_URL}/collections/signature/${p.slug}`,
-    changeFrequency: "weekly" as const,
-    priority: 0.6,
-  }));
-
-  const newArrivalRoutes = (newArrivals as NewArrival[]).map((p) => ({
-    url: `${SITE_URL}/collections/new/${p.slug}`,
-    changeFrequency: "weekly" as const,
-    priority: 0.6,
-  }));
-
-  return [
-    ...staticRoutes,
-    ...productRoutes,
-    ...silverRoutes,
-    ...signatureRoutes,
-    ...newArrivalRoutes,
-  ];
+  return [...staticRoutes, ...productRoutes];
 }

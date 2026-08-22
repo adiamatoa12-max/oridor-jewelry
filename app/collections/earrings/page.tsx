@@ -4,13 +4,7 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
-import {
-  buildUnifiedCatalog,
-  applyLiveStatus,
-  sortByPriceAsc,
-  COLLECTION_MOISSANITE,
-} from "@/lib/catalog";
-import { getLivePriceMap } from "@/lib/shopify";
+import { getLiveCatalog, sortByPriceAsc, COLLECTION_MOISSANITE } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: { absolute: "עגילים | כסף 925 אמיתי בציפוי רודיום | Oridor" },
@@ -22,11 +16,8 @@ export const metadata: Metadata = {
 // Earrings live across several collections (silver, new arrivals, moissanite),
 // so we gather them from the unified catalog rather than a single data file.
 export default async function EarringsPage() {
-  const live = await getLivePriceMap();
   const earrings = sortByPriceAsc(
-    applyLiveStatus(buildUnifiedCatalog(), live).filter(
-      (p) => p.category === "Earrings",
-    ),
+    (await getLiveCatalog()).filter((p) => p.category === "Earrings"),
   );
 
   return (

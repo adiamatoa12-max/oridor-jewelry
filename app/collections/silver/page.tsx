@@ -5,13 +5,7 @@ import PremiumFooter from "@/components/PremiumFooter";
 import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
 import CollectionHero from "@/components/CollectionHero";
-import {
-  buildUnifiedCatalog,
-  applyLiveStatus,
-  sortByPriceAsc,
-  COLLECTION_SILVER,
-} from "@/lib/catalog";
-import { getLivePriceMap } from "@/lib/shopify";
+import { getLiveCatalog, sortByPriceAsc, COLLECTION_SILVER } from "@/lib/catalog";
 
 export const revalidate = 120;
 
@@ -32,11 +26,8 @@ export const metadata: Metadata = {
  * product routes were not.
  */
 export default async function SilverCollectionPage() {
-  const live = await getLivePriceMap();
   const products = sortByPriceAsc(
-    applyLiveStatus(buildUnifiedCatalog(), live).filter(
-      (p) => p.collection === COLLECTION_SILVER,
-    ),
+    (await getLiveCatalog()).filter((p) => p.collection === COLLECTION_SILVER),
   );
 
   return (

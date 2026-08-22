@@ -1,7 +1,4 @@
-import moissanite from "@/data/moissanite_collection.json";
-import silver from "@/data/silver_collection.json";
-import signature from "@/data/signature_collection.json";
-import newArrivals from "@/data/new_arrivals.json";
+import { getLiveProducts } from "./shopify";
 import type { ShopifyProductOptions, LiveProduct } from "./shopify";
 
 /** The two — and only two — main categories. */
@@ -62,135 +59,36 @@ function inferCategory(name: string): CatalogCategory | null {
   return null;
 }
 
-const asType = (c?: string): CatalogCategory | null =>
-  c === "Rings" || c === "Bracelets" || c === "Necklaces" || c === "Earrings"
-    ? c
-    : null;
+/** Map one live Shopify product to the shared catalog-card shape. */
+function liveToCatalogProduct(lp: LiveProduct): CatalogProduct {
+  const haystack = `${lp.title} ${lp.productType} ${lp.tags.join(" ")}`;
+  const isMoissanite = /מואסנייט|moissanite/i.test(haystack);
+  return {
+    id: `live-${lp.handle}`,
+    title: lp.title,
+    price: lp.price,
+    compareAtPrice: lp.compareAtPrice,
+    image: lp.image ?? "",
+    handle: lp.handle,
+    available: lp.available,
+    href: `/products/${lp.handle}`,
+    collection: isMoissanite ? COLLECTION_MOISSANITE : COLLECTION_SILVER,
+    category: inferCategory(lp.title) ?? inferCategoryFromType(lp.productType),
+    // Live Shopify photos are full images (not transparent cut-outs), so cover
+    // fills the card cleanly.
+    fit: "cover",
+  };
+}
 
 /**
- * Unified shop catalog — every collection in one clean, filterable list.
- * Moissanite pieces keep their studio crop (cover); the silver & signature
- * pieces are shot on white, so they're contained. Signature pieces expose a
- * second colour image for the hover cross-fade.
+ * Unified shop catalog — now sourced 100% LIVE from Shopify. Whatever is Active
+ * (and published to the Storefront channel) shows up; deleted products vanish.
+ * Products without an image are skipped. Returns [] if Shopify is unconfigured
+ * or unreachable, so the site degrades to an empty catalog instead of erroring.
  */
-export function buildUnifiedCatalog(): CatalogProduct[] {
-  const moissaniteItems: CatalogProduct[] = (moissanite as any[]).map((p) => ({
-    id: `mois-${p.id}`,
-    title: p.name,
-    price: p.price,
-    compareAtPrice: p.compare_at_price,
-    image: encodeURI(p.image_url),
-    // On-model lifestyle shot that cross-fades in on hover: a dedicated
-    // hover_image if set, otherwise the first lifestyle gallery image.
-    secondaryImage: p.hover_image
-      ? encodeURI(p.hover_image)
-      : p.gallery_images?.[0]
-        ? encodeURI(p.gallery_images[0])
-        : undefined,
-    handle: p.slug,
-    href: `/collections/moissanite/${p.slug}`,
-    collection: COLLECTION_MOISSANITE,
-    category: asType(p.category),
-    fit: "cover",
-  }));
-
-  // All solid-silver sources collapse into the single "כסף 925" category.
-  const silverItems: CatalogProduct[] = (silver as any[]).map((p) => ({
-    id: `silv-${p.id}`,
-    title: p.name,
-    price: p.price,
-    compareAtPrice: p.compare_at_price,
-    image: encodeURI(p.image_url),
-    handle: p.slug,
-    href: `/collections/silver/${p.slug}`,
-    collection: COLLECTION_SILVER,
-    category: asType(p.category) ?? inferCategory(p.name),
-    fit: "contain",
-    // On-model lifestyle shot for the hover swap (rendered as a cover crop).
-    secondaryImage: p.gallery_images?.[0]
-      ? encodeURI(p.gallery_images[0])
-      : undefined,
-    // Expose colour/metal variants so the shop card shows swatches too.
-    variants:
-      Array.isArray(p.variants) && p.variants.length > 1
-        ? p.variants.map((v: any) => ({
-            color: v.color,
-            hex: v.hex,
-            image: encodeURI(v.image_url),
-            // Per-finish price/handle for merged products (e.g. silver-1's gold
-            // lives on a separate Shopify listing); undefined for single ones.
-            price: v.price,
-            handle: v.handle,
-          }))
-        : undefined,
-  }));
-
-  const newArrivalItems: CatalogProduct[] = (newArrivals as any[]).map((p) => ({
-    id: `na-${p.id}`,
-    title: p.name,
-    price: p.price,
-    compareAtPrice: p.compare_at_price,
-    image: encodeURI(p.image_url),
-    handle: p.slug,
-    href: `/collections/new/${p.slug}`,
-    collection: COLLECTION_SILVER,
-    category: asType(p.category) ?? inferCategory(p.name),
-    fit: "cover",
-    // On-model lifestyle shot for the hover swap (rendered as a cover crop).
-    secondaryImage: p.gallery_images?.[0]
-      ? encodeURI(p.gallery_images[0])
-      : undefined,
-    // Surface colour/metal swatches on the card for multi-finish pieces.
-    variants:
-      Array.isArray(p.variants) && p.variants.length > 1
-        ? p.variants.map((v: any) => ({
-            color: v.color,
-            hex: v.hex,
-            image: encodeURI(v.image_url),
-            // Per-finish price/handle for merged products (e.g. silver-1's gold
-            // lives on a separate Shopify listing); undefined for single ones.
-            price: v.price,
-            handle: v.handle,
-          }))
-        : undefined,
-  }));
-
-  const signatureItems: CatalogProduct[] = (signature as any[]).map((p) => ({
-    id: `sig-${p.id}`,
-    title: p.name,
-    price: p.price,
-    compareAtPrice: p.compare_at_price,
-    image: encodeURI(p.variants[0].image_url),
-    // On-model lifestyle shot for the hover swap (rendered as a cover crop).
-    secondaryImage: p.gallery_images?.[0]
-      ? encodeURI(p.gallery_images[0])
-      : undefined,
-    handle: p.slug,
-    href: `/collections/signature/${p.slug}`,
-    collection: COLLECTION_SILVER,
-    category: asType(p.category) ?? inferCategory(p.name),
-    fit: "contain",
-    // Only surface swatches when there's genuinely more than one finish.
-    variants:
-      p.variants.length > 1
-        ? p.variants.map((v: any) => ({
-            color: v.color,
-            hex: v.hex,
-            image: encodeURI(v.image_url),
-            // Per-finish price/handle for merged products (e.g. silver-1's gold
-            // lives on a separate Shopify listing); undefined for single ones.
-            price: v.price,
-            handle: v.handle,
-          }))
-        : undefined,
-  }));
-
-  return [
-    ...moissaniteItems,
-    ...silverItems,
-    ...newArrivalItems,
-    ...signatureItems,
-  ];
+export async function getLiveCatalog(): Promise<CatalogProduct[]> {
+  const live = await getLiveProducts();
+  return live.filter((p) => p.image).map(liveToCatalogProduct);
 }
 
 /** Infer a category from a Shopify productType (English), as a fallback. */
@@ -201,53 +99,6 @@ function inferCategoryFromType(productType: string): CatalogCategory | null {
   if (/bracelet|bangle|cuff/.test(t)) return "Bracelets";
   if (/earring|stud|hoop/.test(t)) return "Earrings";
   return null;
-}
-
-/**
- * "Hybrid Append" (Option B): the curated JSON drives the rich UI, but any
- * product that exists LIVE in Shopify and is NOT already in the curated catalog
- * is appended so it appears on the site automatically. Products already present
- * — by their own handle OR as a merged colour-finish handle (e.g. a ring whose
- * gold lives on a separate Shopify listing) — are never duplicated. Live-only
- * items link to the generic `/products/[handle]` page (built from live Shopify
- * data) and carry an inferred collection + category so the shop filters work.
- *
- * `live` items without an image are skipped (drafts / incomplete listings).
- * An empty `live` array is a safe no-op, so nothing breaks when Shopify is off.
- */
-export function appendLiveProducts(
-  curated: CatalogProduct[],
-  live: LiveProduct[],
-): CatalogProduct[] {
-  // Every handle the curated catalog already represents — top-level and the
-  // per-finish handles of merged multi-listing products.
-  const known = new Set<string>();
-  for (const p of curated) {
-    known.add(p.handle);
-    p.variants?.forEach((v) => v.handle && known.add(v.handle));
-  }
-
-  const extras: CatalogProduct[] = [];
-  for (const lp of live) {
-    if (known.has(lp.handle) || !lp.image) continue;
-    known.add(lp.handle); // guard against duplicate handles within the live list
-    const haystack = `${lp.title} ${lp.productType} ${lp.tags.join(" ")}`;
-    const isMoissanite = /מואסנייט|moissanite/i.test(haystack);
-    extras.push({
-      id: `live-${lp.handle}`,
-      title: lp.title,
-      price: lp.price,
-      compareAtPrice: lp.compareAtPrice,
-      image: lp.image,
-      handle: lp.handle,
-      available: lp.available,
-      href: `/products/${lp.handle}`,
-      collection: isMoissanite ? COLLECTION_MOISSANITE : COLLECTION_SILVER,
-      category: inferCategory(lp.title) ?? inferCategoryFromType(lp.productType),
-      fit: "contain",
-    });
-  }
-  return [...curated, ...extras];
 }
 
 /**

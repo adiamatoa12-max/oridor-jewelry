@@ -1,26 +1,17 @@
 import Link from "next/link";
-import MoissaniteGrid, { type MoissaniteProduct } from "./MoissaniteGrid";
-import products from "@/data/moissanite_collection.json";
-import { getLivePriceMap } from "@/lib/shopify";
+import ProductCard from "./ProductCard";
+import { getLiveCatalog, sortByPriceAsc, COLLECTION_MOISSANITE } from "@/lib/catalog";
 
 /**
- * Homepage section — "קולקציית מואסנייט": strictly Moissanite products only.
- * Hybrid: local data drives the cards; live Shopify price is overlaid by handle
- * (slug). Safe no-op when Shopify is unconfigured.
+ * Homepage section — "קולקציית מואסנייט": a live preview of moissanite pieces,
+ * fetched straight from Shopify. Hidden entirely when nothing is live.
  */
 export default async function MoissanitePreview() {
-  const live = await getLivePriceMap();
-  const highlights = (products as MoissaniteProduct[])
-    .slice(0, 8)
-    .map((p) =>
-      live[p.slug]
-        ? {
-            ...p,
-            price: live[p.slug].price,
-            compare_at_price: live[p.slug].compareAtPrice,
-          }
-        : p,
-    );
+  const highlights = sortByPriceAsc(
+    (await getLiveCatalog()).filter((p) => p.collection === COLLECTION_MOISSANITE),
+  ).slice(0, 8);
+
+  if (highlights.length === 0) return null;
 
   return (
     <section className="mx-auto max-w-7xl px-6 pt-2 pb-12 sm:px-10 lg:px-16 lg:pt-4 lg:pb-16">
@@ -36,7 +27,23 @@ export default async function MoissanitePreview() {
         </p>
       </div>
 
-      <MoissaniteGrid products={highlights} />
+      <div className="grid grid-cols-2 gap-x-4 gap-y-7 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-10">
+        {highlights.map((p) => (
+          <ProductCard
+            key={p.id}
+            image={p.image}
+            handle={p.handle}
+            href={p.href}
+            fit={p.fit}
+            category={p.category}
+            title={p.title}
+            price={p.price}
+            priceLabel={`₪${p.price.toLocaleString("he-IL")}`}
+            compareAt={p.compareAtPrice}
+            isMoissanite
+          />
+        ))}
+      </div>
 
       <div className="mt-14 text-center">
         <Link href="/collections/moissanite" className="btn-ghost">

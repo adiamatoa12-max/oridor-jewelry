@@ -4,13 +4,7 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import ProductCard from "@/components/ProductCard";
 import Reveal from "@/components/Reveal";
-import {
-  buildUnifiedCatalog,
-  applyLiveStatus,
-  sortByPriceAsc,
-  COLLECTION_MOISSANITE,
-} from "@/lib/catalog";
-import { getLivePriceMap } from "@/lib/shopify";
+import { getLiveCatalog, sortByPriceAsc, COLLECTION_MOISSANITE } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: { absolute: "קולקציית הטניס | צמידים ושרשראות זוהרים | Oridor" },
@@ -23,15 +17,10 @@ export const metadata: Metadata = {
 export const revalidate = 120;
 
 export default async function TennisCollectionPage() {
-  const live = await getLivePriceMap();
-  // Every tennis piece across the whole catalogue — moissanite AND silver 925 —
-  // not just the moissanite listings. Built from the unified catalog so each
-  // item keeps its own collection route and price; sorted cheapest-first like
-  // the rest of the store.
+  // Every tennis piece in the live catalogue (title contains "טניס"), sorted
+  // cheapest-first like the rest of the store.
   const tennis = sortByPriceAsc(
-    applyLiveStatus(buildUnifiedCatalog(), live).filter((p) =>
-      p.title.includes("טניס"),
-    ),
+    (await getLiveCatalog()).filter((p) => p.title.includes("טניס")),
   );
 
   return (

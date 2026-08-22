@@ -40,7 +40,9 @@ export async function generateMetadata({
   params: { handle: string };
 }): Promise<Metadata> {
   if (!isShopifyConfigured) return { title: "מוצר לא נמצא" };
-  const product = await getProduct(params.handle).catch(() => null);
+  // Non-ASCII (Hebrew) handles arrive URL-encoded in params — decode before use.
+  const handle = decodeURIComponent(params.handle);
+  const product = await getProduct(handle).catch(() => null);
   if (!product) return { title: "מוצר לא נמצא" };
   const title = `${product.title} | Oridor`;
   const description =
@@ -70,9 +72,11 @@ export default async function LiveProductPage({
 }) {
   if (!isShopifyConfigured) notFound();
 
+  // Non-ASCII (Hebrew) handles arrive URL-encoded in params — decode before use.
+  const handle = decodeURIComponent(params.handle);
   const [product, shopifyProduct] = await Promise.all([
-    getProduct(params.handle).catch(() => null),
-    getProductWithVariants(params.handle).catch(() => null),
+    getProduct(handle).catch(() => null),
+    getProductWithVariants(handle).catch(() => null),
   ]);
   if (!product) notFound();
 
