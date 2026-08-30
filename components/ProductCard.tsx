@@ -7,7 +7,7 @@ import { useCart } from "./CartContext";
 import PriceTag from "./PriceTag";
 import MoissaniteLabel from "./MoissaniteLabel";
 import SilverLabel from "./SilverLabel";
-import { gridImageClass, GRID_CARD } from "@/lib/gridImage";
+import { LIVE_IMAGE, GRID_CARD } from "@/lib/gridImage";
 import CardImageSwap from "./CardImageSwap";
 import ProductBadge from "./ProductBadge";
 import { badgeForSlug } from "@/lib/badges";
@@ -133,7 +133,7 @@ export default function ProductCard({
       <CardImageSwap
         containerClassName={`relative aspect-[4/5] w-full overflow-hidden ${GRID_CARD}`}
         primary={displayImage}
-        primaryClass={gridImageClass(category)}
+        primaryClass={LIVE_IMAGE}
         lifestyle={hoverImage}
         alt={`${title}, תכשיט כסף מבית Oridor`}
         sizes={cardImageSizes}

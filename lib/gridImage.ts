@@ -33,6 +33,18 @@ const SHADOW =
  */
 export const GRID_CARD = "rounded-2xl bg-transparent";
 
+/**
+ * Image treatment for live Shopify STUDIO photos (shot on a white background).
+ * `mix-blend-multiply` melts the photo's white ground into the page/section
+ * background, so the piece appears to sit transparently on the page — the
+ * high-end "floating jewellery" look — without any card box, border or fill.
+ * `object-contain` shows the whole piece; a gentle hover zoom, no rectangular
+ * shadow (the white is blended away, so there's no box to shadow).
+ */
+export const LIVE_IMAGE =
+  "object-contain object-center mix-blend-multiply p-3 " +
+  "transition-transform duration-[600ms] ease-cinematic group-hover:scale-[1.05]";
+
 export function gridImageClass(
   category?: string | null,
   opts?: { fit?: "cover" | "contain"; transition?: string },

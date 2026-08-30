@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import PremiumFooter from "@/components/PremiumFooter";
 import ProductDetail from "@/components/ProductDetail";
 import { getProduct, getProductWithVariants, isShopifyConfigured } from "@/lib/shopify";
+import { cleanProductTitle } from "@/lib/catalog";
 import { buildProductJsonLd, jsonLdHtml } from "@/lib/seo";
 
 /**
@@ -44,7 +45,7 @@ export async function generateMetadata({
   const handle = decodeURIComponent(params.handle);
   const product = await getProduct(handle).catch(() => null);
   if (!product) return { title: "מוצר לא נמצא" };
-  const title = `${product.title} | Oridor`;
+  const title = `${cleanProductTitle(product.title)} | Oridor`;
   const description =
     product.description?.slice(0, 160) ||
     `${product.title} מבית Oridor — כסף סטרלינג 925 טהור, משלוח חינם ואחריות מלאה.`;
@@ -80,20 +81,21 @@ export default async function LiveProductPage({
   ]);
   if (!product) notFound();
 
+  const displayTitle = cleanProductTitle(product.title);
   const category = inferCategory(product.title);
 
   // Gallery from every Shopify image (fall back to the featured image).
   const gallery = product.images.length > 0 ? product.images : product.featuredImage ? [product.featuredImage] : [];
   const galleryImages = gallery.map((img) => ({
     src: img.url,
-    alt: img.altText ?? product.title,
+    alt: img.altText ?? displayTitle,
     fit: "contain" as const,
   }));
 
   const productJsonLd = buildProductJsonLd({
-    name: product.title,
+    name: displayTitle,
     images: product.featuredImage ? [product.featuredImage.url] : [],
-    description: product.description || `${product.title} מבית Oridor.`,
+    description: product.description || `${displayTitle} מבית Oridor.`,
     sku: product.handle,
     path: `/products/${product.handle}`,
     price: product.price,
@@ -114,7 +116,7 @@ export default async function LiveProductPage({
         breadcrumbHref="/shop"
         breadcrumbLabel="הקולקציה המלאה"
         eyebrow={category ? CATEGORY_HE[category] ?? "Oridor" : "Oridor"}
-        title={product.title}
+        title={displayTitle}
         category={category}
         slug={product.handle}
         images={galleryImages}

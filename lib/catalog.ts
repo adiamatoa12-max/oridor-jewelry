@@ -59,13 +59,28 @@ function inferCategory(name: string): CatalogCategory | null {
   return null;
 }
 
+/**
+ * Clean a raw Shopify title for display: strip SKU/code tokens (anything with a
+ * digit, e.g. "ZSI1115-1", "klsi003-1", "KSI9056-3-B") so the card shows the
+ * human words only (e.g. "עגיל", "צמיד גאדי") instead of a raw product code.
+ * Falls back to the trimmed original if nothing human-readable remains.
+ */
+export function cleanProductTitle(raw: string): string {
+  const kept = (raw ?? "")
+    .split(/\s+/)
+    .filter((t) => t && !/\d/.test(t))
+    .join(" ")
+    .trim();
+  return kept || (raw ?? "").trim();
+}
+
 /** Map one live Shopify product to the shared catalog-card shape. */
 function liveToCatalogProduct(lp: LiveProduct): CatalogProduct {
   const haystack = `${lp.title} ${lp.productType} ${lp.tags.join(" ")}`;
   const isMoissanite = /מואסנייט|moissanite/i.test(haystack);
   return {
     id: `live-${lp.handle}`,
-    title: lp.title,
+    title: cleanProductTitle(lp.title),
     price: lp.price,
     compareAtPrice: lp.compareAtPrice,
     image: lp.image ?? "",
